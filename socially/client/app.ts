@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import { Component, provide }   from  '@angular/core';
-import { bootstrap }   from  'angular2-meteor-auto-bootstrap'
+import { Component, provide } from '@angular/core';
+import { bootstrap } from 'angular2-meteor-auto-bootstrap';
 import { ROUTER_PROVIDERS, ROUTER_DIRECTIVES, RouteConfig } from '@angular/router-deprecated';
 import { APP_BASE_HREF } from '@angular/common';
-import { PartiesList } from './imports/parties-list/parties-list.ts'
-import { PartyDetails } from './imports/party-details/party-details.ts'
+import { PartiesList } from './imports/parties-list/parties-list.ts';
+import { PartyDetails } from './imports/party-details/party-details.ts';
 
 import { Items }       from  '../collections/items';
 import { Mongo }       from  'meteor/mongo';
