@@ -27,9 +27,14 @@
     "client/imports/party-details/party-details.ts",
     "server/load-collections.ts",
     "server/main.ts",
+    "typings/browser.d.ts",
+    "typings/browser/ambient/es6-shim/index.d.ts",
+    "typings/browser/ambient/meteor/index.d.ts",
+    "typings/browser/definitions/es6-promise/index.d.ts",
     "typings/globals/es6-shim/index.d.ts",
     "typings/globals/meteor/index.d.ts",
     "typings/index.d.ts",
+    "typings/main.d.ts",
     "typings/modules/es6-promise/index.d.ts"
   ],
   "atom": {
