@@ -1,0 +1,73 @@
+* {
+  -webkit-transition: ease .2s;
+}
+
+body {
+  position: relative;
+  font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  width: 60%;
+  margin: 0 auto 100px auto;
+}
+
+table {
+  width: 100%;
+  border: solid 5px #ccc;
+}
+
+a {
+  text-decoration: none;
+}
+
+thead th { background-color: #eee; cursor: pointer; -webkit-user-select: none; }
+thead th:hover { background-color: #fff; }
+
+tbody th { text-align: left;}
+
+tbody tr:hover th, tbody tr:hover td { background-color: #ffc; }
+
+th, td { padding: 10px; }
+
+.login { position: absolute; top: 0; right: 0; }
+
+.plusones { text-align: center;}
+
+.photo { text-align: center;}
+
+td img {
+  height: 30px;
+  vertical-align: middle;
+}
+
+button {
+  display: block;
+  -webkit-user-select: none;
+  border-radius: 10px;
+  border: solid 1px #ccc;
+  background: #ccc -webkit-linear-gradient(top, #eee, #ccc);
+  color: #666;
+  padding: 3px 6px;
+  text-align: center;
+  cursor: pointer;
+}
+button:hover {
+  border-color: #666;
+  background: #ccc -webkit-linear-gradient(top, #ccc, #999);
+}
+button:active {
+  background: #ccc -webkit-linear-gradient(bottom, #ccc, #999);
+}
+button.disabled {
+  background: transparent;
+  color: gray;
+  cursor: default;
+  border: none;
+}
+
+.sortby-plusones thead th:nth-child(1),
+.sortby-name thead th:nth-child(2),
+.sortby-guests thead th:nth-child(3),
+.sortby-lastvote thead th:nth-child(4)
+{ background: #ddd;}
+
+tr.selected { outline: solid 5px #000; background-color: #ff9 !important;}
