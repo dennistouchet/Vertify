@@ -20,6 +20,8 @@
   "files": [
     "client/app.ts",
     "client/imports/parties-form/parties-form.ts",
+    "client/imports/parties-list/parties-list.ts",
+    "client/imports/party-details/party-details.ts",
     "server/load-collections.ts",
     "server/main.ts",
     "typings/globals/es6-shim/index.d.ts",
