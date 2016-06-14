@@ -17,6 +17,9 @@
     "server/**/*.ts",
     "typings/**/*.d.ts"
   ],
+  "exclude": [
+    "node_modules"
+  ],
   "files": [
     "client/app.ts",
     "client/imports/parties-form/parties-form.ts",
