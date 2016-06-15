@@ -6,13 +6,17 @@ export function loadCollections() {
   if (Items.find().count() === 0) {
 
     var items = [
-          { 'description' : 'Home | '
+          { 'name' : 'Home',
+            'description' : 'Home | '
           },
-          { 'description' : 'Product | '
+          { 'name' : 'Product',
+            'description' : 'Product | '
           },
-          { 'description' : 'Services | '
+          { 'name' : 'Services',
+            'description' : 'Services | '
           },
-          { 'description' : 'About'
+          { 'name' : 'About',
+            'description' : 'About'
           }
         ];
 
