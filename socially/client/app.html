@@ -2,10 +2,9 @@
   <thead></thead>
   <tr>
     <td *ngFor="let item of items">
-      <a href="#" >{{item.description}}</a>
+      <a href="#{{item.name}}" title="{{item.name}}" >{{item.description}} </a>
     </td>
   </tr>
 </table>
 <br/>
 <router-outlet></router-outlet>
-<p>Last t</p>
