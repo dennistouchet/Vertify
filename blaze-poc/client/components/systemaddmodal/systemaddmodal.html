@@ -1,0 +1,24 @@
+<template name="systemaddmodal">
+
+  <div class="modal fade">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Add a System
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+            </h3>
+          </div>
+
+          <div class="modal-body">
+            {{> addsystem}}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="save">Add System</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</template>

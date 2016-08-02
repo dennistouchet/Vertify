@@ -1,0 +1,35 @@
+<template name="systemeditmodal">
+
+  <div class="modal fade">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">System edit
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+            </h3>
+          </div>
+
+          <div class="modal-body">
+            <label for="name">Name</label>
+            <input id="name" type="text" class="form-control" name="name" value="{{system.name}}" />
+            <label for="pf">Prefix</label>
+            <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" />
+            <label for="st">System Type</label>
+            <input id="st" type="text" class="form-control" name="st" value="{{system.system_type}}" />
+            <label for="un">Username</label>
+            <input id="un" type="text" class="form-control" name="un" value="{{system.username}}" />
+            <label for="pw">Password</label>
+            <input id="pw" type="text" class="form-control" name="pw" value="{{system.password}}" />
+            <label for="maxtasks">Max Concurrent Tasks</label>
+            <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="{{system.max_concurrent_tasks}}" />
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="save">Save</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</template>

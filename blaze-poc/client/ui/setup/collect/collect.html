@@ -1,0 +1,284 @@
+<template name="collect">
+  <section class="right_col" role="main" style="padding-bottom:100px;">
+    <div class="">
+      <div class ="row">
+        <h1 class="page_title">Collect</h1>
+        {{#if hasObject}}
+          {{#if hasEnoughObject}}
+            {{> collectObjHeader}}
+          {{else}}
+            {{> collectOneObjHeader}}
+          {{/if}}
+        {{else}}
+              {{> collectZeroObjHeader}}
+        {{/if}}
+        <div class="col-md-12">
+          <div class="input-group" style="padding: 50px 20px 50px 20px;">
+            <input id="objectlist" type="text" class="form-control" name="objectlist" />
+            <div class="input-group-btn">
+              <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+              <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl">
+                {{#each system_objects}}
+                  {{> objectList}}
+                {{/each}}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
+          {{#each system_objects}}
+            {{> systemObjectList}}
+          {{/each}}
+        </div>
+        {{#if Template.subscriptionsReady}}
+          {{#each objects}}
+            {{> collectObj}}
+          {{/each}}
+        {{/if}}
+      </div>
+      <div class="row" style="margin-top:100px;">
+
+      </div>
+    </div>
+    <!-- Displays the systems of collect
+    TODO: delete after collect is complete
+    <div class="row">
+      <h1>Collect</h1>
+      <div class="col-md-12">
+          {{#if Template.subscriptionsReady}}
+            {{#each systems}}
+              {{> collectSys}}
+            {{else}}
+              {{> collectZeroData}}
+            {{/each}}
+          {{else}}
+            <p>Loading</p>
+          {{/if}}
+      </div>
+    </div>-->
+  </section>
+</template>
+
+<template name="systemObjectList">
+  {{#each obj in object_list}}
+    <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-id="{{id}}">
+      <a href="#">
+        <div class="x_panel">
+          Id: {{obj}}<br />
+          Name: {{getObjectName obj}}<br />
+          System Name: {{getSystemName system_id}}<br/>
+          System Id: {{system_id}}<br/>
+          Workspace Id: {{workspace_id}}<br/>
+        </div>
+      </a>
+    </div>
+  {{/each}}
+</template>
+
+<template name="objectList">
+  {{#each obj in object_list}}
+    <li>
+      <a href="#" data-id="{{obj}}" data-name="{{getObjectName obj}}" data-system="{{system_id}}">
+        <img src="/images/{{getSystemName system_id}}.png"
+        alt="..." style="width:30px;height:30px; margin-right:10px;" >
+        {{getSystemName system_id}} - {{getObjectName obj}}
+      </a>
+    </li>
+  {{/each}}
+</template>
+
+<template name="collectObj">
+    <div class="col-md-12 system" data-id="{{_id}}">
+      <div class="x_panel">
+        <div style="float: left; width: 12%; padding-top:8px;" >
+            <img src="/images/{{getSystemName system_id}}.png" alt=".." style="width:90px;height:90px;" >
+        </div>
+        <div style="float: left; width: 12%; padding-top:28px;">
+          <h6>
+          {{name}}
+          </h6>
+          <div id="objdetails{{_id}}" class="collapse" >
+            ID: {{id}}<br/>
+            Tenant: {{tenant_id}}<br/>
+            System: {{system_id}}<br/>
+            Workspace: {{workspace_id}}<br/>
+            Properties: <br/>
+            {{#each properties}}
+              {{> collectObjProperty}}
+            {{/each}}
+          </div>
+        </div>
+        <div style="float: left; width: 66%; padding-top:5px">
+          <p style="text-align:center">
+            Collecting Data: 3000 of {{#if record_count}}{{record_count}}{{else}}10,000{{/if}} records (30%)<br/>
+            Estimated Time Remainging: 1 hr, 5 mins
+          </p>
+          <div class="progress">
+            <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
+            </div>
+          </div>
+        </div>
+        <div style="float: right; width: 10%;">
+          <button class="btn btn-primary pull-right delete" type="button">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#objdetails{{_id}}">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+</template>
+
+<template name="collectObjProperty">
+  <ul>
+    <li>Property Name: {{this.name}}</li>
+    <li>Is Customer: {{this.is_custom}}</li>
+    <li>Is Array: {{this.is_array}} </li>
+    <li>Type: {{this.type}}</li>
+    <li>Is Key: {{this.is_key}}</li>
+  </ul>
+</template>
+
+<!-- No Object Connected Header  -->
+<template name="collectZeroObjHeader">
+  {{#if hasWorkspace}}
+    {{#if hasSystems}}
+      <div class="row">
+        <div class="col-md-12">
+          <h4 style="padding-left:10px">
+            Looks like you have no objects.
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h4 style="padding-left:10px">
+            Search for objects to manage from the connected systems.
+          </h4>
+        </div>
+      </div>
+    {{else}}
+      <div class="row">
+        <div class="col-md-12">
+          <h4 style="padding-left:10px">
+            Looks like you have no systems connected. Add a system to continue.
+          </h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h4 style="padding-left:10px">
+            <button class="btn btn-primary" type="button">
+              <a href="/setup/connect">
+              <i class="glyphicon glyphicon-plus"></i>
+              Add System
+              </a>
+            </button>
+          </h4>
+        </div>
+      </div>
+    {{/if}}
+  {{else}}
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">
+          Looks like you have no workspace connected. Please select a workspace to continue.
+        </h4>
+      </div>
+    </div>
+  {{/if}}
+</template>
+
+<!-- One Object Connected Header -->
+<template name="collectOneObjHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+          Add at least one more object to begin matching.
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- Collect Complete Header -->
+<template name="collectObjHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Collect Complete! Two objects connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select another object to manage or start matching objects.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"> </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-plus"></i>
+        Connect Object
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary toMatch" type=button style="margin-top:10px;margin-bottom:10px;">
+        <a href="/setup/match" style="text-decoration:none;  cursor: pointer;">Next: Match Objects
+        <i class="glyphicon glyphicon-chevron-right"></i></a>
+      </button>
+    </div>
+    <div class="col-md-3"> </div>
+  </div>
+</template>
+
+<!-- template to display systems on collect for testing
+TODO: delete after collect setup complete
+<template name="collectSys">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 system" data-id="{{_id}}">
+      <div class="x_panel">
+        <h3>
+          <img src="/images/{{name}}.png" alt=".." style="width:30px;height:30px;" >
+          {{name}} ({{prefix}})
+          <button class="btn btn-primary pull-right delete" type="button">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button class="btn btn-primary pull-right edit" type="button">
+            <i class="glyphicon glyphicon-edit"></i>
+          </button>
+          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#details{{_id}}">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </button>
+        </h3>
+        <div id="details{{_id}}" class="collapse" >
+          Prefix: {{prefix}} <br/>
+          System Type:{{system_type}} <br/>
+          Workspace Id: {{workspace_id}} <br />
+          Connector Id: {{connector_id}} <br />
+          Tenant Id: {{tenant_id}} <br/>
+          System Id: {{id}} <br/>
+          Is Deleted: {{is_deleted}} <br/>
+          Username: {{username}} <br/>
+          Password: {{password}} <br/>
+          Dynamic WSDL: {{dynamic_wsdl_assembly}} <br/>
+          Max Concurrent Tasks: {{max_concurrent_tasks}} <br/>
+          Agent Id: {{agent_id}} <br/>
+          Settings: {{settings}} <br/>
+          Revision: {{rev_number}} <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+-->

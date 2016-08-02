@@ -1,0 +1,70 @@
+<template name="workspaces">
+  <section class="right_col" role="main"  >
+      <h1 style=" text-align:center;">Workspaces Template</h1>
+        <button class="btn btn-primary addModal pull-right" type="button" style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          New Workspace
+        </button>
+      <div style=" text-align:center; padding-bottom:50px;">
+        {{#if Template.subscriptionsReady}}
+          {{#each workspaces}}
+            {{> workspace}}
+          {{else}}
+            {{> wsZeroData}}
+          {{/each}}
+        {{else}}
+          <p>Loading</p>
+        {{/if}}
+        <button class="btn btn-primary addModal pull-right" type="button">
+          <i class="glyphicon glyphicon-plus"></i>
+          New Workspace
+        </button>
+      </div>
+  </section>
+</template>
+
+<template name="workspace">
+  <article style=" text-align:left;">
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 workspace" data-id="{{_id}}">
+        <div class="x_panel">
+          <h3>
+            {{name}}
+            <button class="btn btn-primary pull-right delete" type="button">
+              <i class="glyphicon glyphicon-remove"></i>
+            </button>
+            <button class="btn btn-primary pull-right edit" type="button">
+              <i class="glyphicon glyphicon-edit"></i>
+            </button>
+          </h3>
+          Tenant Id: {{tenant_id}} <br/>
+          System Id: {{id}} <br/>
+          Created: {{created}} <br/>
+          Modified: {{modified}} <br/>
+          Is Deleted: {{is_deleted}}  <br/>
+          Is Archived: {{is_archived}}<br/>
+          Group ID: {{group_id}} <br/>
+        </div>
+      </div>
+    </div>
+  </article>
+</template>
+
+<template name="wsZeroData">
+
+  <form class="new-workspace">
+    <p>
+      <h2>Looks like you don't have any workspaces! Why not add one? </h2>
+        <input id="text" type="text" name="text" placeholder="Workspace Name" />
+        <button class="btn btn-primary add" type="button">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add
+        </button>
+        <button class="btn btn-primary clear" type="button">
+          <i class="glyphicon glyphicon-remove"></i>
+          Clear
+        </button>
+    </p>
+  </form>
+
+</template>

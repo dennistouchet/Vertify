@@ -1,0 +1,201 @@
+<template name="connect">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="" >
+      <div class="row">
+        {{#if hasSystems}}
+          <h1 class="page_title">Connect</h1>
+          {{#if hasEnoughSystems}}
+            {{> connectSysHeader}}
+          {{else}}
+            {{> connectSysOneHeader}}
+          {{/if}}
+        {{else}}
+          <h1 class="page_title">Connect / New System</h1>
+          {{#if hasWorkspace}}
+            {{> connectSysZeroHeader}}
+          {{else}}
+            {{> connectWsZeroData}}
+          {{/if}}
+        {{/if}}
+        <div class="col-md-12">
+          {{#if Template.subscriptionsReady}}
+            {{#if hasWorkspace}}
+              {{#each systems}}
+                {{> connectSys}}
+              {{else}}
+                {{> connectSysZeroData}}
+              {{/each}}
+            {{/if}}
+          {{else}}
+            <p>Loading</p>
+          {{/if}}
+        </div>
+        <div class="col-md-12">
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
+<!-- Connect Page Completed Status -->
+<template name="connectSysHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Connect Complete! Two systems connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Connect another system or start collecting objects to manage.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"> </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary addModal" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-plus"></i>
+        Connect System
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary toCollect" type=button style="margin-top:10px;margin-bottom:10px;">
+        <a href="/setup/collect" style="text-decoration:none;  cursor: pointer;">Next: Collect Objects
+        <i class="glyphicon glyphicon-chevron-right"></i></a>
+      </button>
+    </div>
+    <div class="col-md-3"> </div>
+  </div>
+</template>
+
+<!-- One System Connected - Header -->
+<template name="connectSysOneHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Great! One system connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Connect at least one more system to get started.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <button class="btn btn-primary pull-right addModal" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Connect System
+        </button>
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- No Systems Connected - Header -->
+<template name="connectSysZeroHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Looks like you have no systems connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Search for a system to connect.
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!--No Systems Connected - Add system form -->
+<template name="connectSysZeroData">
+  <div class="col-md-3"><span> </span></div>
+  <div class="col-md-6 x_panel" style="padding-left:20%; padding-right:20%;padding-bottom:80px;">
+    <form class="new-system">
+      {{> addsystem}}
+      <div class="input-group-btn" style="padding:5px;">
+        <button class="btn btn-primary add" type="button" style="border-radius:5px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add
+        </button>
+        <button class="btn btn-primary clear" type="button" style="border-radius:5px;">
+          <i class="glyphicon glyphicon-remove"></i>
+          Clear
+        </button>
+      </div><!-- /btn-group2 -->
+    </form>
+  </div>
+</template>
+
+<!--Display data for a single connected System-->
+<template name="connectSys">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12 system" data-id="{{_id}}">
+      <div class="x_panel">
+        <h3>
+          <img src="/images/{{getConnectorName connector_id}}.png" alt="..." style="width:30px;height:30px;margin-right:10px;" >
+          {{getConnectorName connector_id}} - {{name}}({{prefix}})
+          <button class="btn btn-primary pull-right delete" type="button">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button class="btn btn-primary pull-right edit" type="button">
+            <i class="glyphicon glyphicon-edit"></i>
+          </button>
+          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#details{{_id}}">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </button>
+        </h3>
+        <div id="details{{_id}}" class="collapse" >
+          Prefix: {{prefix}} <br/>
+          System Type:{{system_type}} <br/>
+          Workspace Id: {{workspace_id}} <br />
+          Connector Id: {{connector_id}} <br />
+          Tenant Id: {{tenant_id}} <br/>
+          System Id: {{id}} <br/>
+          Is Deleted: {{is_deleted}} <br/>
+          Username: {{username}} <br/>
+          Password: {{password}} <br/>
+          Dynamic WSDL: {{dynamic_wsdl_assembly}} <br/>
+          Max Concurrent Tasks: {{max_concurrent_tasks}} <br/>
+          Agent Id: {{agent_id}} <br/>
+          Settings: {{settings}} <br/>
+          Revision: {{rev_number}} <br/>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<!--No Workspace Selected Header -->
+<template name="connectWsZeroData">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Whoops, looks like you haven't selected a workspace. Please, select one to continue.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Can't find the workspace you're looking for?
+        <button class="btn btn-primary" ><a href="/admin/workspaces">Add One</a></button>
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- List Item for System Info Items -->
+<template name="sysInfos">
+    <li><a href="#" id="{{name}}" data-value="{{id}}"><img src="/images/{{name}}.png" alt=".." style="width:25px;height:25px;" > {{name}}</a></li>
+</template>

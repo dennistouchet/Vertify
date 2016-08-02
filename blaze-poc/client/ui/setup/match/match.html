@@ -1,0 +1,61 @@
+<template name="match">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="">
+      {{> matchZeroDataHeader}}
+      {{> matchRecommendations}}
+    </div>
+  </section>
+</template>
+
+<template name="matchZeroDataHeader">
+  <div class="row">
+    <h1 class="page_title">Match</h1>
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you have no objects matched.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Click here to create your first Vertify object or select one of the recommended Vertify objects below.<br/>
+        {{> matchAddCustomVertifyObj}}
+      </h4>
+    </div>
+  </div>
+</template>
+
+<template name="matchHeader">
+
+</template>
+
+<template name="matchRecommendations">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px;"><strong>Recommendations:</strong></h4>
+      {{> matchRecommedationsPanel}}
+    </div>
+  </div>
+</template>
+
+<template name="matchRecommedationsPanel">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="x_panel" style="height:200px;text-align:center;vertical-align:middle;">
+        RECOMMENDED VERTIFY OBJECTS GO HERE.
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="matchAddCustomVertifyObj">
+  <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;">
+    <i class="glyphicon glyphicon-plus"></i>
+    Add Custom Vertify Object
+  </button>
+</template>
+
+<template name="matchAddRecommendedVertifyObj">
+  <button class="btn btn-primary addRecommended" type=button style="margin-top:10px;margin-bottom:10px;">
+    <i class="glyphicon glyphicon-plus"></i>
+    Add Lead Vertify Object
+  </button>
+</template>

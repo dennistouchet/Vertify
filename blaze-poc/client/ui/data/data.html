@@ -1,0 +1,20 @@
+<template name="data">
+  <section class="right_col" role="main">
+    <h1>DATA PAGE</h1>
+    <div style=" text-align:center; height:950px;">
+      <div class="navTiles">
+        {{#if Template.subscriptionsReady}}
+          {{#each navitems}}
+            {{#if (isData name) }}
+              {{> subnavtile}}
+            {{/if}}
+          {{/each}}
+        {{else}}
+          <p>Loading</p>
+        {{/if}}
+        <br />
+      </div>
+    </div>
+    <br />
+  </section>
+</template>

@@ -1,0 +1,59 @@
+<template name="setup">
+  <section class="right_col" role="main"  >
+    <div class="row">
+      <div class="col-md-12">
+        {{#if hasWorkspace}}
+          <h4 style="padding-left:10px">
+            Welcome to Vertify: {{getWorkspace}}
+          </h4>
+        {{else}}
+          <h4 style="padding-left:10px">
+            Welcome to Vertify! Please selected a workspace to continue.
+          </h4>
+        {{/if}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">
+          Complete the following steps to setup this workspace.
+        </h4>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 navCards">
+          {{#if Template.subscriptionsReady}}
+            {{#each navitems}}
+              {{#if (isSetup name) }}
+                {{> subnavcard}}
+              {{/if}}
+            {{/each}}
+          {{else}}
+            <p>Loading</p>
+          {{/if}}
+          <br />
+        </div>
+    </div>
+  </section>
+</template>
+
+<template name="navcard">
+  <div class="navCard">
+    <a style="width:100%;" href="{{route}}">
+      <span class="navCardHeader">
+        <span class="glyphicon glyphicon-ok-circle navCardIcon"></span>
+        <span class="glyphicon {{icon}} navCardIcon"></span>
+        <span class="navCardDesc">
+          <span class="navCardTitle">{{shortdesc}}</span>
+          <span class="navCardText">{{description}} </span>
+        </span>
+      </span>
+    </a>
+  </div>
+</template>
+
+<template name="subnavcard">
+  {{#each subnavs}}
+    {{> navcard}}
+  {{/each}}
+</template>

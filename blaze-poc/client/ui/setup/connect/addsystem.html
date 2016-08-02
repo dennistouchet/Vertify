@@ -1,0 +1,30 @@
+<template name="addsystem">
+  <label for="system">System</label>
+  <div class="input-group" style="margin:5px;">
+    <input id="text" type="text" class="form-control" name="system" />
+    <div class="input-group-btn">
+      {{#if Template.subscriptionsReady}}
+        <button id="sysddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+        <ul id="sysinfoddl" class="dropdown-menu dropdown-menu-right sysinfoddl">
+          {{#each system_info}}
+            {{> sysInfos}}
+          {{/each}}
+        </ul>
+      {{else}}
+        Loading Systems Information...
+      {{/if}}
+    </div><!-- /btn-group -->
+  </div><!-- /input-group -->
+  <label for="name">Name</label>
+  <input id="name" type="text" class="form-control" name="name" value=""  />
+  <label for="pf">Prefix</label>
+  <input id="pf" type="text" class="form-control" name="pf" value="" />
+  <label for="st">System Type</label>
+  <input id="st" type="text" class="form-control" name="st" value="" />
+  <label for="un">Username</label>
+  <input id="un" type="text" class="form-control" name="un" value="" />
+  <label for="pw">Password</label>
+  <input id="pw" type="text" class="form-control" name="pw" value="" />
+  <label for="maxtasks">Max Concurrent Tasks</label>
+  <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="" />
+</template>

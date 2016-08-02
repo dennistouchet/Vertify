@@ -1,0 +1,40 @@
+<template name="align">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="">
+      {{> alignZeroDataHeader}}
+      {{> alignObjectList}}
+    </div>
+  </section>
+</template>
+
+<template name="alignZeroDataHeader">
+  <div class="row">
+    <h1 class="page_title">Align</h1>
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like no Vertify objects are aligned.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">The alignment process automatically finds fields that are shared across all matched objects.
+        You’ll have an opportunity to review and accept/reject these fields as well as establish system of truth for each data field.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Choose a Vertify object and then click Align.<br/>
+      </h4>
+    </div>
+  </div>
+</template>
+
+<template name="alignObjectList">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="x_panel" style="height:200px;text-align:center;vertical-align:middle;">
+        VERTIFY OBJECTS LIST HERE.
+      </div>
+    </div>
+  </div>
+</template>

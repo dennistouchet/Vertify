@@ -1,0 +1,22 @@
+<template name="main">
+  <div class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <!-- sidebar nav/menu -->
+        {{> topnav}}
+        {{> navigation}} <!-- alternate: {{> nav}}-->
+        {{> Template.dynamic template=main}}
+        <br />
+        <!-- footer content -->
+        <footer >
+          <div class="pull-right">
+            Vertify Meteor PoC Footer
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+
+      </div>
+    </div>
+  </div>
+</template>

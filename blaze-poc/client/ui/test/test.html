@@ -1,0 +1,70 @@
+<template name="test">
+  <div class="right_col" role="main">
+    <h1>TEST PAGE</h1>
+    <div class="row">
+      <div class = "col-md-12 x_panel">
+        <h3>Test Panel for Autoform</h3>
+        <br />
+          {{> quickForm collection=mkto_lead_record id="insertMarketoLeadForm" type="insert"}}
+          {{> quickForm collection=data id="insertDataForm" type="insert" }}
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-12 x_panel">
+        <canvas id="line"></canvas>  TODO: see what is causing display issue.
+        <br/>
+        <canvas id="donut"></canvas>
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-12 x_panel">
+        {{> datatabby}}
+        <br />
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-12 x_panel">
+        <h1>NAV ITEM TEMPLATE</h1>
+        {{#if Template.subscriptionsReady}}
+          <ul>
+            {{#each navitems}}
+              {{> navitem}}
+            {{/each}}
+          </ul>
+        {{else}}
+          <p>Loading</p>
+        {{/if}}
+        <br />
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<template name="navitem">
+  <article>
+    <li>
+      {{name}}
+      <ul>
+        <li>{{description}}</li>
+        {{#if subnavs}}
+          <li>Subnav Items:</li>
+          <ul>
+          {{#each subnavs}}
+            {{> subs}}
+          {{/each}}
+          </ul>
+        {{/if}}
+      </ul>
+    </li>
+  </article>
+</template>
+
+<template name="subs">
+ <li>{{name}}
+   <ul>
+     <li>{{description}}</li>
+     <!--<li>{{subnavs}}</li>-->
+   </ul>
+ </li>
+</template>
