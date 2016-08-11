@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Systems } from '../../../imports/collections/tenant/system.js';
 
 
 Template.systemaddmodal.helpers({
@@ -18,12 +19,14 @@ Template.systemaddmodal.events({
     //child.html( text + ' <span class="caret"></span>') ;
   },
   'click #save': function(e) {
-    e.preventDefault();
-
     //TODO: THIS CODE IS DUPLICATED IN CONNECT.JS UNDER 'click .add'
     //MAKE ANY NEW CHANGES THERE AS WELL
     //TODO:REFACTOR TO A SINGLE PLACE\
-    var name = document.getElementById("name");
+    e.preventDefault();
+    var errDiv = document.getElementById("addErrModal");
+    errDiv.innerHTML = ""; //reset errors
+
+    var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
     var st = document.getElementById("st");
     var un = document.getElementById("un");
@@ -34,43 +37,80 @@ Template.systemaddmodal.events({
     var text = document.getElementById("text");
     var selectedItem = document.getElementById(text.value.trim());
 
-    if(! Session.get("currentWsId")){
-      alert("No Workspace Selected");
+    if(!Session.get("currentWs")){
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>Please set the current Workspace.</li>";
     }
-    else if( (name.value === "")){
-      alert("Missing System value.");
+    else if( (nm.value === "")){
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Name.</li>";
     }
     else if ( (pf.value === "")){
-      alert("Missing prefix value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Prefix.</li>";
     }
     else if ( (st.value === "")){
-      alert("Missing system value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for System Type.</li>";
     }
     else if ( (un.value === "")){
-      alert("Missing username value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Username.</li>";
     }
     else if ( (pw.value === "")){
-      alert("Missing password value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Password. </li>";
     }
     else if ( (maxtasks.value === "")){
-      alert("Missing maxconcurrenttasks value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>";
     }
     else if (selectedItem == null){
-      alert("Error: issues with selected item");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Please selected a System from the list.</li>";
     }
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
-      var wsid = Session.get("currentWsId");
+      var ws = Session.get("currentWs");
 
-      //TODO: check if system values already exist (ie. name, prefix)
-      console.log('name: ' + name.value  +' | ' + 'username: ' + un.value + ' | ' + 'system info id: ' +  sysInfoId);
+      //TODO: decide if this should have duplicate existance on front/back end.
+      var nmexists = Systems.findOne({"name" : nm.value.trim()});
+      var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
 
-      //TODO: value verification
-      Meteor.call('systems.insert', wsid, sysInfoId, name.value.trim(), pf.value.trim()
-      , st.value.trim(), un.value.trim(), pw.value.trim()
-      , maxtasks.value.trim());
+      if (nmexists) {
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system name already exists. Please use a different name</li>";
+      }
+      if (pfexists) {
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system prefix already exists. Please use a different prefix</li>";
+      }
+      if(nmexists == null && pfexists == null){
+        Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
+          , st.value.trim(), un.value.trim(), pw.value.trim()
+          , maxtasks.value.trim()
+          , (err, res) => {
+            if(err){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+              //return false;
+            }
+            else {
+              // successful call
+              // return true;
+              Modal.hide('systemmodal');
+            }
+          });
+      }
+      else {
+        //TODO: show error
+      }
 
-      Modal.hide('systemmodal');
     }
   }
+});
+
+Meteor.subscribe("systems", function (){
+  console.log( "Connect - Systems now subscribed.");
 });

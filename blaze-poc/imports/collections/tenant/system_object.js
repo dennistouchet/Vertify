@@ -18,12 +18,14 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-    SystemObjects.insert({
+    var newSystemObject = {
       object_list: objlist,
       system_id: sysid,
       system_name: sysn,
       workspace_id: wsid
-    });
+    };
+    SystemObjects.schema.validate(newSystemObject);
+    SystemObjects.insert(newSystemObject);
   },
   'system_objects.remove'(currentid){
     check(currentid, String)

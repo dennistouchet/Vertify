@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/.json",
+  "title" : "",
+  "description" : "This is the  schema.",
+  "" : {
+    "type": "object",
+    "properties" : {
+      "tenant_id":{
+        "type": "integer"
+        },
+      "id":{
+        "type": "string"
+        },
+      "modified":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "is_deleted":{
+        "type": "boolean",
+        "default" : false
+        },
+      "name":{
+        "type": "string"
+      },
+      "level":{
+        "type": "integer"
+      },
+      "workspace_id":{
+        "type": "string"
+        },
+      "truth_object_id":{
+        "type": "string"
+      },
+      "objects": {
+        "type": "array",
+        "items" : {
+          "type": "string"
+        }
+      },
+      "properties": {
+        "type": "array",
+        "options" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+      }
+    },
+    "required" : [ "tenant_id", "id", "modified", "created",
+      "is_deleted", "name", "level",
+      "workspace_id", "truth_object_id",
+      "objects", "properties" ]
+  }
+}

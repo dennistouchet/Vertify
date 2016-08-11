@@ -9,22 +9,33 @@ Template.wsaddmodal.events({
 
   'click #save': function(e) {
     e.preventDefault();
-
-    //reset errors
-    var error = document.getElementById("nameerror");
-    error.style.display = 'none';
-
+    var errDiv = document.getElementById("addErrSysModal");
+    errDiv.innerHTML = ""; //reset errors
 
     //TODO: ADD more value validation
     var name = document.getElementById("name");
     if(name.value) {
       console.log('workspace insert called with value: ' +  name.value);
-      Meteor.call('workspaces.insert', name.value.trim())
+      Meteor.call('workspaces.insert'
+        , name.value.trim()
+        , (err, res) => {
+          if(err){
+            //console.log(err);
+            //return false;
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+          }
+          else {
+            // successful call
+            // return true;
+          }
+        });
 
       Modal.hide('wsaddmodal');
 
     } else {
-      error.style.display = 'inline-block';
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a value for the workspace name.</li>";
     }
   }
 });

@@ -20,7 +20,7 @@ Template.test.helpers({
   },
   marketo_lead_record(){
     return MarketoLeadRecord.find({});
-  }
+  },
 });
 
 Template.test.rendered = function () {

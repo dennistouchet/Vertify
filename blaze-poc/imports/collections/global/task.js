@@ -12,13 +12,16 @@ Meteor.methods({
     check(t , String);
     check(s , String);
 
-    Tasks.insert({
+    var newTasks = {
       id: i,
       system_id: sysid,
       workspace_id: wsid,
       type: t,
       status: s
-    });
+    }
+
+    Tasks.schema.validate(newTasks);
+    Tasks.insert(newTasks);
   },
 });
 

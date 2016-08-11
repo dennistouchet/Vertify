@@ -125,10 +125,24 @@ setupRoutes.route('/match', {
   }
 });
 
+setupRoutes.route('/match/vertifywizard', {
+  name: 'vertifywizard',
+  action() {
+      BlazeLayout.render('main', {main: 'vertifywizard'});
+  }
+});
+
 FlowRouter.route('/test', {
   name: 'test',
   action() {
       BlazeLayout.render('main', {main: 'test'});
+  }
+});
+
+FlowRouter.route('/test2', {
+  name: 'test2',
+  action() {
+      BlazeLayout.render('main', {main: 'test2'});
   }
 });
 

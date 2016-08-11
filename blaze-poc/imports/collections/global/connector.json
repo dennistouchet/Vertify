@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/connector.json",
+  "title" : "connector",
+  "description" : "This is the Connector  schema.",
+  "connector" : {
+    "properties" : {
+      "id":{
+        "type": "string"
+        },
+      "modified":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "system_info_id":{
+        "type": "string"
+        },
+      "version":{
+        "type": "string"
+        },
+      "is_dynamic_wsdl":{
+        "type": "boolean"
+        },
+      "is_username_required":{
+        "type": "boolean"
+        },
+      "is_password_required":{
+        "type": "boolean"
+        },
+      "is_current_version":{
+        "type": "boolean"
+        },
+      "data_assembly":{
+        "type": "string"
+        },
+      "md5_hash":{
+        "type": "string"
+        },
+      "md5_data_hash":{
+        "type": "string"
+        },
+      "assembly":{
+        "type": "string"
+        },
+      "settings":{
+        "type": "array",
+        "items" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        }
+    },
+    "required" : [
+      "id", "modified", "created",
+      "system_info_id", "version",
+      "is_dynamic_wsdl", "is_username_required",
+      "is_password_required", "is_current_version",
+      "data_assembly", "md5_hash",
+      "md5_data_hash", "assembly", "settings"
+    ]
+  }
+}

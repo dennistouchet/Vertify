@@ -18,5 +18,5 @@ Licenses.schema = new SimpleSchema({
   max_sytems_per_workspace:
     {type: Number},
   max_workspaces:
-    {type: Number},
+    {type: Number}
 });

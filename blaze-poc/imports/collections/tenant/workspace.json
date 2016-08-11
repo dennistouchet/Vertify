@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/workspace.json",
+  "title" : "workspace",
+  "description" : "This is the Workspace schema.",
+  "workspace" : {
+    "type": "object",
+    "properties" : {
+      "tenant_id":{
+        "type": "integer"
+        },
+      "id":{
+        "type": "string"
+        },
+      "modified":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "is_deleted":{
+        "type": "boolean"
+        },
+      "is_archived":{
+        "type": "boolean"
+        },
+      "name":{
+        "type": "string"
+        },
+      "group_id":{
+        "type": "string"
+        }
+      }
+    },
+    "required" : [ "tenant_id", "id", "modified", "created",
+      "is_deleted", "is_archived", "name", "group_id" ]
+}

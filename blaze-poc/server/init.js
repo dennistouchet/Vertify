@@ -16,14 +16,31 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 
 Meteor.startup(function(){
 
-// Remove all collections in development environment.
-if( Meteor.isDevelopment ) {
-  if(SystemObjects.find().count() > 0) {
-    SystemObjects.remove({});
-    console.log("System Objects Deleted");
-  }
+// Remove all collections in development environment when set to true
+var clearCollections = false;
+if( Meteor.isDevelopment && clearCollections) {
+  // Tenant collections
+  Workspaces.remove({});
+  console.log("Workspaces collection deleted");
+  Systems.remove({});
+  console.log("Systems collection deleted");
+  Objects.remove({});
+  console.log("Objects collection deleted");
+  // Global collections
+  SystemInfos.remove({});
+  console.log("SystemInfos collection deleted");
+  ObjectsList.remove({});
+  console.log("ObjectsList collection deleted");
+  // Workspace collections
+  MarketoLeadRecord.remove({});
+  console.log("MarketoLeadRecord collection deleted");
 }
 
+// Remove any system objects on startup as they are a temporary collection
+if(SystemObjects.find().count() > 0) {
+  SystemObjects.remove({});
+  console.log("SystemObjects collection deleted.");
+}
 
 sysObjListSet = initSystemObjectsList();
 ObjectsList.schema.validate(sysObjListSet[0]);

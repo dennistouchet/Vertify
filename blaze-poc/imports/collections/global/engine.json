@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/engine.json",
+  "title" : "engine",
+  "description" : "This is the Engine schema.",
+  "engine" : {
+    "properties" : {
+      "id": {
+        "type": "string"
+        },
+      "modified": {
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created": {
+        "type": "string",
+        "format" : "date-time"
+        },
+      "password":{
+        "type": "string"
+        },
+      "last_poll":{
+          "type": "string",
+          "format" : "date-time"
+        },
+      "instance_start":{
+          "type": "string",
+          "format" : "date-time"
+        },
+      "instance_end": {
+          "type": "string",
+          "format" : "date-time"
+        },
+      "instance_id": {
+        "type": "string"
+        },
+      "current_load": {
+        "type": "integer"
+        },
+      "is_local": {
+        "type": "boolean"
+        },
+      "status": {
+        "type": "string",
+        "enum" : [ "started", "running", "stopped", "paused", "terminated", "failed" ]
+        },
+      "version": {
+        "type": "string"
+        },
+      "external_ip": {
+        "type": "string"
+        },
+      "internal_ip": {
+        "type": "string"
+        },
+      "last_login" : {
+          "type": "string",
+          "format" : "date-time"
+        },
+      "instance_ami": {
+        "type": "string"
+        }
+    },
+    "required" : [ "id", "modified", "created", "password", "last_poll", "instance_start", "instance_end", "instance_id",
+      "current_load", "is_local", "status", "version", "external_ip", "internal_iplast_login", "instance_ami"]
+  }
+}

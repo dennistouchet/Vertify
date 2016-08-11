@@ -46,5 +46,7 @@ Translates.schema = new SimpleSchema({
 
 Rows.schema = new SimpleSchema({
   value_1:
+    {type: String},
   value_2:
+    {type: String}
 });

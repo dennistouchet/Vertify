@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/system_info.json",
+  "title" : "system_info",
+  "description" : "This is the System Info schema.",
+  "system_info" : {
+    "properties" : {
+      "tenant_id":{
+        "type": "integer"
+      },
+      "id": {
+        "type": "string"
+      },
+      "modified": {
+        "type": "string",
+          "format" : "date-time"
+        },
+      "created": {
+         "type": "string",
+          "format" : "date-time"
+        },
+      "name": {
+         "type": "boolean"
+        , "default": false
+      },
+      "namespace": {
+         "type": "string",
+          "format" : "date-time"
+        },
+      "default_prefix": {
+        "type": "string",
+          "format" : "date-time"
+        },
+      "requires_agent": {
+         "type": "string",
+          "enum": [
+            "authentication", "discover",
+            "collectschema", "collect",
+            "match", "align"
+          ]
+        },
+      },
+      "settings": {
+        "title" : "Settings",
+        "type": "array",
+        "items" : {
+          "title" : "Setting",
+          "type": "object",
+          "properties" :
+          {
+            "name": {
+              "type":"string"
+            },
+            "type":{
+              "type":"string"
+            },
+            "is_encrypted" : {
+              "type" : "boolean"
+            }
+          }
+        }
+      }
+    },
+    "required" : [
+      "tenant_id", "id", "modified", "created",
+      "name", "namespace", "default_prefix",
+      "requires_agent", "settings" ]
+  }
+}

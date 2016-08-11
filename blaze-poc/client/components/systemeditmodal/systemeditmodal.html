@@ -10,10 +10,11 @@
           </div>
 
           <div class="modal-body">
+            <div id="editErrModal" class="alert alert-danger" style="display:none;"></div>
             <label for="name">Name</label>
             <input id="name" type="text" class="form-control" name="name" value="{{system.name}}" />
             <label for="pf">Prefix</label>
-            <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" />
+            <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" maxlength="3" />
             <label for="st">System Type</label>
             <input id="st" type="text" class="form-control" name="st" value="{{system.system_type}}" />
             <label for="un">Username</label>

@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/object_list.json",
+  "title" : "object_list",
+  "description" : "This is the Object List schema.",
+  "object_list" : {
+    "properties" : {
+      "id": {
+        "type": "string"
+      },
+      "connector_id": {
+        "type": "string"
+      },
+      "name":{
+        "type": "string"
+      },
+    },
+    "required" : [ "id", "connector_id", "name"]
+  }
+}

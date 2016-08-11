@@ -1,0 +1,21 @@
+<template name="test2">
+  <div class="right_col" role="main">
+    <h1>TEST PAGE 2</h1>
+    <div class="row">
+      <div class="alert alert-danger">
+        <span>error:</span> This is a default error message.<a class="glyphicon glyphicon-remove pull-right" style="color:#f5aca6;"></a>
+      </div>
+      <div class="alert alert-success">
+        <span>success:</span> This is a default success message.<a class="glyphicon glyphicon-remove pull-right" style="color:#a6ca8a;"></a>
+      </div>
+    </div>
+    <div class="row" style="height:300px;">
+      <div class="x_panel">
+        <h2>Current Session Values:</h2><br/>
+        {{#each kvp}}
+          <li>Session Key: {{key}}  | Value: {{value}}</li>
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</template>

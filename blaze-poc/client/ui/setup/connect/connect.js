@@ -11,8 +11,6 @@ Template.connect.helpers({
     if(Session.get("currentWs")) {
       ws = Session.get("currentWs");
       if(ws.id) {
-        Session.set("currentWsId", ws.id);
-        console.log("Session currentWsId: " +  ws.id);
         systemcount = Systems.find({"workspace_id": ws.id}).count();
         Session.set("systemCount", systemcount);
         console.log("Session SystemCount: " + Session.get("systemCount"));
@@ -68,8 +66,9 @@ Template.connect.helpers({
     }
   },
   getWorkspaceId : function(){
-    if(Session.get("currentWsId")){
-      return Session.get("currentWsId")
+    if(Session.get("currentWs")){
+      var ws = Session.get("currentWs");
+      return ws.id;
     }
     else{
       return null;
@@ -79,7 +78,23 @@ Template.connect.helpers({
 
 Template.connect.events({
   'click .delete' : function(){
-      Meteor.call('systems.remove', this._id);
+    var errDiv = document.getElementById("addErrConnect");
+    errDiv.innerHTML = ""; //reset errors
+
+    Meteor.call('systems.remove'
+      , this._id
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        }
+        else {
+          // successful call
+          // return true;
+        }
+      });
   },
   'click .edit' : function(e){
       e.preventDefault();
@@ -125,24 +140,15 @@ Template.connectSysZeroData.events({
     document.getElementById("name").value = text;
 
   },
-  'submit .new-system'(e){
-    event.preventDefault(); //remove this once verification is setup to allow
-
-    const target = e.target;
-    const text = target.text.value;
-
-    console.log('target text value:' + text );
-    //Meteor.call('systems.insert', text, prefix, systemtype, username, password, maxconcurrenttasks);
-
-    //target.text.value = '';
-  },
   'click .add' : function(e) {
-    e.preventDefault();
-
     //TODO: THIS CODE IS DUPLICATED IN SYSTEMADDMODAL.JS UNDER 'click ,add'
     //MAKE ANY NEW CHANGES THERE AS WELL
     //TODO:REFACTOR TO A SINGLE PLACE
-    var name = document.getElementById("name");
+    e.preventDefault();
+    var errDiv = document.getElementById("addErrConnect");
+    errDiv.innerHTML = ""; //reset errors
+
+    var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
     var st = document.getElementById("st");
     var un = document.getElementById("un");
@@ -153,40 +159,74 @@ Template.connectSysZeroData.events({
     var text = document.getElementById("text");
     var selectedItem = document.getElementById(text.value.trim());
 
-    if(! Session.get("currentWsId")){
+    if(! Session.get("currentWs")){
       alert("No Workspace Selected");
     }
-    else if( (name.value === "")){
-      alert("Missing System value.");
+    else if( (nm.value === "")){
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Name.</li>";
     }
     else if ( (pf.value === "")){
-      alert("Missing prefix value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Prefix.</li>";
     }
     else if ( (st.value === "")){
-      alert("Missing system value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for System Type.</li>";
     }
     else if ( (un.value === "")){
-      alert("Missing username value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Username.</li>";
     }
     else if ( (pw.value === "")){
-      alert("Missing password value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Password. </li>";
     }
     else if ( (maxtasks.value === "")){
-      alert("Missing maxconcurrenttasks value.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Max Concurrent Tasks.</li>";
     }
     else if (selectedItem == null){
-      alert("Error: There is an issue with the selected system.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>Please selected a System from the list.</li>";
     }
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
-      var wsid = Session.get("currentWsId");
+      var ws = Session.get("currentWs");
 
-      //TODO: check if system values already exist (ie. name, prefix)
-      console.log('name: ' + name.value  +' | ' + 'username: ' + un.value + ' | ' + 'system info id: ' +  sysInfoId);
+      //TODO: decide if this should have duplicate existance on front/back end.
+      var nmexists = Systems.findOne({"name" : nm.value.trim()});
+      var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
 
-      Meteor.call('systems.insert', wsid, sysInfoId, name.value.trim(), pf.value.trim()
-      , st.value.trim(), un.value.trim(), pw.value.trim()
-      , maxtasks.value.trim());
+      if (nmexists) {
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system name already exists. Please use a different name</li>";
+      }
+      if (pfexists) {
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
+      }
+      if(nmexists == null && pfexists == null){
+        Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
+          , st.value.trim(), un.value.trim(), pw.value.trim()
+          , maxtasks.value.trim()
+          , (err, res) => {
+            if(err){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+              //return false;
+            }
+            else {
+              // successful call
+              // return true;
+              Modal.hide('systemmodal');
+            }
+          });
+      }
+      else {
+        //TODO: show error
+      }
     }
   },
   'click .clear' : function() {
@@ -197,6 +237,7 @@ Template.connectSysZeroData.events({
       document.getElementById("un").value = '';
       document.getElementById("pw").value = '';
       document.getElementById("maxtasks").value = '';
+      errDiv.innerHTML = ""; //reset errors
   },
 });
 

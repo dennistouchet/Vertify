@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/tenant.json",
+  "title" : "tenant",
+  "description" : "This is the Tenant schema.",
+  "tenant" : {
+    "properties" : {
+      "id": {
+          "type": "string"
+        },
+      "modified": {
+          "type": "string",
+          "format" : "date-time"
+        },
+      "created": {
+          "type": "string",
+          "format" : "date-time"
+        },
+      "name":{
+          "type": "string"
+        },
+      "sql_connect_string": {
+          "type": "string",
+          "format" : "date-time"
+        },
+      "time_zone":{
+          "type": "integer",
+          "maximum": 12,
+          "minimum": -12,
+          "default": 0,
+          "optional": "true"
+        },
+      "daylight_savings":{
+          "type": "boolean"
+        },
+      "sql_user":{
+          "type": "string"
+        },
+      "sql_password":{
+          "type": "string"
+        },
+      "domain":{
+          "type": "string"
+        },
+      "license_id":{
+          "type": "string"
+        },
+      "expiration":{
+          "type": "string",
+          "format" : "date-time"
+        },
+      "is_paused":{
+          "type": "boolean"
+        },
+      "debug_expiration":{
+          "type": "string"
+        }
+    },
+    "required" : [
+      "id", "modified", "created",
+      "name", "sql_connect_string",
+      "daylight_savings", "sql_user", "sql_password",
+      "domain", "license_id", "expiration",
+      "is_paused", "debug_expiration"
+     ]
+  }
+}

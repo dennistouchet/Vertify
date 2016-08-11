@@ -3,6 +3,7 @@
     <div class="">
       <div class ="row">
         <h1 class="page_title">Collect</h1>
+        <div id="addErrCollect" class="alert alert-danger" style="display:none;"></div>
         {{#if hasObject}}
           {{#if hasEnoughObject}}
             {{> collectObjHeader}}
@@ -17,18 +18,22 @@
             <input id="objectlist" type="text" class="form-control" name="objectlist" />
             <div class="input-group-btn">
               <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-              <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl">
-                {{#each system_objects}}
-                  {{> objectList}}
-                {{/each}}
-              </ul>
+                <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl">
+                  {{#if Template.subscriptionsReady}}
+                    {{#each system_objects}}
+                      {{> objectList}}
+                    {{/each}}
+                  {{/if}}
+                </ul>
             </div>
           </div>
         </div>
         <div class="col-md-12">
-          {{#each system_objects}}
-            {{> systemObjectList}}
-          {{/each}}
+          {{#if Template.subscriptionsReady}}
+            {{#each system_objects}}
+              {{> systemObjectList}}
+            {{/each}}
+          {{/if}}
         </div>
         {{#if Template.subscriptionsReady}}
           {{#each objects}}
@@ -40,22 +45,6 @@
 
       </div>
     </div>
-    <!-- Displays the systems of collect
-    TODO: delete after collect is complete
-    <div class="row">
-      <h1>Collect</h1>
-      <div class="col-md-12">
-          {{#if Template.subscriptionsReady}}
-            {{#each systems}}
-              {{> collectSys}}
-            {{else}}
-              {{> collectZeroData}}
-            {{/each}}
-          {{else}}
-            <p>Loading</p>
-          {{/if}}
-      </div>
-    </div>-->
   </section>
 </template>
 
@@ -79,19 +68,21 @@
   {{#each obj in object_list}}
     <li>
       <a href="#" data-id="{{obj}}" data-name="{{getObjectName obj}}" data-system="{{system_id}}">
-        <img src="/images/{{getSystemName system_id}}.png"
+        <img src="/images/{{getConnectorName system_id}}.png"
         alt="..." style="width:30px;height:30px; margin-right:10px;" >
         {{getSystemName system_id}} - {{getObjectName obj}}
       </a>
     </li>
+  {{else}}
+  <li><a href="#">No objects found.</a></li>
   {{/each}}
 </template>
 
 <template name="collectObj">
     <div class="col-md-12 system" data-id="{{_id}}">
       <div class="x_panel">
-        <div style="float: left; width: 12%; padding-top:8px;" >
-            <img src="/images/{{getSystemName system_id}}.png" alt=".." style="width:90px;height:90px;" >
+        <div style="float: left; width: 12%;" >
+            <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
         </div>
         <div style="float: left; width: 12%; padding-top:28px;">
           <h6>
@@ -228,8 +219,8 @@
     <div class="col-md-3"> </div>
     <div class="col-md-3">
       <button class="btn btn-primary" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-plus"></i>
-        Connect Object
+          <a href="/setup/connect" style="text-decoration:none;  cursor: pointer;">
+        <i class="glyphicon glyphicon-plus"></i>Connect Object</a>
       </button>
     </div>
     <div class="col-md-3">

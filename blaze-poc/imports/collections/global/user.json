@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/user.json",
+  "title" : "user",
+  "description" : "This is the User schema.",
+  "user" : {
+    "properties" : {
+      "tenant_id": {
+        "type": "Number"
+        },
+      "id": {
+        "type": "string"
+        },
+      "modified": {
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created": {
+        "type": "string",
+        "format" : "date-time"
+        },
+      "username": {
+        "type": "string"
+        },
+      "password": {
+        "type": "string"
+        },
+      "email": {
+        "type": "string",
+        "format" : "email"
+        },
+      "first_name": {
+        "type": "string"
+        },
+      "last_name": {
+        "type": "string"
+        },
+      "current_workspace_id": {
+        "type": "string"
+        },
+      "last_login": {
+        "type": "string",
+        "format" : "date-time"
+        },
+      "roles": {
+          "type": "array",
+          "items" : [
+            {
+              "type": "string"
+            }
+          ]
+        }
+    },
+    "required" : [
+      "tenant_id", "id", "modified", "created",
+      "username", "password", "email",
+      "first_name", "last_name",
+      "current_workspace_id", "last_login", "roles"
+    ]
+  }
+}

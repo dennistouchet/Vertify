@@ -2,15 +2,15 @@
   <section class="right_col" role="main" style="height:900px;">
     <div class="" >
       <div class="row">
+        <h1 class="page_title">{{#if hasSystems}}Connect{{else}}Connect / New System{{/if}}</h1>
+        <div id="addErrConnect" class="alert alert-danger" style="display:none;"></div>
         {{#if hasSystems}}
-          <h1 class="page_title">Connect</h1>
           {{#if hasEnoughSystems}}
             {{> connectSysHeader}}
           {{else}}
             {{> connectSysOneHeader}}
           {{/if}}
         {{else}}
-          <h1 class="page_title">Connect / New System</h1>
           {{#if hasWorkspace}}
             {{> connectSysZeroHeader}}
           {{else}}
@@ -119,6 +119,8 @@
 
 <!--No Systems Connected - Add system form -->
 <template name="connectSysZeroData">
+  <!-- TODO: replace with error template -->
+  <div id="addErr" class="alert alert-danger" style="display:none;"></div>
   <div class="col-md-3"><span> </span></div>
   <div class="col-md-6 x_panel" style="padding-left:20%; padding-right:20%;padding-bottom:80px;">
     <form class="new-system">

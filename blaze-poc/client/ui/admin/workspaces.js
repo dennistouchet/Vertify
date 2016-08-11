@@ -11,32 +11,89 @@ Template.workspaces.helpers({
 Template.workspaces.events({
   'submit .new-workspace'(e){
     e.preventDefault();
+    var errDiv = document.getElementById("addErrWorkspace");
+    errDiv.innerHTML = ""; //reset errors
 
     const target = e.target;
     const text = target.text.value;
 
-    Meteor.call('workspaces.insert', text);
+    Meteor.call('workspaces.insert'
+    , text
+    , (err, res) => {
+      if(err){
+        //console.log(err);
+        //TODO: improve with error Template
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+      }
+      else {
+        // successful call
+        // return true;
+      }
+    });
 
     target.text.value = '';
   },
   'click .add' : function(e) {
-      var target = document.getElementById("text");
-      if(! (target.value === ""))
-      {
-          Meteor.call('workspaces.insert', target.value);
-      }
-      // When WS is added, set new WS to current  and redirect to Setup Page
-      var ws = Workspaces.findOne({"name": target.value});
-      Session.set("currentWs", ws);
-      FlowRouter.go('/setup');
+    var errDiv = document.getElementById("addErrWorkspace");
+    errDiv.innerHTML = ""; //reset errors
 
-      target.value = '';
+    var target = document.getElementById("text");
+    if(! (target.value === ""))
+    {
+      Meteor.call('workspaces.insert'
+      , target.value
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        }
+        else {
+          // successful call
+          // return true;
+        }
+      });
+    }
+    // When WS is added, set new WS to current  and redirect to Setup Page
+    var ws = Workspaces.findOne({"name": target.value});
+    Session.set("currentWs", ws);
+    FlowRouter.go('/setup');
+
+    target.value = '';
   },
   'click .clear' : function() {
       document.getElementById("text").value = '';
   },
   'click .delete' : function(){
-      Meteor.call('workspaces.remove', this._id);
+      var errDiv = document.getElementById("addErrWorkspace");
+      errDiv.innerHTML = ""; //reset errors
+
+      // If the Workspace being deleted is the current Workspace
+      // all of the session variables set by the workspace need to be deleted.
+      var ws = Session.get("currentWs");
+      if(this.id == ws.id){
+        delete Session.keys["currentWs", "systemCount", "objectCount"];
+        // Clear all keys and remove
+        //Object.keys(Session.keys).forEach(function(key){ Session.set(key, undefined); })
+        //Session.keys = {}
+      }
+
+      Meteor.call('workspaces.remove'
+      , this._id
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        }
+        else {
+          // successful call
+          // return true;
+        }
+      });
   },
   'click .edit' : function(e){
     e.preventDefault();

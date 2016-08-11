@@ -3,14 +3,21 @@
 #Session
 
   List of Session Variables:
-    currentWorkspace
+
+    currentWS
       Set on TopNav.js
+
     selectedSystem
       Set on open-modal.js and used by systemeditmodal.js
+
     selectedWorkspace
       Set on open-modal.js and used by wseditmodal.js
+
     systemCount
-      Set on connect.js
+      Set on connect.js and collect.js
+
+    objectCount
+      Set on collect.js
 
 #Security
 

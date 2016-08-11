@@ -1,0 +1,166 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/task.json",
+  "title" : "task",
+  "description" : "This is the Task schema.",
+  "task" : {
+    "properties" : {
+      "tenant_id":{
+        "type": "integer"
+      },
+      "id": {
+        "type": "string"
+      },
+      "modified": {
+        "type": "string",
+          "format" : "date-time"
+        },
+      "created": {
+         "type": "string",
+          "format" : "date-time"
+        },
+      "is_deleted": {
+         "type": "boolean"
+        , "default": false
+      },
+      "start": {
+         "type": "string",
+          "format" : "date-time"
+        },
+      "end": {
+        "type": "string",
+          "format" : "date-time"
+        },
+      "kind": {
+         "type": "string",
+          "enum": [
+            "authentication", "discover",
+            "collectschema", "collect",
+            "match", "align"
+          ]
+        },
+      "load":{
+         "type": "string"
+      },
+      "schedule_id": {
+         "type": "string"
+      },
+      "engine_id": {
+         "type": "string"
+        },
+      "source_collect_task_id": {
+        "type": "string"
+        },
+      "target_collect_task_id": {
+        "type": "string"
+        },
+      "status": {
+         "type": "string"
+        , "enum": [
+            "queued", "started",
+            "running", "success",
+            "failed", "terminated"
+          ]
+        },
+      "percent_complete": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "errors": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "total_records": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "records_processed": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "records_with_errors": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "records_converted": {
+        "type": "integer"  ,
+        "minimum": 0
+      },
+      "records_moved": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "workspace_id": {
+         "type": "string"
+        },
+      "system_id": {
+        "type": "string"
+      },
+      "object_id": {
+        "type": "string"
+      },
+      "object_map_id": {
+         "type": "string"
+      },
+      "source_object_id": {
+        "type": "string"
+      },
+      "source_system_id": {
+        "type": "string"
+      },
+      "collect_options": {
+        "type": "array",
+        "options" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+      },
+      "match_options": {
+        "type": "array",
+        "options" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+      },
+      "align_options": {
+        "type": "array",
+        "options" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+      },
+      "user_number": {
+        "type": "integer"
+      },
+      "max_concurrent_tasks": {
+        "type": "integer",
+        "minimum": 0
+      },
+      "reconvert": {
+        "type": "string"
+      }
+    },
+    "required" : [ "tenant_id", "id", "modified", "created", "start", "end", "kind", "engine_id", "status", "workspace_id" ]
+  }
+}

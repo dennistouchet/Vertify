@@ -1,0 +1,89 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"id": "http://vertify.hellodata.com/system.json",
+	"title": "system",
+	"description": "This is the System schema.",
+	"system": {
+		"type": "object",
+		"properties": {
+			"tenant_id": {
+				"type": "number"
+			},
+			"id": {
+				"type": "string"
+			},
+			"modified": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"created": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"is_deleted": {
+				"type": "boolean"
+			},
+			"workspace_id": {
+				"type": "string"
+			},
+			"name": {
+				"type": "string"
+			},
+			"connector_id": {
+				"type": "string"
+			},
+			"system_type": {
+				"type": "string"
+			},
+			"username": {
+				"type": "string"
+			},
+			"password": {
+				"type": "string"
+			},
+			"dynamic_wsdl_assembly": {
+				"type": "string"
+			},
+			"last_scanned": {
+				"type": "string",
+				"format": "date-time"
+			},
+			"max_concurrent_tasks": {
+				"type": "number",
+				"minimum": 0
+			},
+			"prefix": {
+				"type": "string",
+				"maxLength": 3
+			},
+			"agent_id": {
+				"type": "string"
+			},
+			"settings": {
+				"type": "array",
+				"items": {
+					"title": "Setting",
+					"type": "object",
+					"properties": {
+						"name": {
+							"type": "string"
+						},
+						"type": {
+							"type": "string"
+						},
+						"is_encrypted": {
+							"type": "boolean"
+						}
+					}
+				}
+			},
+			"rev_number": {
+				"type": "string"
+			}
+		},
+		"required": ["tenant_id", "id", "modified", "created",
+			"workspace_id", "name", "connector_id", "system_type", "username",
+			"password", "last_scanned", "max_concurrent_tasks", "prefix"
+		]
+	}
+}

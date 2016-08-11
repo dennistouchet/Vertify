@@ -14,6 +14,8 @@ Meteor.methods({
     check(lo, String);
     check(li, String);
 
+    //TODO: add schema validation
+
     MarketoLeadRecord.insert({
       "metadata.id": i,
       "metadata.is_original": o,

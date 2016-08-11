@@ -22,7 +22,7 @@ Engines.schema = new SimpleSchema({
   instance_id:
     {type: String},
   current_load:
-    {type: Boolean},
+    {type: Number},
   is_local:
     {type: Boolean},
   status:
@@ -33,7 +33,8 @@ Engines.schema = new SimpleSchema({
     {type: String},
   internal_ip:
     {type: String},
-  last_login
+  last_login:
+    {type: Date},
   instance_ami:
     {type: String}
 });

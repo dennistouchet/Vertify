@@ -25,11 +25,16 @@ Template.topnav.helpers({
       //This makes sure the text is update if the Workspace is edited
       var ws = Session.get("currentWs");
       var newws = Workspaces.findOne({"id": ws.id});
-      Session.set("currentWs", newws);
-      return newws.name;
+      if(newws){
+        Session.set("currentWs", newws);
+        return newws.name;
+      }
+      else {
+        return "Workspaces";
+      }
     }
     else {
-      return "No Workspace Selected.";
+      return "Workspaces";
     }
   },
 });
@@ -46,7 +51,7 @@ Template.topnav.events({
     var btnprnt = $(e.target).parent().parent().parent();
     var text = e.target.text;
 
-    console.log("wkspcddl click event" + text );
+    console.log("Wkspcddl click event.");
     if(text) {
       ws = Workspaces.findOne({"name": text});
       Session.set("currentWs", ws);

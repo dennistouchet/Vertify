@@ -1,15 +1,16 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Objects } from './object.js';
 
 export const Systems = new Mongo.Collection('systems');
 export const SystemSettings = new Mongo.Collection('systemsettings')
 
 Meteor.methods({
-  'systems.insert'(wsid, sysid, system, pf, st, un, pw, maxtasks) {
+  'systems.insert'(wsid, sysid, nm, pf, st, un, pw, maxtasks) {
     check(wsid, String);
     check(sysid, String);
-    check(system, String);
+    check(nm, String);
     check(pf, String);
     check(st, String);
     check(un, String);
@@ -33,13 +34,26 @@ Meteor.methods({
       var intid = (parseInt(lastSys.id) + 111111);
     }
 
-    Systems.insert({
-      name: system,
-      tenant_id: wsid,
+    //TODO: decide if this should have duplicate existance on front/back end.
+    var snexists = Systems.findOne({"name" : nm });
+    var pfexists = Systems.findOne({"prefix" : pf });
+    if(snexists) {
+      throw new Meteor.Error("Value Exists", "There was an error processing your request. System name already exists.");
+    }
+    else if(pfexists){
+      throw new Meteor.Error("Value Exists", "There was an error processing your request. System prefix already exists.");
+    }
+    /*else if(pf.length > 3)
+    {
+      throw new Meteor.error();
+    }*/
+    var newSystem = {
+      name: nm,
+      tenant_id: parseInt(wsid),
       id: intid.toString(),
       created: new Date(),
       modified: new Date(),
-      id_deleted: false,
+      is_deleted: false,
       workspace_id: wsid,
       connector_id: sysid,
       system_type: st,
@@ -52,14 +66,22 @@ Meteor.methods({
       agent_id: wsid,
       settings: {},
       rev_number: "0.0.0.1"
+    };
 
-    });
+    Systems.schema.validate(newSystem);
+
+    Systems.insert(newSystem);
   },
   'systems.remove'(currentid){
     check(currentid, String)
 
     var current = Systems.findOne(currentid);
-    //TODO: Check if System has objects, cancel delete if true
+    // Check if System has objects, cancel delete if true
+    var objectCount = Objects.find({"system_id": current.id}).count();
+    if(objectCount > 0){
+      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
+    }
+
     //TODO: Add userid security
     Systems.remove(current._id);
   },
@@ -72,6 +94,8 @@ Meteor.methods({
     check(pw, String);
     check(maxtasks, Number);
 
+    //Systems.schema.validate();
+
     Systems.update(id, {$set: {name: system
                   , modified: new Date(), prefix: pf
                   , system_type: st, username: un
@@ -83,14 +107,13 @@ Systems.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String
-      , optional:true },
+    { type: String },
   modified:
     { type: Date
-      , label: "modifieddate" },
+      , label: "Modified Date" },
   created:
     { type: Date
-      , label: "createddate" },
+      , label: "Created Date" },
   is_deleted:
     { type: Boolean
       , optional:true },
@@ -110,7 +133,7 @@ Systems.schema = new SimpleSchema({
     { type: String },
   last_scanned:
     { type: Date
-      , label: "last_scanneddate"
+      , label: "Last Scanned Date"
       , optional:true },
   max_concurrent_tasks:
     { type: Number

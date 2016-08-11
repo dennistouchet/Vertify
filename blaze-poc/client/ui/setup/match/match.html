@@ -9,7 +9,6 @@
 
 <template name="matchZeroDataHeader">
   <div class="row">
-    <h1 class="page_title">Match</h1>
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you have no objects matched.</h4>
     </div>
@@ -17,10 +16,31 @@
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Click here to create your first Vertify object or select one of the recommended Vertify objects below.<br/>
-        {{> matchAddCustomVertifyObj}}
       </h4>
     </div>
   </div>
+  <div class="row">
+    {{> matchAddCustomVertifyObj}}
+  </div>
+</template>
+
+
+<template name="matchAddCustomVertifyObj">
+  <div class="col-md-3">
+    <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+      <a href="/setup/match/vertifywizard">
+        <i class="glyphicon glyphicon-plus"></i>
+        Add Custom Vertify Object
+        </a>
+    </button>
+    <button class="btn btn-primary myAlert" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+      <a href="#">
+        <i class="glyphicon glyphicon-plus"></i>
+          Meteor Tool Alert Function call
+        </a>
+    </button>
+  </div>
+  <div class="col-md-6"> </div>
 </template>
 
 <template name="matchHeader">
@@ -44,13 +64,6 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="matchAddCustomVertifyObj">
-  <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;">
-    <i class="glyphicon glyphicon-plus"></i>
-    Add Custom Vertify Object
-  </button>
 </template>
 
 <template name="matchAddRecommendedVertifyObj">

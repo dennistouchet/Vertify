@@ -15,8 +15,8 @@ TenantRoles.schema = new SimpleSchema({
     { type: Date },
   is_deleted:
     { type: Boolean },
-  permission:
+  permissions:
     { type: [String] },
-  workspace:
+  workspaces:
     { type: [String] }
 });

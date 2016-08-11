@@ -1,0 +1,7 @@
+<template name="errors">
+  {{#each errors}}
+    <div class="alert allter-danger">
+      <span>{{>type}}</span>{{> message}}
+    </div>
+  {{/each}}
+</template>

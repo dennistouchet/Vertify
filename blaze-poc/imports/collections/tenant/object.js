@@ -10,8 +10,6 @@ Meteor.methods({
     check(sysid, String);
     check(objid, Number);
     check(n, String);
-
-
     //check user is logged
     /*
     if(! this.userId) {
@@ -26,10 +24,8 @@ Meteor.methods({
       var newid = (obj.id + 1);
     }
 
-    //TODO: verify object doesn't exist for system
-    //TODO: Make sure name is unique
-    Objects.insert({
-      tenant_id: wsid,
+    var newObject = {
+      tenant_id: parseInt(wsid),
       id: newid,
       modified: new Date(),
       created: new Date(),
@@ -37,7 +33,11 @@ Meteor.methods({
       object_id: objid,
       system_id: sysid,
       workspace_id: wsid
-    });
+    };
+    Objects.schema.validate(newObject);
+    //TODO: verify object doesn't exist for system
+    //TODO: Make sure name is unique
+    Objects.insert(newObject);
   },
   'objects.remove'(currentid){
     check(currentid, String)

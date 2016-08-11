@@ -17,12 +17,15 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-    Datas.insert({
+    var newDatas = {
       name: n,
       number: no,
       email: e,
       description: d,
-    });
+    }
+
+    Data.schema.validate(newDatas);
+    Datas.insert(newDatas);
   },
   'datas.remove'(currentid){
     var current = Datas.findOne(currentid);

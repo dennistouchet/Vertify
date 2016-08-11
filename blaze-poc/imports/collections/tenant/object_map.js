@@ -21,7 +21,7 @@ ObjectMaps.schema = new SimpleSchema({
     { type: Boolean },
   name:
     { type: String },
-  source_objects_id:
+  source_object_id:
     { type: String },
   target_object_id:
     { type: String },

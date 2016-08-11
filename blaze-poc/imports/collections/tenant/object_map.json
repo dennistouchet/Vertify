@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "id" : "http://vertify.hellodata.com/.json",
+  "title" : "",
+  "description" : "This is the  schema.",
+  "" : {
+    "type": "object",
+    "properties" : {
+      "tenant_id":{
+        "type": "integer"
+        },
+      "id":{
+        "type": "string"
+        },
+      "modified":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "created":{
+        "type": "string",
+        "format" : "date-time"
+        },
+      "is_deleted": {
+       "type": "boolean",
+       "default": false
+        },
+      "source_object_id":{
+        "type": "string"
+        },
+      "target_object_id":{
+        "type": "string"
+        },
+      "records_moved": {
+        "type": "array",
+        "items" :
+          {
+            "type": "string"
+          }
+        },
+      "records_with_errors": {
+        "type": "array",
+        "items" :
+          {
+            "type": "string"
+          }
+        },
+      "records_converted": {
+        "type": "array",
+        "items" :
+          {
+            "type": "string"
+          }
+        },
+      "match_records":{
+        "type": "boolean",
+        "default": false
+        },
+      "match_rule_id":{
+        "type": "string"
+        },
+      "property_maps": {
+        "type": "array",
+        "items" : {
+            "type": "array",
+            "items" : [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+      }
+    },
+    "required" : [ "tenant_id", "id", "modified", "created",
+      "is_deleted", "name", "source_object_id",
+      "target_object_id", "records_moved", "records_to_move",
+      "records_with_errors", "records_converted", "match_records",
+      "match_rule_id", "property_maps"]
+  }
+}

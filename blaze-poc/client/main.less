@@ -1,5 +1,14 @@
 /* CSS declarations go here */
 
+.alert {
+  border-radius: 5px;
+}
+
+.alert span {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
  h1.page_title{
   margin-left: 10px;
 }
@@ -55,6 +64,24 @@ html {
   color: #444444;
   background-color: #DBDBDB;
   border-color: #777777;
+}
+/************Match Page Vertify Object Wizard*************/
+.nav>li>a{
+  padding-left:2%;
+  padding-right:2%;
+}
+.nav-pills li,{
+  border-radius: 15px;
+}
+.nav-pills>li + li,
+.nav-pills li.active {
+    margin-left: 0px;
+    width: 20%;
+}
+.nav-pills>li.active > a, .nav-pills>li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff;
+    background-color: #3498DB ;
+    border-radius: 15px;
 }
 /*************************************/
 .active a span.glyphicon {
@@ -1010,6 +1037,27 @@ h2 {
   -ms-transition: all .2s ease;
   transition: all .2s ease;
 }
+
+.x_wizard {
+  position: relative;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 2px 5px;
+  display: inline-block;
+  background: #fff;
+  text-align: center;
+  border: 1px solid #E6E9ED;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  column-break-inside: avoid;
+  opacity: 1;
+  -moz-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  -webkit-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  transition: all .2s ease;
+}
+
 .x_title {
   border-bottom: 2px solid #E6E9ED;
   padding: 1px 5px 6px;

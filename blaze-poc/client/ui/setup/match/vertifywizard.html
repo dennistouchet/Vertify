@@ -1,0 +1,63 @@
+<template name="vertifywizard">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="row">
+      <h1 class="page_title">Match / Vertify Object Wizard</h1>
+    </div>
+    <div class="row">
+      <div class="x_wizard">
+        <ul class="nav nav-pills">
+          <li role="presentation" class="active"><a href="#">Start</a></li>
+          <li role="presentation"><a href="#">Select Objects</a></li>
+          <li role="presentation"><a href="#">Filter Records</a></li>
+          <li role="presentation"><a href="#">Match Records</a></li>
+          <li role="presentation"><a href="#">Finish</a></li>
+        </ul>
+      </div>
+    </div>
+    <!--TODO: setup dynamical templating based on nav clicks-->
+    <div class="row" style="display:block;margin-top:20px;vertical-align:center;font-size:1.6em;">
+      <div class="radio" style="width: 50%; margin: 0 auto;">
+        <label style=""><input type="radio" name="optradio"> Create a New Vertify Object</label>
+      </div>
+      <div class="radio" style="width: 50%; margin: 0 auto;">
+        <label><input type="radio" name="optradio"> Match object to an Existing Vertify object</label>
+      </div>
+    </div>
+    {{> vwFooter}}
+  </section>
+</template >
+
+<template name="vwStart">
+
+</template>
+
+<template name="vwSelect">
+
+</template>
+
+<template name="vwFilter">
+
+</template>
+
+<template name="vwMatch">
+
+</template>
+
+<template name="vwFinish">
+
+</template>
+
+<template name="vwFooter">
+  <div class="row">
+    <div class="col-md-9"> </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary next pull-right" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;border-radius:10px;">
+        <a href="#" style="text-decoration:none; cursor: pointer;"> Next
+        <i class="glyphicon glyphicon-chevron-right"></i></a>
+      </button>
+      <button class="btn btn-primary pull-right" type=button style="margin-top:10px;margin-bottom:10px;border-radius:10px;">
+          <a href="#" style="text-decoration:none; cursor: pointer;"> Cancel </a>
+      </button>
+    </div>
+  </div>
+</template>

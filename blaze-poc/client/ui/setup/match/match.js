@@ -47,7 +47,18 @@ Template.match.helpers({
 
 
 Template.match.events({
-
+  'click .myAlert' : function(e){
+      e.preventDefault();
+      var hd = "hotdog";
+      console.log("My val: " + hd);
+      var val = Meteor.tools.myAlert(hd);
+      console.log("Return val: " + val);
+  },
+  'click .addCustom' : function(e){
+      e.preventDefault();
+      console.log('Match - addCustom event clicked.');
+      FlowRouter.go('/setup/match/vertifywizard');
+  },
 });
 
 Meteor.subscribe('workspaces', function (){
