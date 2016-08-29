@@ -153,25 +153,30 @@
           <button class="btn btn-primary pull-right edit" type="button">
             <i class="glyphicon glyphicon-edit"></i>
           </button>
-          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#details{{_id}}">
-            <i class="glyphicon glyphicon-chevron-down"></i>
+          <button class="btn btn-primary pull-right details" style="z-index:1;" type="button" data-toggle="collapse" data-target="#details{{_id}}">
+            <i class="glyphicon glyphicon-chevron-down" style="z-index:0;"></i>
           </button>
         </h3>
         <div id="details{{_id}}" class="collapse" >
+          System Id: {{id}} <br/>
           Prefix: {{prefix}} <br/>
-          System Type:{{system_type}} <br/>
           Workspace Id: {{workspace_id}} <br />
           Connector Id: {{connector_id}} <br />
           Tenant Id: {{tenant_id}} <br/>
-          System Id: {{id}} <br/>
           Is Deleted: {{is_deleted}} <br/>
-          Username: {{username}} <br/>
-          Password: {{password}} <br/>
-          Dynamic WSDL: {{dynamic_wsdl_assembly}} <br/>
           Max Concurrent Tasks: {{max_concurrent_tasks}} <br/>
-          Agent Id: {{agent_id}} <br/>
-          Settings: {{settings}} <br/>
-          Revision: {{rev_number}} <br/>
+          Credentials:<br/>
+          {{#each credentials}}
+            <li>{{setting}} | {{value}}<br/></li>
+          {{/each}}
+          Settings:<br/>
+          {{#each settings}}
+            <li>{{setting}} | {{value}}<br/></li>
+          {{/each}}
+          Objects:<br/>
+          {{#each external_objects}}
+            <li>Name: {{name}} | Is Dynamic: {{is_dynamic}}<br/></li>
+          {{/each}}
         </div>
       </div>
     </div>
@@ -195,9 +200,4 @@
       </h4>
     </div>
   </div>
-</template>
-
-<!-- List Item for System Info Items -->
-<template name="sysInfos">
-    <li><a href="#" id="{{name}}" data-value="{{id}}"><img src="/images/{{name}}.png" alt=".." style="width:25px;height:25px;" > {{name}}</a></li>
 </template>

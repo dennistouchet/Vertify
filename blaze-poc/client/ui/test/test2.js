@@ -16,3 +16,14 @@ Template.test2.helpers({
     return kvpairs;
   },
 });
+
+Template.test2.events({
+
+  'click .myAlert' : function(e){
+      e.preventDefault();
+      var hd = "hotdog";
+      console.log("My val: " + hd);
+      var val = Meteor.tools.myAlert(hd);
+      console.log("Return val: " + val);
+  },
+});

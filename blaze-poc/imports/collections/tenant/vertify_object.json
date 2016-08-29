@@ -27,39 +27,19 @@
       "name":{
         "type": "string"
       },
-      "level":{
-        "type": "integer"
-      },
       "workspace_id":{
         "type": "string"
         },
-      "truth_object_id":{
-        "type": "string"
-      },
-      "objects": {
+      "external_objects": {
         "type": "array",
         "items" : {
           "type": "string"
         }
-      },
-      "properties": {
-        "type": "array",
-        "options" : {
-            "type": "array",
-            "items" : [
-              {
-                "type": "string"
-              },
-              {
-                "type": "string"
-              }
-            ]
-          }
       }
     },
     "required" : [ "tenant_id", "id", "modified", "created",
       "is_deleted", "name", "level",
       "workspace_id", "truth_object_id",
-      "objects", "properties" ]
+      "external_objects" ]
   }
 }

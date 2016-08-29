@@ -2,6 +2,9 @@
   <section class="right_col" role="main" style="height:900px;">
     <div class="">
       {{> matchZeroDataHeader}}
+      {{#if hasVertifyObjects}}
+        {{> matchVertifyObjects}}
+      {{/if}}
       {{> matchRecommendations}}
     </div>
   </section>
@@ -24,6 +27,40 @@
   </div>
 </template>
 
+<template name="matchVertifyObjects">
+  <div class="row" style="border-bottom: 1px solid lightgrey">
+    <div class="x_panel">
+      Vertify Object | Matched Objects | System of Trueth | Filtered | Actions
+    </div>
+    <div>
+      {{#if Template.subscriptionsReady}}
+        {{#each vertify_objects}}
+          {{> vertifyObjectli}}
+        {{/each}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="vertifyObjectli">
+  <div style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
+    Vertify Objects Id: {{id}} | Name: {{name}}
+    | Workspace: {{workspace_id}} | Level: {{level}} | Truth Object Id: {{truth_object_id}}
+    | Objects:
+    | System of Truth:
+    | Filter:
+    <div class="dropdown" style="display:inline-block;">
+      <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+        Match
+      <span class="caret"></span></button>
+      <ul class="dropdown-menu voddl">
+        <li><a href="#"> Add Object</a></li>
+        <li><a href="#"> Edit</a></li>
+        <li><a href="#"> Delete</a></li>
+      </ul>
+    </div>
+  </div>
+</template>
 
 <template name="matchAddCustomVertifyObj">
   <div class="col-md-3">
@@ -31,12 +68,6 @@
       <a href="/setup/match/vertifywizard">
         <i class="glyphicon glyphicon-plus"></i>
         Add Custom Vertify Object
-        </a>
-    </button>
-    <button class="btn btn-primary myAlert" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-      <a href="#">
-        <i class="glyphicon glyphicon-plus"></i>
-          Meteor Tool Alert Function call
         </a>
     </button>
   </div>

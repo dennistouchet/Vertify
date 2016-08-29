@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 
-import { Objects } from '../../../../imports/collections/tenant/object.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 
 
 Template.align.helpers({

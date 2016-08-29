@@ -6,8 +6,8 @@
       {{#if Template.subscriptionsReady}}
         <button id="sysddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
         <ul id="sysinfoddl" class="dropdown-menu dropdown-menu-right sysinfoddl">
-          {{#each system_info}}
-            {{> sysInfos}}
+          {{#each connectors}}
+            {{> conns}}
           {{/each}}
         </ul>
       {{else}}
@@ -19,12 +19,21 @@
   <input id="name" type="text" class="form-control" name="name" value=""  />
   <label for="pf">Prefix</label>
   <input id="pf" type="text" class="form-control" name="pf" value="" maxlength="3" />
-  <label for="st">System Type</label>
-  <input id="st" type="text" class="form-control" name="st" value="" />
-  <label for="un">Username</label>
-  <input id="un" type="text" class="form-control" name="un" value="" />
-  <label for="pw">Password</label>
-  <input id="pw" type="text" class="form-control" name="pw" value="" />
   <label for="maxtasks">Max Concurrent Tasks</label>
   <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="" />
+  {{#if connSelected}}
+      {{#each connector.settings}}
+        {{> connSettings}}
+      {{/each}}
+  {{/if}}
+</template>
+
+<!-- List Item for Connector Items -->
+<template name="conns">
+    <li><a href="#" id="{{name}}" data-value="{{id}}"><img src="/images/{{name}}.png" alt=".." style="width:25px;height:25px;" > {{name}}</a></li>
+</template>
+
+<template name="connSettings">
+  <label for="{{name}}">{{name}}</label>
+  <input id="setting_{{name}}" type="text" class="form-control" name="{{name}}" value=""  />
 </template>

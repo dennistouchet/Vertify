@@ -5,7 +5,7 @@
       <nav class="" role="navigation">
         <div class="tabbable">
           <div class="nav toggle">
-            <a id="menu_toggle" ><i class="glyphicon glyphicon-menu-hamburger"></i></a>
+            <a id="menu_toggle" data-toggle="collapse" data-target="#sidenavbar" style="z-index:999;"><i  class="glyphicon glyphicon-menu-hamburger" ></i></a>
           </div>
           <ul class="nav nav-tabs">
             <!-- setup for top nav tabs
@@ -13,7 +13,7 @@
             <li role="presentation" ><a href="#" data-toggle="tab"><i class=""> </i>Section 2</a></li>
           -->
             <li id="wkspcddl" role="presentation" class="dropdown">
-              <a class="btn btn-primary dropdown-toggle wkspcddlbtn" style="width:300px;" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+              <a class="btn btn-primary dropdown-toggle wkspcddlbtn" style="width:300px;margin: 0 auto;" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <i class="glyphicon glyphicon-plus"></i>
                   {{#if hasWorkspace}}
                     {{getWorkspace}}
@@ -22,12 +22,12 @@
                   {{/if}}
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu wkspcddl">
+              <ul class="dropdown-menu wkspcddl" style="margin-top:-2px;margin-right:1px;">
                 {{#if Template.subscriptionsReady}}
                   {{#each workspaces}}
                     {{> workspaceli}}
                   {{else}}
-                    <li><a href="/admin/workspaces">Click here to add a workspace!</a></li>
+                    <li><a href="/admin/workspaces"> Click here to add a workspace!</a></li>
                   {{/each}}
                 {{/if}}
               </ul>

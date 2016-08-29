@@ -1,9 +1,9 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "id" : "http://vertify.hellodata.com/system_info.json",
-  "title" : "system_info",
-  "description" : "This is the System Info schema.",
-  "system_info" : {
+  "id" : "http://vertify.hellodata.com/connectors.json",
+  "title" : "connectors",
+  "description" : "This is the Connectors schema.",
+  "connectors" : {
     "properties" : {
       "tenant_id":{
         "type": "integer"

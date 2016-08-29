@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
-import { SystemInfos } from '../../../../imports/collections/global/system_info.js';
+import { Connectors } from '../../../../imports/collections/global/connectors.js';
 
 import './connect.html';
 
@@ -146,14 +146,13 @@ Template.connectSysZeroData.events({
     //TODO:REFACTOR TO A SINGLE PLACE
     e.preventDefault();
     var errDiv = document.getElementById("addErrConnect");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
-    var st = document.getElementById("st");
-    var un = document.getElementById("un");
-    var pw = document.getElementById("pw");
     var maxtasks = document.getElementById("maxtasks");
+    var settings = document.querySelectorAll('*[id^="setting_"]');
 
     // Gets the element selected by the system name added. Used to get "data-id" value
     var text = document.getElementById("text");
@@ -164,39 +163,44 @@ Template.connectSysZeroData.events({
     }
     else if( (nm.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Name.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Name.</li>";
     }
     else if ( (pf.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Prefix.</li>";
-    }
-    else if ( (st.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for System Type.</li>";
-    }
-    else if ( (un.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Username.</li>";
-    }
-    else if ( (pw.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Password. </li>";
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Prefix.</li>";
     }
     else if ( (maxtasks.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span>Please enter a value for Max Concurrent Tasks.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>";
     }
     else if (selectedItem == null){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>Please selected a System from the list.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Please selected a System from the list.</li>";
     }
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
       var ws = Session.get("currentWs");
-
-      //TODO: decide if this should have duplicate existance on front/back end.
       var nmexists = Systems.findOne({"name" : nm.value.trim()});
       var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
+      var setErr = 0;
+      if (settings){
+            for(i = 0; i < settings.length; i++){
+              if(settings[i].value === ''){
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Missing Credential parameter: " + settings[i].name + ".</li>";
+                setErr++;
+              }
+            }
+      }
+      var sets = [];
+      for(i = 0; i < settings.length; i++){
+        var set = {
+          setting: settings[i].name,
+          value: settings[i].value
+        }
+        console.log(set);
+        sets.push(set);
+      }
 
       if (nmexists) {
         errDiv.style.display = 'block';
@@ -206,10 +210,9 @@ Template.connectSysZeroData.events({
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
-      if(nmexists == null && pfexists == null){
+      if(nmexists == null && pfexists == null && setErr == 0){
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
-          , st.value.trim(), un.value.trim(), pw.value.trim()
-          , maxtasks.value.trim()
+          , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -220,7 +223,7 @@ Template.connectSysZeroData.events({
             else {
               // successful call
               // return true;
-              Modal.hide('systemmodal');
+              Modal.hide('systemaddmodal');
             }
           });
       }
@@ -233,18 +236,18 @@ Template.connectSysZeroData.events({
       document.getElementById("text").value = '';
       document.getElementById("name").value = '';
       document.getElementById("pf").value = '';
-      document.getElementById("st").value = '';
-      document.getElementById("un").value = '';
-      document.getElementById("pw").value = '';
       document.getElementById("maxtasks").value = '';
+      errDiv = document.getElementById("addErrConnect");
+      errDiv.style.display = 'none';
       errDiv.innerHTML = ""; //reset errors
   },
 });
 
 Template.connectSys.helpers({
   getConnectorName : function(id){
-    if(Session.get("currentWs")){
-      var conn = SystemInfos.findOne({"id" : id});
+    if(Session.get("currentWs") && id){
+      var conn = Connectors.findOne({"id" : id});
+
       return conn.name;
     }
     else {
@@ -262,6 +265,6 @@ Meteor.subscribe('systems', function (){
   console.log( "Connect - Systems now subscribed.");
 });
 
-Meteor.subscribe('system_info', function(){
-  console.log('Connect - SystemInfos now subscribed.');
+Meteor.subscribe('connectors', function(){
+  console.log('Connect - Connectors now subscribed.');
 });

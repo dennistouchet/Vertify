@@ -24,22 +24,21 @@ Template.systemaddmodal.events({
     //TODO:REFACTOR TO A SINGLE PLACE\
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
-    var st = document.getElementById("st");
-    var un = document.getElementById("un");
-    var pw = document.getElementById("pw");
     var maxtasks = document.getElementById("maxtasks");
+    var settings = document.querySelectorAll('*[id^="setting_"]');
+    console.log(settings);
 
     // Gets the element selected by the system name added. Used to get "data-id" value
     var text = document.getElementById("text");
     var selectedItem = document.getElementById(text.value.trim());
 
-    if(!Session.get("currentWs")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>Please set the current Workspace.</li>";
+    if(! Session.get("currentWs")){
+      alert("No Workspace Selected");
     }
     else if( (nm.value === "")){
       errDiv.style.display = 'block';
@@ -48,18 +47,6 @@ Template.systemaddmodal.events({
     else if ( (pf.value === "")){
       errDiv.style.display = 'block';
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Prefix.</li>";
-    }
-    else if ( (st.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for System Type.</li>";
-    }
-    else if ( (un.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Username.</li>";
-    }
-    else if ( (pw.value === "")){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Password. </li>";
     }
     else if ( (maxtasks.value === "")){
       errDiv.style.display = 'block';
@@ -72,23 +59,39 @@ Template.systemaddmodal.events({
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
       var ws = Session.get("currentWs");
-
-      //TODO: decide if this should have duplicate existance on front/back end.
       var nmexists = Systems.findOne({"name" : nm.value.trim()});
       var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
+      var setErr = 0;
+      if (settings){
+            for(i = 0; i < settings.length; i++){
+              if(settings[i].value === ''){
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Missing Credential parameter: " + settings[i].name + ".</li>";
+                setErr++;
+              }
+            }
+      }
+      var sets = [];
+      for(i = 0; i < settings.length; i++){
+        var set = {
+          setting: settings[i].name,
+          value: settings[i].value
+        }
+        console.log(set);
+        sets.push(set);
+      }
 
       if (nmexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system name already exists. Please use a different name</li>";
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system name already exists. Please use a different name</li>";
       }
       if (pfexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system prefix already exists. Please use a different prefix</li>";
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
-      if(nmexists == null && pfexists == null){
+      if(nmexists == null && pfexists == null && setErr == 0){
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
-          , st.value.trim(), un.value.trim(), pw.value.trim()
-          , maxtasks.value.trim()
+          , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -99,7 +102,7 @@ Template.systemaddmodal.events({
             else {
               // successful call
               // return true;
-              Modal.hide('systemmodal');
+              Modal.hide('systemaddmodal');
             }
           });
       }
@@ -112,5 +115,5 @@ Template.systemaddmodal.events({
 });
 
 Meteor.subscribe("systems", function (){
-  console.log( "Connect - Systems now subscribed.");
+  console.log( "Systemaddmodal - Systems now subscribed.");
 });

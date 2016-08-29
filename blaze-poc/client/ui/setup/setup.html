@@ -40,14 +40,25 @@
 <template name="navcard">
   <div class="navCard">
     <a style="width:100%;" href="{{route}}">
-      <span class="navCardHeader">
-        <span class="glyphicon glyphicon-ok-circle navCardIcon"></span>
-        <span class="glyphicon {{icon}} navCardIcon"></span>
-        <span class="navCardDesc">
-          <span class="navCardTitle">{{shortdesc}}</span>
-          <span class="navCardText">{{description}} </span>
+      {{#if (step_status name) }}
+        <span class="navCardHeaderComplete">
+          <span class="glyphicon glyphicon-ok-circle navCardIcon"></span>
+          <span class="glyphicon {{icon}} navCardIcon"></span>
+          <span class="navCardDesc">
+            <span class="navCardTitle">{{shortdesc}}</span>
+            <span class="navCardText">{{description}} </span>
+          </span>
         </span>
-      </span>
+      {{else}}
+        <span class="navCardHeaderIncomplete">
+          <span class="glyphicon glyphicon-remove-circle navCardIcon"></span>
+          <span class="glyphicon {{icon}} navCardIcon"></span>
+          <span class="navCardDesc">
+            <span class="navCardTitle">{{shortdesc}}</span>
+            <span class="navCardText">{{description}} </span>
+          </span>
+        </span>
+      {{/if}}
     </a>
   </div>
 </template>

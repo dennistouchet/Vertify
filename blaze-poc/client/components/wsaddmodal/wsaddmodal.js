@@ -27,11 +27,9 @@ Template.wsaddmodal.events({
           }
           else {
             // successful call
-            // return true;
+            Modal.hide('wsaddmodal');
           }
         });
-
-      Modal.hide('wsaddmodal');
 
     } else {
       errDiv.style.display = 'block';

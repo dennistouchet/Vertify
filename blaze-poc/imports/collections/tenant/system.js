@@ -1,31 +1,30 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
-import { Objects } from './object.js';
+import { ExternalObjects } from './external_object.js';
 
 export const Systems = new Mongo.Collection('systems');
-export const SystemSettings = new Mongo.Collection('systemsettings')
 
 Meteor.methods({
-  'systems.insert'(wsid, sysid, nm, pf, st, un, pw, maxtasks) {
+  'systems.insert'(wsid, sysid, nm, pf, maxtasks, cred) {
     check(wsid, String);
     check(sysid, String);
     check(nm, String);
     check(pf, String);
-    check(st, String);
-    check(un, String);
-    check(pw, String);
     var maxtask = parseInt(maxtasks);
     check(maxtask, Number);
-
+    //Validate Credentials
+    for(i = 0; i < cred.length; i++){
+      SystemSettingsSchema.validate(cred[i]);
+    }
     //check user is logged
     /*
     if(! this.userId) {
       throw new Meteor.Error('not-authorized');
     }
     */
-    //TODO: Update after accounts are implemented
-    //Temporary solution to incrementing ID's until user accounts are implemented
+
+    // Incrementing ID's
     var lastSys = Systems.findOne({}, {sort: {id: -1}});
     if(lastSys == null) {
       var intid = 111111;
@@ -34,7 +33,6 @@ Meteor.methods({
       var intid = (parseInt(lastSys.id) + 111111);
     }
 
-    //TODO: decide if this should have duplicate existance on front/back end.
     var snexists = Systems.findOne({"name" : nm });
     var pfexists = Systems.findOne({"prefix" : pf });
     if(snexists) {
@@ -43,10 +41,14 @@ Meteor.methods({
     else if(pfexists){
       throw new Meteor.Error("Value Exists", "There was an error processing your request. System prefix already exists.");
     }
-    /*else if(pf.length > 3)
-    {
-      throw new Meteor.error();
-    }*/
+
+    // Call Task to get external objects
+     var eolist = Meteor.tools.getExternalObjects(sysid);
+     for(i=0;i< eolist.length;i++)
+     {
+       SystemExternalObjectsSchema.validate(eolist[i]);
+     }
+
     var newSystem = {
       name: nm,
       tenant_id: parseInt(wsid),
@@ -56,20 +58,15 @@ Meteor.methods({
       is_deleted: false,
       workspace_id: wsid,
       connector_id: sysid,
-      system_type: st,
-      username: un,
-      password: pw,
-      dynamic_wsdl_assembly: "",
       last_scanned: new Date(),
       max_concurrent_tasks: maxtask,
       prefix: pf,
       agent_id: wsid,
-      settings: {},
-      rev_number: "0.0.0.1"
+      credentials: cred,
+      external_objects: eolist
     };
 
     Systems.schema.validate(newSystem);
-
     Systems.insert(newSystem);
   },
   'systems.remove'(currentid){
@@ -77,7 +74,7 @@ Meteor.methods({
 
     var current = Systems.findOne(currentid);
     // Check if System has objects, cancel delete if true
-    var objectCount = Objects.find({"system_id": current.id}).count();
+    var objectCount = ExternalObjects.find({"system_id": current.id}).count();
     if(objectCount > 0){
       throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
     }
@@ -85,23 +82,53 @@ Meteor.methods({
     //TODO: Add userid security
     Systems.remove(current._id);
   },
-  'systems.edit'(id, system, pf, st, un, pw, maxtasks){
+  'systems.edit'(id, system, pf, maxtasks, cred){
     check(id, String);
     check(system, String);
     check(pf, String);
-    check(st, String);
-    check(un, String);
-    check(pw, String);
     check(maxtasks, Number);
-
-    //Systems.schema.validate();
+    for(i = 0; i < cred.length; i++){
+      SystemSettingsSchema.validate(cred[i]);
+    }
 
     Systems.update(id, {$set: {name: system
                   , modified: new Date(), prefix: pf
-                  , system_type: st, username: un
-                  , password: pw, max_concurrent_tasks: maxtasks}})
+                  , max_concurrent_tasks: maxtasks, credentials: cred}})
   },
 });
+
+export const SystemSettingsSchema = new SimpleSchema({
+  setting:
+  { type: String },
+  value:
+  { type: String }
+})
+
+export const SystemExternalObjectsSchema = new SimpleSchema({
+  name:
+  { type: String },
+  is_dynamic:
+  { type: Boolean },
+  generic_string_1:
+    { type: String
+    , optional: true },
+  generic_string_2:
+    { type: String
+    , optional: true },
+  generic_string_3:
+    { type: String
+    , optional: true },
+  generic_integer_1:
+    { type: Number
+    , optional: true },
+  generic_integer_2:
+    { type: Number
+    , optional: true },
+  generic_integer_3:
+    { type: Number
+    , optional: true },
+})
+
 
 Systems.schema = new SimpleSchema({
   tenant_id:
@@ -117,19 +144,11 @@ Systems.schema = new SimpleSchema({
   is_deleted:
     { type: Boolean
       , optional:true },
-  workspace_id:
-    { type: String },
   name:
     { type: String },
+  workspace_id:
+    { type: String },
   connector_id:
-    { type: String },
-  system_type:
-    { type: String },
-  username:
-    { type: String },
-  password:
-    { type: String },
-  dynamic_wsdl_assembly:
     { type: String },
   last_scanned:
     { type: Date
@@ -145,15 +164,13 @@ Systems.schema = new SimpleSchema({
   agent_id:
     { type: String
       , optional:true} ,
-  //TODO: Create Settings Array fields (i.e. "settings.$." )
+  credentials:
+    { type: [SystemSettingsSchema]
+    , optional:true },
   settings:
-    { type: Object
-      , optional:true },
-  rev_number:
-    { type: String
+    { type: [SystemSettingsSchema]
+    , optional:true },
+  external_objects:
+    { type: [SystemExternalObjectsSchema]
       , optional:true }
 });
-
-SystemSettings.Schema = new SimpleSchema({
-
-})

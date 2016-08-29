@@ -15,14 +15,11 @@
             <input id="name" type="text" class="form-control" name="name" value="{{system.name}}" />
             <label for="pf">Prefix</label>
             <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" maxlength="3" />
-            <label for="st">System Type</label>
-            <input id="st" type="text" class="form-control" name="st" value="{{system.system_type}}" />
-            <label for="un">Username</label>
-            <input id="un" type="text" class="form-control" name="un" value="{{system.username}}" />
-            <label for="pw">Password</label>
-            <input id="pw" type="text" class="form-control" name="pw" value="{{system.password}}" />
             <label for="maxtasks">Max Concurrent Tasks</label>
             <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="{{system.max_concurrent_tasks}}" />
+            {{#each system.credentials}}
+              {{> connCredentials}}
+            {{/each}}
           </div>
 
           <div class="modal-footer">
@@ -33,4 +30,9 @@
       </div>
   </div>
 
+</template>
+
+<template name="connCredentials">
+  <label for="{{setting}}">{{setting}}</label>
+  <input id="setting_{{setting}}" type="text" class="form-control" name="{{setting}}" value="{{value}}"  />
 </template>

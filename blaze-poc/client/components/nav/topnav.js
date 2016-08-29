@@ -44,7 +44,7 @@ Template.topnav.rendered = function () {
 }
 
 Template.topnav.events({
-  'click': function() {
+  'click': function(e) {
     console.log('topnav click event');
   },
   'click .wkspcddl li a':function(e, template){

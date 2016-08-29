@@ -30,7 +30,7 @@ Template.setup.helpers({
     else {
       return false;
     }
-  }
+  },
 });
 
 Template.setup.events({
@@ -38,6 +38,19 @@ Template.setup.events({
       console.log("setup click event");
   }
 });
+
+Template.navcard.helpers({
+
+  step_status : function(name){
+
+    if(Session.get("currentWs")){
+      return Meteor.tools.setupStatus(Session.get("currentWs").id, name);
+    }
+    else {
+      return false;
+    }
+  },
+})
 
 Meteor.subscribe('navitems', function (){
   console.log( "Setup - Navitems now subscribed");

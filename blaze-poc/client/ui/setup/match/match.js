@@ -1,7 +1,8 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
-import { Objects } from '../../../../imports/collections/tenant/object.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
+import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 
 Template.match.helpers({
   hasWorkspace: function(){
@@ -43,17 +44,39 @@ Template.match.helpers({
       return false;
     }
   },
+  hasVertifyObjects : function(){
+    var ws = Session.get("currentWs");
+    if(ws == null){
+      return false;
+    }
+
+    var count = VertifyObjects.find({"workspace_id": ws.id}).count();
+    if(count > 0)
+    {
+      return true;
+    }
+    return false;
+  }
 });
 
+Template.matchVertifyObjects.helpers({
+  vertify_objects(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return VertifyObjects.find({"workspace_id": ws.id});
+    }
+    return null;
+  },
+  external_objects(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return ExternalObjects.find({"workspace_id": ws.id});
+    }
+    return null;
+  },
+});
 
 Template.match.events({
-  'click .myAlert' : function(e){
-      e.preventDefault();
-      var hd = "hotdog";
-      console.log("My val: " + hd);
-      var val = Meteor.tools.myAlert(hd);
-      console.log("Return val: " + val);
-  },
   'click .addCustom' : function(e){
       e.preventDefault();
       console.log('Match - addCustom event clicked.');
@@ -69,6 +92,10 @@ Meteor.subscribe('systems', function (){
   console.log( "Match - Systems now subscribed.");
 });
 
-Meteor.subscribe('objects', function (){
-  console.log( "Match - Objects now subscribed.");
+Meteor.subscribe('external_objects', function (){
+  console.log( "Match - ExternalObjects now subscribed.");
+});
+
+Meteor.subscribe('vertify_objects', function (){
+  console.log( "Match - VertifyObjects now subscribed." );
 });

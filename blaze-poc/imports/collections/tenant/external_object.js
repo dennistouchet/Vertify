@@ -1,14 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { VertifyObjects } from './vertify_object.js';
 
-export const Objects = new Mongo.Collection('objects');
-export const ObjectProperties = new Mongo.Collection('object_properties')
+export const ExternalObjects = new Mongo.Collection('external_objects');
+export const ExternalObjectProperties = new Mongo.Collection('external_object_properties');
+
 Meteor.methods({
-  'objects.insert'(wsid, sysid, objid, n) {
+  'external_objects.insert'(wsid, sysid, n) {
     check(wsid, String);
     check(sysid, String);
-    check(objid, Number);
     check(n, String);
     //check user is logged
     /*
@@ -16,7 +17,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-    var obj = Objects.findOne({}, {sort: {id: -1}});
+    var obj = ExternalObjects.findOne({}, {sort: {id: -1}});
     if(obj == null) {
       var newid = 1;
     }
@@ -24,40 +25,55 @@ Meteor.methods({
       var newid = (obj.id + 1);
     }
 
-    var newObject = {
+    var objectExists = ExternalObjects.findOne({"system_id": sysid, "name": n})
+    if(objectExists){
+      throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
+    }
+
+    var newExternalObject = {
       tenant_id: parseInt(wsid),
       id: newid,
       modified: new Date(),
       created: new Date(),
       name: n,
-      object_id: objid,
       system_id: sysid,
       workspace_id: wsid
     };
-    Objects.schema.validate(newObject);
-    //TODO: verify object doesn't exist for system
-    //TODO: Make sure name is unique
-    Objects.insert(newObject);
+    ExternalObjects.schema.validate(newExternalObject);
+    ExternalObjects.insert(newExternalObject);
   },
-  'objects.remove'(currentid){
+  'external_objects.remove'(currentid, wsid){
     check(currentid, String)
-
-    var current = Objects.findOne(currentid);
 
     //TODO: Add userid security
     //TODO: verify object doesn't exist in map/align
-    /*
-      var obj = ObjectMaps.findOne({"object_id": current.id});
-      if(obj == null)
-      {
-        Objects.remove(current._id);
-      }
-    */
-    Objects.remove(current._id);
+    var objectCount = VertifyObjects.find({"workspace_id": wsid}).count();
+    if(objectCount > 0){
+      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the External Object. All Vertify Objects must be deleted from a system before it can be removed.");
+    }
+
+    var current = ExternalObjects.findOne(currentid);
+
+    ExternalObjects.remove(current._id);
   },
 });
 
-Objects.schema = new SimpleSchema({
+
+ExternalObjectProperties.schema = new SimpleSchema({
+  name:
+    { type: String },
+  is_custom:
+    { type: Boolean },
+  is_array:
+    { type: Boolean },
+  type:
+    { type: String },
+  is_key:
+    { type: Boolean }
+});
+
+
+ExternalObjects.schema = new SimpleSchema({
   tenant_id:
     { type: Number},
   id:
@@ -72,8 +88,6 @@ Objects.schema = new SimpleSchema({
     , defaultValue: false },
   name:
     { type: String },
-  object_id:
-    { type: Number },
   system_id:
     { type: String },
   workspace_id:
@@ -94,33 +108,9 @@ Objects.schema = new SimpleSchema({
   type:
     { type: String
     , optional: true  },
-  "properties.$.name":
-    { type: String
-    , optional: true  },
-  "properties.$.is_custom":
-    { type: Boolean
-    , optional: true  },
-  "properties.$.is_array":
-    { type: Boolean
-    , optional: true  },
-  "properties.$.type":
-    { type: String
-    , optional: true  },
-  "properties.$.is_key":
-    { type: Boolean
+  properties:
+    { type:  [ExternalObjectProperties.schema ]
     , optional: true },
-  "properties.$.properties.$.name":
-    { type: String
-    , optional: true },
-  "properties.$.properties.$.is_custom":
-    { type: Boolean
-    , optional: true },
-  "properties.$.properties.$.is_array":
-    { type: Boolean
-    , optional: true },
-  "properties.$.properties.$.type":
-    { type: String
-    , optional: true }  ,
   generic_integer_1:
     { type: Number
     , optional: true },
@@ -175,20 +165,4 @@ Objects.schema = new SimpleSchema({
   collect_filters:
     { type: String
     , optional: true },
-});
-
-//
-ObjectProperties.schema = new SimpleSchema({
-  name:
-    {type: String},
-  is_custome:
-    {type: Boolean},
-  is_array:
-    {type: Boolean},
-  type:
-    {type: String},
-  is_key:
-    {type: Boolean},
-  properties:
-    {type: [Object]}
 });

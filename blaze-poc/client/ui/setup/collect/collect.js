@@ -1,10 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
-import { SystemInfos } from '../../../../imports/collections/global/system_info.js';
-import { Objects } from '../../../../imports/collections/tenant/object.js';
+import { Connectors } from '../../../../imports/collections/global/connectors.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { ObjectsList } from '../../../../imports/collections/global/object_list.js';
-import { SystemObjects } from '../../../../imports/collections/tenant/system_object.js';
 
 import './collect.html';
 
@@ -31,92 +30,33 @@ Template.collect.helpers({
       return Systems.find();
     }
   },
-  objects() {
-    //check for system and get objects by system types
+  external_objects() {
+    //check for system and get external objects by system types
     if(Session.get("currentWs"))
     {
       var wsid = Session.get("currentWs").id;
-      objectcount = Objects.find({"workspace_id": wsid}).count();
-      Session.set("objectCount", objectcount);
-      console.log("Session objectCount: " + Session.get("objectCount"));
-      return Objects.find({"workspace_id": wsid});
+      objectcount = ExternalObjects.find({"workspace_id": wsid}).count();
+      Session.set("externalObjectCount", objectcount);
+      console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
+      return ExternalObjects.find({"workspace_id": wsid});
     }
     else{
-      Session.set("objectCount", "0");
-      console.log("Session objectCount: " + Session.get("objectCount"));
+      Session.set("externalObjectCount", "0");
+      console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
       //TODO: remove this option after testing
-      return Objects.find();
+      return ExternalObjects.find();
     }
-  },
-  system_objects(){
-    if(Session.get("currentWs"))
-    {
-      //TODO: make this method call
-      //TODO: see if there is a better way to do this to reset object set
-      Meteor.call('system_objects.removeAll'
-        , (err, res) => {
-          if(err){
-            console.log(err);
-            //return false;
-          }
-          else {
-            // successful call
-            // return true;
-          }
-        });
-
-      var wsid = Session.get("currentWs").id;
-      var sysSet = Systems.find({"workspace_id": wsid });
-      var sysList = [];
-
-      console.log(sysSet);
-
-      sysSet.forEach(function (syst) {
-        sysList.push(syst.id);
-
-        var objSet = Objects.find({"system_id": syst.id});
-        var objList = [];
-        objSet.forEach(function (objl) {
-          objList.push(objl.object_id);
-        });
-
-        var sysObjs = ObjectsList.find({ "connector_id": syst.connector_id, "id": {$nin : objList}});
-        var sysobjlist = [];
-        sysObjs.forEach(function (so){
-          sysobjlist.push(so.id);
-        });
-
-        console.log("system_objects.insert:" +  sysobjlist + " | " + syst.id + " | " + syst.name + " | " + wsid)
-        console.log(sysobjlist);
-        Meteor.call('system_objects.insert'
-          , sysobjlist, syst.id, syst.name, wsid
-          , (err, res) => {
-            if(err){
-              console.log(err);
-              //return false;
-            }
-            else {
-              // successful call
-              // return true;
-            }
-          });
-      });
-
-      return SystemObjects.find({"system_id": {$in : sysList}, "workspace_id" : wsid});
-    }
-    //TODO: remove this after collect is complete
-    return ObjectsList.find();
   },
   connectStatus : function(){
     if(Session.get("currentWs"))
     {
-      return true;
+      return Session.get("currentWs").connect_status;
     }
     return false;
   },
   hasObject : function(){
-    if(Session.get("objectCount")){
-      var objectcount =  parseInt(Session.get("objectCount"));
+    if(Session.get("externalObjectCount")){
+      var objectcount =  parseInt(Session.get("externalObjectCount"));
       if(objectcount > 0){
         return true;
       }
@@ -129,8 +69,8 @@ Template.collect.helpers({
     }
   },
   hasEnoughObject : function(){
-    if(Session.get("objectCount")){
-      var objectcount =  parseInt(Session.get("objectCount"));
+    if(Session.get("externalObjectCount")){
+      var objectcount =  parseInt(Session.get("externalObjectCount"));
       if(objectcount > 1){
         return true;
       }
@@ -147,17 +87,23 @@ Template.collect.helpers({
 Template.collect.events({
 
   'click .delete' : function(){
-      Meteor.call('objects.remove', this._id
-      , (err, res) => {
-        if(err){
-          console.log(err);
-          //return false;
-        }
-        else {
-          // successful call
-          // return true;
-        }
-      });
+    var errDiv = document.getElementById("addErrCollect");
+    errDiv.innerHTML = ""; //reset errors
+
+    var ws = Session.get("currentWs");
+    Meteor.call('external_objects.remove', this._id, ws.id
+    , (err, res) => {
+      if(err){
+        //console.log(err);
+        //TODO: improve with error Template
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+      }
+      else {
+        // successful call
+        // return true;
+      }
+    });
   },
   'click .toMatch' : function(e){
     console.log('Collect - toMatch event clicked.');
@@ -169,7 +115,6 @@ Template.collect.events({
 
     var text = e.target.text;
     document.getElementById("objectlist").value = text.toString().trim();
-    var thisId = parseInt(e.target.getAttribute("data-id"));
     var sysId = e.target.getAttribute("data-system");
     var name = e.target.getAttribute("data-name");
 
@@ -181,11 +126,11 @@ Template.collect.events({
     }
 
     //verify that variable doesn't already exist for the system
-    var obj = Objects.findOne({"object_id": thisId, "system_id": sysId });
+    var obj = ExternalObjects.findOne({"name": name, "system_id": sysId });
     if(obj == null){
       //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId + " | name: " + name );
-      Meteor.call('objects.insert'
-        , ws.id, sysId, thisId, name
+      Meteor.call('external_objects.insert'
+        , ws.id, sysId, name
         , (err, res) => {
           if(err){
             //console.log(err);
@@ -200,18 +145,19 @@ Template.collect.events({
         });
     }
     else{
-      alert("Error: Object already exists.");
+      alert("Error: ExternalObject already exists.");
     }
   },
   'click .addobj a' : function(e, t){
     var errDiv = document.getElementById("addErrCollect");
     errDiv.innerHTML = ""; //reset errors
 
-    var text = e.target.childNodes[7].textContent + " - " +  e.target.childNodes[4].textContent;
+    var text = e.target.childNodes[4].textContent + " - " +  e.target.childNodes[1].textContent;
     document.getElementById("objectlist").value = text;
-    var thisId = parseInt(e.target.childNodes[1].textContent);
-    var sysId = e.target.childNodes[10].textContent;
-    var name = e.target.childNodes[4].textContent;
+    var sysId = e.target.childNodes[7].textContent;
+    var name = e.target.childNodes[1].textContent;
+
+    console.log(e.target.childNodes);
 
     var ws = Session.get("currentWs");
     if(ws == null){
@@ -221,11 +167,11 @@ Template.collect.events({
     }
 
     //verify that variable doesn't already exist for the system
-    var obj = Objects.findOne({"object_id": thisId, "system_id": sysId });
+    var obj = ExternalObjects.findOne({"name": name, "system_id": sysId });
     if(obj == null){
       //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId );
-      Meteor.call('objects.insert'
-        , ws.id, sysId, thisId, name
+      Meteor.call('external_objects.insert'
+        , ws.id, sysId, name
         , (err, res) => {
           if(err){
             //console.log(err);
@@ -240,7 +186,7 @@ Template.collect.events({
         });
     }
     else{
-      alert("Error: Object already exists.");
+      alert("Error: ExternalObject already exists.");
     }
   },
 });
@@ -288,6 +234,13 @@ Template.systemObjectList.helpers({
       return "DefaultSystem";
     }
   },
+  doesntExist : function(name, id){
+    var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
+    if(extObj){
+      return false;
+    }
+    return true;
+  }
 });
 
 Template.objectList.helpers({
@@ -302,11 +255,18 @@ Template.objectList.helpers({
     var curSys = Systems.findOne({"id":id});
     return curSys.name;
   },
-getConnectorName : function(id){
-  var curSys = Systems.findOne({"id":id});
-  var curCon = SystemInfos.findOne({"id": curSys.connector_id});
-  return curCon.name;
-},
+  getConnectorName : function(id){
+    var curSys = Systems.findOne({"id":id});
+    var curCon = Connectors.findOne({"id": curSys.connector_id});
+    return curCon.name;
+  },
+  doesntExist : function(name, id){
+    var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
+    if(extObj){
+      return false;
+    }
+    return true;
+  }
 });
 
 Template.collectObj.helpers({
@@ -323,7 +283,7 @@ Template.collectObj.helpers({
   },
   getConnectorName : function(id){
     var curSys = Systems.findOne({"id":id});
-    var curCon = SystemInfos.findOne({"id": curSys.connector_id});
+    var curCon = Connectors.findOne({"id": curSys.connector_id});
     return curCon.name;
   },
 });
@@ -337,18 +297,14 @@ Meteor.subscribe('systems', function (){
   console.log( "Collect - Systems now subscribed.");
 });
 
-Meteor.subscribe('system_infos', function (){
-  console.log( "Collect - SystemInfos now subscribed.");
-});
-
-Meteor.subscribe('system_objects', function (){
-  console.log( "Collect - SystemObjects now subscribed.");
+Meteor.subscribe('connectors', function (){
+  console.log( "Collect - Connectors now subscribed.");
 });
 
 Meteor.subscribe('objects_list', function (){
   console.log( "Collect - ObjectsList now subscribed.");
 });
 
-Meteor.subscribe('objects', function (){
-  console.log( "Collect - Objects now subscribed.");
+Meteor.subscribe('external_objects', function (){
+  console.log( "Collect - ExternalObjects now subscribed.");
 });

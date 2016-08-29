@@ -20,7 +20,7 @@
               <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
                 <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl">
                   {{#if Template.subscriptionsReady}}
-                    {{#each system_objects}}
+                    {{#each systems}}
                       {{> objectList}}
                     {{/each}}
                   {{/if}}
@@ -30,13 +30,13 @@
         </div>
         <div class="col-md-12">
           {{#if Template.subscriptionsReady}}
-            {{#each system_objects}}
+            {{#each systems}}
               {{> systemObjectList}}
             {{/each}}
           {{/if}}
         </div>
         {{#if Template.subscriptionsReady}}
-          {{#each objects}}
+          {{#each external_objects}}
             {{> collectObj}}
           {{/each}}
         {{/if}}
@@ -49,32 +49,35 @@
 </template>
 
 <template name="systemObjectList">
-  {{#each obj in object_list}}
-    <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-id="{{id}}">
-      <a href="#">
-        <div class="x_panel">
-          Id: {{obj}}<br />
-          Name: {{getObjectName obj}}<br />
-          System Name: {{getSystemName system_id}}<br/>
-          System Id: {{system_id}}<br/>
-          Workspace Id: {{workspace_id}}<br/>
-        </div>
-      </a>
-    </div>
+  {{#each eo in external_objects}}
+    {{#if doesntExist eo.name id}}
+      <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
+        <a href="#">
+          <div class="x_panel">
+            Name: {{eo.name}}<br />
+            System Name: {{getSystemName id}}<br/>
+            System Id: {{id}}<br/>
+            Workspace Id: {{workspace_id}}<br/>
+          </div>
+        </a>
+      </div>
+    {{/if}}
   {{/each}}
 </template>
 
 <template name="objectList">
-  {{#each obj in object_list}}
+  {{#each eo in external_objects}}
+    {{#if doesntExist eo.name id}}
     <li>
-      <a href="#" data-id="{{obj}}" data-name="{{getObjectName obj}}" data-system="{{system_id}}">
-        <img src="/images/{{getConnectorName system_id}}.png"
+      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{id}}">
+        <img src="/images/{{getConnectorName id}}.png"
         alt="..." style="width:30px;height:30px; margin-right:10px;" >
-        {{getSystemName system_id}} - {{getObjectName obj}}
+        {{name}} - {{eo.name}}
       </a>
     </li>
+    {{/if}}
   {{else}}
-  <li><a href="#">No objects found.</a></li>
+    <li><a href="#"> No objects found.</a></li>
   {{/each}}
 </template>
 

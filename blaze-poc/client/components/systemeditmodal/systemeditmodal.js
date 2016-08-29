@@ -20,6 +20,7 @@ Template.systemeditmodal.events({
   'click #save': function(e) {
     e.preventDefault();
     var errDiv = document.getElementById("editErrModal");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     //TODO: VERIFY WORKSPACE ID
@@ -27,15 +28,32 @@ Template.systemeditmodal.events({
 
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
-    var st = document.getElementById("st");
-    var un = document.getElementById("un");
-    var pw = document.getElementById("pw");
     var maxtasks = document.getElementById("maxtasks");
+    var settings = document.querySelectorAll('*[id^="setting_"]');
 
     if(sysId) {
       //TODO: Fix logic error that doesn't allow it to reenter same name/prefix for itself
       var nmexists = Systems.findOne({"name" : nm.value.trim()});
       var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
+      var setErr = 0;
+      if (settings){
+            for(i = 0; i < settings.length; i++){
+              if(settings[i].value === ''){
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Missing Credential parameter: " + settings[i].name + ".</li>";
+                setErr++;
+              }
+            }
+      }
+      var sets = [];
+      for(i = 0; i < settings.length; i++){
+        var set = {
+          setting: settings[i].name,
+          value: settings[i].value
+        }
+        console.log(set);
+        sets.push(set);
+      }
 
       if (nmexists) {
         errDiv.style.display = 'block';
@@ -45,11 +63,9 @@ Template.systemeditmodal.events({
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system prefix already exists. Please use a different prefix</li>";
       }
-      if(nmexists == null && pfexists == null){
-
+      if(nmexists == null && pfexists == null && setErr == 0){
       Meteor.call('systems.edit', sysId, nm.value.trim(), pf.value.trim()
-        , st.value.trim(), un.value.trim(), pw.value.trim()
-        , parseInt(maxtasks.value)
+        , parseInt(maxtasks.value), sets
         , (err, res) => {
           if(err){
             //console.log(err);
