@@ -44,7 +44,7 @@
         <input id="objtext" type="text" class="form-control" name="object" disabled="true"/>
         <div class="input-group-btn">
           {{#if Template.subscriptionsReady}}
-            <button id="objddlbtn" type="button" disabled="true" class="btn btn-default dropdown-toggle objddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+            <button id="objddlbtn" type="button" disabled="true" class="btn btn-default dropdown-toggle vertifyobjddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
             <ul id="objddl" class="dropdown-menu dropdown-menu-right objddl">
               {{#each vertify_objects}}
                 <li><a href="#">{{name}}</a></li>
@@ -74,11 +74,11 @@
   <div class="row">
     <label style="padding-left:200px; ">Object 1:</label>
     <div class="input-group" style="width:50%; margin: 0 auto;">
-      <input type="text" class="form-control" name="object" />
+      <input type="text" class="form-control" id="extobj1" name="extobj1" />
       <div class="input-group-btn">
         {{#if Template.subscriptionsReady}}
-          <button type="button" class="btn btn-default dropdown-toggle objddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-          <ul class="dropdown-menu dropdown-menu-right objddl">
+          <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right objddl1">
             {{#each external_objects}}
               <li data-id="{{id}}"><a href="#">{{name}}</a></li>
             {{else}}
@@ -94,11 +94,11 @@
   <div class="row">
     <label style="padding-left:200px;">Object 2:</label>
     <div class="input-group" style="width:50%; margin: 0 auto;">
-      <input type="text" class="form-control" name="object" />
+      <input type="text" class="form-control" id="extobj2" name="extobj2" />
       <div class="input-group-btn">
         {{#if Template.subscriptionsReady}}
-          <button type="button" class="btn btn-default dropdown-toggle objddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-          <ul class="dropdown-menu dropdown-menu-right objddl">
+          <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right objddl2">
             {{#each external_objects}}
               <li data-id="{{id}}"><a href="#">{{name}}</a></li>
             {{else}}

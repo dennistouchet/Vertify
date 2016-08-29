@@ -14,14 +14,12 @@ Meteor.methods({
 
     var ms = MatchSetup.findOne({}, {sort: {id: -1}});
     var newid = null;
-
     if(ms == null){
       newid = 1;
     }
     else {
       newid = ms.id + 1;
     }
-
     msitem = {
       id: newid,
       workspace_id: wsid,
@@ -32,22 +30,43 @@ Meteor.methods({
     MatchSetup.insert(msitem);
     return msitem.id;
   },
-  'match_setup.remove'(id, wsid){
-    console.log("match_setup.remove");
-    check(id, Number);
-    check(wsid, String);
-
-    var current = MatchSetup.findOne({"id": id, "workspace_id": wsid});
-    MatchSetup.remove(current);
-  },
-  'match_setup.selectedit'(id, wsid, step ){
-    if(step != "vwSelect"){
-      throw new Meteor.Error("Error","vwSelect edit error");
+  'match_setup.startedit'(id, wsid, step, newobj ){
+    if(step != "vwStart"){
+      throw new Meteor.Error("Error","vwStart edit error");
     }
     check(wsid, String);
     check(id, Number);
 
 
+
+    console.log("match_setup.startedit: " + step );
+  },
+  'match_setup.selectedit'(id, wsid, step, extobjids ){
+    if(step != "vwSelect"){
+      throw new Meteor.Error("Error","vwSelect edit error");
+    }
+    check(wsid, String);
+    check(id, Number);
+    check(extobjids, [String]);
+
+    var thisMatch = MatchSetup.findOne({"workspace_id": wsid, "id": id});
+    if(thisMatch){
+      if(extobjids.length == 2 && thisMatch.new_object)
+      {
+        MatchSetup.update(thisMatch._id, {
+          $set: {eo_id_1: extobjids[0] , eo_id_2: extobjids[1]},
+        });
+      } else if(extobjids.length == 1 && !thisMatch.new_object) {
+        MatchSetup.update(thisMatch._id, {
+          $set: {eo_id_1: extobjids[0]},
+        });
+      }
+      else {
+        throw new Meteor.Error("Error", "Encountered a problem with the selected objects. Please try again.");
+      }
+    }else {
+      throw new Meteor.Error("Error", "Encountered an issue with the match process objects. Please try again.");
+    }
     console.log("match_setup.selectedit: " + step );
   },
   'match_setup.filteredit'(id, wsid, step ){
@@ -77,6 +96,20 @@ Meteor.methods({
 
     console.log("match_setup.finishedit: " + step );
     //TODO Call Vertify_Object creation here?
+  },
+  'match_setup.remove'(id, wsid){
+    console.log("match_setup.remove");
+    check(id, Number);
+    check(wsid, String);
+
+    var current = MatchSetup.findOne({"id": id, "workspace_id": wsid});
+    MatchSetup.remove(current);
+  },
+  'match_setup.removeall'(wsid){
+    console.log("match_setup.removeall");
+    check(wsid, String);
+
+    MatchSetup.remove({"workspace_id": wsid});
   },
 });
 

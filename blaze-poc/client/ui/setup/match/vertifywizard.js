@@ -6,6 +6,7 @@ import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_o
 import { MatchSetup } from '../../../../imports/collections/tenant/match_setup.js';
 
 Template.vertifywizard.onCreated( function() {
+  delete Session.keys['setupId'];
   var ws = Session.get("currentWs");
   if(ws == null){
     return false;
@@ -77,42 +78,48 @@ Template.vertifywizard.events({
           if(Session.get("setupId")){
             Meteor.call('match_setup.finishedit', Session.get("setupId"), ws.id, steps[index -1] );
           }
+      //TODO: clear Session("setupId");
       FlowRouter.go('/setup/match');
     }
     else{
+      msId = Session.get("setupId");
       switch(index){
         case 1: console.log("move to select");
-                var newid = Meteor.call('match_setup.insert', ws.id, steps[index -1], true
-                , (err, res) => {
-                  if(err){
-                    //console.log(err);
-                    //TODO: improve with error Template
-                    errDiv.style.display = 'block';
-                    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
-                  }
-                  else{
-                    console.log("res: " + res);
-                    Session.set("setupId", res);
-                    newid = res;
-                    console.log("newid inside call: " + newid);
-                  }
-                });
+                if(msId){
+                  Meteor.call('match_setup.startedit', msId, ws.id, steps[index -1], false);
+                }else{
+                  var newid = Meteor.call('match_setup.insert', ws.id, steps[index -1], true
+                  , (err, res) => {
+                    if(err){
+                      //console.log(err);
+                      //TODO: improve with error Template
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                    }
+                    else{
+                      console.log("res: " + res);
+                      Session.set("setupId", res);
+                      newid = res;
+                      console.log("newid inside call: " + newid);
+                    }
+                  });
+                }
                 // NOTE: Meteor call is asynchronous and values from the call may not be present here (ex. newid)
-                // use caution when editing any values after thi Meteor.call
+                // use caution when editing any values after this Meteor.call
                 break;
         case 2: console.log("move to filter");
-                if(Session.get("setupId")){
-                  Meteor.call('match_setup.selectedit', Session.get("setupId"), ws.id, steps[index -1] );
+                if(msId){
+                  Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1] );
                 }
                 break;
         case 3: console.log("move to match");
-                if(Session.get("setupId")){
+                if(msId){
                   Meteor.call('match_setup.filteredit', Session.get("setupId"), ws.id, steps[index -1] );
                 }
                 break;
         case 4: console.log("move to finish");
-                if(Session.get("setupId")){
-                  Meteor.call('match_setup.matchedit', Session.get("setupId"), ws.id, steps[index -1] );
+                if(msId){
+                  Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1] );
                 }
                 break;
         default:console.log("defaulted");
@@ -200,6 +207,21 @@ Template.vwSelect.helpers({
       }
       return null
     }
+});
+
+Template.vwSelect.events({
+  'click .objddl1 li a' : function(e, t){
+    var text = e.target.text;
+    document.getElementById("extobj1").value = text.toString().trim();
+    var msId = e.target.getAttribute("data-id");
+    console.log("msid: " + msId);
+  },
+  'click .objddl2 li a' : function(e, t){
+    var text = e.target.text;
+    document.getElementById("extobj2").value = text.toString().trim();
+    var msId = e.target.getAttribute("data-id");
+    console.log("msid: " + msId);
+  },
 });
 
 Template.vwFilter.helpers({

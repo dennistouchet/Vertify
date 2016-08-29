@@ -61,6 +61,11 @@ function deleteAllCollections(){
   afterCount = ExternalObjects.find().count();
   console.log("ExternalObjects collectiondeleted (" + (beforeCount - afterCount) + " rows)");
 
+  beforeCount = MatchSetup.find().count();
+  MatchSetup.remove({});
+  afterCount = MatchSetup.find().count();
+  console.log("MatchSetup collection deleted (" + (beforeCount - afterCount) + " rows)");
+
   beforeCount = VertifyObjects.find().count();
   VertifyObjects.remove({});
   afterCount = VertifyObjects.find().count();
