@@ -7,7 +7,7 @@ export const MatchSetup = new Mongo.Collection('match_setup');
 Meteor.methods({
   'match_setup.insert'(wsid, step, newobj){
     if(step != "vwStart"){
-      throw new Meteor.Error("","");
+      throw new Meteor.Error("Error","vwStart insert error");
     }
     check(wsid, String);
     check(newobj, Boolean);
@@ -41,20 +41,42 @@ Meteor.methods({
     MatchSetup.remove(current);
   },
   'match_setup.selectedit'(id, wsid, step ){
+    if(step != "vwSelect"){
+      throw new Meteor.Error("Error","vwSelect edit error");
+    }
+    check(wsid, String);
+    check(id, Number);
+
 
     console.log("match_setup.selectedit: " + step );
   },
   'match_setup.filteredit'(id, wsid, step ){
+    if(step != "vwFilter"){
+      throw new Meteor.Error("Error","vwFilter edit error");
+    }
+    check(wsid, String);
+    check(id, Number);
 
     console.log("match_setup.filteredit: " + step );
   },
   'match_setup.matchedit'(id, wsid, step ){
+    if(step != "vwMatch"){
+      throw new Meteor.Error("Error","vwMatch edit error");
+    }
+    check(wsid, String);
+    check(id, Number);
 
     console.log("match_setup.matchedit: " + step );
   },
   'match_setup.finishedit'(id, wsid, step ){
+    if(step != "vwFinish"){
+      throw new Meteor.Error("Error","vwFinish edit error");
+    }
+    check(wsid, String);
+    check(id, Number);
 
     console.log("match_setup.finishedit: " + step );
+    //TODO Call Vertify_Object creation here?
   },
 });
 

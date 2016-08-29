@@ -73,6 +73,10 @@ Template.vertifywizard.events({
 
     if( index >= steps.length){
       console.log( "Next clicked" );
+      console.log("move to finish");
+          if(Session.get("setupId")){
+            Meteor.call('match_setup.finishedit', Session.get("setupId"), ws.id, steps[index -1] );
+          }
       FlowRouter.go('/setup/match');
     }
     else{
