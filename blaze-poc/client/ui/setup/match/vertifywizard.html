@@ -19,7 +19,7 @@
             <a href="#" data-toggle="pill">Match Records</a>
           </li>
           <li data-template="vwFinish" role="presentation" >
-            <a href="#" data-toggle="pill">Complete</a>
+            <a href="#" data-toggle="pill">Finish</a>
           </li>
         </ul>
       </div>
@@ -35,10 +35,10 @@
   </div>
     <div class="row" style="display:block;margin-top:20px;vertical-align:center;font-size:1.6em;">
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label style=""><input type="radio" name="optradio" value="new" checked> Create a New Vertify Object</label>
+        <label><input type="radio" name="optradio" id="radionew" value="new" checked> Create a New Vertify Object</label>
       </div>
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" name="optradio" value="exist"> Match object to an Existing Vertify object</label>
+        <label><input type="radio" name="optradio" id="radioexist" value="exist"> Match object to an Existing Vertify object</label>
       </div>
       <div class="input-group" style="width:50%; margin: 0 auto;" >
         <input id="objtext" type="text" class="form-control" name="object" disabled="true"/>
@@ -80,7 +80,7 @@
           <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right objddl1">
             {{#each external_objects}}
-              <li data-id="{{id}}"><a href="#">{{name}}</a></li>
+              <li id="{{id}}obj1" data-id="{{id}}"><a href="#">{{name}}</a></li>
             {{else}}
               <li> No Existing External Objects</li>
             {{/each}}
@@ -100,7 +100,7 @@
           <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right objddl2">
             {{#each external_objects}}
-              <li data-id="{{id}}"><a href="#">{{name}}</a></li>
+              <li id="{{id}}obj2" data-id="{{id}}"><a href="#">{{name}}</a></li>
             {{else}}
               <li> No Existing External Objects</li>
             {{/each}}
@@ -122,7 +122,8 @@
       Choose records to be vertified:
     </h4>
   </div>
-  {{#each selectExternalObjects}}
+  {{#each external_objects}}
+    <div>{{id}} | {{name}} | {{workspace_id}} | {{properties}}</div>
     {{> filterRecords}}
   {{else}}
     No Objects selected.

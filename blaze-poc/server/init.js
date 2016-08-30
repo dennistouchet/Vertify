@@ -7,6 +7,7 @@ import { Datas } from '../imports/collections/datas';
 import { Workspaces } from '../imports/collections/tenant/workspace.js';
 import { Systems, SystemExternalObjectsSchema, SystemSettingsSchema } from '../imports/collections/tenant/system.js';
 import { ExternalObjects, ExternalObjectProperties } from '../imports/collections/tenant/external_object.js';
+import { MatchSetup } from '../imports/collections/tenant/match_setup.js';
 import { VertifyObjects, VertifyObjectExternalObjectsSchema } from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
@@ -23,6 +24,8 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
+MatchSetup.remove({});
+console.log("temp MatchSetup collection deleted");
 
 initWorkspaces();
 

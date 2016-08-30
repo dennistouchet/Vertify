@@ -84,11 +84,23 @@ Template.vertifywizard.events({
     else{
       msId = Session.get("setupId");
       switch(index){
-        case 1: console.log("move to select");
+        case 1: console.log("start next clicked - moving to select");
+                var isnew = document.getElementById("radionew").checked;
                 if(msId){
-                  Meteor.call('match_setup.startedit', msId, ws.id, steps[index -1], false);
+                  Meteor.call('match_setup.startedit', msId, ws.id, steps[index -1], isnew
+                  , (err, res) => {
+                    if(err){
+                      //console.log(err);
+                      //TODO: improve with error Template
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                    }
+                    else{
+                      console.log("successful edit/update");
+                    }
+                  });
                 }else{
-                  var newid = Meteor.call('match_setup.insert', ws.id, steps[index -1], true
+                  var newid = Meteor.call('match_setup.insert', ws.id, steps[index -1], isnew
                   , (err, res) => {
                     if(err){
                       //console.log(err);
@@ -107,17 +119,44 @@ Template.vertifywizard.events({
                 // NOTE: Meteor call is asynchronous and values from the call may not be present here (ex. newid)
                 // use caution when editing any values after this Meteor.call
                 break;
-        case 2: console.log("move to filter");
+        case 2: console.log("select next clicked - moving to filter");
                 if(msId){
-                  Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1] );
+                  currentMs = MatchSetup.findOne({"id": parseInt(msId), "workspace_id": ws.id });
+                  console.log(currentMs);
+                  if(currentMs){
+                    if(currentMs.new_object){
+                      var extobj1 = parseInt(document.getElementById("extobj1").getAttribute("data-id"));
+                      var extobj2 = parseInt(document.getElementById("extobj2").getAttribute("data-id"));
+                      console.log("extobj1: " + extobj1 + "| extobj2: " + extobj2);
+
+                      if(extobj1 && extobj2){
+                        if(extobj1 == extobj2){
+                          console.log("error: values are the same");
+                          return;
+                        }
+                        var extobjids = [extobj1, extobj2];
+                        Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1], extobjids);
+                      }
+                      else{
+                        console.log("error: missing values");
+                        return;
+                      }
+                    }else{
+                      //TODO: existing object logic
+                      //check that value 1 exists
+                      //check that value 1 isn't already on the lists
+                      console.log("Existing Object Logic called");
+                      return;
+                    }
+                  }
                 }
                 break;
-        case 3: console.log("move to match");
+        case 3: console.log("filter next clicked - moving to match");
                 if(msId){
                   Meteor.call('match_setup.filteredit', Session.get("setupId"), ws.id, steps[index -1] );
                 }
                 break;
-        case 4: console.log("move to finish");
+        case 4: console.log("match next clicked - moving to finish");
                 if(msId){
                   Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1] );
                 }
@@ -213,14 +252,22 @@ Template.vwSelect.events({
   'click .objddl1 li a' : function(e, t){
     var text = e.target.text;
     document.getElementById("extobj1").value = text.toString().trim();
-    var msId = e.target.getAttribute("data-id");
-    console.log("msid: " + msId);
+    var eoId = $(e.target).closest('li').data("id");
+    document.getElementById("extobj1").setAttribute("data-id", eoId);
+    console.log("eoId: " + eoId);
+
   },
   'click .objddl2 li a' : function(e, t){
     var text = e.target.text;
     document.getElementById("extobj2").value = text.toString().trim();
-    var msId = e.target.getAttribute("data-id");
-    console.log("msid: " + msId);
+    var eoId = $(e.target).closest('li').data("id");
+    document.getElementById("extobj2").setAttribute("data-id", eoId);
+    console.log("eoId: " + eoId);
+
+
+    //TODO: remove element from other dropdownlist
+    //var element document.getElementById((eoid + "obj1"));
+    //element.parentNode.removeChild(element);
   },
 });
 
@@ -228,4 +275,25 @@ Template.vwFilter.helpers({
   selectExternalObjects(){
 
   },
+  external_objects(){
+    var ws = Session.get("currentWs");
+    var msId = Session.get("setupId")
+    if(ws && msId){
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      console.log(msObj);
+      var ids = msObj.eo_ids;
+      console.log(msObj.eo_ids);
+      return ExternalObjects.find({"id": { $in: ids }});
+    }else{
+      return null;
+    }
+  }
+});
+
+Meteor.subscribe('external_objects', function (){
+  console.log( "Match Wizard - ExternalObjects now subscribed.");
+});
+
+Meteor.subscribe('match_setup', function (){
+  console.log( "Match Wizard - MatchSetup now subscribed.");
 });

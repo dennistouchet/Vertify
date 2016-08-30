@@ -28,18 +28,22 @@ Meteor.methods({
 
     MatchSetup.schema.validate(msitem);
     MatchSetup.insert(msitem);
+    console.log("ms insert: " +msitem.id + " | newobj: " + msitem.new_object);
     return msitem.id;
   },
-  'match_setup.startedit'(id, wsid, step, newobj ){
+  'match_setup.startedit'(msid, wsid, step, newobj ){
     if(step != "vwStart"){
       throw new Meteor.Error("Error","vwStart edit error");
     }
     check(wsid, String);
-    check(id, Number);
+    check(msid, Number);
+    check(newobj, Boolean);
 
-
-
-    console.log("match_setup.startedit: " + step );
+    var thisMatch = MatchSetup.findOne({"workspace_id": wsid, "id": msid});
+    MatchSetup.update(thisMatch._id, {
+      $set: {new_object: newobj },
+    });
+    console.log("ms update: " +msitem.id + " | newobj: " + newobj);
   },
   'match_setup.selectedit'(id, wsid, step, extobjids ){
     if(step != "vwSelect"){
@@ -47,18 +51,20 @@ Meteor.methods({
     }
     check(wsid, String);
     check(id, Number);
-    check(extobjids, [String]);
+    check(extobjids, [Number]);
+
+    console.log("select update called");
 
     var thisMatch = MatchSetup.findOne({"workspace_id": wsid, "id": id});
     if(thisMatch){
       if(extobjids.length == 2 && thisMatch.new_object)
       {
         MatchSetup.update(thisMatch._id, {
-          $set: {eo_id_1: extobjids[0] , eo_id_2: extobjids[1]},
+          $set: {eo_ids: extobjids},
         });
       } else if(extobjids.length == 1 && !thisMatch.new_object) {
         MatchSetup.update(thisMatch._id, {
-          $set: {eo_id_1: extobjids[0]},
+          $set: {eo_ids: extobjids},
         });
       }
       else {
@@ -146,11 +152,8 @@ MatchSetup.schema = new SimpleSchema({
       optional: true  },
 
   //Select Options
-  eo_id_1:
-    { type: String,
-      optional: true  },
-  eo_id_2:
-    { type: String,
+  eo_ids:
+    { type: [Number],
       optional: true  },
 
   //Filter Options
