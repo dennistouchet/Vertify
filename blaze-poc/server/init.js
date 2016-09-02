@@ -27,6 +27,8 @@ if( Meteor.isDevelopment && clearCollections) {
 MatchSetup.remove({});
 console.log("temp MatchSetup collection deleted");
 
+initTasks();
+
 initWorkspaces();
 
 initConnectors();
@@ -294,6 +296,10 @@ function initNavitems(){
       Navitems.insert(navitem);
     })
   }
+}
+
+function initTasks(){
+
 }
 
 function initWorkspaces(){
@@ -588,19 +594,89 @@ function initExternalObjects() {
     name: "internalId",
     is_custom: false,
     is_array: false,
-    type: "???",
+    type: "integer",
     is_key: true
   },
   {
     name: "company",
     is_custom: false,
     is_array: false,
-    type: "???",
+    type: "string",
+    is_key: false
+  }]
+
+  var ExternalObjectProperties2 = [{
+    name: "Id",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.Int32",
+    type: "integer",
+    is_key: true
+  },
+  {
+    name: "Email",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: false
+  },{
+    name: "CompanyId",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.Int32",
+    type: "integer",
+    is_key: true
+  },
+  {
+    name: "leadAttributeList",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: false
+  },{
+    name: "leadAttributeList.Name",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: true
+  },
+  {
+    name: "leadAttributeList.FirstName",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: false
+  },{
+    name: "leadAttributeList.LastName",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: true
+  },
+  {
+    name: "leadAttributeList.Company",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.Int32",
+    type: "string",
     is_key: false
   }]
 
   ExternalObjectProperties.schema.validate(ExternalObjectProperties1[0]);
   ExternalObjectProperties.schema.validate(ExternalObjectProperties1[1]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[0]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[1]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[2]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[3]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[4]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[5]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[6]);
+  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[7]);
 
   var netsuiteobj = {
     tenant_id: 000000,
@@ -651,7 +727,7 @@ function initExternalObjects() {
     request_size: 5,
     record_count: 10000,
     type: "",
-    properties: ExternalObjectProperties1,
+    properties: ExternalObjectProperties2,
     generic_integer_1: 1,
     generic_integer_2: null,
     generic_integer_3: null,
@@ -686,7 +762,7 @@ function initExternalObjects() {
     request_size: 5,
     record_count: 10000,
     type: "",
-    properties: ExternalObjectProperties1,
+    properties: ExternalObjectProperties2,
     generic_integer_1: 1,
     generic_integer_2: null,
     generic_integer_3: null,

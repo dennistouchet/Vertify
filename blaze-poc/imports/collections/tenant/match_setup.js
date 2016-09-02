@@ -4,6 +4,8 @@ import { check } from 'meteor/check';
 
 export const MatchSetup = new Mongo.Collection('match_setup');
 
+//TODO: FOR EACH STEP, ON UPDATE/EDIT, RESET FOLLOW STEP VALUES TO NULL
+
 Meteor.methods({
   'match_setup.insert'(wsid, step, newobj){
     if(step != "vwStart"){
@@ -75,22 +77,49 @@ Meteor.methods({
     }
     console.log("match_setup.selectedit: " + step );
   },
-  'match_setup.filteredit'(id, wsid, step ){
+  'match_setup.filteredit'(id, wsid, step, r1, r2, fc1, fc2){
     if(step != "vwFilter"){
       throw new Meteor.Error("Error","vwFilter edit error");
     }
     check(wsid, String);
     check(id, Number);
+    check(r1, Boolean);
+    check(r2, Boolean);
 
+    if(!r1){
+        throw new Meteor.Error("Error", "Filter options are currently unsupported.");
+    }
+    else if(!r2){
+      throw new Meteor.Error("Error", "Filter options are currently unsupported.");
+    }
+
+    var thisMatch = MatchSetup.findOne({"id": id, "workspace_id": wsid});
+    if(thisMatch){
+      MatchSetup.update(thisMatch._id, {
+        $set: {eo1_vertify_all: r1, eo2_vertify_all: r2
+          , eo1_criteria : fc1, eo1_criteria: fc2 },
+      });
+    }
     console.log("match_setup.filteredit: " + step );
   },
-  'match_setup.matchedit'(id, wsid, step ){
+  'match_setup.matchedit'(id, wsid, step, match_criteria){
     if(step != "vwMatch"){
       throw new Meteor.Error("Error","vwMatch edit error");
     }
     check(wsid, String);
     check(id, Number);
 
+    for(var i = 0; i < match_criteria.length; i++)
+    {
+      MatchFieldSchema.validate(match_criteria[i]);
+    }
+
+    var thisMatch = MatchSetup.findOne({"id": id, "workspace_id": wsid});
+    if(thisMatch){
+      MatchSetup.update(thisMatch._id, {
+        $set: { match_fields: match_criteria },
+      });
+    }
     console.log("match_setup.matchedit: " + step );
   },
   'match_setup.finishedit'(id, wsid, step ){
@@ -133,8 +162,8 @@ MatchFieldSchema = new SimpleSchema({
     { type : String },
   match_percentage:
     { type: Number,
-      allowedValues: [ 100, 99 ] },
-  field1 :
+      allowedValues: [ 100 ] },
+  field2 :
     { type : String }
 });
 

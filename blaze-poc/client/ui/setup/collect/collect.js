@@ -145,7 +145,8 @@ Template.collect.events({
         });
     }
     else{
-      alert("Error: ExternalObject already exists.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> ExternalObject already exists.</li>";
     }
   },
   'click .addobj a' : function(e, t){
@@ -186,7 +187,8 @@ Template.collect.events({
         });
     }
     else{
-      alert("Error: ExternalObject already exists.");
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> External Objects already exist.</li>";
     }
   },
 });

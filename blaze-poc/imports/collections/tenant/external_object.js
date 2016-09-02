@@ -66,6 +66,9 @@ ExternalObjectProperties.schema = new SimpleSchema({
     { type: Boolean },
   is_array:
     { type: Boolean },
+  external_type:
+    { type: String
+    ,  optional: true },
   type:
     { type: String },
   is_key:

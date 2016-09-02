@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Systems } from '../../../imports/collections/tenant/system.js';
-
+import { Tasks } from '../../../imports/collections/global/task.js';
 
 Template.systemaddmodal.helpers({
 });
@@ -90,6 +90,21 @@ Template.systemaddmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
+
+        Meteor.call('tasks.insert', ws.id, sysInfoId, "discover"
+        , (err, res) => {
+          if(err){
+            //console.log(err);
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+            //return false;
+          }
+          else {
+            // successful call
+            // return true;
+          }
+        });
+
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
@@ -116,4 +131,9 @@ Template.systemaddmodal.events({
 
 Meteor.subscribe("systems", function (){
   console.log( "Systemaddmodal - Systems now subscribed.");
+});
+
+
+Meteor.subscribe("tasks", function (){
+  console.log( "Systemaddmodal - Tasks now subscribed.");
 });

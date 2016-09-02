@@ -47,6 +47,19 @@ Template.vertifywizard.helpers({
       return true;
     }
     return false;
+  },
+  moveNext : function(){
+    //TODO: pausing template change while waiting for meteor response
+    //display loading on click
+    //setup flag to false
+    //meteor call
+    //set flag to true
+    var moveFlag = false;
+    if(moveFlag){
+      //todo
+    }else{
+      //todo
+    }
   }
 });
 
@@ -65,8 +78,11 @@ Template.vertifywizard.events({
     var steps = [ 'vwStart', 'vwSelect', 'vwFilter', 'vwMatch', 'vwFinish' ];
     var tab = Template.instance().currentTab.get();
     var index = null;
+    var errDiv = document.getElementById("addErrMatch");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none"; //reset errors
+
     for(i = 0; i < steps.length; i++){
-      //console.log("for loop - index: " + i + " | step: " + steps[i] + " | " + "tab : " + tab);
       if(steps[i] === tab){
         index = i + 1;
       }
@@ -94,6 +110,7 @@ Template.vertifywizard.events({
                       //TODO: improve with error Template
                       errDiv.style.display = 'block';
                       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      return;
                     }
                     else{
                       console.log("successful edit/update");
@@ -107,6 +124,7 @@ Template.vertifywizard.events({
                       //TODO: improve with error Template
                       errDiv.style.display = 'block';
                       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      return;
                     }
                     else{
                       console.log("res: " + res);
@@ -131,14 +149,28 @@ Template.vertifywizard.events({
 
                       if(extobj1 && extobj2){
                         if(extobj1 == extobj2){
-                          console.log("error: values are the same");
+                          errDiv.style.display = 'block';
+                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Selected values are the same.</li>";
                           return;
                         }
                         var extobjids = [extobj1, extobj2];
-                        Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1], extobjids);
+                        Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1], extobjids
+                        , (err, res) => {
+                          if(err){
+                            //console.log(err);
+                            //TODO: improve with error Template
+                            errDiv.style.display = 'block';
+                            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                            return;
+                          }
+                          else{
+                            console.log("successful edit/update");
+                          }
+                        });
                       }
                       else{
-                        console.log("error: missing values");
+                        errDiv.style.display = 'block';
+                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Missing Values. </li>";
                         return;
                       }
                     }else{
@@ -146,6 +178,8 @@ Template.vertifywizard.events({
                       //check that value 1 exists
                       //check that value 1 isn't already on the lists
                       console.log("Existing Object Logic called");
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Existing Objects are not currently supported. Please go back and select new object creation.</li>";
                       return;
                     }
                   }
@@ -153,16 +187,55 @@ Template.vertifywizard.events({
                 break;
         case 3: console.log("filter next clicked - moving to match");
                 if(msId){
-                  Meteor.call('match_setup.filteredit', Session.get("setupId"), ws.id, steps[index -1] );
+
+                  var radioalls = document.getElementsByClassName("radioall");
+                  console.log(radioalls);
+                  allRecords1 = radioalls[0].checked;
+                  allRecords2 = radioalls[1].checked;
+
+                  var output = Meteor.call('match_setup.filteredit'
+                    , Session.get("setupId"), ws.id, steps[index -1], allRecords1, allRecords2, null, null
+                    , (err, res) => {
+                      if(err){
+                        //console.log(err);
+                        //TODO: improve with error Template
+                        errDiv.style.display = 'block';
+                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                        return;
+                      }
+                      else{
+                        console.log("successful edit/update");
+                      }
+                    });
                 }
                 break;
         case 4: console.log("match next clicked - moving to finish");
                 if(msId){
-                  Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1] );
+
+                match_criteria = [{
+                  field1: "Email",
+                  match_percentage: 100,
+                  field2: "email"
+                }];
+
+                  Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1], match_criteria );
+                }
+                break;
+        case 5: console.log("finish next clicked - exit wizard");
+                if(msId){
+
+                match_criteria = [{
+                  field1: "Email",
+                  match_percentage: 100,
+                  field2: "email"
+                }];
+
+                  Meteor.call('match_setup.finishedit', msId, ws.id, steps[index -1] );
                 }
                 break;
         default:console.log("defaulted");
       }
+
       t.currentTab.set( steps[index] );
 
       var tabs = $(".nav-pills li");
@@ -288,6 +361,48 @@ Template.vwFilter.helpers({
       return null;
     }
   }
+});
+
+Template.filterRecords.events({
+  'change input': function(e, t){
+    //TODO: change this event so it only happens on the radio buttons and not other inputs
+    console.log(e.target);
+    var el = e.target.value;
+    var id = e.target.getAttribute("data-id");
+
+    if(el === "recordFilter"){
+      console.log("show filter");
+      document.getElementById(("filterCriteria" + id)).style.display = "inline";
+    }
+    else if(el === "recordAll"){
+      document.getElementById(("filterCriteria" + id)).style.display = "none";
+    }
+  },
+  'click .objddl li a' : function(e, t){
+    var text = e.target.text;
+    var id = e.target.parentNode.parentNode.parentNode.getAttribute("data-id");
+    document.getElementById(("extobjprop"+id)).value = text.toString().trim();
+    var eopId = e.target.parentNode.getAttribute("data-id");
+    document.getElementById(("extobjprop"+id)).setAttribute("data-id", eopId);
+    console.log("eopId: " + eopId);
+  },
+});
+
+Template.vwMatch.helpers({
+
+  external_objects(){
+    var ws = Session.get("currentWs");
+    var msId = Session.get("setupId")
+    if(ws && msId){
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      console.log(msObj);
+      var ids = msObj.eo_ids;
+      console.log(msObj.eo_ids);
+      return ExternalObjects.find({"id": { $in: ids }});
+    }else{
+      return null;
+    }
+  },
 });
 
 Meteor.subscribe('external_objects', function (){

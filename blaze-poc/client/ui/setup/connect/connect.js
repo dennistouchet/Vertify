@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { Connectors } from '../../../../imports/collections/global/connectors.js';
+import { Tasks } from '../../../../imports/collections/global/task.js';
 
 import './connect.html';
 
@@ -79,7 +80,9 @@ Template.connect.helpers({
 Template.connect.events({
   'click .delete' : function(){
     var errDiv = document.getElementById("addErrConnect");
-    errDiv.innerHTML = ""; //reset errors
+    //reset errors
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
 
     Meteor.call('systems.remove'
       , this._id
@@ -211,6 +214,22 @@ Template.connectSysZeroData.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
+
+        Meteor.call('tasks.insert', wsid, sysInfoId, "discover"
+        , (err, res) => {
+          if(err){
+            //console.log(err);
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+            //return false;
+            return;
+          }
+          else {
+            // successful call
+            // return true;
+          }
+        });
+
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
@@ -268,3 +287,7 @@ Meteor.subscribe('systems', function (){
 Meteor.subscribe('connectors', function(){
   console.log('Connect - Connectors now subscribed.');
 });
+
+Meteor.subscribe('tasks', function(){
+  console.log('Connect - Tasks now subscribed');
+})

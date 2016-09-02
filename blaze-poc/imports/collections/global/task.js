@@ -5,19 +5,27 @@ import { check } from 'meteor/check';
 export const Tasks = new Mongo.Collection('tasks');
 
 Meteor.methods({
-  'tasks.insert'(i, sysid, wsid, t, s){
-    check(i , String);
+  'tasks.insert'(wsid, sysid,  t){
     check(sysid , String);
     check(wsid , String);
     check(t , String);
-    check(s , String);
+
+    console.log("Task insert called");
+    // Incrementing ID's
+    var lastTask = Tasks.findOne({}, {sort: {id: -1}});
+    var intId = null;
+    if(lastTask == null) {
+      intid = 111111;
+    }
+    else {
+      intid = (parseInt(lastTask.id) + 111111);
+    }
 
     var newTasks = {
-      id: i,
+      id: intid.toString(),
       system_id: sysid,
       workspace_id: wsid,
-      type: t,
-      status: s
+      task: t
     }
 
     Tasks.schema.validate(newTasks);
@@ -25,23 +33,28 @@ Meteor.methods({
   },
 });
 
-Tasks.attachSchema (new SimpleSchema({
+Tasks.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: Number
+    , optional: true },
   id:
     { type: String },
   modified:
-    { type: Date },
+    { type: Date
+    , optional: true},
   created:
-    { type: Date },
+    { type: Date
+    , optional: true },
   is_deleted:
     { type: Boolean
     , optional: true
     , defaultValue: false },
   start:
-    { type: Date },
+    { type: Date
+    , optional: true },
   end:
-    { type: Date },
+    { type: Date
+    , optional: true },
   task:
     { type: String
     , allowedValues: [ "authentication", "discover", "collectschema", "collect", "match", "align"]
@@ -55,16 +68,20 @@ Tasks.attachSchema (new SimpleSchema({
 
   // ASSIGNMENT DATA
   engine_id:
-    { type: String },
+    { type: String
+    , optional: true },
   source_collect_task_id:
-    { type: String },
+    { type: String
+    , optional: true },
   target_collect_task_id:
-    { type: String },
+    { type: String
+    , optional: true },
 
   // STATUS INFO
   status:
     { type: String
     , allowedValues: [ 'queued', 'started', 'running', 'success', 'failed', 'terminated' ]
+    , optional: true
     },
   percent_complete:
     { type: Number
@@ -116,7 +133,8 @@ Tasks.attachSchema (new SimpleSchema({
 
   // TASK OPTIONS
   type:
-    { type: String },
+    { type: String
+    , optional: true  },
   collect_options:
     { type: String
     , optional: true },
@@ -137,4 +155,4 @@ Tasks.attachSchema (new SimpleSchema({
     { type: String
     , optional: true },
 
-}));
+});
