@@ -1,0 +1,37 @@
+<template name="process">
+  <section class="right_col" role="main" style="height:900px;">
+    {{> processZeroData}}
+  </section>
+</template>
+
+<template name="processZeroData">
+  <div class="row">
+    <h1 class="page_title">Match / Process {{vertify_object}}</h1>
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Ready to run the match process? The match process will find the records that exist in each object linked to the Vertify object using the match rules you specified.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Since this is the first time you are matching your records, consider testing the match on a small subset of records. Choose a matching option below:
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="radio" style="width:50%; margin: 0 auto;">
+        <label><input type="radio" data-id="{{id}}" name="processradio" value="count" checked> Match first 100 records found</label>
+      </div>
+      <div class="radio" style="width:50%; margin: 0 auto;">
+        <label><input type="radio" data-id="{{id}}" name="processradio" value="criteria"> Match only records that meet the following criteria:</label>
+      </div>
+      <div class="radio" style="width:50%; margin: 0 auto;">
+        <label><input type="radio" data-id="{{id}}" name="processradio" value="all"> Match all records</label>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="processComplete">
+
+</template>
