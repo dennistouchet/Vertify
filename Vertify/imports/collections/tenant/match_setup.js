@@ -122,13 +122,21 @@ Meteor.methods({
     }
     console.log("match_setup.matchedit: " + step );
   },
-  'match_setup.finishedit'(id, wsid, step ){
+  'match_setup.finishedit'(id, wsid, step, vn, sotid ){
     if(step != "vwFinish"){
       throw new Meteor.Error("Error","vwFinish edit error");
     }
     check(wsid, String);
     check(id, Number);
+    check(vn, String);
+    check(sotid, Number);
 
+    var thisMatch = MatchSetup.findOne({"id": id, "workspace_id": wsid});
+    if(thisMatch){
+      MatchSetup.update(thisMatch._id, {
+        $set: { vo_name: vn, system_of_truth: sotid },
+      });
+    }
     console.log("match_setup.finishedit: " + step );
     //TODO Call Vertify_Object creation here?
   },
@@ -160,11 +168,15 @@ RecordsCriteriaSchema = new SimpleSchema({
 MatchFieldSchema = new SimpleSchema({
   field1 :
     { type : String },
+  id1 :
+    { type : Number },
+  field2 :
+    { type : String },
+  id2 :
+    { type : Number },
   match_percentage:
     { type: Number,
-      allowedValues: [ 100, 99, 98 ] },
-  field2 :
-    { type : String }
+      allowedValues: [ 100, 99, 98 ] }
 });
 
 MatchSetup.schema = new SimpleSchema({
@@ -210,6 +222,6 @@ MatchSetup.schema = new SimpleSchema({
     { type: String,
       optional: true  },
   system_of_truth:
-    { type: String,
+    { type: Number,
       optional: true  }
 });

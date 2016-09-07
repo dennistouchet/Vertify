@@ -239,33 +239,39 @@
   <div class="col-md-6">
     <h4 style="padding-left:50px;">Vertify Object Summary:</h4><br/>
     <h4 style="padding-left:50px;">Objects:</h4>
-    <h5 style="padding-left:75px;">-
+    <h5 style="padding-left:75px;">
       {{#each external_objects}}
-        {{name}},
+        -{{name}}<br/>
       {{/each}}
     </h5><br/>
     <h4 style="padding-left:50px;">Filters:</h4>
-    <h5 style="padding-left:75px;">-
-      
-    </h5>
-    <h4 style="padding-left:50px;"> Match: {{match_fields.eo1_vertify_all}}
-      {{match_fields.eo2_vertify_all}}</h4>
     <h5 style="padding-left:75px;">
-      {{#if match_fields.eo1_vertify_all}}
-        <span>{{getObject1 match_fields.eo_ids}} - all selected</span>
-      {{else}}
-        <span>{{getObject1 match_fields.eo_ids}} - filters selected</span>
-      {{/if}}
-      {{#if match_fields.eo2_vertify_all}}
-        <span>{{getObject2 match_fields.eo_ids}} - all selected</span>
-      {{else}}
-        <span>{{getObject2 match_fields.eo_ids}} - filters selected</span>
-      {{/if}}
+      {{#with filter_options}}
+        {{#if filter_options.eo1_vertify_all}}
+          <span>-{{getObject1 filter_options.eo_ids}}: all selected</span><br/>
+        {{else}}
+          <span>-{{getObject1 filter_options.eo_ids}}: filters selected</span><br/>
+          <span>TODO: Add filter data context</span>
+        {{/if}}
+        {{#if filter_options.eo2_vertify_all}}
+          <span>-{{getObject2 filter_options.eo_ids}}: all selected</span><br/>
+        {{else}}
+          <span>-{{getObject2 filter_options.eo_ids}}: filters selected</span><br/>
+          <span>TODO: Add filter data context</span>
+        {{/if}}
+      {{/with}}
+    </h5>
+    <h4 style="padding-left:50px;"> Match: </h4>
+    <h5 style="padding-left:75px;">
+      {{#each match_fields}}
+        field1: {{field1}}<br/>
+        field2: {{field2}}<br/>
+      {{/each}}
     </h5><br/>
   </div>
   <div class="col-md-6">
     <h4 >  Name this Vertify Object:</h4>
-    <input style="margin-left:20px;" type="text"/><br/>
+    <input id="vertifyObjectName" style="margin-left:20px;" type="text"/><br/>
     <br />
     <h4 >  Select System of Truth<a href="/test">*</a>:</h4>
     {{#each external_objects}}

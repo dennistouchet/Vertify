@@ -8,7 +8,11 @@ import { Workspaces } from '../imports/collections/tenant/workspace.js';
 import { Systems, SystemExternalObjectsSchema, SystemSettingsSchema } from '../imports/collections/tenant/system.js';
 import { ExternalObjects, ExternalObjectProperties } from '../imports/collections/tenant/external_object.js';
 import { MatchSetup } from '../imports/collections/tenant/match_setup.js';
-import { VertifyObjects, VertifyObjectExternalObjectsSchema } from '../imports/collections/tenant/vertify_object.js';
+import { VertifyObjects, VertifyObjectExternalObjectsSchema
+       , VertifyObjectMatchGroupSchema, VertifyObjectMatchSchema
+       , VertifyObjectExternalObjectInboundSchema
+       , VertifyObjectExternalObjectOutboundSchema }
+         from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connectors.js';
@@ -875,98 +879,134 @@ function initExternalObjects() {
 
 function initVertifyObjects() {
 
+  var VertifyObjectExternalObjectInbound1 = {
+    sync_action: ["add","update","delete"],
+    filter: {
+      operator: "and",
+      value: [{
+        external_property:"city",
+        operator: "eq",
+        value: [{ value: "Austin"}]
+      },
+      {
+        external_property:"state",
+        operator: "in",
+        value: [{ value: [ "TX", "CA"]}]
+      }]
+    },
+  }
+  var VertifyObjectExternalObjectOutbound1 = {
+    sync_action: ["add","update","delete"],
+    filter: null
+  }
+  VertifyObjectExternalObjectInboundSchema.validate(VertifyObjectExternalObjectInbound1);
+  VertifyObjectExternalObjectOutboundSchema.validate(VertifyObjectExternalObjectOutbound1);
+
+  var VertifyObjectMatchGroup1 = {
+    external_property: "email",
+    operator: "eq",
+    vertify_property: "Email"
+  }
+  VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup1);
+
+  var VertifyObjectMatch1 = {
+    operator: "and",
+    group: [VertifyObjectMatchGroup1],
+    confidence: 100
+  }
+  VertifyObjectMatchSchema.validate(VertifyObjectMatch1);
   //NS Customer
   var VertifyObjectExternalObject1 = {
     external_object_id: "1",
-    inbound: {
-      sync_action: ["add","update","delete"],
-      filter: {
-        operator: "and",
-        value: [{
-          external_property:"city",
-          operator: "eq",
-          value: [{ value: "Austin"}]
-        },
-        {
-          external_property:"state",
-          operator: "in",
-          value: [{ value: [ "TX", "CA"]}]
-        }]
-      },
-    },
-    outbound: {
-      sync_action: ["add","update","delete"],
-      filter: null
-    },
-    match: {
-      operator: "and",
-      group: [{
-        external_property:"email",
-        operator: "eq",
-        vertify_property: "Email"
-      }]
-    },
+    inbound: VertifyObjectExternalObjectInbound1,
+    outbound: VertifyObjectExternalObjectOutbound1,
+    match: VertifyObjectMatch1,
     is_truth: true
   }
+  VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject1);
+
+  VertifyObjectExternalObjectInbound2 = {
+    sync_action: ["add","update","delete"],
+    filter: {
+      operator: "and",
+      value: [{
+        external_property:"leadAttributeList.City",
+        operator: "eq",
+        value: [ { value: "Austin" }]
+      },
+      {
+        external_property:"leadAttibuteList.State",
+        operator: "in",
+        value: [ { value: ["TX", "CA"] }]
+      },
+      {
+        operator: "or",
+        value: [
+          {
+            external_property:"leadAttributeList.Zip",
+            operator: "eq",
+            value: [ { value: "19006" } ]
+          },
+          {
+            external_property:"leadAttibuteList.State",
+            operator: "eq",
+            value: [{ value: "PA" }]
+          }]
+      }]
+    },
+  }
+  VertifyObjectExternalObjectOutbound2 = {
+    sync_action: ["add","update","delete"],
+    filter: null
+  }
+  VertifyObjectExternalObjectInboundSchema.validate(VertifyObjectExternalObjectInbound2);
+  VertifyObjectExternalObjectOutboundSchema.validate(VertifyObjectExternalObjectOutbound2);
+
+  var VertifyObjectMatchGroup21 =
+    { external_property: "leadAttributeList.City"
+    , operator: "eq"
+    , vertify_property: "City" }
+
+  var VertifyObjectMatchGroup22 =
+    { external_property: "leadAttributeList.FirstName"
+    , operator: "fuzzy"
+    , vertify_property: "FirstName"
+    , confidence: 99 }
+
+  var VertifyObjectMatchGroup23 =
+    { external_property: "leadAttributeList.LastName"
+    , operator: "fuzzy"
+    , confidence: 99
+    , vertify_property: "LastName" }
+
+  VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup21);
+  VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup22);
+  VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup23);
+
+
+  var VertifyObjectMatchGroup11 =
+    { operator: "and"
+    , group: [VertifyObjectMatchGroup21] }
+  var VertifyObjectMatchGroup12 =
+    { operator: "and"
+    , group: [VertifyObjectMatchGroup22] }
+  VertifyObjectMatchSchema.validate(VertifyObjectMatchGroup11);
+  VertifyObjectMatchSchema.validate(VertifyObjectMatchGroup12);
+
+  var VertifyObjectMatch2 =
+    { operator: "then"
+    ,  group: [ VertifyObjectMatchGroup11, VertifyObjectMatchGroup12 ]
+    ,  confidence: 100 }
+  VertifyObjectMatchSchema.validate(VertifyObjectMatch2);
 
   //MK Lead
   var VertifyObjectExternalObject2 = {
     external_object_id: "3",
-    inbound: {
-      sync_action: ["add","update","delete"],
-      filter: {
-        operator: "and",
-        value: [{
-          external_property:"leadAttributeList.City",
-          operator: "eq",
-          value: [ { value: "Austin" }]
-        },
-        {
-          external_property:"leadAttibuteList.State",
-          operator: "in",
-          value: [ { value: ["TX", "CA"] }]
-        },
-        {
-          operator: "or",
-          value: [
-            {
-              external_property:"leadAttributeList.Zip",
-              operator: "eq",
-              value: [ { value: "19006" } ]
-            },
-            {
-              external_property:"leadAttibuteList.State",
-              operator: "eq",
-              value: [{ value: "PA" }]
-            }]
-        }]
-      },
-    },
-    outbound: {
-      sync_action: ["add","update","delete"],
-      filter: null
-    },
-    match: {
-        operator: "then",
-        group: [
-            { operator: "and",
-              group: [
-                { external_property: "leadAttributeList.NSContactId", operator: "eq", vertify_property: "NSInternalId" }
-              ]
-            },
-            { operator: "and",
-              group: [
-                { external_property: "leadAttributeList.City", operator: "eq", vertify_property: "City" },
-                { external_property: "leadAttributeList.FirstName", operator: "fuzzy", confidence: 90, vertify_property: "FirstName" },
-                { external_property: "leadAttributeList.LastName", operator: "fuzzy", confidence: 95, vertify_property: "LastName" }
-              ]
-            }
-          ]
-        },
+    inbound: VertifyObjectExternalObjectInbound2,
+    outbound: VertifyObjectExternalObjectOutbound2,
+    match: VertifyObjectMatch2,
     is_truth: false
   }
-
-  VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject1);
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject2);
 
   var VertifyObject = {

@@ -89,12 +89,33 @@ Template.vertifywizard.events({
     }
 
     if( index >= steps.length){
-      console.log( "Next clicked" );
-      console.log("move to finish");
-          if(Session.get("setupId")){
-            Meteor.call('match_setup.finishedit', Session.get("setupId"), ws.id, steps[index -1] );
-          }
-      //TODO: clear Session("setupId");
+      console.log("Finish Next clicked - Exiting Wizard" );
+      if(msId){
+        //vo_name:
+        var vname = document.getElementById("vertifyObjectName").value;
+        console.log(vname);
+        var sot = document.querySelector('input[name="truthRadio"]:checked');
+        console.log(sot.id);
+        if(vname && sot.id){
+          Meteor.call('match_setup.finishedit', msId, ws.id, steps[index -1], vname, parseInt(sot.id)
+          , (err, res) => {
+            if(err){
+              //console.log(err);
+              //TODO: improve with error Template
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+              return;
+            }
+            else{
+              console.log("successful finish edit/update");
+            }
+          });
+        }else{
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a name for your Vertify Object and select the system of truth.</li>";
+        }
+      }
       FlowRouter.go('/setup/match');
     }
     else{
@@ -187,9 +208,7 @@ Template.vertifywizard.events({
                 break;
         case 3: console.log("filter next clicked - moving to match");
                 if(msId){
-
                   var radioalls = document.getElementsByClassName("radioall");
-                  console.log(radioalls);
                   allRecords1 = radioalls[0].checked;
                   allRecords2 = radioalls[1].checked;
 
@@ -204,7 +223,7 @@ Template.vertifywizard.events({
                         return;
                       }
                       else{
-                        console.log("successful edit/update");
+                        console.log("successful filter edit/update");
                       }
                     });
                 }
@@ -213,33 +232,41 @@ Template.vertifywizard.events({
                 if(msId){
                   var match_setup = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
                   if(match_setup){
-                    //ADD ID TO FIELD TO ALLOW DETERMINATION OF FIELDS
-                    //TODO: Figure out why eoids display out of order in UI
                     var ids = match_setup.eo_ids;
-                    var field1 = ids[0] + "," + document.getElementById("field" + ids[0]);
-                    var field2 = ids[1] + "," + document.getElementById("field" + ids[1]);
+                    var field1 = document.getElementById("field" + ids[0]).value;
+                    console.log(field1);
+                    var i1 = ids[0];
+                    var field2 = document.getElementById("field" + ids[1]).value;
+                    console.log(field2);
+                    var i2 = ids[1];
                     var pm = document.getElementById("percentMatch").getAttribute("data-value");
 
                     match_criteria = [{
                       field1: field1,
-                      match_percentage: parseInt(pm),
-                      field2: field2
+                      id1: parseInt(i1),
+                      field2: field2,
+                      id2: parseInt(i2),
+                      match_percentage: parseInt(pm)
                     }];
 
-                    Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1], match_criteria );
+                    Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1], match_criteria
+                    , (err, res) => {
+                      if(err){
+                        //console.log(err);
+                        //TODO: improve with error Template
+                        errDiv.style.display = 'block';
+                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                        return;
+                      }
+                      else{
+                        console.log("successful match edit/update");
+                      }
+                    });
                   }
                 }
                 break;
-        case 5: console.log("finish next clicked - exit wizard");
-                if(msId){
-
-                  //vo_name:
-                  //system_of_truth:
-
-                  Meteor.call('match_setup.finishedit', msId, ws.id, steps[index -1] );
-                }
-                break;
         default:console.log("defaulted");
+
       }
 
       t.currentTab.set( steps[index] );
@@ -434,10 +461,8 @@ Template.vwFinish.helpers({
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
-      console.log(msObj);
-
     }else{
-
+      return null;
     }
   },
   external_objects(){
@@ -445,9 +470,7 @@ Template.vwFinish.helpers({
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
-      console.log(msObj);
       var ids = msObj.eo_ids;
-      console.log(msObj.eo_ids);
       return ExternalObjects.find({"id": { $in: ids }});
     }else{
       return null;
@@ -458,7 +481,6 @@ Template.vwFinish.helpers({
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
-      console.log(msObj);
       return msObj;
     }else{
       return null;
@@ -469,20 +491,29 @@ Template.vwFinish.helpers({
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
-      console.log(msObj)
       return msObj.match_fields;
     }else{
       return null;
     }
   },
   getObject1: function(eo_ids){
-    var eo1 = eo_ids[0];
-    return ExternalObjects.findOne({"id": eo1 });
+    if(eo_ids){
+      var eo1 = eo_ids[0];
+      return ExternalObjects.findOne({"id": eo1 }).name;
+    }
+    else{
+      return false;
+    }
   },
   getObject2: function(eo_ids){
-    var eo2 = eo_ids[1];
-    return ExternalObjects.findOne({"id": eo2 });
-  }
+    if(eo_ids){
+      var eo2 = eo_ids[1];
+      return ExternalObjects.findOne({"id": eo2 }).name;
+    }
+    else{
+      return false;
+    }
+  },
 });
 
 
