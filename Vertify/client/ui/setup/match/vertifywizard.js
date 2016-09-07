@@ -453,7 +453,38 @@ Template.vwFinish.helpers({
       return null;
     }
   },
-})
+  filter_options(){
+    var ws = Session.get("currentWs");
+    var msId = Session.get("setupId");
+    if(ws && msId){
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      console.log(msObj);
+      return msObj;
+    }else{
+      return null;
+    }
+  },
+  match_fields(){
+    var ws = Session.get("currentWs");
+    var msId = Session.get("setupId");
+    if(ws && msId){
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      console.log(msObj)
+      return msObj.match_fields;
+    }else{
+      return null;
+    }
+  },
+  getObject1: function(eo_ids){
+    var eo1 = eo_ids[0];
+    return ExternalObjects.findOne({"id": eo1 });
+  },
+  getObject2: function(eo_ids){
+    var eo2 = eo_ids[1];
+    return ExternalObjects.findOne({"id": eo2 });
+  }
+});
+
 
 Meteor.subscribe('external_objects', function (){
   console.log( "Match Wizard - ExternalObjects now subscribed.");
