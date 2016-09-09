@@ -57,10 +57,36 @@ Template.match.helpers({
     }
     return false;
   },
+  vertifyObjectCount : function(){
+    var ws = Session.get("currentWs");
+    if(ws == null){
+      return false;
+    }
+
+    var count = VertifyObjects.find({"workspace_id": ws.id}).count();
+    if(count > 0)
+    {
+      return count.toString() + " objects";
+    }
+    return "0 objects";
+  },
   matchCompleted : function(){
-    //TODO: add logic to verify if object match results exists
-    return true;
-  }
+    var ws = Session.get("currentWs");
+    if(ws == null){
+      return false;
+    }
+
+    var voApproved = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true});
+    console.log("vo approved: ");
+    console.log(voApproved);
+    var count = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true}).count();
+    if(count > 0)
+    {
+
+      return true;
+    }
+    return false;
+  },
 });
 
 Template.matchVertifyObjects.helpers({
@@ -104,7 +130,7 @@ Template.vertifyObjectli.helpers({
 Template.matchCompleteFooter.events({
   'click .returnToList' : function(e){
     console.log('Match - returnToList event clicked.');
-    //FlowRouter.go('/setup/collect');
+    FlowRouter.go('/setup/match');
   },
   'click .viewMatchRecords' : function(e){
     console.log('Match - viewMatchRecords event clicked.');

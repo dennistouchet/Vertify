@@ -303,7 +303,7 @@ function initNavitems(){
 }
 
 function initTasks(){
-
+  //TODO init tasks (one of each?)
 }
 
 function initWorkspaces(){
@@ -921,6 +921,7 @@ function initVertifyObjects() {
     inbound: VertifyObjectExternalObjectInbound1,
     outbound: VertifyObjectExternalObjectOutbound1,
     match: VertifyObjectMatch1,
+    approved: false,
     is_truth: true
   }
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject1);
@@ -1005,6 +1006,7 @@ function initVertifyObjects() {
     inbound: VertifyObjectExternalObjectInbound2,
     outbound: VertifyObjectExternalObjectOutbound2,
     match: VertifyObjectMatch2,
+    approved: false,
     is_truth: false
   }
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject2);

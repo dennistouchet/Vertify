@@ -3,6 +3,9 @@ import { Template } from 'meteor/templating';
 import './process.html';
 
 Template.process.helpers({
+  incompleteMatch : function(){
+    return true;
+  }
 });
 
 Template.process.events({

@@ -1,6 +1,12 @@
 <template name="process">
   <section class="right_col" role="main" style="height:900px;">
-    {{> processZeroData}}
+    {{#if incompleteMatch}}
+      {{> processZeroData}}
+    {{else}}
+      {{> matchProcessCompleteHeader}}
+      {{> matchProcessResults}}
+      {{> matchProcessCompleteFooter}}
+    {{/if}}
   </section>
 </template>
 
@@ -13,7 +19,7 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <h4 style="padding-left:10px">Since this is the first time you are matching your records, consider testing the match on a small subset of records. Choose a matching option below:
+      <h4 style="padding-left:10px">Since this is the first time you are matching your records, consider testing the match on a small subset of records (Max 500). Choose a matching option below:
       </h4>
     </div>
   </div>
@@ -25,13 +31,64 @@
       <div class="radio" style="width:50%; margin: 0 auto;">
         <label><input type="radio" data-id="{{id}}" name="processradio" value="criteria"> Match only records that meet the following criteria:</label>
       </div>
-      <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" data-id="{{id}}" name="processradio" value="all"> Match all records</label>
+    </div>
+  </div>
+</template>
+
+
+<template name="matchProcessCompleteHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Match process complete. <strong>Nan</strong> out of <strong>NaN</strong> records matched.<br/>
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Review the match results to determine if the match rule is correct, then edit the match rule or accept the match to match all records.<br/>
+      </h4>
+    </div>
+  </div>
+</template>
+
+<template name="matchProcessResults">
+  <div class="row">
+    <div class="col-md-12">
+    <h4><strong>Match Results</strong></h4>
+      <div class="x_panel" style="height:100px;">
+        TODO: Match results table
+        Missing Reqs: Match Results mock data.
       </div>
     </div>
   </div>
 </template>
 
-<template name="processComplete">
 
+<template name="matchProcessCompleteFooter">
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+        Return to List
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary viewMatchRecords" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-eye-open"></i>
+        View Match Records
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary editMatchRules" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-edit"></i>
+        Edit Filter/Match Rules
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary acceptMatchModal" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Accept Match
+      </button>
+    </div>
+  </div>
 </template>

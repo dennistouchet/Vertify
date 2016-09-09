@@ -127,6 +127,8 @@ export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
   match:
     { type: VertifyObjectMatchSchema
     , optional: true },
+  approved:
+    { type: Boolean },
   is_truth :
     { type: Boolean }
 });
