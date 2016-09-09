@@ -1,11 +1,24 @@
 <template name="match">
   <section class="right_col" role="main" style="height:900px;">
     <div class="">
-      {{> matchZeroDataHeader}}
-      {{#if hasVertifyObjects}}
-        {{> matchVertifyObjects}}
-      {{/if}}
-      {{> matchRecommendations}}
+      <div class="row">
+        <h1 class="page_title">{{#if hasVertifyObjects}}Match{{else}}Match / New Vertify Object{{/if}}</h1>
+        <div id="addErrConnect" class="alert alert-danger" style="display:none;"></div>
+          {{#if hasVertifyObjects}}
+            {{#if matchCompleted}}
+              {{> matchCompleteHeader}}
+              {{> matchResults}}
+              {{> matchCompleteFooter}}
+            {{else}}
+              {{> matchVertifyObjects}}
+              {{> matchAddCustomVertifyObj}}
+              {{> matchRecommendations}}
+            {{/if}}
+          {{else}}
+            {{> matchZeroDataHeader}}
+            {{> matchRecommendations}}
+          {{/if}}
+      </div>
     </div>
   </section>
 </template>
@@ -22,15 +35,17 @@
       </h4>
     </div>
   </div>
-  <div class="row">
-    {{> matchAddCustomVertifyObj}}
-  </div>
+  {{> matchAddCustomVertifyObj}}
 </template>
 
 <template name="matchVertifyObjects">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
-      Vertify Object | Matched Objects | System of Truth | Filtered | Actions
+      <div class="col-md-2">Vertify Object </div>
+      <div class="col-md-3">Matched Objects </div>
+      <div class="col-md-2">System of Truth </div>
+      <div class="col-md-2">Records Matched </div>
+      <div class="col-md-2">Actions </div>
     </div>
     <div>
       {{#if Template.subscriptionsReady}}
@@ -44,38 +59,107 @@
 
 <template name="vertifyObjectli">
   <div style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
-    Vertify Objects Id: {{id}} | Name: {{name}}
-    | Workspace: {{workspace_id}} | Level: {{level}} | Truth Object Id: {{truth_object_id}}
-    | Objects:
-    | System of Truth:
-    | Filter:
-    <div class="dropdown" style="display:inline-block;">
-      <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
-        Match
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu voddl">
-        <li><a href="#"> Add Object</a></li>
-        <li><a href="#"> Edit</a></li>
-        <li><a href="#"> Delete</a></li>
-      </ul>
+    <div class="col-md-2">{{name}} </div>
+    <div class="col-md-3" >
+      {{#each external_objects}}
+        {{getExternalObjectName external_object_id}}<br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      {{#each external_objects}}
+        {{#if is_truth}} X{{else}} &nbsp;{{/if}}<br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      {{#each external_objects}}
+        {{getExternalObjectRecords external_object_id}} <br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      <div class="dropdown" style="display:inline-block;">
+        <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+          Options
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu voddl">
+          <li><a href="#">Match</a></li>
+          <li><a href="#"> Add Object</a></li>
+          <li><a href="#"> Edit</a></li>
+          <li><a href="#"> Delete</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <template name="matchAddCustomVertifyObj">
-  <div class="col-md-3">
-    <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-      <a href="/setup/match/vertifywizard">
-        <i class="glyphicon glyphicon-plus"></i>
-        Add Custom Vertify Object
-        </a>
-    </button>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+        <a href="/setup/match/vertifywizard">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add Custom Vertify Object
+          </a>
+      </button>
+    </div>
+    <div class="col-md-6"> </div>
   </div>
-  <div class="col-md-6"> </div>
 </template>
 
-<template name="matchHeader">
+<template name="matchCompleteHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Match process complete. <strong>Nan</strong> out of <strong>NaN</strong> records matched.<br/>
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Review the match results to determine if the match rule is correct, then edit the match rule or accept the match to match all records.<br/>
+      </h4>
+    </div>
+  </div>
+</template>
 
+<template name="matchResults">
+  <div class="row">
+    <div class="col-md-12">
+    <h4><strong>Match Results</strong></h4>
+      <div class="x_panel" style="height:100px;">
+        TODO: Match results table
+        Missing Reqs: Match Results mock data.
+      </div>
+    </div>
+  </div>
+</template>
+
+
+<template name="matchCompleteFooter">
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+        Return to List
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary viewMatchRecords" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-eye-open"></i>
+        View Match Records
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary editMatchRules" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-edit"></i>
+        Edit Filter/Match Rules
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary acceptMatchModal" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Accept Match
+      </button>
+    </div>
+  </div>
 </template>
 
 <template name="matchRecommendations">

@@ -56,6 +56,10 @@ Template.match.helpers({
       return true;
     }
     return false;
+  },
+  matchCompleted : function(){
+    //TODO: add logic to verify if object match results exists
+    return true;
   }
 });
 
@@ -81,6 +85,41 @@ Template.match.events({
       e.preventDefault();
       console.log('Match - addCustom event clicked.');
       FlowRouter.go('/setup/match/vertifywizard');
+  },
+});
+
+Template.vertifyObjectli.helpers({
+  getExternalObjectName : function(eo_id){
+    var ws = Session.get("currentWs");
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    return eo.name;
+  },
+  getExternalObjectRecords : function(eo_id){
+    var ws = Session.get("currentWs");
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    return eo.record_count;
+  },
+});
+
+Template.matchCompleteFooter.events({
+  'click .returnToList' : function(e){
+    console.log('Match - returnToList event clicked.');
+    //FlowRouter.go('/setup/collect');
+  },
+  'click .viewMatchRecords' : function(e){
+    console.log('Match - viewMatchRecords event clicked.');
+    //FlowRouter.go('/setup/collect');
+  },
+  'click .editMatchRules' : function(e){
+    console.log('Match - editMatchRules event clicked.');
+    //FlowRouter.go('/setup/collect');
+  },
+  'click .acceptMatchModal' : function(e){
+      e.preventDefault();
+
+      ModalHelper.openMatchConfirmModalFor();
+
+      console.log("Match - complete match modal clicked");
   },
 });
 

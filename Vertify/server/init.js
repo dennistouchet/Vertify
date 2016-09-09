@@ -28,8 +28,8 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
-MatchSetup.remove({});
-console.log("temp MatchSetup collection deleted");
+//MatchSetup.remove({});
+//console.log("temp MatchSetup collection deleted");
 
 initTasks();
 

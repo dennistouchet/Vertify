@@ -116,7 +116,8 @@ Template.vertifywizard.events({
           errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a name for your Vertify Object and select the system of truth.</li>";
         }
       }
-      FlowRouter.go('/setup/match');
+      Meteor.tools.convertMatchSetuptoVertifyObj(ws.id, msId);
+      //FlowRouter.go('/setup/match');
     }
     else{
       msId = Session.get("setupId");

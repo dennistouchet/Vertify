@@ -66,17 +66,19 @@ export const VertifyObjectExternalObjectInboundSchema = new SimpleSchema({
 
 export const VertifyObjectMatchGroupGroupSchema = new SimpleSchema({
   external_property:
-    { type: String
-    , optional: true },
+    { type: String},
   operator:
     { type: String
     , allowedValues: operators },
   vertify_property:
-    { type: String
-    ,  optional: true },
+    { type: String },
   confidence:
     { type: Number
       , optional: true },
+  group:
+    { type: [VertifyObjectMatchGroupGroupSchema]
+    , optional: true
+    , blackbox: true }
 });
 
 export const VertifyObjectMatchGroupSchema = new SimpleSchema({

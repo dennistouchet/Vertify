@@ -5,7 +5,6 @@ import { VertifyObjects } from "../imports/collections/tenant/vertify_object.js"
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 
 Meteor.tools = {
-
   CapitalizeFirstLetter : function(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
   },
@@ -107,6 +106,10 @@ Meteor.tools = {
     else{
       return false;
     }
+  },
+  convertMatchSetuptoVertifyObj : function(wsid, msid){
+    console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
+    alert("convertMStoVO called.");
   },
 }
 
