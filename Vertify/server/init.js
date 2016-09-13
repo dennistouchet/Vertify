@@ -413,7 +413,7 @@ function initSystems(){
 
   // create system objects
   var Netsuite = {
-    tenant_id: 000000,
+    tenant_id: 100000,
     id: '000000',
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
@@ -430,7 +430,7 @@ function initSystems(){
   };
 
   var Marketo = {
-    tenant_id: 000000,
+    tenant_id: 100000,
     id: '111111',
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
@@ -447,7 +447,7 @@ function initSystems(){
   };
 
   var Salesforce = {
-    tenant_id: 000000,
+    tenant_id: 222222,
     id: '222222',
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
@@ -464,7 +464,7 @@ function initSystems(){
   };
 
   var Vertify = {
-    tenant_id: 000000,
+    tenant_id: 111111,
     id: '333333',
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
@@ -538,7 +538,6 @@ function initConnectors() {
     namespace: "Elixir.Connector.Netsuite",
     default_prefix: "NS",
     requires_agent: false,
-    tenant_id: 000000,
     settings: ConnectorsSettings2
   };
 
@@ -550,7 +549,6 @@ function initConnectors() {
     namespace: "Elixir.Connector.Marketo",
     default_prefix: "MK",
     requires_agent: false,
-    tenant_id: 000000,
     settings: ConnectorsSettings1
   };
 
@@ -562,7 +560,6 @@ function initConnectors() {
     namespace: "Elixir.Connector.Salesforce",
     default_prefix: "SF",
     requires_agent: false,
-    tenant_id: 000000,
     settings: ConnectorsSettings2
   };
 
@@ -574,7 +571,6 @@ function initConnectors() {
     namespace: "Elixir.Connector.Vertify",
     default_prefix: "VF",
     requires_agent: false,
-    tenant_id: 000000,
     settings: ConnectorsSettings1
   };
 

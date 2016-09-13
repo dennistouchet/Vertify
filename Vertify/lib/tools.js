@@ -1,6 +1,7 @@
 import { Meteor } from  "meteor/meteor";
 import { Systems } from "../imports/collections/tenant/system.js";
 import { ExternalObjects } from "../imports/collections/tenant/external_object.js";
+import { MatchSetup } from "../imports/collections/tenant/match_setup.js";
 import { VertifyObjects } from "../imports/collections/tenant/vertify_object.js";
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 
@@ -109,7 +110,25 @@ Meteor.tools = {
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){
     console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
-    alert("convertMStoVO called.");
+
+    //TODO: Check Vertify object with current External Object doesn't already exist.
+
+    MatchObject = MatchSetup.findOne({"id": msid, "workspace_id": wsid});
+    if(MatchObject){
+      //Create new VO
+      if(MatchObject.new_object){
+
+          Meteor.call('vertify_objects.insert', MatchObject);
+
+      }//Update Existing VO
+      else{
+          Meteor.call('vertify_objects.update', MatchObject);
+      }
+    }
+    else{
+      throw new Meteor.Error("Error","Error Retrieving Match Setup Object");
+    }
+    alert("convertMStoVO completed.");
   },
 }
 

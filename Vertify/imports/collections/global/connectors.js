@@ -29,8 +29,6 @@ Connectors.schema = new SimpleSchema({
     { type: String },
   requires_agent:
     { type: Boolean },
-  tenant_id:
-    { type: Number },
   settings:
     { type: [ConnectorsSettingsSchema]
       , optional: true }

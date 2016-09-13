@@ -1,0 +1,370 @@
+[
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909585)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909575)",
+      "autem": "(150) 888-2055",
+      "eos": "2009-12-29 11:14:24Z",
+      "facere": "255-707-8872",
+      "molestias": "2011-08-18 19:21:02Z",
+      "reprehenderit": "(222) 096-0998"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909565)",
+        "architecto": "pfannerstill@wade.com",
+        "blanditiis": "(150) 888-2055",
+        "et": "corwin.august@lucas.com",
+        "molestiae": "keagan.welch@dewayne.name",
+        "sed": "083.619.4705"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909586)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909576)",
+      "autem": "2009-08-22 18:25:56Z",
+      "eos": "walton.gaylord@miguel.com",
+      "facere": "2007-09-01 05:03:19Z",
+      "molestias": "384 Harber Expressway",
+      "reprehenderit": "2008-11-09 11:39:26Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909566)",
+        "architecto": "santina@kobe.com",
+        "blanditiis": "2009-08-22 18:25:56Z",
+        "et": "huel@clyde.org",
+        "molestiae": "729 Robyn Manor",
+        "sed": "904-063-6444"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909587)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909577)",
+      "autem": "flo@derrick.com",
+      "eos": "5224 Reinger Spurs",
+      "facere": "langworth.sister@erika.io",
+      "molestias": "5.40",
+      "reprehenderit": "819 Jerde Drives"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909567)",
+        "architecto": "(949) 993-5826",
+        "blanditiis": "flo@derrick.com",
+        "et": "28.13",
+        "molestiae": "2016-05-24 01:12:23Z",
+        "sed": "120.280.1585"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909588)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909578)",
+      "autem": "1-214-498-0963",
+      "eos": "murl.romaguera@ena.biz",
+      "facere": "champlin@ahmed.org",
+      "molestias": "hillard.douglas@lenna.name",
+      "reprehenderit": "2011-02-28 05:14:52Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909568)",
+        "architecto": "2014-03-20 06:38:04Z",
+        "blanditiis": "1-214-498-0963",
+        "et": "2013-11-05 07:01:25Z",
+        "molestiae": "8.5",
+        "sed": "coleman.yost@junius.biz"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909589)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909579)",
+      "autem": "999 Price Extension",
+      "eos": "barton.raymond@parker.com",
+      "facere": "2010-04-27 10:47:42Z",
+      "molestias": "2007-07-10 02:16:38Z",
+      "reprehenderit": "2008-10-05 17:33:49Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909569)",
+        "architecto": "2010-11-28 18:44:56Z",
+        "blanditiis": "999 Price Extension",
+        "et": "761.208.2135",
+        "molestiae": "033 Chasity Mountain",
+        "sed": "ziemann.rosetta@charity.name"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958a)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957a)",
+      "autem": "48.2",
+      "eos": "42807 Elda Throughway",
+      "facere": "josefa.boyer@rosalinda.com",
+      "molestias": "chaim@doug.biz",
+      "reprehenderit": "1.95"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956a)",
+        "architecto": "2016-01-31 14:40:35Z",
+        "blanditiis": "48.2",
+        "et": "7.35",
+        "molestiae": "47.16",
+        "sed": "10.93"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958b)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957b)",
+      "autem": "424 Effertz Mountain",
+      "eos": "2008-10-30 20:10:07Z",
+      "facere": "399-540-5792",
+      "molestias": "8.13",
+      "reprehenderit": "4.7"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956b)",
+        "architecto": "murphy.dorris@fatima.net",
+        "blanditiis": "424 Effertz Mountain",
+        "et": "63.25",
+        "molestiae": "2009-07-28 20:03:39Z",
+        "sed": "393 Harley Fords"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958c)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957c)",
+      "autem": "moore@devan.io",
+      "eos": "4.65",
+      "facere": "2009-09-28 14:33:39Z",
+      "molestias": "27.49",
+      "reprehenderit": "2010-01-22 07:48:53Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956c)",
+        "architecto": "1-680-108-8328",
+        "blanditiis": "moore@devan.io",
+        "et": "7.1",
+        "molestiae": "20.7",
+        "sed": "maximus@reta.io"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958d)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957d)",
+      "autem": "50200 Dusty Spurs",
+      "eos": "4434 Hahn Passage",
+      "facere": "dickinson@freddy.com",
+      "molestias": "863 Ocie Estate",
+      "reprehenderit": "140.152.3694"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956d)",
+        "architecto": "(978) 720-1196",
+        "blanditiis": "50200 Dusty Spurs",
+        "et": "2011-04-26 03:39:17Z",
+        "molestiae": "magali.balistreri@violette.name",
+        "sed": "2.9"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958e)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957e)",
+      "autem": "2006-11-14 07:09:20Z",
+      "eos": "8.9",
+      "facere": "66.9",
+      "molestias": "44.21",
+      "reprehenderit": "128 Koch Trace"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956e)",
+        "architecto": "351 Ottilie Skyway",
+        "blanditiis": "2006-11-14 07:09:20Z",
+        "et": "1-794-471-4702",
+        "molestiae": "2015-01-31 10:08:22Z",
+        "sed": "5.65"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f90958f)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f90957f)",
+      "autem": "4324 Vandervort Light",
+      "eos": "5771 Macejkovic Meadow",
+      "facere": "7713 Polly Trafficway",
+      "molestias": "2013-09-19 06:34:04Z",
+      "reprehenderit": "cale@lurline.net"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f90956f)",
+        "architecto": "kohler.cortez@jarrod.io",
+        "blanditiis": "4324 Vandervort Light",
+        "et": "9352 Conn Meadows",
+        "molestiae": "7.2",
+        "sed": "schmitt@beau.io"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909590)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909580)",
+      "autem": "54532 Marilyne Oval",
+      "eos": "2015-12-27 16:42:20Z",
+      "facere": "399 Larissa Prairie",
+      "molestias": "5.4",
+      "reprehenderit": "jast@guiseppe.net"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909570)",
+        "architecto": "89735 Dallas Mountains",
+        "blanditiis": "54532 Marilyne Oval",
+        "et": "56.8",
+        "molestiae": "2012-09-21 19:14:47Z",
+        "sed": "2007-02-06 12:02:04Z"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909591)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909581)",
+      "autem": "4.17",
+      "eos": "168.021.2042",
+      "facere": "stanton@rosamond.info",
+      "molestias": "0303 Al Lane",
+      "reprehenderit": "13.7"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909571)",
+        "architecto": "606 Travis Roads",
+        "blanditiis": "4.17",
+        "et": "1085 Wintheiser Stream",
+        "molestiae": "1-286-663-7898",
+        "sed": "34.7"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909592)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909582)",
+      "autem": "2008-04-17 00:04:47Z",
+      "eos": "1-222-766-7934",
+      "facere": "brain.zemlak@asa.name",
+      "molestias": "2008-06-29 21:47:16Z",
+      "reprehenderit": "1-454-504-0172"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909572)",
+        "architecto": "70.44",
+        "blanditiis": "2008-04-17 00:04:47Z",
+        "et": "87.75",
+        "molestiae": "1585 Douglas Plains",
+        "sed": "7.26"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909593)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909583)",
+      "autem": "2016-03-02 10:42:12Z",
+      "eos": "950.393.2415",
+      "facere": "143 Emard Land",
+      "molestias": "44.32",
+      "reprehenderit": "2016-07-05 17:05:15Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909573)",
+        "architecto": "2010-09-30 03:38:17Z",
+        "blanditiis": "2016-03-02 10:42:12Z",
+        "et": "071 Dietrich Lake",
+        "molestiae": "1-775-863-6097",
+        "sed": "52.90"
+      }
+    ],
+    "truth": "harum"
+  },
+  {
+    "_id": "ObjectId(57d72f7c233e28d79f909594)",
+    "collection": "a",
+    "external_item": {
+      "_id": "ObjectId(57d72f7c233e28d79f909584)",
+      "autem": "059.751.9984",
+      "eos": "2013-02-10 07:54:11Z",
+      "facere": "4.78",
+      "molestias": "76.4",
+      "reprehenderit": "2016-03-11 18:49:43Z"
+    },
+    "matches": [
+      {
+        "_id": "ObjectId(57d72f7c233e28d79f909574)",
+        "architecto": "22.60",
+        "blanditiis": "059.751.9984",
+        "et": "okey.cronin@andre.io",
+        "molestiae": "7513 Becker Crest",
+        "sed": "2011-12-13 20:00:14Z"
+      }
+    ],
+    "truth": "harum"
+  }
+]
