@@ -8,8 +8,6 @@ var operators = [ "eq", "ne", "gt", "gte", "lt", "lte", "in", "nin", "like", "no
 
 Meteor.methods({
   'vertify_objects.insert'(MatchObject){
-    console.log("vertify_objects.insert called");
-
     var eoinbound = {
       sync_action: ["add", "update", "delete"],
       filter: null
@@ -76,10 +74,8 @@ Meteor.methods({
       external_objects: newExternalObjects
     };
 
-    console.log(newVertifyObject);
     VertifyObjects.schema.validate(newVertifyObject);
     VertifyObjects.insert(newVertifyObject);
-    console.log('insert completed');
   },
   'vertify_objects.update'(MatchObject){
     //TODO

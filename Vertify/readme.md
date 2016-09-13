@@ -4,20 +4,43 @@
 
   List of Session Variables:
 
-    currentWS
+    `currentWS`
       Set on TopNav.js
 
-    selectedSystem
+    `selectedSystem`
       Set on open-modal.js and used by systemeditmodal.js
 
-    selectedWorkspace
+    `selectedWorkspace`
       Set on open-modal.js and used by wseditmodal.js
 
-    systemCount
+    `systemCount`
       Set on connect.js and collect.js
 
-    objectCount
+    `objectCount`
       Set on collect.js
+
+    `setupId`
+      Set on vertifywizard.js
+      
+# Meteor Method calls
+
+  Meteor calls are asynchronous and values from the call may not be present after the call completes (ex. newid)
+  use caution when editing any values after Meteor.calls. Example:
+
+  ```
+  var newid = Meteor.call('collection.insert', parameters
+  , (err, res) => {
+    if(err){
+      //console.log(err);
+    }
+    else{
+      //success
+      //Make value changes here
+    }
+  });
+  // code run here may not have the latest values
+  // (e.g. newid will probably be undefined here)
+  ```
 
 #Security
 

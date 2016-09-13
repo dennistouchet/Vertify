@@ -128,7 +128,15 @@ Meteor.tools = {
     else{
       throw new Meteor.Error("Error","Error Retrieving Match Setup Object");
     }
-    alert("convertMStoVO completed.");
+  },
+  proceedToNextStep : function (t, step){
+    t.currentTab.set( step );
+
+    var tabs = $(".nav-pills li");
+    tabs.removeClass("active");
+
+    var currentTab = $("ul").find("[data-template='" + step + "']");
+    currentTab.addClass("active");
   },
 }
 

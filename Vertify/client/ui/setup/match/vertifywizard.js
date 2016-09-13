@@ -107,7 +107,9 @@ Template.vertifywizard.events({
               return;
             }
             else{
-              console.log("successful finish edit/update");
+              //SUCCESS
+              Meteor.tools.convertMatchSetuptoVertifyObj(ws.id, msId);
+              FlowRouter.go('/setup/match');
             }
           });
         }else{
@@ -116,8 +118,6 @@ Template.vertifywizard.events({
           errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a name for your Vertify Object and select the system of truth.</li>";
         }
       }
-      Meteor.tools.convertMatchSetuptoVertifyObj(ws.id, msId);
-      //FlowRouter.go('/setup/match');
     }
     else{
       msId = Session.get("setupId");
@@ -135,7 +135,7 @@ Template.vertifywizard.events({
                       return;
                     }
                     else{
-                      console.log("successful edit/update");
+                      Meteor.tools.proceedToNextStep(t, steps[index]);
                     }
                   });
                 }else{
@@ -149,15 +149,11 @@ Template.vertifywizard.events({
                       return;
                     }
                     else{
-                      console.log("res: " + res);
                       Session.set("setupId", res);
-                      newid = res;
-                      console.log("newid inside call: " + newid);
+                      Meteor.tools.proceedToNextStep(t, steps[index]);
                     }
                   });
                 }
-                // NOTE: Meteor call is asynchronous and values from the call may not be present here (ex. newid)
-                // use caution when editing any values after this Meteor.call
                 break;
         case 2: console.log("select next clicked - moving to filter");
                 if(msId){
@@ -186,7 +182,7 @@ Template.vertifywizard.events({
                             return;
                           }
                           else{
-                            console.log("successful edit/update");
+                            Meteor.tools.proceedToNextStep(t, steps[index]);
                           }
                         });
                       }
@@ -224,7 +220,7 @@ Template.vertifywizard.events({
                         return;
                       }
                       else{
-                        console.log("successful filter edit/update");
+                        Meteor.tools.proceedToNextStep(t, steps[index]);
                       }
                     });
                 }
@@ -235,10 +231,8 @@ Template.vertifywizard.events({
                   if(match_setup){
                     var ids = match_setup.eo_ids;
                     var field1 = document.getElementById("field" + ids[0]).value;
-                    console.log(field1);
                     var i1 = ids[0];
                     var field2 = document.getElementById("field" + ids[1]).value;
-                    console.log(field2);
                     var i2 = ids[1];
                     var pm = document.getElementById("percentMatch").getAttribute("data-value");
 
@@ -260,24 +254,14 @@ Template.vertifywizard.events({
                         return;
                       }
                       else{
-                        console.log("successful match edit/update");
+                        Meteor.tools.proceedToNextStep(t, steps[index]);
                       }
                     });
                   }
                 }
                 break;
-        default:console.log("defaulted");
-
+        default: console.log("defaulted");
       }
-
-      t.currentTab.set( steps[index] );
-
-      var tabs = $(".nav-pills li");
-      tabs.removeClass("active");
-
-      var currentTab = $("ul").find("[data-template='" + steps[index] + "']");
-      currentTab.addClass("active");
-      //TODO: SET NEXT BUTTON TEXT TO FINISH
     }
   },
   'click .back' : function(e,t){

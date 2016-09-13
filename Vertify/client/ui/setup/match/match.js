@@ -112,6 +112,10 @@ Template.match.events({
       console.log('Match - addCustom event clicked.');
       FlowRouter.go('/setup/match/vertifywizard');
   },
+  'click .voddl li a' : function(e, t){
+    console.log("dropdown event clicked:");
+    console.log(e.target);
+  },
 });
 
 Template.vertifyObjectli.helpers({
