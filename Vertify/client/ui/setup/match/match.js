@@ -115,10 +115,16 @@ Template.match.events({
   'click .voddl li a' : function(e, t){
     console.log("dropdown event clicked:");
     console.log(e.target);
+    if(e.target.text.trim() == 'Match'){
+      FlowRouter.go('/setup/match/process')
+    }
+    else{
+      console.log(e.target.text);
+    }
   },
 });
 
-Template.vertifyObjectli.helpers({
+Template.matchVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});

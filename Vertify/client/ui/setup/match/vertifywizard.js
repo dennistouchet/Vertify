@@ -48,19 +48,6 @@ Template.vertifywizard.helpers({
     }
     return false;
   },
-  moveNext : function(){
-    //TODO: pausing template change while waiting for meteor response
-    //display loading on click
-    //setup flag to false
-    //meteor call
-    //set flag to true
-    var moveFlag = false;
-    if(moveFlag){
-      //todo
-    }else{
-      //todo
-    }
-  }
 });
 
 Template.vertifywizard.events({

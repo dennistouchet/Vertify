@@ -26,12 +26,54 @@
   <div class="row">
     <div class="col-md-12">
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" data-id="{{id}}" name="processradio" value="count" checked> Match first 100 records found</label>
+        <label><input type="radio" name="processradio" value="count" checked> Match first 100 records found</label>
       </div>
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" data-id="{{id}}" name="processradio" value="criteria"> Match only records that meet the following criteria:</label>
+        <label><input type="radio" name="processradio" value="criteria"> Match only records that meet the following criteria:</label>
       </div>
     </div>
+  </div>
+  <div class="row">
+    <div id="filterCriteria" style="display:none;">
+      <div class="col-md-1"></div>
+      <div class="input-group col-md-3" >
+        <input type="text" class="form-control" id="extobjprop" name="extobjprop" placeholder="[Select field]"/>
+        <div class="input-group-btn" >
+          {{#if Template.subscriptionsReady}}
+            <button type="button" class="btn btn-default dropdown-toggle extobjpropddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right objddl">
+              {{#each properties}}
+                <li data-name="{{name}}"><a href="#">{{name}}</a></li>
+              {{else}}
+                <li> No Existing Propreties</li>
+              {{/each}}
+            </ul>
+          {{else}}
+            Loading Objects...
+          {{/if}}
+        </div><!-- /btn-group -->
+      </div><!-- /input-group -->
+      <div id="operator" class="input-group col-md-1" >
+        <input type="text" class="form-control" id="extobjop" name="extobjop"  />
+        <div class="input-group-btn" >
+            <button type="button" class="btn btn-default dropdown-toggle extobjopddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+            <ul class="dropdown-menu dropdown-menu-right opddl">
+                <li data-value="="><a href="#"> = </a></li>
+                <li data-value="!="><a href="#"> != </a></li>
+                <li data-value="<"><a href="#"> &lt; </a></li>
+                <li data-value=">"><a href="#"> &gt; </a></li>
+            </ul>
+        </div><!-- /btn-group -->
+      </div><!-- /input-group -->
+      <div id="matchProcessCriteria" class="col-md-3">
+        <input  class="form-control" type="text" name="extobjprop" placeholder="[Enter Value]"/>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-default pull-right"  >Cancel</button>
+    <button type="button" class="btn btn-primary pull-right" id="save">Match</button>
   </div>
 </template>
 
