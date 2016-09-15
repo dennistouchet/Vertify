@@ -68,6 +68,8 @@ Meteor.methods({
 
     Systems.schema.validate(newSystem);
     Systems.insert(newSystem);
+
+    return intid.toString();
   },
   'systems.remove'(currentid){
     check(currentid, String)

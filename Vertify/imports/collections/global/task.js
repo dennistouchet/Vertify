@@ -5,7 +5,7 @@ import { check } from 'meteor/check';
 export const Tasks = new Mongo.Collection('tasks');
 
 Meteor.methods({
-  'tasks.insert'(wsid, sysid,  t){
+  'tasks.insert'(t, wsid, sysid){
     check(sysid , String);
     check(wsid , String);
     check(t , String);
@@ -57,7 +57,7 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
   task:
     { type: String
-    , allowedValues: [ "authentication", "discover", "collectschema", "collect", "match", "align"]
+    , allowedValues: [ "authentication", "discover", "collectschema", "collect", "matchtest", "match", "aligntest", "align"]
     },
   load:
     { type: String
@@ -118,10 +118,10 @@ Tasks.schema = new SimpleSchema({
   system_id:
     { type: String
     , optional: true},
-  object_id:
+  external_object_id:
     { type: String
     , optional: true },
-  object_map_id:
+  vertify_object_id:
     { type: String
     , optional: true },
   source_object_id:
@@ -132,17 +132,14 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
 
   // TASK OPTIONS
-  type:
-    { type: String
-    , optional: true  },
   collect_options:
-    { type: String
+    { type: [Object]
     , optional: true },
   match_options:
-    { type: String
+    { type: [Object]
     , optional: true },
   align_options:
-    { type: String
+    { type: [Object]
     , optional: true },
   user_number:
     { type: Number

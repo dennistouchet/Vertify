@@ -41,6 +41,8 @@ Meteor.methods({
     };
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
+
+    return newid;
   },
   'external_objects.remove'(currentid, wsid){
     check(currentid, String)

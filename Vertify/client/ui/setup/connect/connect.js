@@ -215,21 +215,6 @@ Template.connectSysZeroData.events({
       }
       if(nmexists == null && pfexists == null && setErr == 0){
 
-        Meteor.call('tasks.insert', wsid, sysInfoId, "discover"
-        , (err, res) => {
-          if(err){
-            //console.log(err);
-            errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
-            //return false;
-            return;
-          }
-          else {
-            // successful call
-            // return true;
-          }
-        });
-
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
@@ -240,9 +225,34 @@ Template.connectSysZeroData.events({
               //return false;
             }
             else {
-              // successful call
-              // return true;
-              Modal.hide('systemaddmodal');
+              Meteor.call('tasks.insert', "authenticate", wsid, res
+              , (err, res) => {
+                if(err){
+                  //console.log(err);
+                  errDiv.style.display = 'block';
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                  //return false;
+                  return;
+                }
+                else {
+                  // successful call
+                  Meteor.call('tasks.insert', "discover", wsid, res
+                  , (err, res) => {
+                    if(err){
+                      //console.log(err);
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      //return false;
+                      return;
+                    }
+                    else {
+                      // successful call
+
+                      Modal.hide('systemaddmodal');
+                    }
+                  });
+                }
+              });
             }
           });
       }

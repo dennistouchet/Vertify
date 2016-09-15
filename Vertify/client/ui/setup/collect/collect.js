@@ -183,6 +183,34 @@ Template.collect.events({
           else {
             // successful call
             // return true;
+            Meteor.call('tasks.insert', "collectschema", wsid, res
+            , (err, res) => {
+              if(err){
+                //console.log(err);
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                //return false;
+                return;
+              }
+              else {
+                // successful call
+                Meteor.call('tasks.insert', "collect", wsid, res
+                , (err, res) => {
+                  if(err){
+                    //console.log(err);
+                    errDiv.style.display = 'block';
+                    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                    //return false;
+                    return;
+                  }
+                  else {
+                    // successful call
+
+                    Modal.hide('systemaddmodal');
+                  }
+                });
+              }
+            });
           }
         });
     }
