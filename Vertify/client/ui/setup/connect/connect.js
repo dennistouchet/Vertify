@@ -225,23 +225,24 @@ Template.connectSysZeroData.events({
               //return false;
             }
             else {
-              Meteor.call('tasks.insert', "authenticate", wsid, res
-              , (err, res) => {
-                if(err){
+              Meteor.call('tasks.insert', "authentication", ws.id, res
+              , (error, result) => {
+                if(error){
                   //console.log(err);
                   errDiv.style.display = 'block';
-                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
                   //return false;
                   return;
                 }
                 else {
                   // successful call
-                  Meteor.call('tasks.insert', "discover", wsid, res
+                  console.log(res)
+                  Meteor.call('tasks.insert', "discover", ws.id, res
                   , (err, res) => {
                     if(err){
                       //console.log(err);
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
                       //return false;
                       return;
                     }

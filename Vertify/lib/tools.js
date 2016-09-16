@@ -69,7 +69,7 @@ Meteor.tools = {
   },
   collectStatus : function(wsid){
     var externalObjectCount = ExternalObjects.find({"workspace_id": wsid}).count();
-    if(externalObjectCount > 1)
+    if(this.connectStatus(wsid) && (externalObjectCount > 1))
     {
       return true;
     }
@@ -78,7 +78,7 @@ Meteor.tools = {
   matchStatus : function(wsid){
     //TODO: adjust to be more precise
     var vertifyObjectsCompleted = VertifyObjects.findOne({"workspace_id": wsid});
-    if(vertifyObjectsCompleted){
+    if(this.collectStatus(wsid) && vertifyObjectsCompleted){
       return true;
     }
     return false;
@@ -86,7 +86,7 @@ Meteor.tools = {
   alignStatus : function(wsid){
     //TODO: adjust to be more precise
     var vertifyPropertiesComplete = VertifyProperties.findOne({"workspace_id": wsid});
-    if(vertifyPropertiesComplete){
+    if(this.matchStatus(wsid) && vertifyPropertiesComplete){
       return true;
     }
     return false;
@@ -107,6 +107,22 @@ Meteor.tools = {
     else{
       return false;
     }
+  },
+  randomUUID : function(){
+    var date = new Date().getTime();
+    // user higher precision if available
+    if(window.performance && typeof window.performance.now === "function"){
+      date += performance.now();
+    }
+    var uuid = 'xxxxxxxx-xxxx-4-xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(char) {
+      var rand = (date + Math.random()*16)%16 | 0;
+      date = Math.floor(date/16);
+      return (char=='x' ? rand : (rand&0x3|0x8)).toString(16);
+    });
+    return uuid;
+  },
+  taskRunner : function(wsid, objectid, tasktype, other){
+
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){
     console.log("Convert values = wsid: " + wsid + " | msid: " + msid );

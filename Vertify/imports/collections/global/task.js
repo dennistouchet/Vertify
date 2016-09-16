@@ -6,10 +6,10 @@ export const Tasks = new Mongo.Collection('tasks');
 
 Meteor.methods({
   'tasks.insert'(t, wsid, sysid){
-    check(sysid , String);
-    check(wsid , String);
     check(t , String);
-
+    check(wsid , String);
+    check(sysid , String);
+        
     console.log("Task insert called");
     // Incrementing ID's
     var lastTask = Tasks.findOne({}, {sort: {id: -1}});

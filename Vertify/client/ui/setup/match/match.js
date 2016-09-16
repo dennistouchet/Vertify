@@ -116,7 +116,7 @@ Template.match.events({
     console.log("dropdown event clicked:");
     console.log(e.target);
     if(e.target.text.trim() == 'Match'){
-      FlowRouter.go('/setup/match/process')
+      FlowRouter.go('/setup/match/process');
     }
     else{
       console.log(e.target.text);

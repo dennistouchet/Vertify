@@ -43,6 +43,7 @@ Meteor.methods({
     }
 
     // Call Task to get external objects
+    //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
      var eolist = Meteor.tools.getExternalObjects(sysid);
      for(i=0;i< eolist.length;i++)
      {

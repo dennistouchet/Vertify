@@ -42,7 +42,7 @@ Meteor.methods({
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
 
-    return newid;
+    return newid.toString();
   },
   'external_objects.remove'(currentid, wsid){
     check(currentid, String)

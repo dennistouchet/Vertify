@@ -90,21 +90,6 @@ Template.systemaddmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-
-        Meteor.call('tasks.insert', ws.id, sysInfoId, "discover"
-        , (err, res) => {
-          if(err){
-            //console.log(err);
-            errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
-            //return false;
-          }
-          else {
-            // successful call
-            // return true;
-          }
-        });
-
         Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
@@ -115,9 +100,35 @@ Template.systemaddmodal.events({
               //return false;
             }
             else {
-              // successful call
-              // return true;
-              Modal.hide('systemaddmodal');
+              Meteor.call('tasks.insert', "authentication", ws.id, res
+              , (error, result) => {
+                if(error){
+                  //console.log(err);
+                  errDiv.style.display = 'block';
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                  //return false;
+                  return;
+                }
+                else {
+                  // successful call
+                  console.log(res)
+                  Meteor.call('tasks.insert', "discover", ws.id, res
+                  , (err, res) => {
+                    if(err){
+                      //console.log(err);
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      //return false;
+                      return;
+                    }
+                    else {
+                      // successful call
+
+                      Modal.hide('systemaddmodal');
+                    }
+                  });
+                }
+              });
             }
           });
       }
