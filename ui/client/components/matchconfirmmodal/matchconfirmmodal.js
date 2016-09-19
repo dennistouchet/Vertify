@@ -6,8 +6,25 @@ Template.matchconfirmmodal.helpers({
 });
 
 Template.matchconfirmmodal.events({
-  'click' : function(e, template){
-     console.log("matchconfirmmodal click event");
+  'click #save': function(e) {
+    e.preventDefault();
+    //todo: get id from url
+    ws = Session.get("currentWs");
+    if(ws){
+      Meteor.call('tasks.insert', "match", ws.id, res
+      , (error, result) => {
+        if(error){
+          //console.log(err);
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
+          //return false;
+          return;
+        }
+        else {
+         //success
+        }
+      });
+    }
   },
 });
 

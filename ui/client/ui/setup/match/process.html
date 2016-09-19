@@ -1,5 +1,6 @@
 <template name="process">
   <section class="right_col" role="main" style="height:900px;">
+    <!-- TODO: setup dynamic template for process-->
     {{#if incompleteMatch}}
       {{> processZeroData}}
     {{else}}
@@ -72,8 +73,8 @@
     </div>
   </div>
   <div class="row">
-    <button type="button" class="btn btn-default pull-right"  >Cancel</button>
-    <button type="button" class="btn btn-primary pull-right" id="save">Match</button>
+    <button type="button" class="btn btn-default pull-right cancel"  >Cancel</button>
+    <button type="button" class="btn btn-primary pull-right match" id="save">Match</button>
   </div>
 </template>
 
@@ -104,7 +105,6 @@
     </div>
   </div>
 </template>
-
 
 <template name="matchProcessCompleteFooter">
   <div class="row">

@@ -76,10 +76,14 @@ Meteor.methods({
 
     VertifyObjects.schema.validate(newVertifyObject);
     VertifyObjects.insert(newVertifyObject);
+
+    return newid.toString();
   },
   'vertify_objects.update'(MatchObject){
     //TODO
     console.log("vertify_objects.update called");
+
+    return MatchObject.id;
   }
 });
 

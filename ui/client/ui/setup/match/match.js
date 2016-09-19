@@ -116,7 +116,7 @@ Template.match.events({
     console.log("dropdown event clicked:");
     console.log(e.target);
     if(e.target.text.trim() == 'Match'){
-      FlowRouter.go('/setup/match/process');
+      FlowRouter.go('/setup/match/process?id=' + this._id);
     }
     else{
       console.log(e.target.text);
@@ -134,28 +134,6 @@ Template.matchVertifyObjectli.helpers({
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
     return eo.record_count;
-  },
-});
-
-Template.matchCompleteFooter.events({
-  'click .returnToList' : function(e){
-    console.log('Match - returnToList event clicked.');
-    FlowRouter.go('/setup/match');
-  },
-  'click .viewMatchRecords' : function(e){
-    console.log('Match - viewMatchRecords event clicked.');
-    //FlowRouter.go('/setup/collect');
-  },
-  'click .editMatchRules' : function(e){
-    console.log('Match - editMatchRules event clicked.');
-    //FlowRouter.go('/setup/collect');
-  },
-  'click .acceptMatchModal' : function(e){
-      e.preventDefault();
-
-      ModalHelper.openMatchConfirmModalFor();
-
-      console.log("Match - complete match modal clicked");
   },
 });
 

@@ -134,13 +134,15 @@ setupRoutes.route('/match/vertifywizard', {
 
 setupRoutes.route('/match/process', {
   name: 'process',
-  action() {
+  action: function(queryParams) {
+      console.log("queryParams: ");
+      console.log(queryParams);
       BlazeLayout.render('main', {main: 'process'});
   }
 });
 
-setupRoutes.route('/match/matchresults', {
-  name: 'matchresults',
+setupRoutes.route('/match/results', {
+  name: 'results',
   action() {
       BlazeLayout.render('main', {main: 'matchresults'});
   }
