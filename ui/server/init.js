@@ -15,6 +15,7 @@ import { VertifyObjects, VertifyObjectExternalObjectsSchema
          from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
+import { Tasks } from '../imports/collections/global/task.js';
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connectors.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 // Workspace Collection Imports
@@ -23,7 +24,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -86,6 +87,11 @@ function deleteAllCollections(){
   console.log("VertifyProperties collection deleted (" + (beforeCount - afterCount) + " rows)");
 
   // Global collections
+  beforeCount = Tasks.find().count();
+  Tasks.remove({});
+  afterCount = Tasks.find().count();
+  console.log("Tasks collection deleted (" + (beforeCount - afterCount) + " rows)");
+
   beforeCount = Connectors.find().count();
   Connectors.remove({});
   afterCount = Connectors.find().count();
@@ -303,41 +309,41 @@ function initNavitems(){
 }
 
 function initTasks(){
-  //TODO init tasks (one of each?)
+
 }
 
 function initWorkspaces(){
   var ArtsWorkspace = {
     tenant_id: 100000,
-    id: "000000",
+    id: 100000,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     is_archived: false,
     name: "Art's Workspace",
-    group_id: "000000"
+    group_id: 100000
   };
 
   var JimsWorkspace = {
     tenant_id: 111111,
-    id: "111111",
+    id: 111111,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     is_archived: false,
     name: "Jim's Workspace",
-    group_id: "111111"
+    group_id: 111111
   };
 
   var ShaunsWorkspace = {
     tenant_id: 222222,
-    id: "222222",
+    id: 222222,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: true,
     is_archived: true,
     name: "Shaun's Workspace",
-    group_id: "222222"
+    group_id: 222222
   };
 
   Workspaces.schema.validate(ArtsWorkspace);
@@ -414,13 +420,13 @@ function initSystems(){
   // create system objects
   var Netsuite = {
     tenant_id: 100000,
-    id: '000000',
+    id: 100000,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: false,
     name: 'Netsuite',
-    workspace_id: '000000',
-    connector_id: '000000',
+    workspace_id: 100000,
+    connector_id: 100000,
     max_concurrent_tasks: 9,
     prefix: 'NS',
     agent_id: '',
@@ -431,13 +437,13 @@ function initSystems(){
 
   var Marketo = {
     tenant_id: 100000,
-    id: '111111',
+    id: 111111,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: false,
-    workspace_id: '000000',
+    workspace_id: 100000,
     name: 'Marketo',
-    connector_id: '111111',
+    connector_id: 111111,
     max_concurrent_tasks: 8,
     prefix: 'MK',
     agent_id: '',
@@ -448,13 +454,13 @@ function initSystems(){
 
   var Salesforce = {
     tenant_id: 222222,
-    id: '222222',
+    id: 222222,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: false,
-    workspace_id: '222222',
+    workspace_id: 222222,
     name: 'Salesforce',
-    connector_id: '222222',
+    connector_id: 222222,
     max_concurrent_tasks: 7,
     prefix: 'SF',
     agent_id: '',
@@ -465,13 +471,13 @@ function initSystems(){
 
   var Vertify = {
     tenant_id: 111111,
-    id: '333333',
+    id: 333333,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: false,
-    workspace_id: '111111',
+    workspace_id: 111111,
     name: 'Vertify',
-    connector_id: '333333',
+    connector_id: 333333,
     max_concurrent_tasks: 7,
     prefix: 'VF',
     agent_id: '',
@@ -531,7 +537,7 @@ function initConnectors() {
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[2]);
 
   var Netsuite = {
-    id: '000000',
+    id: 100000,
     modified: new Date(),
     created: new Date(),
     name: "Netsuite",
@@ -542,7 +548,7 @@ function initConnectors() {
   };
 
   var Marketo = {
-    id: '111111',
+    id: 111111,
     modified: new Date(),
     created: new Date(),
     name: "Marketo",
@@ -553,7 +559,7 @@ function initConnectors() {
   };
 
   var Salesforce = {
-    id: '222222',
+    id: 222222,
     modified: new Date(),
     created: new Date(),
     name: "Salesforce",
@@ -564,7 +570,7 @@ function initConnectors() {
   };
 
   var Vertify = {
-    id: '333333',
+    id: 333333,
     modified: new Date(),
     created: new Date(),
     name: "Vertify",
@@ -679,14 +685,14 @@ function initExternalObjects() {
   ExternalObjectProperties.schema.validate(ExternalObjectProperties2[7]);
 
   var netsuiteobj = {
-    tenant_id: 000000,
+    tenant_id: 100000,
     id:  1,
     modified:  new Date(),
     created:   new Date(),
     is_deleted: false,
     name: "Netsuite Customer",
-    system_id: "000000",
-    workspace_id: "000000",
+    system_id: 100000,
+    workspace_id: 100000,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -714,14 +720,14 @@ function initExternalObjects() {
   };
 
   var marketoobj = {
-    tenant_id: 000000,
+    tenant_id: 100000,
     id:  2,
     modified:  new Date(),
     created:   new Date(),
     is_deleted: false,
     name: "Marketo Object",
-    system_id: "111111",
-    workspace_id: "000000",
+    system_id: 111111,
+    workspace_id: 100000,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -755,8 +761,8 @@ function initExternalObjects() {
     created:   new Date(),
     is_deleted: false,
     name: "Marketo LeadRecord",
-    system_id: "111111",
-    workspace_id: "000000",
+    system_id: 111111,
+    workspace_id: 100000,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -790,8 +796,8 @@ function initExternalObjects() {
     created:   new Date(),
     is_deleted: false,
     name: "Salesforce User",
-    system_id: "222222",
-    workspace_id: "222222",
+    system_id: 222222,
+    workspace_id: 222222,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -825,8 +831,8 @@ function initExternalObjects() {
     created:   new Date(),
     is_deleted: false,
     name: "Salesforce Customer",
-    system_id: "222222",
-    workspace_id: "222222",
+    system_id: 222222,
+    workspace_id: 222222,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -913,7 +919,7 @@ function initVertifyObjects() {
   VertifyObjectMatchSchema.validate(VertifyObjectMatch1);
   //NS Customer
   var VertifyObjectExternalObject1 = {
-    external_object_id: "1",
+    external_object_id: 1,
     inbound: VertifyObjectExternalObjectInbound1,
     outbound: VertifyObjectExternalObjectOutbound1,
     match: VertifyObjectMatch1,
@@ -998,7 +1004,7 @@ function initVertifyObjects() {
 
   //MK Lead
   var VertifyObjectExternalObject2 = {
-    external_object_id: "3",
+    external_object_id: 3,
     inbound: VertifyObjectExternalObjectInbound2,
     outbound: VertifyObjectExternalObjectOutbound2,
     match: VertifyObjectMatch2,
@@ -1008,13 +1014,13 @@ function initVertifyObjects() {
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject2);
 
   var VertifyObject = {
-    tenant_id: 000000,
-    id: "000000",
+    tenant_id: 100000,
+    id: 100000,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     name: "Vertify Lead",
-    workspace_id: "000000",
+    workspace_id: 100000,
     external_objects: [ VertifyObjectExternalObject1, VertifyObjectExternalObject2 ]
   }
 
@@ -1037,14 +1043,14 @@ function initVertifyProperties() {
   VertifyPropertyRulesRuleSchema.validate(VertifyPropertyRulesRule2);
 
   var VertifyPropertyRules1 = {
-        external_object_id: "1",
+        external_object_id: 1,
         direction: "bidirectional",
         sync_action: "add_update",
         rule: VertifyPropertyRulesRule1,
         is_truth: true
       };
   var VertifyPropertyRules2 = {
-        external_object_id: "3",
+        external_object_id: 3,
         direction: "bidirectional",
         sync_action: "add_update",
         rule: VertifyPropertyRulesRule2,
@@ -1054,7 +1060,7 @@ function initVertifyProperties() {
   VertifyPropertyRulesSchema.validate(VertifyPropertyRules2);
 
   var VertifyPropertyExternalObjects1 = {
-	        external_object_id: "1",
+	        external_object_id: 1,
 	        external_property_path: "$.properties[?(@.name=='addressbookList.addressbook')]",
 	        property_group: 3,
 	        inbound: {
@@ -1069,7 +1075,7 @@ function initVertifyProperties() {
 	        is_truth: true
 	    }
   var VertifyPropertyExternalObjects2 = {
-	        external_object_id: "3",
+	        external_object_id: 3,
 	        name: "Billing Address",
 	        property_group: 1,
 	        inbound: {
@@ -1100,7 +1106,7 @@ function initVertifyProperties() {
 	        is_truth: false
 	    }
   var VertifyPropertyExternalObjects3 = {
-	        external_object_id: "3",
+	        external_object_id: 3,
 	        name: "Shipping Address",
 	        property_group: 2,
 	        inbound: {
@@ -1135,13 +1141,13 @@ function initVertifyProperties() {
 
   var VertifyProperties1 = {
   tenant_id: 1,
-  id: "000000",
+  id: 100000,
   modified: new Date(),
   created: new Date(),
   is_deleted: false,
-  workspace_id: "000000",
-  vertify_object_id: "000000",
-  parent_property_id: "000000",
+  workspace_id: 100000,
+  vertify_object_id: 100000,
+  parent_property_id: 100000,
   name: "FirstName",
   friendly_name: "First Name" ,
   type: "string",  //rules object for string //external_objects for array
@@ -1150,13 +1156,13 @@ function initVertifyProperties() {
 
   var VertifyProperties2 = {
   tenant_id: 1,
-  id: "111111",
+  id: 111111,
   modified: new Date(),
   created: new Date(),
   is_deleted: false,
-  workspace_id: "000000",
-  vertify_object_id: "000000",
-  parent_property_id: "000000",
+  workspace_id: 100000,
+  vertify_object_id: 100000,
+  parent_property_id: 100000,
   name: "PricingMatrix",
   friendly_name: "Pricing Matrix" ,
   type: "array",  //rules object for string //external_objects for array

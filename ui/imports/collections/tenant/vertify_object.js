@@ -32,14 +32,14 @@ Meteor.methods({
     VertifyObjectMatchSchema.validate(matchfields[1]);
 
     var newExternalObjects = [{
-      external_object_id: MatchObject.eo_ids[0].toString(),
+      external_object_id: MatchObject.eo_ids[0],
       inbound: eoinbound,
       outbound: eooutbound,
       match: matchfields[0],
       approved: false,
     },
     {
-      external_object_id: MatchObject.eo_ids[1].toString(),
+      external_object_id: MatchObject.eo_ids[1],
       inbound: eoinbound,
       outbound: eooutbound,
       match: matchfields[1],
@@ -60,12 +60,12 @@ Meteor.methods({
       var newid = 1;
     }
     else {
-      var newid = (parseInt(obj.id) + 1);
+      var newid = (obj.id + 1);
     }
 
     var newVertifyObject = {
       tenant_id: 000000,
-      id: newid.toString(),
+      id: newid,
       modified: new Date(),
       created: new Date(),
       is_deleted: false,
@@ -77,7 +77,7 @@ Meteor.methods({
     VertifyObjects.schema.validate(newVertifyObject);
     VertifyObjects.insert(newVertifyObject);
 
-    return newid.toString();
+    return newid;
   },
   'vertify_objects.update'(MatchObject){
     //TODO
@@ -200,7 +200,7 @@ export const VertifyObjectExternalObjectInboundSchema = new SimpleSchema({
 
 export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
   external_object_id:
-    { type: String },
+    { type: Number },
   inbound:
     { type: VertifyObjectExternalObjectInboundSchema },
   outbound:
@@ -219,7 +219,7 @@ VertifyObjects.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String },
+    { type: Number },
   modified:
     { type: Date },
   created:
@@ -229,7 +229,7 @@ VertifyObjects.schema = new SimpleSchema({
   name:
     { type: String },
   workspace_id:
-    { type: String },
+    { type: Number },
   external_objects:
     { type: [VertifyObjectExternalObjectsSchema] }
 });

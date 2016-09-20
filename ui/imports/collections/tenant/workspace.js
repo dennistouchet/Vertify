@@ -18,12 +18,12 @@ Meteor.methods({
 
     //TODO: Update after accounts are implemented
     //Temporary solution to incrementing ID's until user accounts are implemented
-    var strid = Workspaces.findOne({}, {sort: {id: -1}});
-    if(strid == null) {
+    var wrkid = Workspaces.findOne({}, {sort: {id: -1}});
+    if(wrkid == null) {
       var intid = 111111;
     }
     else {
-      var intid = (parseInt(strid.id) + 111111);
+      var intid = (wrkid.id + 111111);
     }
 
     //Verify Workspace name doesn't exist, else throw error
@@ -36,10 +36,10 @@ Meteor.methods({
     var newWorkspace = {
       name: text,
       tenant_id: intid,
-      id: intid.toString(),
+      id: intid,
       created: new Date(),
       modified: new Date(),
-      group_id: intid.toString()
+      group_id: intid
     };
 
     Workspaces.schema.validate(newWorkspace)
@@ -47,7 +47,7 @@ Meteor.methods({
 
   },
   'workspaces.remove'(currentid){
-    check(currentid, String);
+    check(currentid, Number);
     var current = Workspaces.findOne(currentid);
 
     // See if systems exist for the current workspace, if they do, prevent removal
@@ -63,7 +63,7 @@ Meteor.methods({
     check(text, String);
 
     //Verify Workspace name doesn't exist, else throw error
-    var count = Workspaces.find({"name" : text}).count();
+    var count = Workspaces.find({"_id": id, "name" : text}).count();
     if(count > 0) {
       throw new Meteor.Error( "Value Exists", "There was an error processing your request. Workspace name already exists.");
     }
@@ -76,7 +76,7 @@ Workspaces.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String },
+    { type: Number },
   modified:
     { type: Date },
   created:
@@ -90,5 +90,5 @@ Workspaces.schema = new SimpleSchema({
   name:
     { type: String },
   group_id:
-    { type: String }
+    { type: Number }
 });

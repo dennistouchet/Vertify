@@ -77,7 +77,6 @@ Template.systemaddmodal.events({
           setting: settings[i].name,
           value: settings[i].value
         }
-        console.log(set);
         sets.push(set);
       }
 
@@ -90,7 +89,7 @@ Template.systemaddmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-        Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws.id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){

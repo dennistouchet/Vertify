@@ -11,7 +11,6 @@ Template.addsystem.onCreated(function(){
 
 Template.addsystem.helpers({
   connectors(){
-    console.log("inside addsystem connector");
     return Connectors.find({});
   },
   connSelected : function(){
@@ -25,8 +24,7 @@ Template.addsystem.helpers({
     if(Session.get("connId"))
     {
       var id = Session.get("connId");
-      var selConn = Connectors.findOne({"id" : id});
-      return Connectors.findOne({"id" : id});
+      return Connectors.findOne({"id" : parseInt(id)});
     }
   },
 });
@@ -35,7 +33,7 @@ Template.addsystem.events({
   'click .sysinfoddl li a' : function(e, t){
     var conn = $(e.target)
     var id = conn.attr("data-value");
-    console.log(id);
+    console.log("data-value: " + id);
     if(id)
     {
       Session.set("connId", id);

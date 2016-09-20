@@ -6,7 +6,7 @@ export const Connectors = new Mongo.Collection('connectors');
 
 Connectors.schema = new SimpleSchema({
   id:
-    {type: String},
+    {type: Number},
   modified:
     {type: Date},
   created:

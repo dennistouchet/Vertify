@@ -5,12 +5,11 @@ import { check } from 'meteor/check';
 export const Tasks = new Mongo.Collection('tasks');
 
 Meteor.methods({
-  'tasks.insert'(t, wsid, sysid){
+  'tasks.insert'(t, wsid, itemid){
     check(t , String);
-    check(wsid , String);
-    check(sysid , String);
-        
-    console.log("Task insert called");
+    check(wsid , Number);
+    check(itemid , Number);
+
     // Incrementing ID's
     var lastTask = Tasks.findOne({}, {sort: {id: -1}});
     var intId = null;
@@ -18,14 +17,29 @@ Meteor.methods({
       intid = 111111;
     }
     else {
-      intid = (parseInt(lastTask.id) + 111111);
+      intid = (lastTask.id + 111111);
     }
 
-    var newTasks = {
-      id: intid.toString(),
-      system_id: sysid,
-      workspace_id: wsid,
-      task: t
+    if(t == "collectschema" || t == "collect"){
+      var newTasks = {
+        id: intid,
+        external_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false
+      }
+    }else{
+      var newTasks = {
+        id: intid,
+        system_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false,
+      }
     }
 
     Tasks.schema.validate(newTasks);
@@ -38,7 +52,7 @@ Tasks.schema = new SimpleSchema({
     { type: Number
     , optional: true },
   id:
-    { type: String },
+    { type: Number },
   modified:
     { type: Date
     , optional: true},
@@ -114,21 +128,21 @@ Tasks.schema = new SimpleSchema({
 
   // IDS FOR TASK PROCESSING
   workspace_id:
-    { type: String },
+    { type: Number },
   system_id:
-    { type: String
+    { type: Number
     , optional: true},
   external_object_id:
-    { type: String
+    { type: Number
     , optional: true },
   vertify_object_id:
-    { type: String
+    { type: Number
     , optional: true },
   source_object_id:
-    { type: String
+    { type: Number
     , optional: true },
   source_system_id:
-    { type: String
+    { type: Number
     , optional: true },
 
   // TASK OPTIONS

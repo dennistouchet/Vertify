@@ -7,8 +7,8 @@ export const Systems = new Mongo.Collection('systems');
 
 Meteor.methods({
   'systems.insert'(wsid, sysid, nm, pf, maxtasks, cred) {
-    check(wsid, String);
-    check(sysid, String);
+    check(wsid, Number);
+    check(sysid, Number);
     check(nm, String);
     check(pf, String);
     var maxtask = parseInt(maxtasks);
@@ -30,7 +30,7 @@ Meteor.methods({
       var intid = 111111;
     }
     else {
-      var intid = (parseInt(lastSys.id) + 111111);
+      var intid = (lastSys.id + 111111);
     }
 
     var snexists = Systems.findOne({"name" : nm });
@@ -52,8 +52,8 @@ Meteor.methods({
 
     var newSystem = {
       name: nm,
-      tenant_id: parseInt(wsid),
-      id: intid.toString(),
+      tenant_id: wsid,
+      id: intid,
       created: new Date(),
       modified: new Date(),
       is_deleted: false,
@@ -62,7 +62,7 @@ Meteor.methods({
       last_scanned: new Date(),
       max_concurrent_tasks: maxtask,
       prefix: pf,
-      agent_id: wsid,
+      agent_id: wsid.toString(),
       credentials: cred,
       external_objects: eolist
     };
@@ -70,7 +70,7 @@ Meteor.methods({
     Systems.schema.validate(newSystem);
     Systems.insert(newSystem);
 
-    return intid.toString();
+    return intid;
   },
   'systems.remove'(currentid){
     check(currentid, String)
@@ -137,7 +137,7 @@ Systems.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String },
+    { type: Number },
   modified:
     { type: Date
       , label: "Modified Date" },
@@ -150,9 +150,9 @@ Systems.schema = new SimpleSchema({
   name:
     { type: String },
   workspace_id:
-    { type: String },
+    { type:  Number },
   connector_id:
-    { type: String },
+    { type: Number },
   last_scanned:
     { type: Date
       , label: "Last Scanned Date"

@@ -11,6 +11,7 @@ Template.connect.helpers({
     //determines if a workspace has been selected and added to session
     if(Session.get("currentWs")) {
       ws = Session.get("currentWs");
+      console.log("connect systems")
       if(ws.id) {
         systemcount = Systems.find({"workspace_id": ws.id}).count();
         Session.set("systemCount", systemcount);
@@ -134,10 +135,7 @@ Template.connect.events({
 
 Template.connectSysZeroData.events({
   'click .sysinfoddl li a' : function(e, template){
-    console.log("Object Event: " + e + " | Event Target: " + $(e.target));
     var btnprnt = $(e.target).parent().parent().parent();
-    console.log("system ddl click event" + btnprnt[0] );
-
     var text = e.target.text;
     document.getElementById("text").value = text;
     document.getElementById("name").value = text;
@@ -215,7 +213,7 @@ Template.connectSysZeroData.events({
       }
       if(nmexists == null && pfexists == null && setErr == 0){
 
-        Meteor.call('systems.insert', ws.id, sysInfoId, nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws.id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){

@@ -8,8 +8,8 @@ export const ExternalObjectProperties = new Mongo.Collection('external_object_pr
 
 Meteor.methods({
   'external_objects.insert'(wsid, sysid, n) {
-    check(wsid, String);
-    check(sysid, String);
+    check(wsid, Number);
+    check(sysid, Number);
     check(n, String);
     //check user is logged
     /*
@@ -19,7 +19,7 @@ Meteor.methods({
     */
     var obj = ExternalObjects.findOne({}, {sort: {id: -1}});
     if(obj == null) {
-      var newid = 1;
+      var newid = 111111;
     }
     else {
       var newid = (obj.id + 1);
@@ -31,7 +31,7 @@ Meteor.methods({
     }
 
     var newExternalObject = {
-      tenant_id: parseInt(wsid),
+      tenant_id: wsid,
       id: newid,
       modified: new Date(),
       created: new Date(),
@@ -42,7 +42,7 @@ Meteor.methods({
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
 
-    return newid.toString();
+    return newid
   },
   'external_objects.remove'(currentid, wsid){
     check(currentid, String)
@@ -94,9 +94,9 @@ ExternalObjects.schema = new SimpleSchema({
   name:
     { type: String },
   system_id:
-    { type: String },
+    { type: Number },
   workspace_id:
-    { type: String },
+    { type: Number },
   last_query:
     { type: Date
     , optional: true },

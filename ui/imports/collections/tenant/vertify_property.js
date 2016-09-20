@@ -43,7 +43,7 @@ VertifyPropertyRulesRuleSchema = new SimpleSchema({
 
 VertifyPropertyRulesSchema = new SimpleSchema({
   external_object_id:
-    { type: String },
+    { type: Number },
   property_group:
     { type: Number
       , optional: true },
@@ -62,7 +62,7 @@ VertifyPropertyRulesSchema = new SimpleSchema({
 VertifyPropertyExternalObjectsSchema = new SimpleSchema({
 
     external_object_id:
-      { type: String },
+      { type: Number },
     external_property_path:
       { type: String
       , optional: true },
@@ -101,7 +101,7 @@ VertifyProperties.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String },
+    { type: Number },
   modified:
     { type: Date },
   created:
@@ -109,11 +109,11 @@ VertifyProperties.schema = new SimpleSchema({
   is_deleted:
     { type: Boolean },
   workspace_id:
-    { type: String },
+    { type: Number },
   vertify_object_id:
-    { type: String },
+    { type: Number },
   parent_property_id:
-    { type: String },
+    { type: Number },
   name:
     { type: String },
   friendly_name:

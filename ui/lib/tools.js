@@ -47,13 +47,13 @@ Meteor.tools = {
           is_dynamic: true
         }];
 
-    if(sys == "000000"){
+    if(sys == 100000){
       return netsuiteExternalObjects;
     }
-    else if (sys == "111111"){
+    else if (sys == 111111){
       return marketoExternalObjects;
     }
-    else if (sys == "222222"){
+    else if (sys == 222222){
       return salesforceExternalObjects;
     }
 

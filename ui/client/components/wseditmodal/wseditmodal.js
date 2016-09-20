@@ -28,7 +28,7 @@ Template.wseditmodal.events({
 
     //TODO: check if values are the same as initial values
     if(wsId) {
-      console.log('workspace edit called');
+      console.log("workspace edit called");
       Meteor.call('workspaces.edit'
         , wsId, name.value.trim()
         , (err, res) => {
@@ -45,7 +45,7 @@ Template.wseditmodal.events({
           }
         });
     } else {
-      alert('Error: No workspace selected.')
+      alert("Error: No workspace selected.")
     }
   }
 });

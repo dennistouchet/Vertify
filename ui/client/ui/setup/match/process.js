@@ -2,10 +2,21 @@ import { Template } from 'meteor/templating';
 
 import './process.html';
 
+Template.process.onCreated(function(){
+  this.currentPage = new ReactiveVar("processZeroData"); //other is matchProcessComplete
+});
+
 Template.process.helpers({
+  mwizard() {
+    return Template.instance().currentPage.get();
+  },
   properties(){
     //TODO: get vertify object properties
     return false;
+  },
+  queryParams(){
+    console.log("process queryParams:");
+    console.log(queryParams);
   },
   incompleteMatch : function(){
     //todo setup page
@@ -31,10 +42,11 @@ Template.process.events({
       document.getElementById(("filterCriteria")).style.display = "none";
     }
   },
-  'click .match' : function(e){
+  'click .match' : function(e, t){
     console.log('Process - match event clicked.');
     //todo: get id from url
     ws = Session.get("currentWs");
+/*
     if(ws){
       Meteor.call('tasks.insert', "matchtest", ws.id, res
       , (error, result) => {
@@ -46,17 +58,15 @@ Template.process.events({
           return;
         }
         else {
-         //success
+          // t.currentPage.set( "matchProcessComplete" );
         }
       });
     }
+*/
+    console.log("about to set template");
+    t.currentPage.set( "matchProcessComplete" );
   },
-  'click .acceptMatch' : function(){
-    console.log("Process acceptMatchModal click event");
-    //ModalHelper.openMatchConfirmModalFor(sysId);
-  }
 });
-
 
 Template.matchProcessCompleteFooter.events({
   'click .returnToList' : function(e){

@@ -115,7 +115,7 @@ Template.collect.events({
 
     var text = e.target.text;
     document.getElementById("objectlist").value = text.toString().trim();
-    var sysId = e.target.getAttribute("data-system");
+    var sysId = parseInt(e.target.getAttribute("data-system"));
     var name = e.target.getAttribute("data-name");
 
     var ws = Session.get("currentWs");
@@ -141,6 +141,34 @@ Template.collect.events({
           else {
             // successful call
             // return true;
+            Meteor.call('tasks.insert', "collectschema", ws.id, res
+            , (error, result) => {
+              if(error){
+                //console.log(err);
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>CollectSchema Error: </span>[ " + error.error + "] " + error.reason + "</li>";
+                //return false;
+                return;
+              }
+              else {
+                // successful call
+                Meteor.call('tasks.insert', "collect", ws.id, res
+                , (err, res) => {
+                  if(err){
+                    //console.log(err);
+                    errDiv.style.display = 'block';
+                    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Collect Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                    //return false;
+                    return;
+                  }
+                  else {
+                    // successful call
+
+                    Modal.hide('systemaddmodal');
+                  }
+                });
+              }
+            });
           }
         });
     }
@@ -155,10 +183,8 @@ Template.collect.events({
 
     var text = e.target.childNodes[4].textContent + " - " +  e.target.childNodes[1].textContent;
     document.getElementById("objectlist").value = text;
-    var sysId = e.target.childNodes[7].textContent;
+    var sysId = parseInt(e.target.childNodes[7].textContent);
     var name = e.target.childNodes[1].textContent;
-
-    console.log(e.target.childNodes);
 
     var ws = Session.get("currentWs");
     if(ws == null){

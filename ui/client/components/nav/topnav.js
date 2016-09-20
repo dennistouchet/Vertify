@@ -55,7 +55,8 @@ Template.topnav.events({
     if(text) {
       ws = Workspaces.findOne({"name": text});
       Session.set("currentWs", ws);
-      console.log("TopNav - Set session currentWs set to: " + ws);
+      console.log("TopNav - Set session currentWs set to: ");
+      console.log(ws);
     }
   },
 });

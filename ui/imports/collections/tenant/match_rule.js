@@ -20,7 +20,7 @@ MatchRules.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
   id:
-    { type: String },
+    { type: Number },
   name:
     { type: String },
   modified:

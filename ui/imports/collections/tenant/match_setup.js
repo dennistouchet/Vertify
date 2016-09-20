@@ -11,7 +11,7 @@ Meteor.methods({
     if(step != "vwStart"){
       throw new Meteor.Error("Error","vwStart insert error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(newobj, Boolean);
 
     var ms = MatchSetup.findOne({}, {sort: {id: -1}});
@@ -37,7 +37,7 @@ Meteor.methods({
     if(step != "vwStart"){
       throw new Meteor.Error("Error","vwStart edit error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(msid, Number);
     check(newobj, Boolean);
 
@@ -51,7 +51,7 @@ Meteor.methods({
     if(step != "vwSelect"){
       throw new Meteor.Error("Error","vwSelect edit error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(id, Number);
     check(extobjids, [Number]);
 
@@ -81,7 +81,7 @@ Meteor.methods({
     if(step != "vwFilter"){
       throw new Meteor.Error("Error","vwFilter edit error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(id, Number);
     check(r1, Boolean);
     check(r2, Boolean);
@@ -106,7 +106,7 @@ Meteor.methods({
     if(step != "vwMatch"){
       throw new Meteor.Error("Error","vwMatch edit error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(id, Number);
 
     for(var i = 0; i < match_criteria.length; i++)
@@ -126,7 +126,7 @@ Meteor.methods({
     if(step != "vwFinish"){
       throw new Meteor.Error("Error","vwFinish edit error");
     }
-    check(wsid, String);
+    check(wsid, Number);
     check(id, Number);
     check(vn, String);
     check(sotid, Number);
@@ -183,7 +183,7 @@ MatchSetup.schema = new SimpleSchema({
   id:
     { type: Number },
   workspace_id:
-    { type: String },
+    { type: Number },
 
   //Start Options
   new_object:
