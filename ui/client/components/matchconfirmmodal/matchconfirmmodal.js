@@ -1,8 +1,16 @@
 import { Template } from 'meteor/templating';
-import { MatchReults } from '../../../imports/collections/tenant/system.js';
+import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
 Template.matchconfirmmodal.helpers({
+  vertify_objects(){
+    ws = Session.get("currentWs");
+    console.log(Session.get("selectedVertifyObject"))
+    if(ws){
+
+      return VertifyObjects.findOne({"workspace_id": ws.id})
+    }
+  }
 });
 
 Template.matchconfirmmodal.events({

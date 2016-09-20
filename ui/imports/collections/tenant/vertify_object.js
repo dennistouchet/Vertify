@@ -4,7 +4,7 @@ import { check } from 'meteor/check';
 
 export const VertifyObjects = new Mongo.Collection('vertify_objects');
 
-var operators = [ "eq", "ne", "gt", "gte", "lt", "lte", "in", "nin", "like", "notlike", "isnull", "isnotnull", "between", "and", "or", "fuzzy", "then"];
+var operators = [ "eq", "gt", "gte", "lt", "lte", "in", "like", "isnull",  "between", "and", "or", "fuzzy", "not"];
 
 Meteor.methods({
   'vertify_objects.insert'(MatchObject){
@@ -230,6 +230,9 @@ VertifyObjects.schema = new SimpleSchema({
     { type: String },
   workspace_id:
     { type: Number },
+  task_status:
+    { type: String
+    , optional: true },
   external_objects:
     { type: [VertifyObjectExternalObjectsSchema] }
 });

@@ -114,7 +114,7 @@ Meteor.tools = {
     if(window.performance && typeof window.performance.now === "function"){
       date += performance.now();
     }
-    var uuid = 'xxxxxxxx-xxxx-4-xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(char) {
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(char) {
       var rand = (date + Math.random()*16)%16 | 0;
       date = Math.floor(date/16);
       return (char=='x' ? rand : (rand&0x3|0x8)).toString(16);
@@ -123,6 +123,18 @@ Meteor.tools = {
   },
   taskRunner : function(wsid, objectid, tasktype, other){
 
+  },
+  getQueryParamByName: function(name, url){
+    if(!url)
+      url = window.location.href;
+
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)");
+    var results = regex.exec(url);
+
+    if(!results) return null;
+    if(!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){
     console.log("Convert values = wsid: " + wsid + " | msid: " + msid );

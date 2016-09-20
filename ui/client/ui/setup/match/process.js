@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 
 import './process.html';
 
@@ -16,7 +17,7 @@ Template.process.helpers({
   },
   queryParams(){
     console.log("process queryParams:");
-    console.log(queryParams);
+    console.log(queryParams.id);
   },
   incompleteMatch : function(){
     //todo setup page
@@ -44,11 +45,12 @@ Template.process.events({
   },
   'click .match' : function(e, t){
     console.log('Process - match event clicked.');
-    //todo: get id from url
     ws = Session.get("currentWs");
-/*
-    if(ws){
-      Meteor.call('tasks.insert', "matchtest", ws.id, res
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne({"_id": id});
+
+    if(ws && vo){
+      Meteor.call('tasks.insert', "matchtest", ws.id, vo.id
       , (error, result) => {
         if(error){
           //console.log(err);
@@ -62,8 +64,7 @@ Template.process.events({
         }
       });
     }
-*/
-    console.log("about to set template");
+
     t.currentPage.set( "matchProcessComplete" );
   },
 });
@@ -83,9 +84,14 @@ Template.matchProcessCompleteFooter.events({
   },
   'click .acceptMatchModal' : function(e){
       e.preventDefault();
-
-      ModalHelper.openMatchConfirmModalFor();
+      //TODO: get void
+      var id = 111111
+      ModalHelper.openMatchConfirmModalFor(id);
 
       console.log("Match - complete match modal clicked");
   },
+});
+
+Meteor.subscribe('vertify_objects', function (){
+  console.log( "Match - VertifyObjects now subscribed." );
 });

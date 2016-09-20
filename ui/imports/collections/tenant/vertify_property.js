@@ -114,6 +114,9 @@ VertifyProperties.schema = new SimpleSchema({
     { type: Number },
   parent_property_id:
     { type: Number },
+  task_status:
+    { type: String
+    , optional: true },
   name:
     { type: String },
   friendly_name:

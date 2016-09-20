@@ -153,6 +153,9 @@ Systems.schema = new SimpleSchema({
     { type:  Number },
   connector_id:
     { type: Number },
+  task_status:
+    { type: String
+    , optional: true },
   last_scanned:
     { type: Date
       , label: "Last Scanned Date"

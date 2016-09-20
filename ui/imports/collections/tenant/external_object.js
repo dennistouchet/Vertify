@@ -97,6 +97,9 @@ ExternalObjects.schema = new SimpleSchema({
     { type: Number },
   workspace_id:
     { type: Number },
+  task_status:
+    { type: String
+    , optional: true },    
   last_query:
     { type: Date
     , optional: true },

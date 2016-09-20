@@ -1080,7 +1080,7 @@ function initVertifyObjects() {
   VertifyObjectMatchSchema.validate(VertifyObjectMatchGroup12);
 
   var VertifyObjectMatch2 =
-    { operator: "then"
+    { operator: "and"
     ,  group: [ VertifyObjectMatchGroup11, VertifyObjectMatchGroup12 ]
     ,  confidence: 100 }
   VertifyObjectMatchSchema.validate(VertifyObjectMatch2);
