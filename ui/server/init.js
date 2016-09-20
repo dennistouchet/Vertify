@@ -24,7 +24,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = true;
+var clearCollections = false;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -310,6 +310,89 @@ function initNavitems(){
 
 function initTasks(){
 
+  var authentication = {
+    id: 111111,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "authentication",
+    status: "success",
+    workspace_id: 100000,
+    system_id: 100000
+  }, discover = {
+    id: 222222,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "discover",
+    status: "success",
+    workspace_id: 100000,
+    system_id: 100000
+  }, collectschema = {
+    id: 333333,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "collectschema",
+    status: "success",
+    workspace_id: 100000,
+    external_object_id: 1
+  }, collect = {
+    id: 444444,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "collect",
+    status: "success",
+    workspace_id: 100000,
+    external_object_id: 1
+  }, matchtest = {
+    id: 555555,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "matchtest",
+    status: "success",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, match = {
+    id: 777777,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "match",
+    status: "success",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, aligntest = {
+    id: 888888,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "aligntest",
+    status: "queued",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, align = {
+    id: 999999,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "align",
+    status: "queued",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, tasks = [ authentication, discover, collectschema, collect, matchtest, match, aligntest, align];
+
+  tasks.forEach(function (t){
+    Tasks.schema.validate(t);
+  });
+
+  if(! Tasks.findOne()){
+    tasks.forEach(function (t) {
+      Tasks.insert(t);
+    });
+  }
 }
 
 function initWorkspaces(){
