@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { MatchResults } from '../../../../imports/collections/workspace/match_result.js';
 
 import './process.html';
 
@@ -19,10 +20,11 @@ Template.process.helpers({
     console.log("process queryParams:");
     console.log(queryParams.id);
   },
-  incompleteMatch : function(){
-    //todo setup page
-    return false;
-  }
+  workspaceChanged: function(){
+    var url = window.location.href;
+    var res = url.split("?");
+    window.history.pushState(null,"", "setup/match");
+  },
 });
 
 Template.process.events({
@@ -69,7 +71,34 @@ Template.process.events({
   },
 });
 
-Template.matchProcessCompleteFooter.events({
+Template.matchProcessComplete.helpers({
+  match_results(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var mr = MatchResults.findOne({});
+      console.log(mr);
+      return MatchResults.findOne({});
+    }
+  },
+  getMatched : function(){
+    //TODO: get value from match results
+    return 100;
+  },
+  getTotal : function(){
+    //TODO: get value from system of truth total
+    return 125000;
+  },
+  getExternalObjectName: function(id){
+    //TODO:
+    return "External Object Name";
+  },
+  getVertifyObjectName: function(id){
+    //TODO:
+    return "Vertify Object Name";
+  }
+})
+
+Template.matchProcessComplete.events({
   'click .returnToList' : function(e){
     console.log('Match - returnToList event clicked.');
     FlowRouter.go('/setup/match');
@@ -93,5 +122,9 @@ Template.matchProcessCompleteFooter.events({
 });
 
 Meteor.subscribe('vertify_objects', function (){
-  console.log( "Match - VertifyObjects now subscribed." );
+  console.log( "Match/Process - VertifyObjects now subscribed." );
+});
+
+Meteor.subscribe('match_results', function (){
+  console.log( "Match/Process - MatchResults now subscribed." );
 });

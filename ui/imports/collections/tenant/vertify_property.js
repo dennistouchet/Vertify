@@ -14,29 +14,13 @@ var _sync_actions = [ "add", "update", "empty", "add_update" ];
 var _directions = [ "inbound", "outbound", "bidirectional", "none" ];
 
 VertifyPropertyRulesRuleSchema = new SimpleSchema({
-  set:
-  { type: Object
-  , optional: true },
-  "set.external_property":
+  rule:
   { type: String
-  , optional: true },
-  translate:
+  , allowedValues: _rules },
+  external_property:
+  { type: String },
+  value:
   { type: Object
-  , optional: true },
-  "translate.external_property":
-  { type: String
-  , optional: true },
-  convert:
-  { type: Object
-  , optional: true },
-  "convert.external_property":
-  { type: String
-  , optional: true },
-  lookup:
-  { type: Object
-  , optional: true },
-  "lookup.external_property":
-  { type: String
   , optional: true }
 
 });

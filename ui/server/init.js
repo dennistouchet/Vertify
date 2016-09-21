@@ -19,6 +19,7 @@ import { Tasks } from '../imports/collections/global/task.js';
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connectors.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 // Workspace Collection Imports
+import { MatchResults, MatchResultsExternalObjectsSchema } from '../imports/collections/workspace/match_result.js';
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 
 Meteor.startup(function(){
@@ -45,6 +46,8 @@ initExternalObjects();
 initVertifyObjects();
 
 initVertifyProperties();
+
+initMatchResults();
 
 initDatas();
 
@@ -102,6 +105,11 @@ function deleteAllCollections(){
   afterCount = ObjectsList.find().count();
   console.log("ObjectsList collection deleted (" + (beforeCount - afterCount) + " rows)");
   // Workspace collections
+
+  beforeCount = MatchResults.find().count();
+  MatchResults.remove({});
+  afterCount = MatchResults.find().count();
+  console.log("MatchResults collection deleted (" + (beforeCount - afterCount) + " rows)");
 
   beforeCount = MarketoLeadRecord.find().count();
   MarketoLeadRecord.remove({});
@@ -1117,10 +1125,12 @@ function initVertifyObjects() {
 function initVertifyProperties() {
 
   var VertifyPropertyRulesRule1 = {
-    set: { external_property: "firstname"}
+    rule: "set",
+    external_property: "firstname"
   };
   var VertifyPropertyRulesRule2 = {
-    set: { external_property: "leadAttributeList.FirstName"}
+    rule: "set",
+    external_property: "leadAttributeList.FirstName"
   };
   VertifyPropertyRulesRuleSchema.validate(VertifyPropertyRulesRule1);
   VertifyPropertyRulesRuleSchema.validate(VertifyPropertyRulesRule2);
@@ -1259,6 +1269,45 @@ function initVertifyProperties() {
   if(! VertifyProperties.findOne()){
     VertifyProperties.insert(VertifyProperties1);
     VertifyProperties.insert(VertifyProperties2);
+  }
+
+}
+
+function initMatchResults() {
+  var matchResultsExternalObjects = [{
+    external_object_id: 1,
+    is_truth: true,
+    total: 125000,
+    matched: 100,
+    duplicates: 2,
+    not_matched: 0,
+  },
+  {
+    external_object_id: 3,
+    is_truth: false,
+    total: 30000,
+    matched: 25,
+    duplicates: 3,
+    not_matched: 5000
+  }]
+
+  matchResultsExternalObjects.forEach(function (eo){
+    MatchResultsExternalObjectsSchema.validate(eo);
+  });
+
+  matchResults = {
+    vertify_object_id: 100000,
+    total: 100,
+    matched: 100,
+    duplicates: 5,
+    not_matched: 5000,
+    external_objects: matchResultsExternalObjects
+  }
+
+  //Add to DB
+  MatchResults.schema.validate(matchResults);
+  if(! MatchResults.findOne()){
+    MatchResults.insert(matchResults);
   }
 
 }

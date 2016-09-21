@@ -16,7 +16,7 @@ import { Groups } from '../imports/collections/tenant/group.js';
 
 import { MatchSetup } from '../imports/collections/tenant/match_setup.js';
 //import {  } from '../imports/collections/tenant/.js';
-
+import { MatchResults } from '../imports/collections/workspace/match_result.js';
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 
 Meteor.publish('navitems', function(){
@@ -68,6 +68,10 @@ Meteor.publish('connectors', function(){
 
 Meteor.publish('tasks', function(){
   return Tasks.find();
+});
+
+Meteor.publish('match_results', function(){
+  return MatchResults.find();
 });
 
 Meteor.publish('marketo_lead_record', function(){

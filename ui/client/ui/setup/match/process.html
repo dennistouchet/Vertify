@@ -72,15 +72,9 @@
 </template>
 
 <template name="matchProcessComplete">
-  {{> matchProcessCompleteHeader}}
-  {{> matchProcessResults}}
-  {{> matchProcessCompleteFooter}}
-</template>
-
-<template name="matchProcessCompleteHeader">
   <div class="row">
     <div class="col-md-12">
-      <h4 style="padding-left:10px">Match process complete. <strong>Nan</strong> out of <strong>NaN</strong> records matched.<br/>
+      <h4 style="padding-left:10px">Match process complete. <strong>{{getMatched}}</strong> out of <strong>{{getTotal}}</strong> records matched.<br/>
       </h4>
     </div>
   </div>
@@ -90,21 +84,19 @@
       </h4>
     </div>
   </div>
-</template>
-
-<template name="matchProcessResults">
   <div class="row">
     <div class="col-md-12">
     <h4><strong>Match Results</strong></h4>
       <div class="x_panel" style="height:100px;">
-        TODO: Match results table
-        Missing Reqs: Match Results mock data.
+        {{#with match_results}}
+          {{getVertifyObjectName vertify_object_id}} | {{total}} | {{matched}} | {{duplicates}} | {{not_matched}}<br/>
+          {{#each external_objects}}
+            <li>{{getExternalObjectName external_object_id}} | {{total}} | {{matched}} | {{duplicates}} | {{not_matched}}</li>
+          {{/each}}
+        {{/with}}
       </div>
     </div>
   </div>
-</template>
-
-<template name="matchProcessCompleteFooter">
   <div class="row">
     <div class="col-md-3">
       <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
