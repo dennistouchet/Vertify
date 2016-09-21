@@ -77,19 +77,39 @@ Meteor.tools = {
   },
   matchStatus : function(wsid){
     //TODO: adjust to be more precise
-    var vertifyObjectsCompleted = VertifyObjects.findOne({"workspace_id": wsid});
-    if(this.collectStatus(wsid) && vertifyObjectsCompleted){
-      return true;
+    var complete = false;
+    var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid});
+    if(this.collectStatus(wsid) && vertifyObjectsExist){
+
+      vertifyObjectsExist.forEach(function(vo){
+
+        var voextobj = vo.external_objects;
+        console.log(voextobj);
+
+        voextobj.forEach(function(voeo){
+          if(voeo.approved) complete = voeo.approved;
+        });
+
+      });
     }
-    return false;
+    return complete;
   },
   alignStatus : function(wsid){
-    //TODO: adjust to be more precise
-    var vertifyPropertiesComplete = VertifyProperties.findOne({"workspace_id": wsid});
-    if(this.matchStatus(wsid) && vertifyPropertiesComplete){
-      return true;
+    var complete = false;
+    var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid});
+    if(this.matchStatus(wsid) && vertifyPropertiesExist){
+
+      vertifyPropertiesExist.forEach(function(vp){
+        var vpextobj = vp.external_objects;
+        console.log(vpextobj);
+
+        vpextobj.forEach(function(vpeo){
+          if(vpeo.approved) complete = vpeo.approved;
+        });
+
+      });
     }
-    return false;
+    return complete;
   },
   setupStatus : function(wsid, status){
     if(status == "Connect"){

@@ -1006,7 +1006,7 @@ function initVertifyObjects() {
     inbound: VertifyObjectExternalObjectInbound1,
     outbound: VertifyObjectExternalObjectOutbound1,
     match: VertifyObjectMatch1,
-    approved: false,
+    approved: true,
     is_truth: true
   }
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject1);
@@ -1091,7 +1091,7 @@ function initVertifyObjects() {
     inbound: VertifyObjectExternalObjectInbound2,
     outbound: VertifyObjectExternalObjectOutbound2,
     match: VertifyObjectMatch2,
-    approved: false,
+    approved: true,
     is_truth: false
   }
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject2);
