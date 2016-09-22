@@ -30,7 +30,7 @@ Meteor.methods({
         modified: new Date(),
         is_deleted: false
       }
-    }else{
+    }else if(t == "matchtest" || t == "match"){
       var newTasks = {
         id: intid,
         system_id: itemid,

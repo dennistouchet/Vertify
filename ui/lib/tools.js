@@ -85,11 +85,11 @@ Meteor.tools = {
 
         var voextobj = vo.external_objects;
         console.log(voextobj);
-
-        voextobj.forEach(function(voeo){
-          if(voeo.approved) complete = voeo.approved;
-        });
-
+        if(voextobj){
+          voextobj.forEach(function(voeo){
+            if(voeo.approved) complete = voeo.approved;
+          });
+        }
       });
     }
     return complete;
@@ -101,12 +101,11 @@ Meteor.tools = {
 
       vertifyPropertiesExist.forEach(function(vp){
         var vpextobj = vp.external_objects;
-        console.log(vpextobj);
-
+        if(vpextobj){
         vpextobj.forEach(function(vpeo){
           if(vpeo.approved) complete = vpeo.approved;
         });
-
+      }
       });
     }
     return complete;

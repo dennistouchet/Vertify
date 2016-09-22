@@ -20,6 +20,19 @@ export const MatchResultsExternalObjectsSchema = new SimpleSchema({
 });
 
 MatchResults.schema = new SimpleSchema({
+  tenant_id:
+    { type: Number },
+  id:
+    { type: Number },
+  modified:
+    { type: Date},
+  created:
+    { type: Date },
+  is_deleted:
+    { type: Boolean
+    , defaultValue: false },
+  workspace_id:
+    { type: Number },
   vertify_object_id:
     { type: Number },
   total:

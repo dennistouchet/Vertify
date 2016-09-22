@@ -5,10 +5,13 @@ import { Tasks } from '../../../imports/collections/global/task.js';
 Template.matchconfirmmodal.helpers({
   vertify_objects(){
     ws = Session.get("currentWs");
-    console.log(Session.get("selectedVertifyObject"))
-    if(ws){
+    id = Session.get("selectedVertifyObject");
+    mr = Session.get("selectedMatchResult");
+    console.log("mr:");
+    console.log(mr)
+;    if(ws && id){
 
-      return VertifyObjects.findOne({"workspace_id": ws.id})
+      return VertifyObjects.findOne(id,{"workspace_id": ws.id});
     }
   }
 });

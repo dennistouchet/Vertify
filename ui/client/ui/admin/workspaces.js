@@ -52,15 +52,13 @@ Template.workspaces.events({
         }
         else {
           // successful call
-          // return true;
+          // When WS is added, set new WS to current  and redirect to Setup Page
+          var ws = Workspaces.findOne({"name": target.value});
+          Session.set("currentWs", ws);
+          FlowRouter.go('/setup');
         }
       });
     }
-    // When WS is added, set new WS to current  and redirect to Setup Page
-    var ws = Workspaces.findOne({"name": target.value});
-    Session.set("currentWs", ws);
-    FlowRouter.go('/setup');
-
     target.value = '';
   },
   'click .clear' : function() {
@@ -69,16 +67,6 @@ Template.workspaces.events({
   'click .delete' : function(){
       var errDiv = document.getElementById("addErrWorkspace");
       errDiv.innerHTML = ""; //reset errors
-
-      // If the Workspace being deleted is the current Workspace
-      // all of the session variables set by the workspace need to be deleted.
-      var ws = Session.get("currentWs");
-      if(this.id == ws.id){
-        delete Session.keys["currentWs", "systemCount", "objectCount"];
-        // Clear all keys and remove
-        //Object.keys(Session.keys).forEach(function(key){ Session.set(key, undefined); })
-        //Session.keys = {}
-      }
 
       Meteor.call('workspaces.remove'
       , this._id
@@ -91,7 +79,15 @@ Template.workspaces.events({
         }
         else {
           // successful call
-          // return true;
+          // If the Workspace being deleted is the current Workspace
+          // all of the session variables set by the workspace need to be deleted.
+          var ws = Session.get("currentWs");
+          if(this.id == ws.id){
+            delete Session.keys["currentWs", "systemCount", "objectCount"];
+            // Clear all keys and remove
+            //Object.keys(Session.keys).forEach(function(key){ Session.set(key, undefined); })
+            //Session.keys = {}
+          }
         }
       });
   },

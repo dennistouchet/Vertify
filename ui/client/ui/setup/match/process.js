@@ -62,12 +62,10 @@ Template.process.events({
           return;
         }
         else {
-          // t.currentPage.set( "matchProcessComplete" );
+          t.currentPage.set( "matchProcessComplete" );
         }
       });
     }
-
-    t.currentPage.set( "matchProcessComplete" );
   },
 });
 
@@ -75,8 +73,6 @@ Template.matchProcessComplete.helpers({
   match_results(){
     var ws = Session.get("currentWs");
     if(ws){
-      var mr = MatchResults.findOne({});
-      console.log(mr);
       return MatchResults.findOne({});
     }
   },
@@ -113,9 +109,11 @@ Template.matchProcessComplete.events({
   },
   'click .acceptMatchModal' : function(e){
       e.preventDefault();
-      //TODO: get void
-      var id = 111111
-      ModalHelper.openMatchConfirmModalFor(id);
+      var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
+      var ws = Session.get("currentWs");
+      var matchresults = MatchResults.findOne({"workspace_id": ws.id});
+      console.log(matchresults);
+      ModalHelper.openMatchConfirmModalFor(vertifyobjectid, matchresults.id);
 
       console.log("Match - complete match modal clicked");
   },

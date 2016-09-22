@@ -25,7 +25,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -1296,6 +1296,12 @@ function initMatchResults() {
   });
 
   matchResults = {
+    tenant_id: 100000,
+    id: 100000,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    workspace_id: 100000,
     vertify_object_id: 100000,
     total: 100,
     matched: 100,

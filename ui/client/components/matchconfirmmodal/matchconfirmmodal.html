@@ -1,7 +1,7 @@
 <template name="matchconfirmmodal">
 
   <div class="modal fade">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
             <h3 class="modal-title">Match Confirmation
@@ -10,16 +10,19 @@
           </div>
 
           <div class="modal-body">
-            TODO: update this page with data from match results<br />
-            <br />
-            By accepting the match, Vertify will begin matching all records against the system of truth.<br />
-            <br />
-            System of truth: SF Lead<br />
-            Records to Match: 100,000<br />
-            <br />
-            <strong>Match Against:</strong><br />
-            - NS Customer 30,000 records<br />
-            - MK LeadRecords 125,000 records<br />
+            <h2>
+              By accepting the match, Vertify will begin matching all records against the system of truth.<br />
+              <br />
+              System of truth: SF Lead<br />
+              Records to Match: 100,000<br />
+              <br />
+              <strong>Match Against:</strong><br />
+              - NS Customer 30,000 records<br />
+              - MK LeadRecords 125,000 records<br />
+              {{#with vertify_objects}}
+                {{name}}
+              {{/with}}
+            </h2>
           </div>
 
           <div class="modal-footer">
