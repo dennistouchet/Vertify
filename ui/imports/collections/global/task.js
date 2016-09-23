@@ -33,7 +33,7 @@ Meteor.methods({
     }else if(t == "matchtest" || t == "match"){
       var newTasks = {
         id: intid,
-        system_id: itemid,
+        vertify_object_id: itemid,
         workspace_id: wsid,
         task: t,
         created: new Date(),

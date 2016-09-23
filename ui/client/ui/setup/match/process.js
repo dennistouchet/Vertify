@@ -112,6 +112,7 @@ Template.matchProcessComplete.events({
       var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
       var ws = Session.get("currentWs");
       var matchresults = MatchResults.findOne({"workspace_id": ws.id});
+      console.log("match Results:");
       console.log(matchresults);
       ModalHelper.openMatchConfirmModalFor(vertifyobjectid, matchresults.id);
 

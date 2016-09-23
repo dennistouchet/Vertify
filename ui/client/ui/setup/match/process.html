@@ -20,10 +20,10 @@
   <div class="row">
     <div class="col-md-12">
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" name="processradio" value="count" checked> Match first 100 records found</label>
+        <label><h5><input type="radio" name="processradio" value="count" checked> Match first 100 records found</h5></label>
       </div>
       <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><input type="radio" name="processradio" value="criteria"> Match only records that meet the following criteria:</label>
+        <label><h5><input type="radio" name="processradio" value="criteria"> Match only records that meet the following criteria</h5></label>
       </div>
     </div>
   </div>
@@ -87,11 +87,33 @@
   <div class="row">
     <div class="col-md-12">
     <h4><strong>Match Results</strong></h4>
-      <div class="x_panel" style="height:100px;">
+      <div class="x_panel" style="padding:10px;">
+        <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+          <div class="col-md-3">Records</div>
+          <div class="col-md-2">Total</div>
+          <div class="col-md-2">Matched</div>
+          <div class="col-md-2">Duplicates</div>
+          <div class="col-md-2">Not Matched</div>
+          <div class="col-md-1"></div>
+        </div>
         {{#with match_results}}
-          {{getVertifyObjectName vertify_object_id}} | {{total}} | {{matched}} | {{duplicates}} | {{not_matched}}<br/>
+          <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectName vertify_object_id}}</div>
+            <div class="col-md-2">{{total}}</div>
+            <div class="col-md-2">{{matched}}</div>
+            <div class="col-md-2">{{duplicates}}</div>
+            <div class="col-md-2">{{not_matched}}</div>
+            <div class="col-md-1"></div>
+          </div>
           {{#each external_objects}}
-            <li>{{getExternalObjectName external_object_id}} | {{total}} | {{matched}} | {{duplicates}} | {{not_matched}}</li>
+            <div class="row" style="padding:10px;">
+              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectName external_object_id}}</div>
+              <div class="col-md-2">{{total}}</div>
+              <div class="col-md-2">{{matched}}</div>
+              <div class="col-md-2">{{duplicates}}</div>
+              <div class="col-md-2">{{not_matched}}</div>
+              <div class="col-md-1"></div>
+            </div>
           {{/each}}
         {{/with}}
       </div>

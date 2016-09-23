@@ -1,17 +1,30 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
+import { MatchResults } from '../../../imports/collections/workspace/match_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
 Template.matchconfirmmodal.helpers({
-  vertify_objects(){
+  match_results(){
     ws = Session.get("currentWs");
-    id = Session.get("selectedVertifyObject");
-    mr = Session.get("selectedMatchResult");
-    console.log("mr:");
-    console.log(mr)
-;    if(ws && id){
-
-      return VertifyObjects.findOne(id,{"workspace_id": ws.id});
+    mr = Session.get("selectedMatchResultId");
+    if(ws && mr){
+      console.log(mr);
+      return MatchResults.findOne({"workspace_id": ws.id});
+    }
+  },
+  systemOfTruth: function(id){
+    //TODO:
+    return "MarketoLeadRecord";
+  },
+  systemOfTruthRecords: function(id){
+    //TODO:
+    return 100000;
+  },
+  getExternalObjectInfo: function(id){
+    //TODO: if SoT do not return value - get SOT of this external object by id
+    var sot = false;
+    if(!sot){
+      return "ExternalObjectname" + " - 30,000";
     }
   }
 });
@@ -19,10 +32,11 @@ Template.matchconfirmmodal.helpers({
 Template.matchconfirmmodal.events({
   'click #save': function(e) {
     e.preventDefault();
-    //todo: get id from url
+    id = Session.get("selectedVertifyObject");
+    vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
-    if(ws){
-      Meteor.call('tasks.insert', "match", ws.id, res
+    if(ws && vo){
+      Meteor.call('tasks.insert', "match", ws.id, vo.id
       , (error, result) => {
         if(error){
           //console.log(err);
@@ -33,6 +47,8 @@ Template.matchconfirmmodal.events({
         }
         else {
          //success
+         FlowRouter.go('/setup/match');
+         Modal.hide('matchconfirmmodal');
         }
       });
     }

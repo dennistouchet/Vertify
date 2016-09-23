@@ -137,6 +137,12 @@ Template.matchVertifyObjectli.helpers({
   },
 });
 
+Template.matchCompleteFooter.events({
+  'click .toAlign': function(e){
+    FlowRouter.go('/setup/align');
+  }
+});
+
 Meteor.subscribe('workspaces', function (){
   console.log( "Match - Workspaces now subscribed.");
 });

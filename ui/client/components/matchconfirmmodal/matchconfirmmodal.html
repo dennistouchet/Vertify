@@ -10,19 +10,23 @@
           </div>
 
           <div class="modal-body">
-            <h2>
-              By accepting the match, Vertify will begin matching all records against the system of truth.<br />
-              <br />
-              System of truth: SF Lead<br />
-              Records to Match: 100,000<br />
-              <br />
-              <strong>Match Against:</strong><br />
-              - NS Customer 30,000 records<br />
-              - MK LeadRecords 125,000 records<br />
-              {{#with vertify_objects}}
-                {{name}}
+            {{#if Template.subscriptionsReady}}
+              {{#with match_results}}
+              <h2>
+                By accepting the match, Vertify will begin matching all records against the system of truth.<br />
+                <br />
+                System of truth: {{systemOfTruth id}}<br />
+                Records to Match: {{systemOfTruthRecords id}}<br />
+                <br />
+              </h2><br />
+                  <div class="row" style="padding:10px;">
+                    <strong>Match Against:</strong><br />
+                    <h2>
+                        -{{getExternalObjectInfo external_object_id}}<br/>
+                    </h2>
+                  </div>
               {{/with}}
-            </h2>
+            {{/if}}
           </div>
 
           <div class="modal-footer">
