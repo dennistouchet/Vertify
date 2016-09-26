@@ -72,7 +72,7 @@ Meteor.methods({
 
     return intid;
   },
-  'systems.remove'(currentid){
+  'systems.remove'(currentid, wsid){
     check(currentid, String)
 
     var current = Systems.findOne(currentid);
@@ -85,7 +85,7 @@ Meteor.methods({
     //TODO: Add userid security
     Systems.remove(current._id);
   },
-  'systems.edit'(id, system, pf, maxtasks, cred){
+  'systems.edit'(id, system, pf, maxtasks, cred, wsid){
     check(id, String);
     check(system, String);
     check(pf, String);

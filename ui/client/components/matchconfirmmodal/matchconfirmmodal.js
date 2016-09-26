@@ -32,6 +32,10 @@ Template.matchconfirmmodal.helpers({
 Template.matchconfirmmodal.events({
   'click #save': function(e) {
     e.preventDefault();
+    var errDiv = document.getElementById("addErrModal");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
     id = Session.get("selectedVertifyObject");
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
@@ -47,9 +51,23 @@ Template.matchconfirmmodal.events({
         }
         else {
          //success
-         FlowRouter.go('/setup/match');
-         Modal.hide('matchconfirmmodal');
-        }
+         //TODO: this method needs to be removed and called by elixir
+         var status = "approved";
+         Meteor.call('vertify_objects.updateApprovedStatus', id, ws.id, status
+           , (error, result) => {
+             if(error){
+               //console.log(err);
+               errDiv.style.display = 'block';
+               errDiv.innerHTML = errDiv.innerHTML + "<li><span>Update Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
+               //return false;
+               return;
+             }
+             else {
+               FlowRouter.go('/setup/match');
+               Modal.hide('matchconfirmmodal');
+             }
+         });
+       }
       });
     }
   },

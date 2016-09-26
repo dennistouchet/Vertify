@@ -10,6 +10,8 @@
           </div>
 
           <div class="modal-body">
+            <!-- TODO: replace with error template -->
+            <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
             {{#if Template.subscriptionsReady}}
               {{#with match_results}}
               <h2>

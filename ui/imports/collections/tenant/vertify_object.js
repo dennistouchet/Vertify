@@ -79,12 +79,38 @@ Meteor.methods({
 
     return newid;
   },
-  'vertify_objects.update'(MatchObject){
-    //TODO
-    console.log("vertify_objects.update called");
+  'vertify_objects.updateApprovedStatus'(id, wsid, status){
+    check(id, String);
+    check(wsid, Number);
+    check(status, String);
 
-    return MatchObject.id;
-  }
+    var vo = VertifyObjects.findOne(id, {"workspace_id": wsid});
+    if(vo){
+      vo.external_objects.forEach(function(eo){
+        if(status == "approved"){
+          console.log(eo);
+          eo.approved = true;
+        }
+        else{
+          eo.approved = false;
+        }
+      })
+
+    }
+    else{
+      //throw error
+    }
+
+    vo.external_objects.forEach(function(eo){
+      VertifyObjectExternalObjectsSchema.validate(eo);
+    })
+    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects}});
+
+    return vo.id;
+  },
+  'vertify_objects.remove'(id){
+    //todo
+  },
 });
 
 export const VertifyObjectMatchGroupGroupSchema = new SimpleSchema({

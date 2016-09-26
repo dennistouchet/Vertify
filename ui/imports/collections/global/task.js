@@ -45,6 +45,16 @@ Meteor.methods({
     Tasks.schema.validate(newTasks);
     Tasks.insert(newTasks);
   },
+  'tasks.update'(id, wsid){
+    check(id, String);
+    check(wisid, Number);
+    var thisTask = Tasks.findOne(id, {"workspace_id": id});
+
+  },
+  'tasks.remove'(id, wsid){
+    var thisTask = Tasks.findOne(id, {"workspace_id": id});
+
+  }
 });
 
 Tasks.schema = new SimpleSchema({
