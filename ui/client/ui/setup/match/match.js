@@ -4,6 +4,8 @@ import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 
+import './match.html';
+
 Template.match.helpers({
   hasWorkspace: function(){
     var ws = Session.get("currentWs");

@@ -5,7 +5,7 @@ import { MatchResults } from '../../../../imports/collections/workspace/match_re
 import './process.html';
 
 Template.process.onCreated(function(){
-  this.currentPage = new ReactiveVar("processZeroData"); //other is matchProcessComplete
+  this.currentPage = new ReactiveVar("processZeroData"); //other Page is matchProcessComplete
 });
 
 Template.process.helpers({

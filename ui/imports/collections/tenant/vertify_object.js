@@ -88,7 +88,6 @@ Meteor.methods({
     if(vo){
       vo.external_objects.forEach(function(eo){
         if(status == "approved"){
-          console.log(eo);
           eo.approved = true;
         }
         else{

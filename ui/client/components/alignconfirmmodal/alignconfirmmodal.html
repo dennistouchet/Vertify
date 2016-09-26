@@ -1,0 +1,35 @@
+<template name="alignconfirmmodal">
+
+  <div class="modal fade">
+      <div class="modal-dialog modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title">Align Confirmation
+              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+            </h3>
+          </div>
+
+          <div class="modal-body">
+            <!-- TODO: replace with error template -->
+            <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
+            {{#if Template.subscriptionsReady}}
+              {{#with align_results}}
+              <h2>
+                By accepting the alignment, Vertify will create fields to manage each of the aligned field data elements.<br />
+                <br />
+                Fields to create: {{fieldCount id}}<br />
+                <br />
+              </h2><br />
+              {{/with}}
+            {{/if}}
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="save">Confirm Alignment</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+</template>

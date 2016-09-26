@@ -25,3 +25,9 @@ ModalHelper.openMatchConfirmModalFor = function(id, mrid){
   Session.set('selectedMatchResultId', mrid);
   Modal.show('matchconfirmmodal');
 }
+
+ModalHelper.openAlignConfirmModalFor = function(id, arid){
+  Session.set('selectedVertifyObject', id);
+  Session.set('selectedAlignResultId', arid);
+  Modal.show('alignconfirmmodal');
+}

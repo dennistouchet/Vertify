@@ -3,6 +3,8 @@ import { ExternalObjects } from '../../../../imports/collections/tenant/external
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
 
+import './align.html';
+
 Template.align.helpers({
   hasObjects(){
     return false;
@@ -51,6 +53,19 @@ Template.alignVertifyObjectli.helpers({
     return eo.name;
   },
 });
+
+Template.alignVertifyObjectli.events({
+  'click .voddl li a' : function(e, t){
+    console.log("dropdown event clicked:");
+    console.log(e.target);
+    if(e.target.text.trim() == 'Align'){
+      FlowRouter.go('/setup/align/process?id=' + this._id);
+    }
+    else{
+      console.log(e.target.text);
+    }
+  },
+})
 
 Meteor.subscribe('external_objects', function (){
   console.log( "Match - ExternalObjects now subscribed.");

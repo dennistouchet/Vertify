@@ -104,6 +104,29 @@ setupRoutes.route('/align', {
   }
 });
 
+setupRoutes.route('/align/process', {
+  name: 'alignprocess',
+  action: function(queryParams) {
+      console.log("queryParams: ");
+      console.log(queryParams);
+      BlazeLayout.render('main', {main: 'alignprocess'});
+  }
+});
+
+setupRoutes.route('/align/results', {
+  name: 'alignresults',
+  action() {
+      BlazeLayout.render('main', {main: 'alignresults'});
+  }
+});
+
+setupRoutes.route('/align/fieldeditor', {
+  name: 'fieldeditor',
+  action() {
+      BlazeLayout.render('main', {main: 'fieldeditor'});
+  }
+});
+
 setupRoutes.route('/collect', {
   name: 'collect',
   action() {
