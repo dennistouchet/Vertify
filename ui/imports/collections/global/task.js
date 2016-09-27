@@ -40,6 +40,17 @@ Meteor.methods({
         modified: new Date(),
         is_deleted: false,
       }
+    }else if(t == "aligntest" || t == "align"){
+      var newTask = {
+        id: intid,
+        vertify_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false,
+      }
+      console.log('TODO: finish align tasks.');
     }
 
     Tasks.schema.validate(newTasks);

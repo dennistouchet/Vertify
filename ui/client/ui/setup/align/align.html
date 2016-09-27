@@ -1,15 +1,19 @@
 <template name="align">
   <section class="right_col" role="main" style="height:900px;">
-    <div class="">
-      {{> alignZeroDataHeader}}
-      {{> alignVertifyObjects}}
+    <div class="row">
+      <h1 class="page_title">Align</h1>
+      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+        {{#if hasVertifyObjects}}
+          {{> alignCompleted}}
+        {{else}}
+          {{> alignZeroDataHeader}}
+        {{/if}}
     </div>
   </section>
 </template>
 
 <template name="alignZeroDataHeader">
   <div class="row">
-    <h1 class="page_title">Align</h1>
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like no Vertify objects are aligned.</h4>
     </div>
@@ -27,6 +31,7 @@
       </h4>
     </div>
   </div>
+  {{>alignVertifyObjects}}
 </template>
 
 <template name="alignVertifyObjects">
@@ -73,4 +78,8 @@
       </div>
     </div>
   </div>
+</template>
+
+<template name="alignCompleted">
+TODO: HAS ALIGNED OBJECT
 </template>

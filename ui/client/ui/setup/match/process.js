@@ -47,6 +47,10 @@ Template.process.events({
   },
   'click .match' : function(e, t){
     console.log('Process - match event clicked.');
+    var errDiv = document.getElementById("addErrMatch");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
     ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne({"_id": id});

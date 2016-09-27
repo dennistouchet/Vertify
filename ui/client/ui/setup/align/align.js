@@ -6,7 +6,10 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 import './align.html';
 
 Template.align.helpers({
-  hasObjects(){
+  hasVertifyObjects: function(){
+    return false;
+  },
+  alignCompleted: function(){
     return false;
   },
   hasProperties(){
@@ -66,6 +69,14 @@ Template.alignVertifyObjectli.events({
     }
   },
 })
+
+Template.alignCompleted.helpers({
+
+});
+
+Template.alignCompleted.events({
+
+});
 
 Meteor.subscribe('external_objects', function (){
   console.log( "Match - ExternalObjects now subscribed.");

@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
-import { MatchResults } from '../../../imports/collections/workspace/match_result.js';
+import { AlignResults } from '../../../imports/collections/workspace/align_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
 import './alignconfirmmodal.html';
@@ -52,11 +52,11 @@ Template.alignconfirmmodal.events({
 });
 
 
-Meteor.subscribe("match_results", function (){
-  console.log( "aligncomfirmmodal - MatchResults now subscribed.");
+Meteor.subscribe("align_result", function (){
+  console.log( "Aligncomfirmmodal - AlignResults now subscribed.");
 });
 
 
 Meteor.subscribe("tasks", function (){
-  console.log( "aligncomfirmmodal - Tasks now subscribed.");
+  console.log( "Aligncomfirmmodal - Tasks now subscribed.");
 });
