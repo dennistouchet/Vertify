@@ -20,6 +20,7 @@ import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/glo
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 // Workspace Collection Imports
 import { MatchResults, MatchResultsExternalObjectsSchema } from '../imports/collections/workspace/match_result.js';
+import { AlignResults, AlignResultsFields, FieldRules, FieldRule } from '../imports/collections/workspace/align_result.js';
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 
 Meteor.startup(function(){

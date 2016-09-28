@@ -1,10 +1,18 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
+import { AlignResults } from '../../../../imports/collections/workspace/align_result.js'
 
 import './process.html';
 
+Template.alignprocess.onCreated(function(){
+  this.currentPage = new ReactiveVar("alignProcessZeroData"); //other Page is alignProcessComplete
+});
+
 Template.alignprocess.helpers({
+  aprocess(){
+    return Template.instance().currentPage.get();
+  },
   properties(){
     //TODO:
     return null;
@@ -20,6 +28,10 @@ Template.alignprocess.helpers({
   hasProperties(){
     //TODO:
     return false;
+  },
+  align_results(){
+    //TODO:
+    return null;
   }
 });
 
@@ -68,4 +80,39 @@ Template.alignprocess.events({
       });
     }
   },
+});
+
+Template.alignProcessComplete.events({
+  'click .viewAlignment': function(e){
+    //TODO:
+  },
+  'click .cancelAlignment': function(e){
+    //TODO cancel alignment/delete align results?
+    console.log('cancel alignment clicked');
+    FlowRouter.go('/setup/align');
+  },
+  'click .acceptAlignModal': function(e){
+    e.preventDefault();
+    var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
+    var ws = Session.get("currentWs");
+    var alignresults = AlignResults.findOne({"workspace_id": ws.id});
+    console.log("align Results:");
+    console.log(alignresults);
+    //TODO: replace hardcode value with ID when mock data is setup
+    ModalHelper.openAlignConfirmModalFor(vertifyobjectid, 1);
+
+    console.log("Align - complete align modal clicked");
+  }
+});
+
+Meteor.subscribe('vertify_objects', function (){
+  console.log( "Align/Process - VertifyObjects now subscribed." );
+});
+
+Meteor.subscribe('vertify_properties', function (){
+  console.log( "Align/Process - VertifyProperties now subscribed." );
+});
+
+Meteor.subscribe('align_results', function (){
+  console.log( "Align/Process - AlignResults now subscribed." );
 });

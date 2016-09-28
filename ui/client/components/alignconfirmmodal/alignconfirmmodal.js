@@ -8,10 +8,10 @@ import './alignconfirmmodal.html';
 Template.alignconfirmmodal.helpers({
   align_results(){
     ws = Session.get("currentWs");
-    mr = Session.get("selectedAlignResultId");
-    if(ws && mr){
+    ar = Session.get("selectedAlignResultId");
+    if(ws && ar){
       console.log(mr);
-      return MatchResults.findOne({"workspace_id": ws.id});
+      return AlignResults.findOne({"workspace_id": ws.id});
     }
   },
   fieldCount: function(id){
@@ -44,7 +44,8 @@ Template.alignconfirmmodal.events({
          //success
          var status = "approved";
          //TODO: update vertify property
-         //TODO: this method will eventually be removed and called by elixir
+         FlowRouter.go('/setup/align');
+         Modal.hide('alignconfirmmodal');
        }
       });
     }

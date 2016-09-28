@@ -20,8 +20,19 @@ Meteor.methods({
       intid = (lastTask.id + 111111);
     }
 
-    if(t == "collectschema" || t == "collect"){
-      var newTasks = {
+    var newTasks = null;
+    if(t == "authentication" || t == "discover"){
+      newTasks = {
+        id: intid,
+        system_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false
+      }
+    }else if(t == "collectschema" || t == "collect"){
+      newTasks = {
         id: intid,
         external_object_id: itemid,
         workspace_id: wsid,
@@ -31,7 +42,7 @@ Meteor.methods({
         is_deleted: false
       }
     }else if(t == "matchtest" || t == "match"){
-      var newTasks = {
+      newTasks = {
         id: intid,
         vertify_object_id: itemid,
         workspace_id: wsid,
@@ -41,7 +52,9 @@ Meteor.methods({
         is_deleted: false,
       }
     }else if(t == "aligntest" || t == "align"){
-      var newTask = {
+      //need to decide whats necessary for align tasks
+      console.log('TODO: finish align tasks.');
+      newTasks = {
         id: intid,
         vertify_object_id: itemid,
         workspace_id: wsid,
@@ -50,7 +63,6 @@ Meteor.methods({
         modified: new Date(),
         is_deleted: false,
       }
-      console.log('TODO: finish align tasks.');
     }
 
     Tasks.schema.validate(newTasks);

@@ -3,12 +3,12 @@
     <div class="">
       <h1 class="page_title">Align / Process {{vertify_object}}</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
-      {{>alignprocesszerodata}}
+      {{> Template.dynamic template=aprocess}}
     </div>
   </section>
 </template>
 
-<template name="alignprocesszerodata">
+<template name="alignProcessZeroData">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Ready to run the alignment process? The alignment process automatically finds the fields that are shared across all matched objects.</h4>
@@ -71,5 +71,66 @@
   <div class="row">
     <button type="button" class="btn btn-default pull-right cancel"  >Cancel</button>
     <button type="button" class="btn btn-primary pull-right align" id="save">Align</button>
+  </div>
+</template>
+
+<template name="alignProcessComplete">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Alignment process complete. <strong>{{getAligned}}</strong> out of <strong>{{getTotal}}</strong> fields aligned.<br/>
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Review the alignment resultes to determine if the alignment is correct. Then edit the match rule or accept the match to match all records.<br/>
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="x_panel" style="padding:10px;">
+        <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+          <div class="col-md-3">Suggested Vertify Field</div>
+          <div class="col-md-2">Alignment Method</div>
+          <div class="col-md-3">Aligned Fields</div>
+          <div class="col-md-2">Truth</div>
+          <div class="col-md-1">Accept</div>
+          <div class="col-md-1">Reject</div>
+        </div>
+        {{#with align_results}}
+          <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyPropertyName vertify_property_id}} name</div>
+            <div class="col-md-2">alignment method</div>
+            <div class="col-md-3">aligned field</div>
+            <div class="col-md-2">truth</div>
+            <div class="col-md-1">0</div>
+            <div class="col-md-1">O</div>
+          </div>
+        {{/with}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary viewAlignment" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+        <i class="glyphicon glyphicon-eye-open"></i>
+        View Aligned Data
+      </button>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary cancelAlignment" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-remove"></i>
+        Cancel
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary acceptAlignModal" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Accept <strong>52</strong> Alignments
+      </button>
+    </div>
   </div>
 </template>

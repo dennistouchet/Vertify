@@ -31,7 +31,7 @@ Template.systemaddmodal.events({
     var pf = document.getElementById("pf");
     var maxtasks = document.getElementById("maxtasks");
     var settings = document.querySelectorAll('*[id^="setting_"]');
-    console.log(settings);
+    //console.log(settings);
 
     // Gets the element selected by the system name added. Used to get "data-id" value
     var text = document.getElementById("text");

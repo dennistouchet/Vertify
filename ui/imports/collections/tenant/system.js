@@ -68,8 +68,8 @@ Meteor.methods({
     };
 
     Systems.schema.validate(newSystem);
-    Systems.insert(newSystem);
-
+    var systemval = Systems.insert(newSystem);
+    console.log(systemval);
     return intid;
   },
   'systems.remove'(currentid, wsid){
@@ -96,7 +96,9 @@ Meteor.methods({
 
     Systems.update(id, {$set: {name: system
                   , modified: new Date(), prefix: pf
-                  , max_concurrent_tasks: maxtasks, credentials: cred}})
+                  , max_concurrent_tasks: maxtasks, credentials: cred}});
+    var sys = Systems.findOne(id);
+    return sys.id;
   },
 });
 

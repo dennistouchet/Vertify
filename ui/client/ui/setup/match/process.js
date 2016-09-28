@@ -9,7 +9,7 @@ Template.process.onCreated(function(){
 });
 
 Template.process.helpers({
-  mwizard() {
+  mprocess() {
     return Template.instance().currentPage.get();
   },
   properties(){
