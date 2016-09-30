@@ -20,7 +20,7 @@ import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/glo
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 // Workspace Collection Imports
 import { MatchResults, MatchResultsExternalObjectsSchema } from '../imports/collections/workspace/match_result.js';
-import { AlignResults, AlignResultsFields, FieldRules, FieldRule } from '../imports/collections/workspace/align_result.js';
+import { AlignResults, AlignmentVertifyField, AlignmentObjectField } from '../imports/collections/workspace/align_result.js';
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 
 Meteor.startup(function(){
@@ -31,27 +31,16 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
-//MatchSetup.remove({});
-//console.log("temp MatchSetup collection deleted");
-
 initTasks();
-
 initWorkspaces();
-
 initConnectors();
-
 initSystems();
-
 initExternalObjects();
-
 initVertifyObjects();
-
 initVertifyProperties();
-
 initMatchResults();
-
+initAlignResults();
 initDatas();
-
 initNavitems();
 
 });
@@ -111,6 +100,12 @@ function deleteAllCollections(){
   MatchResults.remove({});
   afterCount = MatchResults.find().count();
   console.log("MatchResults collection deleted (" + (beforeCount - afterCount) + " rows)");
+
+  beforeCount = AlignResults.find().count();
+  AlignResults.remove({});
+  afterCount = AlignResults.find().count();
+  console.log("AlignResults collection deleted (" + (beforeCount - afterCount) + " rows)");
+
 
   beforeCount = MarketoLeadRecord.find().count();
   MarketoLeadRecord.remove({});
@@ -1234,34 +1229,34 @@ function initVertifyProperties() {
   VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects3);
 
   var VertifyProperties1 = {
-  tenant_id: 1,
-  id: 100000,
-  modified: new Date(),
-  created: new Date(),
-  is_deleted: false,
-  workspace_id: 100000,
-  vertify_object_id: 100000,
-  parent_property_id: 100000,
-  name: "FirstName",
-  friendly_name: "First Name" ,
-  type: "string",  //rules object for string //external_objects for array
+    tenant_id: 1,
+    id: 100000,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    workspace_id: 100000,
+    vertify_object_id: 100000,
+    parent_property_id: 100000,
+    name: "FirstName",
+    friendly_name: "First Name" ,
+    type: "string",  //rules object for string //external_objects for array
   level: 0
-  }
+  };
 
   var VertifyProperties2 = {
-  tenant_id: 1,
-  id: 111111,
-  modified: new Date(),
-  created: new Date(),
-  is_deleted: false,
-  workspace_id: 100000,
-  vertify_object_id: 100000,
-  parent_property_id: 100000,
-  name: "PricingMatrix",
-  friendly_name: "Pricing Matrix" ,
-  type: "array",  //rules object for string //external_objects for array
-  level: 0
-  }
+    tenant_id: 1,
+    id: 111111,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    workspace_id: 100000,
+    vertify_object_id: 100000,
+    parent_property_id: 100000,
+    name: "PricingMatrix",
+    friendly_name: "Pricing Matrix" ,
+    type: "array",  //rules object for string //external_objects for array
+    level: 0
+  };
 
   VertifyProperties.schema.validate(VertifyProperties1);
   VertifyProperties.schema.validate(VertifyProperties2);
@@ -1270,7 +1265,7 @@ function initVertifyProperties() {
   if(! VertifyProperties.findOne()){
     VertifyProperties.insert(VertifyProperties1);
     VertifyProperties.insert(VertifyProperties2);
-  }
+  };
 
 }
 
@@ -1296,7 +1291,7 @@ function initMatchResults() {
     MatchResultsExternalObjectsSchema.validate(eo);
   });
 
-  matchResults = {
+  var matchResults = {
     tenant_id: 100000,
     id: 100000,
     modified: new Date(),
@@ -1317,4 +1312,101 @@ function initMatchResults() {
     MatchResults.insert(matchResults);
   }
 
+}
+
+function initAlignResults(){
+
+  var alignmentObjectFieldMK = [{
+      external_object_id: 1,
+      external_property_path: ["FirstName"],
+      is_truth: true
+    },
+      { external_object_id: 1,
+      external_property_path: ["Lastname"],
+      is_truth: true
+    },
+      {external_object_id: 1,
+      external_property_path: ["Status"],
+      is_truth: true
+    },
+      {external_object_id: 1,
+      external_property_path: ["Company"],
+      is_truth: true
+    }]
+  , alignmentObjectFieldNS = [{
+    external_object_id: 1,
+    external_property_path: ["firstname"],
+    is_truth: false
+  },
+    { external_object_id: 1,
+    external_property_path: ["lastname"],
+    is_truth: false
+  },
+    {external_object_id: 1,
+    external_property_path: ["entityStatus"],
+    is_truth: false
+  },
+    {external_object_id: 1,
+    external_property_path: ["organization"],
+    is_truth: false
+  }];
+
+  alignmentObjectFieldMK.forEach(function(fieldmk){
+    AlignmentObjectField.validate(fieldmk);
+  });
+  alignmentObjectFieldNS.forEach(function(fieldns){
+    AlignmentObjectField.validate(fieldns);
+  });
+
+  var alignmentVertifyField = [{
+    name: "FirstName",
+    align_method: "Exact",
+    align_percent: 100,
+    approved: false,
+    fields: [alignmentObjectFieldMK[0], alignmentObjectFieldNS[0]]
+  },{
+    name: "LastName",
+    friendly_name: "",
+    align_method: "Exact",
+    align_percent: 100,
+    approved: false,
+    fields: [alignmentObjectFieldMK[1], alignmentObjectFieldNS[1]]
+  },{
+    name: "Lead Status",
+    friendly_name: "",
+    align_method: "Exact",
+    align_percent: 100,
+    approved: false,
+    fields: [alignmentObjectFieldMK[2], alignmentObjectFieldNS[2]]
+  },{
+    name: "Company Name",
+    friendly_name: "",
+    align_method: "Exact",
+    align_percent: 100,
+    approved: false,
+    fields: [alignmentObjectFieldMK[3], alignmentObjectFieldNS[3]]
+  }];
+
+  alignmentVertifyField.forEach(function(field){
+    AlignmentVertifyField.validate(field);
+  });
+
+  var alignResults = {
+    id: 1,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    workspace_id: 100000,
+    vertify_object_id: 111111,
+    total: 4,
+    aligned: 3,
+    approved: false,
+    alignment_properties: [AlignmentVertifyField[0],AlignmentVertifyField[1],AlignmentVertifyField[2],AlignmentVertifyField[3]]
+  };
+
+  //Add to DB
+  AlignResults.schema.validate(alignResults);
+  if(! AlignResults.findOne()){
+    AlignResults.insert(alignResults);
+  }
 }

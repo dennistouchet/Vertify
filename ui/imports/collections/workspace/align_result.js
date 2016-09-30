@@ -4,31 +4,83 @@ import { check } from 'meteor/check';
 
 export const AlignResults = new Mongo.Collection('align_results');
 
- export const FieldRule = new SimpleSchema({
-   rule:
-     { type: String },
-   external_property:
-     { type: String },
+export const AlignmentObjectField = new SimpleSchema({
+    external_object_id:
+      { type : Number },
+    external_property_path:
+      { type: [String] },
+    is_truth:
+      { type: Boolean }
 });
 
-export const FieldRules = new SimpleSchema({
+export const AlignmentVertifyField = new SimpleSchema({
+  name:
+    { type: String },
+  friendly_name:
+    { type: String
+    , optional: true },
+  align_method:
+    { type: String
+    , defaultValue: "Exact" },
+  align_percent:
+    { type: Number
+    , defaultValue: 100 },
+  approved:
+    { type: Boolean
+    , defaultValue: false },
+  fields:
+    { type: [AlignmentObjectField]}
+});
+
+AlignResults.schema = new SimpleSchema({
+  id:
+    { type: Number },
+  modified:
+    { type: Date},
+  created:
+    { type: Date },
+  is_deleted:
+    { type: Boolean
+    , defaultValue: false },
+  workspace_id:
+    { type: Number },
+  vertify_object_id:
+    { type: Number },
+  total:
+    { type: Number },
+  aligned:
+    { type: Number },
+  alignment_properties:
+    { type: [AlignmentVertifyField]
+    , min: 2 },
+  approved:
+    { type: Boolean },
+});
+
+/*
+export const ExternalObjects = new SimpleSchema({
   external_object_id:
     { type: String },
-    rule:
-      { type: [FieldRule] },
+  external_property_path:
+    { type: String
+    , allowedValues: ["string", "array"] },
+  name:
+    { type: String },
   is_truth:
     {type: Boolean },
 });
 
-export const AlignResultsFields = new SimpleSchema({
-  external_object_id:
-    { type: Number },
+export const AlignmentProperties = new SimpleSchema({
   name:
     { type : String },
-  is_truth:
-    { type: Boolean },
-  rules:
-    { type: [FieldRules] }
+  friendly_name:
+    { type: String },
+  vertify_object_id:
+    { type: Number },
+  parent_vertify_property_id:
+    { type: Number },
+  external_objects:
+    { type: [ExternalObjects] }
 });
 
 AlignResults.schema = new SimpleSchema({
@@ -51,11 +103,8 @@ AlignResults.schema = new SimpleSchema({
     { type: Number },
   aligned:
     { type: Number },
-  duplicates:
-    { type: Number },
-  not_aligned:
-    { type: Number },
-  external_fields:
-    { type: [AlignResultsFields],
+  alignment_properties:
+    { type: [AlignmentProperties],
       min: 2 }
 });
+*/

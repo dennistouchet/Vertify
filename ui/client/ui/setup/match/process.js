@@ -55,6 +55,7 @@ Template.process.events({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne({"_id": id});
 
+    //TODO: Send results ID
     if(ws && vo){
       Meteor.call('tasks.insert', "matchtest", ws.id, vo.id
       , (error, result) => {

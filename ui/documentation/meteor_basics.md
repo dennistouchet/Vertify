@@ -19,16 +19,13 @@ Windows default installation directory lives here:
 
 	C:\Users\[Username]\AppData\Local\.meteor
 
-
 Create new Meteor application (template):
 
 	meteor create [app-name]
 
-
 To run your application simply type 'meteor' in the application directory:
 
 	Example: C:\dev\meteor\demo-app> meteor
-
 
 Add additional Meteor packages:
 
@@ -49,27 +46,18 @@ Remove added Meteor packages:
 
 	meter remove [package-name]
 
-
 Check currently installed packages:
+
 	meteor list
 
-To Replace Blaze (Meteor default) with Angular2:
+To reinstall/refresh all of the packages in the project:
 
-	meteor remove blaze-html-templates
-	meteor add angular2-compilers
-	meteor add barbatus:angular2-runtime
-	meteor npm install --save angular2-meteor
-	meteor npm install @angular/platform-browser-dynamic
-	meteor npm install @angular/router-deprecated
-
-To allow Meteor to Angular binding
-
-	meteor npm install angular2-meteor-auto-bootstrap --save
->this overries @angular/platform-browser-dynamic and adds some additional features
-
-To verify all necessary packages are installed run:
-
+	meteor cache clear
 	meteor npm install
+
+To reset the meteor project settings (including the mongodb)
+
+	meteor reset
 
 *To Allow Typescript:*
 
