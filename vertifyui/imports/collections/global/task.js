@@ -52,8 +52,6 @@ Meteor.methods({
         is_deleted: false,
       }
     }else if(t == "aligntest" || t == "align"){
-      //need to decide whats necessary for align tasks
-      console.log('TODO: finish align tasks.');
       newTasks = {
         id: intid,
         vertify_object_id: itemid,
@@ -63,6 +61,12 @@ Meteor.methods({
         modified: new Date(),
         is_deleted: false,
       }
+    }else if(t == "analyze"){
+      //TODO: analyze task
+    }else if(t == "fix"){
+      //TODO: analyze task
+    }else if(t == "schedule"){
+      //TODO: analyze task
     }
 
     Tasks.schema.validate(newTasks);
@@ -71,11 +75,11 @@ Meteor.methods({
   'tasks.update'(id, wsid){
     check(id, String);
     check(wisid, Number);
-    var thisTask = Tasks.findOne(id, {"workspace_id": id});
+    var thisTask = Tasks.findOne(id, {"workspace_id": wsid});
 
   },
   'tasks.remove'(id, wsid){
-    var thisTask = Tasks.findOne(id, {"workspace_id": id});
+    var thisTask = Tasks.findOne(id, {"workspace_id": wsid});
 
   }
 });

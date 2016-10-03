@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -1317,19 +1317,19 @@ function initMatchResults() {
 function initAlignResults(){
 
   var alignmentObjectFieldMK = [{
-      external_object_id: 1,
+      external_object_id: 3,
       external_property_path: ["FirstName"],
       is_truth: true
     },
-      { external_object_id: 1,
+      { external_object_id: 3,
       external_property_path: ["Lastname"],
       is_truth: true
     },
-      {external_object_id: 1,
+      {external_object_id: 3,
       external_property_path: ["Status"],
       is_truth: true
     },
-      {external_object_id: 1,
+      {external_object_id: 3,
       external_property_path: ["Company"],
       is_truth: true
     }]
@@ -1390,7 +1390,6 @@ function initAlignResults(){
   alignmentVertifyField.forEach(function(field){
     AlignmentVertifyField.validate(field);
   });
-  console.log(alignmentVertifyField[0]);
 
   var alignResults = {
     id: 1,
@@ -1400,9 +1399,9 @@ function initAlignResults(){
     workspace_id: 100000,
     vertify_object_id: 111111,
     total: 4,
-    aligned: 3,
+    aligned: 4,
     approved: false,
-    alignment_properties: [AlignmentVertifyField[0],AlignmentVertifyField[1],AlignmentVertifyField[2],AlignmentVertifyField[3]]
+    alignment_properties: [alignmentVertifyField[0],alignmentVertifyField[1],alignmentVertifyField[2],alignmentVertifyField[3]]
   };
 
   //Add to DB

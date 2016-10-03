@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
+import { VertifyProperties } from '../../../imports/collections/tenant/vertify_property.js';
 import { AlignResults } from '../../../imports/collections/workspace/align_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
@@ -10,13 +11,10 @@ Template.alignconfirmmodal.helpers({
     ws = Session.get("currentWs");
     ar = Session.get("selectedAlignResultId");
     if(ws && ar){
-      console.log(mr);
-      return AlignResults.findOne({"workspace_id": ws.id});
+      console.log("AlignResult id:")
+      console.log(ar);
+      return AlignResults.findOne({"id": ar, "workspace_id": ws.id});
     }
-  },
-  fieldCount: function(id){
-    //TODO:
-    return 52;
   },
 });
 
@@ -31,23 +29,34 @@ Template.alignconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      Meteor.call('tasks.insert', "align", ws.id, vo.id
-      , (error, result) => {
-        if(error){
+      Meteor.call('vertify_objects.update', ws.id, vo.id
+      , (err, res) => {
+        if(err){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Align " + error.error + "] " + error.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Object " + err.error + "] " + err.reason + "</li>";
           //return false;
           return;
+        }else {
+          Meteor.call('tasks.insert', "align", ws.id, vo.id
+          , (error, result) => {
+            if(error){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Align " + error.error + "] " + error.reason + "</li>";
+              //return false;
+              return;
+            }
+            else {
+             //success
+             var status = "approved";
+             //TODO: update vertify property
+             FlowRouter.go('/setup/align');
+             Modal.hide('alignconfirmmodal');
+           }
+          });
         }
-        else {
-         //success
-         var status = "approved";
-         //TODO: update vertify property
-         FlowRouter.go('/setup/align');
-         Modal.hide('alignconfirmmodal');
-       }
-      });
+      })
     }
   },
 });

@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
 import { AlignResults } from '../../../../imports/collections/workspace/align_result.js'
@@ -28,10 +29,6 @@ Template.alignprocess.helpers({
   hasProperties(){
     //TODO:
     return false;
-  },
-  align_results(){
-    //TODO:
-    return null;
   }
 });
 
@@ -78,8 +75,51 @@ Template.alignprocess.events({
           t.currentPage.set( "alignProcessComplete" );
         }
       });
+    }else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Missing Values ] ws:" + ws.id + " | vo :" + vo + "</li>";
+
     }
   },
+});
+
+Template.alignProcessComplete.helpers({
+  align_results(){
+    var ws = Session.get("currentWs");
+    if(ws){
+        return AlignResults.findOne({});
+    }
+    return null;
+  },
+  vertify_objects(){
+    var ws = Session.get("currentWs");
+    if(ws){
+        return VertifyObjects.find({"id": ws.id});
+    }
+    return null;
+  },
+  getVertifyPropertyName: function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var VP = VertifyProperties.findOne({"id": id});
+      return VP.name;
+    }
+    return "no name";
+  },
+  getAligned : function(){
+    return 4;
+  },
+  getTotal : function(){
+    return 5;
+  },
+  getExternalObjectName: function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var EO = ExternalObjects.findOne({"workspace_id": ws.id, "id": id});
+      return EO.name;
+    }
+    return "no name";
+  }
 });
 
 Template.alignProcessComplete.events({
@@ -96,13 +136,15 @@ Template.alignProcessComplete.events({
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
     var alignresults = AlignResults.findOne({"workspace_id": ws.id});
-    console.log("align Results:");
-    console.log(alignresults);
-    //TODO: replace hardcode value with ID when mock data is setup
-    ModalHelper.openAlignConfirmModalFor(vertifyobjectid, 1);
+
+    ModalHelper.openAlignConfirmModalFor(vertifyobjectid, alignresults.id);
 
     console.log("Align - complete align modal clicked");
   }
+});
+
+Meteor.subscribe('external_objects', function (){
+  console.log( "Align/Process - VertifyObjects now subscribed." );
 });
 
 Meteor.subscribe('vertify_objects', function (){

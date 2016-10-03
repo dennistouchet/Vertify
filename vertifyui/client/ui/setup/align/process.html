@@ -75,9 +75,10 @@
 </template>
 
 <template name="alignProcessComplete">
+{{#with align_results}}
   <div class="row">
     <div class="col-md-12">
-      <h4 style="padding-left:10px">Alignment process complete. <strong>{{getAligned}}</strong> out of <strong>{{getTotal}}</strong> fields aligned.<br/>
+      <h4 style="padding-left:10px">Alignment process complete. <strong>{{aligned}}</strong> out of <strong>{{total}}</strong> fields aligned.<br/>
       </h4>
     </div>
   </div>
@@ -98,16 +99,32 @@
           <div class="col-md-1">Accept</div>
           <div class="col-md-1">Reject</div>
         </div>
-        {{#with align_results}}
-          <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
-            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyPropertyName vertify_property_id}} name</div>
-            <div class="col-md-2">alignment method</div>
-            <div class="col-md-3">aligned field</div>
-            <div class="col-md-2">truth</div>
-            <div class="col-md-1">0</div>
-            <div class="col-md-1">O</div>
-          </div>
-        {{/with}}
+          {{#each ap in alignment_properties}}
+            <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+              <div class="col-md-3"><input type="text" name="{{ap.name}}" value="{{ap.name}}"></div>
+              <div class="col-md-2">{{ap.align_method}}<br />{{ap.align_percent}}</div>
+              <div class="col-md-3">
+                {{#each field in ap.fields}}
+                  {{getExternalObjectName field.external_object_id}}: {{field.external_property_path}}<br />
+                {{/each}}
+              </div>
+              <div class="col-md-2">
+                {{#each field in ap.fields}}
+                  {{#if field.is_truth}}
+                    <label><input type="radio" name="truthradio{{ap.name}}" checked></label><br/>
+                  {{else}}
+                    <label><input type="radio" name="truthradio{{ap.name}}"></label><br/>
+                  {{/if}}
+                {{/each}}
+              </div>
+              <div class="col-md-1">
+                <label><input type="radio" name="acceptradio{{ap.name}}" value="accept" checked></label>
+              </div>
+              <div class="col-md-1">
+                <label><input type="radio" name="acceptradio{{ap.name}}" value="reject"></label>
+              </div>
+            </div>
+          {{/each}}
       </div>
     </div>
   </div>
@@ -129,8 +146,10 @@
     <div class="col-md-3">
       <button class="btn btn-primary acceptAlignModal" type=button style="margin-top:10px;margin-bottom:10px;">
         <i class="glyphicon glyphicon-floppy-disk"></i>
-        Accept <strong>52</strong> Alignments
+        Accept <strong>{{aligned}}</strong> Alignments
       </button>
     </div>
   </div>
+
+{{/with}}
 </template>
