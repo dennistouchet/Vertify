@@ -1390,6 +1390,7 @@ function initAlignResults(){
   alignmentVertifyField.forEach(function(field){
     AlignmentVertifyField.validate(field);
   });
+  console.log(alignmentVertifyField[0]);
 
   var alignResults = {
     id: 1,
