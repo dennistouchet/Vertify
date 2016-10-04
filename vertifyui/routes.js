@@ -6,6 +6,14 @@ const setupRoutes = FlowRouter.group({
   }],
 });
 
+const dataRoutes = FlowRouter.group({
+  prefix: '/data',
+  name: 'data',
+  triggersEnter: [()=> {
+    window.scrollTo(0,0);
+  }],
+});
+
 FlowRouter.route('/', {
   name: 'dashboard',
   action() {
@@ -48,42 +56,42 @@ FlowRouter.route('/admin/workspaces', {
   }
 });
 
-FlowRouter.route('/data', {
+dataRoutes.route('/', {
   name: 'data',
   action() {
       BlazeLayout.render('main', {main: 'data'});
   }
 });
 
-FlowRouter.route('/data/diagnose', {
+dataRoutes.route('/diagnose', {
   name: 'diagnose',
   action() {
       BlazeLayout.render('main', {main: 'diagnose'});
   }
 });
 
-FlowRouter.route('/data/fix', {
+dataRoutes.route('/fix', {
   name: 'fix',
   action() {
       BlazeLayout.render('main', {main: 'fix'});
   }
 });
 
-FlowRouter.route('/data/schedule', {
+dataRoutes.route('/schedule', {
   name: 'schedule',
   action() {
       BlazeLayout.render('main', {main: 'schedule'});
   }
 });
 
-FlowRouter.route('/data/search', {
+dataRoutes.route('/search', {
   name: 'search',
   action() {
       BlazeLayout.render('main', {main: 'search'});
   }
 });
 
-FlowRouter.route('/data/sync', {
+dataRoutes.route('/sync', {
   name: 'sync',
   action() {
       BlazeLayout.render('main', {main: 'sync'});

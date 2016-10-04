@@ -1,0 +1,77 @@
+<template name="diagnose">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="row">
+      <h1 class="page_title">Diagnose</h1>
+      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+      {{#if enabled}}
+        {{> diagnoseEnabled}}
+      {{else}}
+        {{> diagnoseDisabled}}
+      {{/if}}
+    </div>
+  </section>
+</template>
+
+<template name="diagnoseDisabled">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like no Vertify objects have been analyzed for truth.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Select a Vertify object and enable real-time analysis.
+      </h4>
+    </div>
+  </div>
+  {{>diagnoseVertifyObjects}}
+</template>
+
+<template name="diagnoseVertifyObjects">
+  <div class="row" style="border-bottom: 1px solid lightgrey">
+    <div class="x_panel">
+      <div class="col-md-3">Vertify Object </div>
+      <div class="col-md-3">Matched Objects </div>
+      <div class="col-md-2">Total Records </div>
+      <div class="col-md-2">Status </div>
+      <div class="col-md-2">Actions </div>
+    </div>
+    <div>
+      {{#if Template.subscriptionsReady}}
+        {{#each vertify_objects}}
+          {{> diagnoseVertifyObjectli}}
+        {{/each}}
+      {{/if}}
+    </div>
+  </div>
+</template>
+
+<template name="diagnoseVertifyObjectli">
+  <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
+    <div class="col-md-3">{{name}} </div>
+    <div class="col-md-3" >
+      {{#each external_objects}}
+        {{getExternalObjectName external_object_id}}<br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      {{#each external_objects}}
+        {{total_records}}<br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      disabled
+    </div>
+    <div class="col-md-2">
+      <div class="dropdown" style="display:inline-block;">
+        <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+          Options
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu voddl">
+          <li><a data-id="{{id}}" href="#"> Enable</a></li>
+          <li><a data-id="{{id}}" href="#"> Edit</a></li> 
+        </ul>
+      </div>
+    </div>
+  </div>
+</template>
