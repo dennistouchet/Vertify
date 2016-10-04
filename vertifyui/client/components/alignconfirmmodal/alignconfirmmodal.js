@@ -29,7 +29,7 @@ Template.alignconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      Meteor.call('vertify_objects.update', ws.id, vo.id
+      Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
       , (err, res) => {
         if(err){
           //console.log(err);

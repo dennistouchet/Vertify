@@ -107,8 +107,8 @@ Meteor.methods({
 
     return vo.id;
   },
-  'vertify_objects.update'(id,wsid){
-    console.log("TODO: Complete VO update");
+  'vertify_objects.edit'(id,wsid){
+    console.log("TODO: Complete VO edit");
   },
   'vertify_objects.remove'(id, wsid){
     var current = VertifyObjects.findOne(id, {"workspace_id": wsid});

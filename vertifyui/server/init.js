@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = true;
+var clearCollections = false;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -1150,25 +1150,25 @@ function initVertifyProperties() {
 
   var VertifyPropertyExternalObjects1 = {
 	        external_object_id: 1,
-	        external_property_path: "$.properties[?(@.name=='addressbookList.addressbook')]",
-	        property_group: 3,
-	        inbound: {
+	        external_property_path: ["$.properties[?(@.name=='addressbookList.addressbook')]"],
+          name: "Addressbook",
+          inbound: {
 	            filter: null,
-    	        sync_action: "add_update"
+    	        sync_action: ["add","update"]
 	        },
 	        outbound: {
 	            filter: null,
-    	        sync_action: "add_update"
+    	        sync_action: ["add","update"]
 	        },
 	        match: null,
 	        is_truth: true
 	    }
   var VertifyPropertyExternalObjects2 = {
 	        external_object_id: 3,
+          external_property_path: ["$.billingaddress"],
 	        name: "Billing Address",
-	        property_group: 1,
 	        inbound: {
-    	        sync_action: "add_update",
+    	        sync_action: ["add","update"],
 	            filter: {
     	            operator: "and", value: [
     	                { external_property: "BillingCity", operator: "isnotnull" },
@@ -1179,7 +1179,7 @@ function initVertifyProperties() {
     	        }
 	        },
 	        outbound: {
-    	        sync_action: "add_update",
+    	        sync_action: ["add","update"],
     	        filter: {
     	            operator: "and", value: [
     	                { external_property: "IsBilling", operator: "eq", value: true }
@@ -1196,10 +1196,10 @@ function initVertifyProperties() {
 	    }
   var VertifyPropertyExternalObjects3 = {
 	        external_object_id: 3,
+          external_property_path: [ "lev1", "lev2" ,"$.shippingaddress"],
 	        name: "Shipping Address",
-	        property_group: 2,
 	        inbound: {
-    	        sync_action: "add_update",
+    	        sync_action: ["add","update"],
     	        filter: {
     	            operator: "and", value: [
     	                { external_property: "ShippingCity", operator: "isnotnull" },
@@ -1210,7 +1210,7 @@ function initVertifyProperties() {
     	        }
 	        },
 	        outbound: {
-    	        sync_action: "add_update",
+    	        sync_action: ["add","update"],
     	        filter: {
     	            operator: "and", value: [
     	                { external_property: "IsShipping", operator: "eq", value: true }
@@ -1239,8 +1239,7 @@ function initVertifyProperties() {
     parent_property_id: 100000,
     name: "FirstName",
     friendly_name: "First Name" ,
-    type: "string",  //rules object for string //external_objects for array
-  level: 0
+    level: 0
   };
 
   var VertifyProperties2 = {
@@ -1254,7 +1253,6 @@ function initVertifyProperties() {
     parent_property_id: 100000,
     name: "PricingMatrix",
     friendly_name: "Pricing Matrix" ,
-    type: "array",  //rules object for string //external_objects for array
     level: 0
   };
 
@@ -1360,30 +1358,30 @@ function initAlignResults(){
 
   var alignmentVertifyField = [{
     name: "FirstName",
-    align_method: "Exact",
+    align_method: "Set",
     align_percent: 100,
-    approved: false,
+    approved: true,
     fields: [alignmentObjectFieldMK[0], alignmentObjectFieldNS[0]]
   },{
     name: "LastName",
     friendly_name: "",
-    align_method: "Exact",
+    align_method: "Set",
     align_percent: 100,
-    approved: false,
+    approved: true,
     fields: [alignmentObjectFieldMK[1], alignmentObjectFieldNS[1]]
   },{
     name: "Lead Status",
     friendly_name: "",
-    align_method: "Exact",
+    align_method: "Set",
     align_percent: 100,
-    approved: false,
+    approved: true,
     fields: [alignmentObjectFieldMK[2], alignmentObjectFieldNS[2]]
   },{
     name: "Company Name",
     friendly_name: "",
-    align_method: "Exact",
+    align_method: "Set",
     align_percent: 100,
-    approved: false,
+    approved: true,
     fields: [alignmentObjectFieldMK[3], alignmentObjectFieldNS[3]]
   }];
 
@@ -1397,7 +1395,7 @@ function initAlignResults(){
     created: new Date(),
     is_deleted: false,
     workspace_id: 100000,
-    vertify_object_id: 111111,
+    vertify_object_id: 100000,
     total: 4,
     aligned: 4,
     approved: false,

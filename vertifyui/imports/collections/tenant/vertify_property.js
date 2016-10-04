@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { AlignResults } from '../workspace/align_result.js';
 
 export const VertifyProperties = new Mongo.Collection('vertify_properties');
 
@@ -10,8 +11,85 @@ var _advancedRules = [ "split", "math", "sparator", "condition",
                       "formatters", "replace", "case", "date",
                       "phone", "url", "truncate", "round" ]
 
-var _sync_actions = [ "add", "update", "empty", "add_update" ];
+var _sync_actions_arr = [ "add", "update", "delete" ];
+
+var _sync_actions_enum = [ "add", "update", "empty", "add_update"];
+
 var _directions = [ "inbound", "outbound", "bidirectional", "none" ];
+
+Meteor.methods({
+  'vertify_properties.insertSingle'(vo, matchResult){
+    //TODO: needed for match
+  },
+  'vertify_properties.insertMultiple'(ws, vo){
+    /*
+    var ruleobj = {
+      rule: alignResults.alignment_properties[i].align_method,
+      external_property: alignResults.alignment_properties[i].fields[j]
+      value: {}
+    }
+
+    var extobj = {
+      external_object_id:
+        { type: Number },
+      property_group:
+        { type: Number
+          , optional: true },
+      direction:
+        { type: String
+        , allowedValues: _directions },
+      sync_action:
+        { type: String
+        , allowedValues: _sync_actions_enum },
+      rule:
+        { type: VertifyPropertyRulesRuleSchema },
+      is_truth: alignResults.alignmentProperties[i]
+    }*/
+    console.log("workspace:");
+    console.log(ws);
+    console.log("vertify object:");
+    console.log(vo);
+    var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
+    var Properties = [];
+
+    var id =
+
+    alignResults.alignment_properties.forEach(function(alignproperty){
+      if(alignproperty.approved){
+        var newProperty = {
+          modified: new Date(),
+          created: new Date(),
+          is_deleted: false,
+          workspace_id: alignResults.workspace_id,
+          vertify_object_id: alignResults.vertify_object_id,
+          parent_property_id: null,
+          task_status: "queued",
+          name: alignproperty.name,
+          friendly_name: alignproperty.name,
+          //friendly_name: alignproperty.friendly_name,
+          level: 0,
+        }
+        Properties.push(newProperty);
+      }
+    });
+
+    vplist = [];
+    Properties.forEach(function(vp){
+      VertifyProperties.schema.validate(vp);
+      var id = VertifyProperties.insert(vp);
+      vplist.push(id);
+    });
+
+    return vplist;
+  },
+  'vertify_properties.edit'(){
+    console.log("vertify_properties.edit function stub called.");
+  },
+  'vertify_properties.remove'(id, vo, wsid){
+    var current = VertifyProperties.findOne(id, {"vertify_object_id": vo, "workspace_id": wsid});
+    VertifyProperties.remove(current._id);
+  },
+})
 
 VertifyPropertyRulesRuleSchema = new SimpleSchema({
   rule:
@@ -36,7 +114,7 @@ VertifyPropertyRulesSchema = new SimpleSchema({
     , allowedValues: _directions },
   sync_action:
     { type: String
-    , allowedValues: _sync_actions },
+    , allowedValues: _sync_actions_enum },
   rule:
     { type: VertifyPropertyRulesRuleSchema },
   is_truth:
@@ -44,22 +122,20 @@ VertifyPropertyRulesSchema = new SimpleSchema({
 });
 
 VertifyPropertyExternalObjectsSchema = new SimpleSchema({
-
     external_object_id:
       { type: Number },
     external_property_path:
-      { type: String
+      { type: [String]
       , optional: true },
     name:
-      { type: String
-      , optional: true },
-    property_group:
-      { type: Number },
+      { type: String},
+    is_truth:
+      { type: Boolean },
     inbound:
       { type: Object },
     "inbound.sync_action":
-      { type: String
-      , allowedValues: _sync_actions },
+      { type: [String]
+      , allowedValues: _sync_actions_arr },
     "inbound.filter":
       { type: Object
       , blackbox: true
@@ -67,8 +143,8 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
     outbound:
       { type: Object },
     "outbound.sync_action":
-      { type: String
-      , allowedValues: _sync_actions },
+      { type: [String]
+      , allowedValues: _sync_actions_arr },
     "outbound.filter":
       { type: Object
       , blackbox: true
@@ -76,16 +152,16 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
     match:
       { type: Object
       , blackbox: true
-      , optional: true },
-    is_truth:
-      { type: Boolean }
+      , optional: true }
 });
 
 VertifyProperties.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: Number
+    , optional: true },
   id:
-    { type: Number },
+    { type: Number
+    , optional: true },
   modified:
     { type: Date },
   created:
@@ -97,7 +173,8 @@ VertifyProperties.schema = new SimpleSchema({
   vertify_object_id:
     { type: Number },
   parent_property_id:
-    { type: Number },
+    { type: Number
+    , optional: true },
   task_status:
     { type: String
     , optional: true },
@@ -105,9 +182,6 @@ VertifyProperties.schema = new SimpleSchema({
     { type: String },
   friendly_name:
     { type: String },
-  type:
-    { type: String
-    , allowedValues: [ "string","array"] }, //rules object for string //external_objects for array
   level:
     { type: Number },
   rules:
