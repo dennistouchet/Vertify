@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { Tasks } from '../../../../imports/collections/global/task.js'
 
 import './diagnose.html';
@@ -35,5 +36,10 @@ Template.diagnoseVertifyObjectli.helpers({
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
     return eo.name;
+  },
+  getRecordCount : function(eo_id){
+    var ws = Session.get("currentWs");
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    return eo.record_count;
   },
 });

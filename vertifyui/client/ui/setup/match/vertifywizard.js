@@ -411,7 +411,7 @@ Template.vwMatch.helpers({
 });
 
 Template.vwMatch.events({
-  'click .opddl li a' : function(e,t){
+  'click .percentddl li a' : function(e,t){
     console.log("Object Event: " + e + " | Event Target: " + $(e.target));
 
     var val = e.target.parentNode.getAttribute('data-value');

@@ -30,6 +30,8 @@ Meteor.methods({
       throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
     }
 
+    var rcdcnt = Math.floor((Math.random() * 100000) + 1000);
+
     var newExternalObject = {
       tenant_id: wsid,
       id: newid,
@@ -37,7 +39,8 @@ Meteor.methods({
       created: new Date(),
       name: n,
       system_id: sysid,
-      workspace_id: wsid
+      workspace_id: wsid,
+      record_count: rcdcnt
     };
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
@@ -99,7 +102,7 @@ ExternalObjects.schema = new SimpleSchema({
     { type: Number },
   task_status:
     { type: String
-    , optional: true },    
+    , optional: true },
   last_query:
     { type: Date
     , optional: true },

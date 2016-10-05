@@ -56,7 +56,7 @@
     </div>
     <div class="col-md-2">
       {{#each external_objects}}
-        {{total_records}}<br/>
+        {{getRecordCount external_object_id}}<br/>
       {{/each}}
     </div>
     <div class="col-md-2">
@@ -69,7 +69,7 @@
         <span class="caret"></span></button>
         <ul class="dropdown-menu voddl">
           <li><a data-id="{{id}}" href="#"> Enable</a></li>
-          <li><a data-id="{{id}}" href="#"> Edit</a></li> 
+          <li><a data-id="{{id}}" href="#"> Edit</a></li>
         </ul>
       </div>
     </div>
