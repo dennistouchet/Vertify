@@ -20,6 +20,7 @@ var _directions = [ "inbound", "outbound", "bidirectional", "none" ];
 Meteor.methods({
   'vertify_properties.insertSingle'(vo, matchResult){
     //TODO: needed for match
+    console.log("vertify_properties.insertSingle function stub called.");
   },
   'vertify_properties.insertMultiple'(ws, vo){
     /*
@@ -45,14 +46,9 @@ Meteor.methods({
         { type: VertifyPropertyRulesRuleSchema },
       is_truth: alignResults.alignmentProperties[i]
     }*/
-    console.log("workspace:");
-    console.log(ws);
-    console.log("vertify object:");
-    console.log(vo);
-    var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
+    //TODO: ADD Vertify Object ID to filter once alignresults are actually being created
+    var alignResults = AlignResults.findOne({"workspace_id": ws});//,"vertify_object_id": vo});
     var Properties = [];
-
-    var id =
 
     alignResults.alignment_properties.forEach(function(alignproperty){
       if(alignproperty.approved){
@@ -61,7 +57,8 @@ Meteor.methods({
           created: new Date(),
           is_deleted: false,
           workspace_id: alignResults.workspace_id,
-          vertify_object_id: alignResults.vertify_object_id,
+          //TODO: change this once real Align results are created
+          vertify_object_id: vo.id,//alignResults.vertify_object_id,
           parent_property_id: null,
           task_status: "queued",
           name: alignproperty.name,

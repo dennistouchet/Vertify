@@ -19,16 +19,27 @@ Template.alignprocess.helpers({
     return null;
   },
   vertify_object(){
-    //TODO:
-    return "VertifyLeadNs";
+    var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
+    console.log("vertifyobjectid" + vertifyobjectid);
+    var thisVo = VertifyObjects.findOne(vertifyobjectid);
+    console.log("thisVo:");
+    console.log(thisVo);
+    return thisVo.name;
   },
   hasObjects(){
     //TODO:
     return false;
   },
-  hasProperties(){
-    //TODO:
-    return false;
+  hasProperties(id){
+    var ws = Session.get("currentWs");
+    var hasProperties = false;
+    if(ws && id){
+      var cnt = VertifyProperties.find({"workspace_id": ws.id, "vertify_object_id": id}).count();
+      if(cnt > 0){
+        hasProperties = true;
+      }
+    }
+    return hasProperties;
   }
 });
 

@@ -153,6 +153,8 @@ Meteor.tools = {
 
     if(!results) return null;
     if(!results[2]) return '';
+    console.log(name);
+    console.log(results);
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){

@@ -42,7 +42,7 @@
               {{#each properties}}
                 <li data-name="{{name}}"><a href="#">{{name}}</a></li>
               {{else}}
-                <li> No Existing Propreties</li>
+                <li> No Existing Properties</li>
               {{/each}}
             </ul>
           {{else}}
@@ -75,30 +75,31 @@
 </template>
 
 <template name="alignProcessComplete">
-{{#with align_results}}
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Alignment process complete. <strong>{{aligned}}</strong> out of <strong>{{total}}</strong> fields aligned.<br/>
-      </h4>
+{{#if Template.subscriptionsReady}}
+  {{#with align_results}}
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">Alignment process complete. <strong>{{aligned}}</strong> out of <strong>{{total}}</strong> fields aligned.<br/>
+        </h4>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Review the alignment resultes to determine if the alignment is correct. Then edit the match rule or accept the match to match all records.<br/>
-      </h4>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">Review the alignment resultes to determine if the alignment is correct. Then edit the match rule or accept the match to match all records.<br/>
+        </h4>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="x_panel" style="padding:10px;">
-        <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
-          <div class="col-md-3">Suggested Vertify Field</div>
-          <div class="col-md-2">Alignment Method</div>
-          <div class="col-md-3">Aligned Fields</div>
-          <div class="col-md-2">Truth</div>
-          <div class="col-md-1">Accept</div>
-          <div class="col-md-1">Reject</div>
-        </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="x_panel" style="padding:10px;">
+          <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+            <div class="col-md-3">Suggested Vertify Field</div>
+            <div class="col-md-2">Alignment Method</div>
+            <div class="col-md-3">Aligned Fields</div>
+            <div class="col-md-2">Truth</div>
+            <div class="col-md-1">Accept</div>
+            <div class="col-md-1">Reject</div>
+          </div>
           {{#each ap in alignment_properties}}
             <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
               <div class="col-md-3"><input type="text" name="{{ap.name}}" value="{{ap.name}}"></div>
@@ -125,31 +126,33 @@
               </div>
             </div>
           {{/each}}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <button class="btn btn-primary viewAlignment" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
-        <i class="glyphicon glyphicon-eye-open"></i>
-        View Aligned Data
-      </button>
+    <div class="row">
+      <div class="col-md-3">
+        <button class="btn btn-primary viewAlignment" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+          <i class="glyphicon glyphicon-eye-open"></i>
+          View Aligned Data
+        </button>
+      </div>
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary cancelAlignment" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-remove"></i>
+          Cancel
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary acceptAlignModal" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-floppy-disk"></i>
+          Accept <strong>{{aligned}}</strong> Alignments
+        </button>
+      </div>
     </div>
-    <div class="col-md-3">
-    </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary cancelAlignment" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-remove"></i>
-        Cancel
-      </button>
-    </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary acceptAlignModal" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-floppy-disk"></i>
-        Accept <strong>{{aligned}}</strong> Alignments
-      </button>
-    </div>
-  </div>
-
-{{/with}}
+  {{/with}}
+{{else}}
+  loading...
+{{/if}}
 </template>

@@ -8,6 +8,7 @@ Template.process.onCreated(function(){
   this.currentPage = new ReactiveVar("processZeroData"); //other Page is matchProcessComplete
 });
 
+
 Template.process.helpers({
   mprocess() {
     return Template.instance().currentPage.get();
@@ -15,15 +16,6 @@ Template.process.helpers({
   properties(){
     //TODO: get vertify object properties
     return false;
-  },
-  queryParams(){
-    console.log("process queryParams:");
-    console.log(queryParams.id);
-  },
-  workspaceChanged: function(){
-    var url = window.location.href;
-    var res = url.split("?");
-    window.history.pushState(null,"", "setup/match");
   },
 });
 
@@ -77,17 +69,22 @@ Template.process.events({
 Template.matchProcessComplete.helpers({
   match_results(){
     var ws = Session.get("currentWs");
-    if(ws){
-      return MatchResults.findOne({});
+    var id = Meteor.tools.getQueryParamByName("id");
+    if(ws && id){
+      var vo = VertifyObjects.findOne(id).name;
+      //TODO: update this to use VO ID when match results are real
+      return MatchResults.findOne({"workspace_id": ws.id});
     }
+    return MatchResults.findOne({});
   },
-  getMatched : function(){
-    //TODO: get value from match results
-    return 100;
-  },
-  getTotal : function(){
-    //TODO: get value from system of truth total
-    return 125000;
+  vertify_object(){
+    //TODO: fix this. It tries to get the ID before the template is rendered and the queryparams are set so it fails
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    if(ws && id){
+      return VertifyObjects.findOne(id).name;
+    }
+    return null;
   },
   getExternalObjectName: function(id){
     //TODO:

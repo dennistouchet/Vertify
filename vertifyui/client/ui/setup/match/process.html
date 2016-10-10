@@ -75,9 +75,10 @@
 </template>
 
 <template name="matchProcessComplete">
+  {{#with match_results}}
   <div class="row">
     <div class="col-md-12">
-      <h4 style="padding-left:10px">Match process complete. <strong>{{getMatched}}</strong> out of <strong>{{getTotal}}</strong> records matched.<br/>
+      <h4 style="padding-left:10px">Match process complete. <strong>{{match_results.matched}}</strong> out of <strong>{{match_results.total}}</strong> records matched.<br/>
       </h4>
     </div>
   </div>
@@ -99,7 +100,6 @@
           <div class="col-md-2">Not Matched</div>
           <div class="col-md-1"></div>
         </div>
-        {{#with match_results}}
           <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
             <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectName vertify_object_id}}</div>
             <div class="col-md-2">{{total}}</div>
@@ -118,7 +118,6 @@
               <div class="col-md-1"></div>
             </div>
           {{/each}}
-        {{/with}}
       </div>
     </div>
   </div>
@@ -148,4 +147,5 @@
       </button>
     </div>
   </div>
+  {{/with}}
 </template>
