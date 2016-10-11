@@ -14,19 +14,20 @@
             <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
             {{#if Template.subscriptionsReady}}
               {{#with match_results}}
-              <h2>
-                By accepting the match, Vertify will begin matching all records against the system of truth.<br />
-                <br />
-                System of truth: {{systemOfTruth id}}<br />
-                Records to Match: {{systemOfTruthRecords id}}<br />
-                <br />
-              </h2><br />
+                <h2>
+                  By accepting the match, Vertify will begin matching all records against the system of truth.<br />
+                  <br /><br />
+                  <strong>System of truth:</strong><br />
+                    {{systemOfTruth id}}<br /><br />
+                  <strong>Records to Match:</strong><br />
+                    {{systemOfTruthRecords id}}<br />
+                  <br />
+                  <br />
                   <div class="row" style="padding:10px;">
                     <strong>Match Against:</strong><br />
-                    <h2>
-                        -{{getExternalObjectInfo external_object_id}}<br/>
-                    </h2>
+                      {{getExternalObjectInfo external_object_id}}<br/>
                   </div>
+                </h2>
               {{/with}}
             {{/if}}
           </div>

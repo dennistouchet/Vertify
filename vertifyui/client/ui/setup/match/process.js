@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { MatchResults } from '../../../../imports/collections/workspace/match_result.js';
 
 import './process.html';
@@ -88,10 +89,19 @@ Template.matchProcessComplete.helpers({
   },
   getExternalObjectName: function(id){
     //TODO:
+    var ws = Session.get("currentWs");
+    if(ws && id){
+      return ExternalObjects.findOne({"workspace_id": ws.id, "id": id}).name;
+    }
+    //TODO: throw error
     return "External Object Name";
   },
   getVertifyObjectName: function(id){
-    //TODO:
+    var ws = Session.get("currentWs");
+    if(ws && id){
+      return VertifyObjects.findOne({ "id":id, "workspace_id":ws.id }).name;
+    }
+    //TODO: throw error
     return "Vertify Object Name";
   }
 })

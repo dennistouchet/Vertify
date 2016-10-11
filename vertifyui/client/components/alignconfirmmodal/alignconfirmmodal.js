@@ -27,6 +27,7 @@ Template.alignconfirmmodal.events({
 
     id = Session.get("selectedVertifyObject");
     vo = VertifyObjects.findOne(id);
+
     ws = Session.get("currentWs");
     if(ws && vo){
       Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
@@ -50,7 +51,7 @@ Template.alignconfirmmodal.events({
             else {
              //success
              var status = "approved";
-             //TODO: update vertify property
+             //TODO: mock update vertify property
              FlowRouter.go('/setup/align');
              Modal.hide('alignconfirmmodal');
            }

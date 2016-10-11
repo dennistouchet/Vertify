@@ -19,12 +19,15 @@ Template.alignprocess.helpers({
     return null;
   },
   vertify_object(){
+    var ws = Session.get("currentWs");
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
-    console.log("vertifyobjectid" + vertifyobjectid);
-    var thisVo = VertifyObjects.findOne(vertifyobjectid);
-    console.log("thisVo:");
-    console.log(thisVo);
-    return thisVo.name;
+    if(ws && vertifyobjectid){
+      console.log("vertifyobjectid" + vertifyobjectid);
+      var thisVo = VertifyObjects.findOne(vertifyobjectid);
+      console.log("thisVo:");
+      console.log(thisVo);
+      return thisVo.name;
+    }
   },
   hasObjects(){
     //TODO:
@@ -110,18 +113,36 @@ Template.alignProcessComplete.helpers({
     return null;
   },
   getVertifyPropertyName: function(id){
+    console.log("getTotal called with: " + id);
     var ws = Session.get("currentWs");
-    if(ws){
-      var VP = VertifyProperties.findOne({"id": id});
+    if(ws && id){
+      var VP = VertifyProperties.findOne({"workspace_id": ws.id, "id": id});
       return VP.name;
     }
+    //throw error
     return "no name";
   },
-  getAligned : function(){
-    return 4;
+  getAligned : function(id){
+    console.log("getAligned called with: " + id);
+    var count = 0;
+    var ws = Session.get("currentWs");
+    if(ws && id){
+      var VPs = VertifyProperties.find({"workspace_id": ws.id, "id": id});
+      return count;
+    }
+    //throw error
+    return count;
   },
-  getTotal : function(){
-    return 5;
+  getTotal : function(id){
+    console.log("getTotal called with: " + id);
+    var count = 0;
+    var ws = Session.get("currentWs");
+    if(ws && id){
+      count = VertifyProperties.find({"workspace_id": ws.id, "id": id}).count();
+      return count;
+    }
+    //throw error
+    return count;
   },
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
@@ -129,7 +150,7 @@ Template.alignProcessComplete.helpers({
       var EO = ExternalObjects.findOne({"workspace_id": ws.id, "id": id});
       return EO.name;
     }
-    return "no name";
+    return null;
   }
 });
 

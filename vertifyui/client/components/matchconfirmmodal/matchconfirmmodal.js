@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ExternalObjects } from '../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
 import { MatchResults } from '../../../imports/collections/workspace/match_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
@@ -9,23 +10,56 @@ Template.matchconfirmmodal.helpers({
     mr = Session.get("selectedMatchResultId");
     if(ws && mr){
       console.log(mr);
-      return MatchResults.findOne({"workspace_id": ws.id});
+      return MatchResults.findOne({"id":mr, "workspace_id": ws.id});
     }
   },
   systemOfTruth: function(id){
-    //TODO:
-    return "MarketoLeadRecord";
+    ws = Session.get("currentWs");
+    mr = Session.get("selectedMatchResultId");
+    var sot = "No SOT";
+    if(ws && mr){
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      MR.external_objects.forEach(function(eo){
+        if(eo.is_truth)
+        {
+          console.log(eo);
+          sot = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id":ws.id}).name;
+        }
+      });
+    }
+    return sot;
   },
   systemOfTruthRecords: function(id){
-    //TODO:
-    return 100000;
+    ws = Session.get("currentWs");
+    mr = Session.get("selectedMatchResultId");
+    var sot = "No Records found";
+    if(ws && mr){
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      MR.external_objects.forEach(function(eo){
+        if(eo.is_truth)
+        {
+          sot = eo.total;
+        }
+      });
+    }
+    return sot;
   },
   getExternalObjectInfo: function(id){
     //TODO: if SoT do not return value - get SOT of this external object by id
-    var sot = false;
-    if(!sot){
-      return "ExternalObjectname" + " - 30,000";
+    ws = Session.get("currentWs");
+    mr = Session.get("selectedMatchResultId");
+    var sot = "External object error";
+    if(ws && mr){
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      MR.external_objects.forEach(function(eo){
+        if(!eo.is_truth)
+        {
+          sot = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id":ws.id}).name;
+          sot += ": " + eo.total + " records.";
+        }
+      });
     }
+    return sot;
   }
 });
 

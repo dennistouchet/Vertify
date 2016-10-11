@@ -1,5 +1,6 @@
 import { Meteor } from  "meteor/meteor";
 import { Systems } from "../imports/collections/tenant/system.js";
+import { Connectors } from '../imports/collections/global/connectors.js';
 import { ExternalObjects } from "../imports/collections/tenant/external_object.js";
 import { MatchSetup } from "../imports/collections/tenant/match_setup.js";
 import { VertifyObjects } from "../imports/collections/tenant/vertify_object.js";
@@ -17,8 +18,8 @@ Meteor.tools = {
     }
     return true;
   },
-  getExternalObjects : function(sys){
-    console.log("getExternalObjects Called");
+  getExternalObjects : function(wsid, sysid){
+    console.log("getExternalObjects Called from tools.js");
 
     var netsuiteExternalObjects = [{
           name: "Netsuite Customer",
@@ -47,17 +48,22 @@ Meteor.tools = {
           is_dynamic: true
         }];
 
-    if(sys == 100000){
-      return netsuiteExternalObjects;
-    }
-    else if (sys == 111111){
-      return marketoExternalObjects;
-    }
-    else if (sys == 222222){
-      return salesforceExternalObjects;
-    }
 
-    return null;
+    var extobj = null;
+    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
+    if(system){
+      var connector = Connectors.findOne({"id": system.connector_id});
+      if(connector.id == 100000){
+        extobj = netsuiteExternalObjects;
+      }
+      else if (connector.id == 111111){
+        extobj = marketoExternalObjects;
+      }
+      else if (connector.id == 222222){
+        extobj = salesforceExternalObjects;
+      }
+    }
+    return extobj;
   },
   connectStatus : function(wsid){
     var systemCount = Systems.find({"workspace_id": wsid}).count();

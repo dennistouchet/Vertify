@@ -126,7 +126,7 @@ Template.collect.events({
     }
 
     //verify that variable doesn't already exist for the system
-    var obj = ExternalObjects.findOne({"name": name, "system_id": sysId });
+    var obj = ExternalObjects.findOne({"name": name.trim(), "system_id": sysId });
     if(obj == null){
       //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId + " | name: " + name );
       Meteor.call('external_objects.insert'
@@ -194,7 +194,7 @@ Template.collect.events({
     }
 
     //verify that variable doesn't already exist for the system
-    var obj = ExternalObjects.findOne({"name": name, "system_id": sysId });
+    var obj = ExternalObjects.findOne({"name": name.trim(), "system_id": sysId });
     if(obj == null){
       //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId );
       Meteor.call('external_objects.insert'

@@ -47,6 +47,7 @@ Meteor.methods({
       is_truth: alignResults.alignmentProperties[i]
     }*/
     //TODO: ADD Vertify Object ID to filter once alignresults are actually being created
+    
     var alignResults = AlignResults.findOne({"workspace_id": ws});//,"vertify_object_id": vo});
     var Properties = [];
 
@@ -58,7 +59,7 @@ Meteor.methods({
           is_deleted: false,
           workspace_id: alignResults.workspace_id,
           //TODO: change this once real Align results are created
-          vertify_object_id: vo.id,//alignResults.vertify_object_id,
+          vertify_object_id: vo,//alignResults.vertify_object_id,
           parent_property_id: null,
           task_status: "queued",
           name: alignproperty.name,

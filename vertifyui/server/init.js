@@ -760,16 +760,13 @@ function initExternalObjects() {
     is_key: false
   }]
 
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties1[0]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties1[1]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[0]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[1]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[2]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[3]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[4]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[5]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[6]);
-  ExternalObjectProperties.schema.validate(ExternalObjectProperties2[7]);
+  ExternalObjectProperties1.forEach(function(eop1){
+    ExternalObjectProperties.schema.validate(eop1);
+  });
+
+  ExternalObjectProperties2.forEach(function(eop1){
+    ExternalObjectProperties.schema.validate(eop1);
+  });
 
   var netsuiteobj = {
     tenant_id: 100000,
@@ -807,7 +804,7 @@ function initExternalObjects() {
   };
 
   var marketoobj = {
-    tenant_id: 100000,
+    tenant_id: 111111,
     id:  2,
     modified:  new Date(),
     created:   new Date(),
@@ -818,7 +815,7 @@ function initExternalObjects() {
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
-    record_count: 10000,
+    record_count: 15000,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,
@@ -888,7 +885,7 @@ function initExternalObjects() {
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
-    record_count: 10000,
+    record_count: 18000,
     type: "",
     properties: ExternalObjectProperties1,
     generic_integer_1: 1,
@@ -923,9 +920,9 @@ function initExternalObjects() {
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
-    record_count: 10000,
+    record_count: 12000,
     type: "",
-    properties: ExternalObjectProperties1,
+    properties: ExternalObjectProperties2,
     generic_integer_1: 1,
     generic_integer_2: null,
     generic_integer_3: null,

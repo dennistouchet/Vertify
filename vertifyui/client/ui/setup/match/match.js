@@ -9,14 +9,12 @@ import './match.html';
 Template.match.helpers({
   hasWorkspace: function(){
     var ws = Session.get("currentWs");
-    if(ws == null){
-      console.log("Match - No workspace selected");
-      return "No Workspace selected.";
-    }
-    else{
+    if(ws){
       console.log("Match - current workspace: " + ws.name);
       return ws.name;
     }
+    console.log("Match - No workspace selected");
+    return "No Workspace selected.";
   },
   hasSystems : function(){
     if(Session.get("systemCount")){
@@ -24,68 +22,44 @@ Template.match.helpers({
       if(sysCnt > 0){
         return true;
       }
-      else {
-        return false;
-      }
     }
-    else {
       return false;
-    }
   },
   hasEnoughObject : function(){
-    if(Session.get("objectCount")){
+    if(Session.get("objectCount"))
+    {
       var objectcount =  parseInt(Session.get("objectCount"));
       if(objectcount > 1){
         return true;
       }
-      else{
-        return false;
-      }
     }
-    else{
-      return false;
-    }
+    return false;
+
   },
   hasVertifyObjects : function(){
     var ws = Session.get("currentWs");
-    if(ws == null){
-      return false;
-    }
-
+    if(ws){
     var count = VertifyObjects.find({"workspace_id": ws.id}).count();
     if(count > 0)
-    {
       return true;
     }
     return false;
   },
   vertifyObjectCount : function(){
     var ws = Session.get("currentWs");
-    if(ws == null){
-      return false;
-    }
-
-    var count = VertifyObjects.find({"workspace_id": ws.id}).count();
-    if(count > 0)
-    {
+    if(ws){
+      var count = VertifyObjects.find({"workspace_id": ws.id}).count();
       return count.toString() + " objects";
     }
-    return "0 objects";
+    return false;
   },
   matchCompleted : function(){
     var ws = Session.get("currentWs");
-    if(ws == null){
-      return false;
-    }
-
-    var voApproved = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true});
-    console.log("vo approved: ");
-    console.log(voApproved);
-    var count = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true}).count();
-    if(count > 0)
-    {
-
-      return true;
+    if(ws){
+      var voApproved = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true});
+      var count = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true}).count();
+      if(count > 0)
+        return true;
     }
     return false;
   },

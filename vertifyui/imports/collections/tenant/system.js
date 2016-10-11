@@ -44,7 +44,7 @@ Meteor.methods({
 
     // Call Task to get external objects
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
-     var eolist = Meteor.tools.getExternalObjects(sysid);
+     var eolist = Meteor.tools.getExternalObjects(wsid, sysid);
      for(i=0;i< eolist.length;i++)
      {
        SystemExternalObjectsSchema.validate(eolist[i]);
@@ -69,7 +69,6 @@ Meteor.methods({
 
     Systems.schema.validate(newSystem);
     var systemval = Systems.insert(newSystem);
-    console.log(systemval);
     return intid;
   },
   'systems.remove'(currentid, wsid){
