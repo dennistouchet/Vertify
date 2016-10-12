@@ -47,7 +47,7 @@ Meteor.methods({
 
   },
   'workspaces.remove'(currentid){
-    check(currentid, Number);
+    check(currentid, String);
     var current = Workspaces.findOne(currentid);
 
     // See if systems exist for the current workspace, if they do, prevent removal

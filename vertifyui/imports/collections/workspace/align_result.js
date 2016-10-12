@@ -4,6 +4,29 @@ import { check } from 'meteor/check';
 
 export const AlignResults = new Mongo.Collection('align_results');
 
+Meteor.methods({
+  'align_results.updateName'(wsid, arid, name, friendlyname){
+
+    var thisAr = AlignResults.findOne(arid,{"workspace_id": wsid});
+
+    if(thisAr){
+      thisAr.alignment_properties.forEach(function(property){
+        if(property.name == name){
+          property.friendly_name = friendlyname;
+          //break;
+        }
+      });
+    }
+    else{
+      //throw error
+      throw new Meteor.Error("Missing Value", "There was an error processing your request. The Align Results value does not exist.");
+    }
+
+    var id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
+    console.log("AlignResults update called | id: " + id);
+  }
+})
+
 export const AlignmentObjectField = new SimpleSchema({
     external_object_id:
       { type : Number },

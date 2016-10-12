@@ -82,7 +82,6 @@ Template.vertifywizard.events({
         var vname = document.getElementById("vertifyObjectName").value;
         console.log(vname);
         var sot = document.querySelector('input[name="truthRadio"]:checked');
-        console.log(sot.id);
         if(vname && sot.id){
           Meteor.call('match_setup.finishedit', msId, ws.id, steps[index -1], vname, parseInt(sot.id)
           , (err, res) => {

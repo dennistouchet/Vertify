@@ -48,11 +48,9 @@ Meteor.tools = {
           is_dynamic: true
         }];
 
-
     var extobj = null;
-    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
-    if(system){
-      var connector = Connectors.findOne({"id": system.connector_id});
+    var connector = Connectors.findOne({"id": sysid});
+    if(connector){
       if(connector.id == 100000){
         extobj = netsuiteExternalObjects;
       }

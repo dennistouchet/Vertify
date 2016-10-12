@@ -30,6 +30,8 @@ Meteor.methods({
       throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
     }
 
+    //TODO: remove once mock data isn't needed
+    //Random record count
     var rcdcnt = Math.floor((Math.random() * 100000) + 1000);
 
     var newExternalObject = {

@@ -112,9 +112,9 @@
               <div class="col-md-2">
                 {{#each field in ap.fields}}
                   {{#if field.is_truth}}
-                    <label><input type="radio" name="truthradio{{ap.name}}" checked></label><br/>
+                    <label><input type="radio" name="truthradio{{ap.name}}" value="{{field.external_property_path}}" checked></label><br/>
                   {{else}}
-                    <label><input type="radio" name="truthradio{{ap.name}}"></label><br/>
+                    <label><input type="radio" name="truthradio{{ap.name}}" value="{{field.external_property_path}}"></label><br/>
                   {{/if}}
                 {{/each}}
               </div>

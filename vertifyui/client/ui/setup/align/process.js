@@ -52,7 +52,7 @@ Template.alignprocess.events({
     console.log("alignprocess click event");
     //ModalHelper.openAlignConfirmModalFor(sysId);
   },
-  'change input': function(e, t){
+  'change .radio': function(e, t){
     //TODO: change this event so it only happens on the radio buttons and not other inputs
     console.log(e.target);
     var el = e.target.value;
@@ -101,14 +101,7 @@ Template.alignProcessComplete.helpers({
   align_results(){
     var ws = Session.get("currentWs");
     if(ws){
-        return AlignResults.findOne({});
-    }
-    return null;
-  },
-  vertify_objects(){
-    var ws = Session.get("currentWs");
-    if(ws){
-        return VertifyObjects.find({"id": ws.id});
+        return AlignResults.findOne({"workspace_id": ws.id});
     }
     return null;
   },
@@ -122,28 +115,6 @@ Template.alignProcessComplete.helpers({
     //throw error
     return "no name";
   },
-  getAligned : function(id){
-    console.log("getAligned called with: " + id);
-    var count = 0;
-    var ws = Session.get("currentWs");
-    if(ws && id){
-      var VPs = VertifyProperties.find({"workspace_id": ws.id, "id": id});
-      return count;
-    }
-    //throw error
-    return count;
-  },
-  getTotal : function(id){
-    console.log("getTotal called with: " + id);
-    var count = 0;
-    var ws = Session.get("currentWs");
-    if(ws && id){
-      count = VertifyProperties.find({"workspace_id": ws.id, "id": id}).count();
-      return count;
-    }
-    //throw error
-    return count;
-  },
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
@@ -155,23 +126,66 @@ Template.alignProcessComplete.helpers({
 });
 
 Template.alignProcessComplete.events({
+  'change input' : function(e, t){
+    if(e.target.type.toLowerCase() == 'radio'){
+      var radio = e.target;
+
+      if(radio.value == "accept"){
+        console.log("accept");
+        //TODO: update align_results.
+      }
+      else if(radio.value == "reject"){
+        console.log("reject");
+      }
+    }
+  },
   'click .viewAlignment': function(e){
     //TODO:
   },
   'click .cancelAlignment': function(e){
-    //TODO cancel alignment/delete align results?
     console.log('cancel alignment clicked');
     FlowRouter.go('/setup/align');
   },
   'click .acceptAlignModal': function(e){
     e.preventDefault();
+    var errDiv = document.getElementById("addErrAlign");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
     var alignresults = AlignResults.findOne({"workspace_id": ws.id});
 
-    ModalHelper.openAlignConfirmModalFor(vertifyobjectid, alignresults.id);
-
-    console.log("Align - complete align modal clicked");
+    //TODO: update align_results.friendly_name with input values
+    //Get all inputs with type text
+    var inputs = document.getElementsByTagName('input');
+    var nameInputs = [];
+    for(var i = 0; i < inputs.length; i++){
+      if(inputs[i].type.toLowerCase() == 'text'){
+          //TODO: Validate Inputs
+          nameInputs.push(inputs[i]);
+      }
+    }
+    var err = false;
+    nameInputs.forEach(function(input){
+      var n = input.name;
+      var fn = input.value;
+      Meteor.call('align_results.updateName', ws.id, alignresults._id, n, fn  , (err, res) => {
+          if(err){
+            //console.log(err);
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+            //return false;
+            err = true;
+          }else {
+            //success
+          }
+        });
+    });
+    //Only open modal if no update errors occured.
+    if(!err){
+      ModalHelper.openAlignConfirmModalFor(vertifyobjectid, alignresults.id);
+    }
   }
 });
 
