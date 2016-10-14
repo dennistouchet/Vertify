@@ -63,10 +63,10 @@ dataRoutes.route('/', {
   }
 });
 
-dataRoutes.route('/diagnose', {
-  name: 'diagnose',
+dataRoutes.route('/analyze', {
+  name: 'analyze',
   action() {
-      BlazeLayout.render('main', {main: 'diagnose'});
+      BlazeLayout.render('main', {main: 'analyze'});
   }
 });
 

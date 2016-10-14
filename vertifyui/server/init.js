@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -111,6 +111,12 @@ function deleteAllCollections(){
   MarketoLeadRecord.remove({});
   afterCount = MarketoLeadRecord.find().count();
   console.log("MarketoLeadRecord collection deleted (" + (beforeCount - afterCount) + " rows)");
+
+  //Other Collections
+  beforeCount = Navitems.find().count();
+  Navitems.remove({});
+  afterCount = Navitems.find().count();
+  console.log("Navitems collection deleted (" + (beforeCount - afterCount) + " rows)");
 }
 
 function initDatas(){
@@ -208,12 +214,12 @@ function initNavitems(){
     route: '/data',
     icon: 'glyphicon-cloud',
     subnavs: [{
-          name: 'Diagnose',
+          name: 'Analyze',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Diagnose description',
+          description: 'This is the Analyze description',
           order: 1,
-          route: '/data/diagnose',
+          route: '/data/analyze',
           icon: 'glyphicon-warning-sign'
         },
         {
@@ -781,6 +787,7 @@ function initExternalObjects() {
     page_size: 25,
     request_size: 5,
     record_count: 20000,
+    percentage: 0,
     type: "",
     properties: ExternalObjectProperties1,
     generic_integer_1: 1,
@@ -816,6 +823,7 @@ function initExternalObjects() {
     page_size: 25,
     request_size: 5,
     record_count: 15000,
+    percentage: 0,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,
@@ -851,6 +859,7 @@ function initExternalObjects() {
     page_size: 25,
     request_size: 5,
     record_count: 10000,
+    percentage: 0,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,
@@ -886,6 +895,7 @@ function initExternalObjects() {
     page_size: 25,
     request_size: 5,
     record_count: 18000,
+    percentage: 0,
     type: "",
     properties: ExternalObjectProperties1,
     generic_integer_1: 1,
@@ -921,6 +931,7 @@ function initExternalObjects() {
     page_size: 25,
     request_size: 5,
     record_count: 12000,
+    percentage: 0,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,

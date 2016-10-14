@@ -1,18 +1,18 @@
-<template name="diagnose">
+<template name="analyze">
   <section class="right_col" role="main" style="height:900px;">
     <div class="row">
-      <h1 class="page_title">Diagnose</h1>
+      <h1 class="page_title">Analyze</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       {{#if enabled}}
-        {{> diagnoseEnabled}}
+        {{> analyzeEnabled}}
       {{else}}
-        {{> diagnoseDisabled}}
+        {{> analyzeDisabled}}
       {{/if}}
     </div>
   </section>
 </template>
 
-<template name="diagnoseDisabled">
+<template name="analyzeDisabled">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like no Vertify objects have been analyzed for truth.</h4>
@@ -24,10 +24,10 @@
       </h4>
     </div>
   </div>
-  {{>diagnoseVertifyObjects}}
+  {{>analyzeVertifyObjects}}
 </template>
 
-<template name="diagnoseVertifyObjects">
+<template name="analyzeVertifyObjects">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
       <div class="col-md-3">Vertify Object </div>
@@ -39,14 +39,14 @@
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each vertify_objects}}
-          {{> diagnoseVertifyObjectli}}
+          {{> analyzeVertifyObjectli}}
         {{/each}}
       {{/if}}
     </div>
   </div>
 </template>
 
-<template name="diagnoseVertifyObjectli">
+<template name="analyzeVertifyObjectli">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-3">{{name}} </div>
     <div class="col-md-3" >

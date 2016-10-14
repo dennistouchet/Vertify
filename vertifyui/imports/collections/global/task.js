@@ -17,7 +17,7 @@ Meteor.methods({
       intid = 111111;
     }
     else {
-      intid = (lastTask.id + 111111);
+      intid = (lastTask.id + 1);
     }
 
     var newTasks = null;

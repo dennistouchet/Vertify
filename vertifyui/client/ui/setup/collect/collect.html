@@ -104,11 +104,11 @@
         </div>
         <div style="float: left; width: 66%; padding-top:5px">
           <p style="text-align:center">
-            Collecting Data: 3000 of {{#if record_count}}{{record_count}}{{else}}10,000{{/if}} records (30%)<br/>
+            Collecting Data: 3000 of {{#if record_count}}{{record_count}}{{else}}10,000{{/if}} records ({{percentage}}%)<br/>
             Estimated Time Remainging: 1 hr, 5 mins
           </p>
           <div class="progress">
-            <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100" style="width: 30%;">
+            <div class="progress-bar bg-blue" data-id="{{id}}" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
             </div>
           </div>
         </div>

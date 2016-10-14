@@ -129,13 +129,29 @@ Template.alignProcessComplete.events({
   'change input' : function(e, t){
     if(e.target.type.toLowerCase() == 'radio'){
       var radio = e.target;
+      //TODO: verify search
+      var alignresults = AlignResults.findOne({"workspace_id": ws.id});
+      //TODO: set up how values get set
+      if(radio.value == "accept" || radio.value == "reject"){
+        console.log("accept/reject: " + radio.value);
+        var approved: true;
+        //TODO: currently splitting name. clean this code up
+        var n = radio.name;
 
-      if(radio.value == "accept"){
-        console.log("accept");
-        //TODO: update align_results.
+        Meteor.call('align_results.editApproval', ws.id, alignresults._id, n, approved
+        , (err, res) => {
+            if(err){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+              //return false;
+            }else {
+              //success
+            }
+          });
       }
-      else if(radio.value == "reject"){
-        console.log("reject");
+      else {
+        //throw error
       }
     }
   },
@@ -154,6 +170,7 @@ Template.alignProcessComplete.events({
 
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
+    //TODO: verify search
     var alignresults = AlignResults.findOne({"workspace_id": ws.id});
 
     //TODO: update align_results.friendly_name with input values

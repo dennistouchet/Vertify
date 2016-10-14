@@ -52,13 +52,16 @@ Precis: From the context of the UI, Tasks are a collection used by the interface
 		Upon successful collectSchema, the collect task should be triggered. This task should retrieve the data for the external_objects and add them to the workspace's workspace data MongoDB (not the meteor mongodb)
 - [X] MatchTest:
 		Params: ( 'matchtest', workspace_id, vertify_object_id )
-		Clicking 'Match' on the Setup -> Match -> Match/Process\* page will trigger the matchtest task. This task will update the match results collection for this vertify_object.
+		Clicking 'Match' on the Setup -> Match -> Match/Process\* page will trigger the matchtest task. This task will update the MatchResults collection for this vertify_object.
 - [X] Match:
 		Params: ( 'match', workspace_id, vertify_object_id )
+		On the match results page, the user can approve the match results by clicking the 'Confirm Match' button. This will prompt the user with a modal display a few details to review before officially confirming the match. Clicking 'Match' on the match page modal will trigger a match task. This task will update the vertify_object's external_objects's approved field to true when the match process completes for the external_objects.
 - [X] AlignTest:
 		Params: ( 'aligntest', workspace_id, vertify_object_id )
+		Clicking 'Align' on the Setup -> Align -> Align/Process\* page will trigger the aligntest task. This task will update the AlignResults collection for this vertify_object.
 - [X] Align:
 		Params: ( 'align', workspace_id, vertify_object_id )
+		On the align results display page, the user can approve the alignment by clicking the 'Confirm Alignment' button. This will prompt the user with a modal displaying a few details to review before officially confirming the alignment. Clicking 'Align' on the align modal will creating all of the vertify_properties for this vertify_object using the alignment results. Once all of the vertfiy_properties are successfully created, an align task will be created.
 - [ ] Analyze:
 		Params: ( 'analyze', workspace_id, vertify_object_id )
 - [ ] Fix:

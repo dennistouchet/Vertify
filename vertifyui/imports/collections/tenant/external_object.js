@@ -42,7 +42,8 @@ Meteor.methods({
       name: n,
       system_id: sysid,
       workspace_id: wsid,
-      record_count: rcdcnt
+      record_count: rcdcnt,
+      percentage: 0
     };
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
@@ -118,6 +119,9 @@ ExternalObjects.schema = new SimpleSchema({
     { type: Number
     , optional: true
     , defaultValue: 100 },
+  percentage:{
+    type: Number
+  , defaultValue: 0},
   type:
     { type: String
     , optional: true  },
