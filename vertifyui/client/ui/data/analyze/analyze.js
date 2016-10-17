@@ -6,22 +6,46 @@ import { Tasks } from '../../../../imports/collections/global/task.js'
 import './analyze.html';
 
 Template.analyze.helpers({
-  enabled: function(){
-    return false;
-  },
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: come up with solution for analyzed
       return VertifyObjects.find({"workspace_id": ws.id});
     }
-    return VertifyObjects.find();
+    //return VertifyObjects.find();
+    return null;
+  },
+  enabled: function(){
+    var ws = Session.get("currentWs");
+    var enabled = false;
+    if(ws){
+      var vos = null;
+      vos = VertifyObjects.find({"workspace_id": ws.id});
+      vos.forEach(function(vo){
+        if(vo.analyze_status == "Enabled"){
+          enabled = true;
+        }
+      });
+    }
+    return enabled;
   },
 });
 
 Template.analyze.events({
   'click'(e, t){
     console.log('Analyze click event.');
+  },
+  'click .voddl li a' : function(e, t){
+    console.log("dropdown event clicked:");
+    console.log(e.target);
+    if(e.target.text.trim() == 'Enable'){
+      console.log(e.target.text + " clicked");
+      console.log(e.target);
+      ModalHelper.openAnalysisConfirmModalFor(this._id);
+    }
+    else{
+      console.log(e.target.text);
+    }
   }
 });
 
@@ -32,7 +56,8 @@ Template.analyzeVertifyObjects.helpers({
       //TODO: come up with solution for analyzed
       return VertifyObjects.find({"workspace_id": ws.id});
     }
-    return VertifyObjects.find();
+    //return VertifyObjects.find();
+    return null;
   },
 });
 
@@ -40,6 +65,9 @@ Template.analyzeVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    if(eo.is_truth){
+      return eo.name + "*";
+    }
     return eo.name;
   },
   getRecordCount : function(eo_id){
@@ -48,3 +76,10 @@ Template.analyzeVertifyObjectli.helpers({
     return eo.record_count;
   },
 });
+
+Template.analyzeEnabled.events({
+  'click .toFix'(e){
+    console.log('toFix clicked');
+    FlowRouter.go('/data/fix');
+  },
+})

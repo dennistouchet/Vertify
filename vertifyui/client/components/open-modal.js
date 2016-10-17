@@ -31,3 +31,8 @@ ModalHelper.openAlignConfirmModalFor = function(id, arid){
   Session.set('selectedAlignResultId', arid);
   Modal.show('alignconfirmmodal');
 }
+
+ModalHelper.openAnalysisConfirmModalFor = function(id){
+  Session.set('analyzeVertifyObject', id);
+  Modal.show('analyzeconfirmmodal');
+}

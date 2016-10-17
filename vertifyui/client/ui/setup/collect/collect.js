@@ -163,12 +163,14 @@ Template.collect.events({
                   }
                   else {
                     // successful call
-
                     Modal.hide('systemaddmodal');
                   }
                 });
               }
             });
+
+            Meteor.tools.artificalProgressBarLoading("collect", res);
+            console.log("called artifical loading");
           }
         });
     }

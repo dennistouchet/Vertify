@@ -64,6 +64,21 @@ Meteor.methods({
 
     ExternalObjects.remove(current._id);
   },
+  'external_objects.updateLoading'(id, percent){
+    check(percent, Number);
+    var current = ExternalObjects.findOne({"id": id});
+
+    if(current){
+      ExternalObjects.update(current._id,
+          { $set:
+              { percentage: percent }
+          }
+        );
+    }
+    else{
+      throw new Meteor.Error("External Object not Found", "The object with id: " +  id + " could not be found.");
+    }
+  }
 });
 
 

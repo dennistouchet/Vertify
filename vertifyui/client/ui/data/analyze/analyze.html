@@ -1,7 +1,7 @@
 <template name="analyze">
   <section class="right_col" role="main" style="height:900px;">
     <div class="row">
-      <h1 class="page_title">Analyze</h1>
+      <h1 class="page_title">{{#if enabled}}Detect{{else}}Analyze{{/if}}</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       {{#if enabled}}
         {{> analyzeEnabled}}
@@ -73,5 +73,47 @@
         </ul>
       </div>
     </div>
+  </div>
+</template>
+
+<template name="analyzeInProgress">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select a Vertify object and enable real-time analysis.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select another Vertify object to enable analysis or start fixing your Vertify objects.
+      </h4>
+    </div>
+  </div>
+  {{> analyzeVertifyObjects}}
+</template>
+
+<template name="analyzeEnabled">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Detection Enabled! {{count}} Vertify object(s) analyzed for truth.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select another Vertify object to enable analysis or start fixing your Vertify objects.
+      </h4>
+    </div>
+  </div>
+  {{> analyzeVertifyObjects}}
+  <div class="row">
+    <button class="btn btn-primary toFix" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+      <i class="glyphicon glyphicon-stats"></i>
+      Next: Fix >>
+    </button>
   </div>
 </template>

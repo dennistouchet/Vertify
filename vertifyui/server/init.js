@@ -1116,6 +1116,7 @@ function initVertifyObjects() {
     is_deleted: false,
     name: "Vertify Lead",
     workspace_id: 100000,
+    analyze_status: "Disabled",
     external_objects: [ VertifyObjectExternalObject1, VertifyObjectExternalObject2 ]
   }
 

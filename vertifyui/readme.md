@@ -21,7 +21,7 @@
 
     `setupId`
       Set on vertifywizard.js
-      
+
 # Meteor Method calls
 
   Meteor calls are asynchronous and values from the call may not be present after the call completes (ex. newid)
@@ -68,3 +68,16 @@ For a list of Databases:
 Use a specific Database:
 
   use [dbs]
+
+Updating a field:
+
+  ```
+  db.[collection].update(
+    { id: 1 },
+    { $set:
+      { field: value, field: value }
+    }
+  )
+  ```
+
+  ex: `db.external_objects.update({id: 1},{ $set: { percentage: 10 } })`

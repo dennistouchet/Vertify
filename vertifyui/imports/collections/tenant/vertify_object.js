@@ -71,6 +71,7 @@ Meteor.methods({
       is_deleted: false,
       name: MatchObject.vo_name,
       workspace_id: MatchObject.workspace_id,
+      analyze_status: "Disabled",
       external_objects: newExternalObjects
     };
 
@@ -262,6 +263,10 @@ VertifyObjects.schema = new SimpleSchema({
   task_status:
     { type: String
     , optional: true },
+  analyze_status:
+    { type: String
+    , defaultValue: "disabled"
+    , allowedValues: [ "Enabled", "Analysis in Progress", "Disabled"] },
   external_objects:
     { type: [VertifyObjectExternalObjectsSchema] }
 });

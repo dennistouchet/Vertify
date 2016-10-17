@@ -191,6 +191,30 @@ Meteor.tools = {
     var currentTab = $("ul").find("[data-template='" + step + "']");
     currentTab.addClass("active");
   },
+  doTimeout(i, objid){
+    setTimeout( function() {
+      //Make update call to percentage
+      Meteor.call('external_objects.updateLoading', objid, i);
+    }, (5000 + (i * 100)));
+  },
+  artificalProgressBarLoading: function(task, objid){
+    console.log("trigger " + task + " loading...");
+
+    if(task == "collect"){
+        //TODO
+        console.log("Collect loading. Id: " + objid);
+        for(i = 0; i < 100; i++){
+          var j = i + 1;
+          this.doTimeout(j, objid);
+        }
+    }else if(task == "match"){
+      //TODO
+    }else if(task == "align"){
+      //TODO
+    }else if(task == "analyze"){
+      //TODO
+    }
+  },
 }
 
 /*
