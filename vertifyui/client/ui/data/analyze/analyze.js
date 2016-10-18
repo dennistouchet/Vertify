@@ -36,11 +36,7 @@ Template.analyze.events({
     console.log('Analyze click event.');
   },
   'click .voddl li a' : function(e, t){
-    console.log("dropdown event clicked:");
-    console.log(e.target);
     if(e.target.text.trim() == 'Enable'){
-      console.log(e.target.text + " clicked");
-      console.log(e.target);
       ModalHelper.openAnalysisConfirmModalFor(this._id);
     }
     else{

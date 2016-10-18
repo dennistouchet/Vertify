@@ -14,6 +14,26 @@ Template.fixconfirmmodal.helpers({
       return vo;
     }
   },
+  name: function(){
+    //TODO get real values
+    return "TODO NAME";
+  },
+  getRecords: function(){
+    //TODO get real values
+    return "11,265";
+  },
+  getSystemNames: function(){
+    //TODO get real values
+    return "Marketo (MK), NetSuite (NS)";
+  },
+  getActionDescription: function(){
+    var type = Session.get("fixType");
+    if(type == "issues"){
+      return "Update values to system of truth";
+    }else if(type == "unmatched"){
+      return "Add missing records to system";
+    }
+  }
 });
 
 Template.fixconfirmmodal.events({

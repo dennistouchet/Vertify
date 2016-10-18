@@ -3,8 +3,6 @@
   <div class="modal fade">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
-          {{#if Template.subscriptionsReady}}
-          {{#with vertify_object}}
           <div class="modal-header">
             <h3 class="modal-title">Detect / {{name}}
               <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
@@ -18,9 +16,9 @@
                 Vertify will now attempt to fix the selected records in each system using the action selected.
                 <br />
                 <br />
-                Records to Fix: 11,265
-                Affected Systems: Marketo (MK), NetSuite (NS), Salesforce (SF)
-                Action: Update values to system of truth
+                Records to Fix: {{getRecord}}<br/>
+                Affected Systems: {{getSystemNames}}<br/>
+                Action: {{getActionDescription}}<br/>
               </h2><br />
           </div>
 
@@ -28,8 +26,6 @@
             <button type="button" class="btn btn-primary" id="save">Fix</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
           </div>
-          {{/with}}
-          {{/if}}
         </div>
       </div>
   </div>

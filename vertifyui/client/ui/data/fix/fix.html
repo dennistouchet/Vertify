@@ -52,20 +52,16 @@
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-2">{{name}} </div>
     <div class="col-md-2" >
-      {{getRecordCount id}}<br/>
+      {{getRecordCountVo id}}<br/>
     </div>
     <div class="col-md-2">
-      {{getRecordCount id}}<br/>
+      {{getRecordCountVo id}}<br/>
     </div>
     <div class="col-md-1">
-      {{#each external_objects}}
-        {{getRecordCount external_object_id}}<br/>
-      {{/each}}
+      {{getRecordCountEo id}}<br/>
     </div>
     <div class="col-md-2">
-      {{#each external_objects}}
-        {{getRecordCount external_object_id}}<br/>
-      {{/each}}
+      {{getRecordCountEo id}}<br/>
     </div>
     <div class="col-md-1">
        0-todo

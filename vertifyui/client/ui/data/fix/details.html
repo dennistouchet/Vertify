@@ -4,18 +4,19 @@
       <h1 class="page_title">Fix / {{getVertifyObjectName}}</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
     </div>
-    <div class="row">
-      85,261 matched records are Vertified (all aligned fields have the same values).<br/>
-      11,265 matched records have issues (one or more aligned fields have different values).<br/>
-      29,549 records are unmatched (missing in one or more systems).<br/>
+    <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
+      {{totalAlignRecords}} matched records are Vertified (all aligned fields have the same values).<br/>
+      {{unalignedRecords}} matched records have issues (one or more aligned fields have different values).<br/>
+      {{unmatchedRecords}} records are unmatched (missing in one or more systems).<br/>
     </div>
+    {{>detailsResults}}
   </section>
 </template>
 
 <template name="detailsResults">
   <div class="row">
     <div class="col-md-12">
-    <h4><strong>Match Results</strong></h4>
+    <h4><strong>Details Results</strong></h4>
       <div class="x_panel" style="padding:10px;">
         <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
           <div class="col-md-3">Records</div>

@@ -10,8 +10,6 @@ Template.fix.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       var vo = VertifyObjects.find({"workspace_id": ws.id});
-      console.log("vertify_object: ");
-      console.log(vo);
       return vo;
     }
     return null;
@@ -26,7 +24,14 @@ Template.fix.helpers({
 });
 
 Template.fix.events({
-
+  'click .voddl li a' : function(e, t){
+    if(e.target.text.trim() == 'View Details'){
+      FlowRouter.go('/data/fix/details');
+    }
+    else{
+      console.log(e.target.text);
+    }
+  }
 });
 
 Template.fixVertifyObjects.helpers({
@@ -34,8 +39,6 @@ Template.fixVertifyObjects.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       var vo = VertifyObjects.find({"workspace_id": ws.id});
-      console.log("vertify_object: ");
-      console.log(vo);
       return vo;
     }
     return null;
@@ -43,15 +46,30 @@ Template.fixVertifyObjects.helpers({
 });
 
 Template.fixVertifyObjectli.helpers({
-  getRecordCount : function(id){
+  getRecordCountVo : function(id){
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne({"id": parseInt(id), "workspace_id": ws.id});
-
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws.id});
+    var eos = [];
+    vo.external_objects.forEach(function(eo){
+        eos.push(eo.external_object_id);
+    });
+    var count = 0;
+    var ExtObjs = ExternalObjects.find({"id": { "$in": eos}});
+    ExtObjs.forEach(function(extobj){
+      count += extobj.record_count;
+    });
+    return count;
+  },
+  getRecordCountEo : function(id){
+    var ws = Session.get("currentWs");
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws.id});
+    var count = 0;
     vo.external_objects.forEach(function(eo){
       if(eo.is_truth){
-        return eo.record_count;
+        var extobj = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id": ws.id});
+        count = extobj.record_count;
       }
     });
-    return 0;
+    return count;
   },
 });
