@@ -3,11 +3,11 @@ import { VertifyObjects } from '../../../imports/collections/tenant/vertify_obje
 import { VertifyProperties } from '../../../imports/collections/tenant/vertify_property.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
-import './analyzeconfirmmodal.html';
+import './fixconfirmmodal.html';
 
-Template.analyzeconfirmmodal.helpers({
+Template.fixconfirmmodal.helpers({
   vertify_object(){
-    id = Session.get("analyzeVertifyObject");
+    id = Session.get("fixVertifyObject");
     ws = Session.get("currentWs");
     if(ws && id){
       vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
@@ -16,19 +16,19 @@ Template.analyzeconfirmmodal.helpers({
   },
 });
 
-Template.analyzeconfirmmodal.events({
+Template.fixconfirmmodal.events({
   'click #save': function(e) {
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
-    id = Session.get("analyzeVertifyObject");
+    id = Session.get("fixVertifyObject");
     ws = Session.get("currentWs");
     if(ws && id){
       vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
 
-      //TODO: trigger analyze task
+      //TODO: trigger fix task
 
       //modal.hide
     }

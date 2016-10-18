@@ -1,4 +1,4 @@
-<template name="analyzeconfirmmodal">
+<template name="fixconfirmmodal">
 
   <div class="modal fade">
       <div class="modal-dialog modal-md">
@@ -15,19 +15,17 @@
             <!-- TODO: replace with error template -->
             <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
               <h2>
-                Ready to enable real-time analysis? This process runs in real-time and automatically finds records and fields that do not match the designated system of truth.
-                This happens whenever changes are detected in a system.
+                Vertify will now attempt to fix the selected records in each system using the action selected.
                 <br />
                 <br />
-                When enabled, an initial analysis of truth is performed. From that point forward, the process runs automatically in real-time whenever data changes are detected until the process is disabled.
-                <br />
-                <br />
-                If you later decide to alter your workspace setup, you will need to disable real-time analysis.
+                Records to Fix: 11,265
+                Affected Systems: Marketo (MK), NetSuite (NS), Salesforce (SF)
+                Action: Update values to system of truth
               </h2><br />
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="save">Enable Analysis</button>
+            <button type="button" class="btn btn-primary" id="save">Fix</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
           </div>
           {{/with}}

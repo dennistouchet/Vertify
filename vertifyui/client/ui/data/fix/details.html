@@ -1,0 +1,72 @@
+<template name="details">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="row">
+      <h1 class="page_title">Fix / {{getVertifyObjectName}}</h1>
+      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+    </div>
+    <div class="row">
+      85,261 matched records are Vertified (all aligned fields have the same values).<br/>
+      11,265 matched records have issues (one or more aligned fields have different values).<br/>
+      29,549 records are unmatched (missing in one or more systems).<br/>
+    </div>
+  </section>
+</template>
+
+<template name="detailsResults">
+  <div class="row">
+    <div class="col-md-12">
+    <h4><strong>Match Results</strong></h4>
+      <div class="x_panel" style="padding:10px;">
+        <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+          <div class="col-md-3">Records</div>
+          <div class="col-md-2">Total</div>
+          <div class="col-md-2">Matched</div>
+          <div class="col-md-2">Duplicates</div>
+          <div class="col-md-2">Not Matched</div>
+          <div class="col-md-1"></div>
+        </div>
+          <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectName vertify_object_id}}</div>
+            <div class="col-md-2">{{total}}</div>
+            <div class="col-md-2">{{matched}}</div>
+            <div class="col-md-2">{{duplicates}}</div>
+            <div class="col-md-2">{{not_matched}}</div>
+            <div class="col-md-1"></div>
+          </div>
+          {{#each external_objects}}
+            <div class="row" style="padding:10px;">
+              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectName external_object_id}}</div>
+              <div class="col-md-2">{{total}}</div>
+              <div class="col-md-2">{{matched}}</div>
+              <div class="col-md-2">{{duplicates}}</div>
+              <div class="col-md-2">{{not_matched}}</div>
+              <div class="col-md-1"></div>
+            </div>
+          {{/each}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+        <i class="glyphicon glyphicon-arrow-left"></i>
+        Return to List
+      </button>
+    </div>
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary fixIssues" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-wrench"></i>
+        Fix Records with Issues
+      </button>
+    </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary fixUnmatched" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-wrench"></i>
+        Fix Unmatched Records
+      </button>
+    </div>
+  </div>
+</template>

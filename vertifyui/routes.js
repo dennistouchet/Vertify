@@ -77,6 +77,13 @@ dataRoutes.route('/fix', {
   }
 });
 
+dataRoutes.route('/fix/details', {
+  name: 'details',
+  action() {
+      BlazeLayout.render('main', {main: 'details'});
+  }
+});
+
 dataRoutes.route('/schedule', {
   name: 'schedule',
   action() {
