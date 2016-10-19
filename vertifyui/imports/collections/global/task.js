@@ -62,11 +62,19 @@ Meteor.methods({
         is_deleted: false,
       }
     }else if(t == "analyze"){
-      //TODO: analyze task
+      newTasks = {
+        id: intid,
+        vertify_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false,
+      }
     }else if(t == "fix"){
-      //TODO: analyze task
-    }else if(t == "schedule"){
-      //TODO: analyze task
+      //TODO: fix task
+    }else if(t == "sync"){
+      //TODO: sync task
     }
 
     Tasks.schema.validate(newTasks);
@@ -108,7 +116,7 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
   task:
     { type: String
-    , allowedValues: [ "authentication", "discover", "collectschema", "collect", "matchtest", "match", "aligntest", "align"]
+    , allowedValues: [ "authentication", "discover", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fix", "sync"]
     },
   load:
     { type: String

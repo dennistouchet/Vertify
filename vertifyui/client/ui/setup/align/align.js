@@ -6,20 +6,10 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 import './align.html';
 
 Template.align.helpers({
-  hasVertifyObjects: function(){
-    return false;
+  isAligned: function(){
+    var ws = Session.get("currentWs");
+    return Meteor.tools.alignStatus(ws.id);
   },
-  alignCompleted: function(){
-    return false;
-  },
-  hasProperties(){
-    return false;
-  }
-});
-
-
-Template.align.events({
-
 });
 
 Template.alignVertifyObjects.helpers({
@@ -71,7 +61,10 @@ Template.alignVertifyObjectli.events({
 })
 
 Template.alignCompleted.helpers({
-
+ vertifyObjectCount: function(){
+   //TODO: calculate aligned vertify objects
+   return 1;
+ }
 });
 
 Template.alignCompleted.events({

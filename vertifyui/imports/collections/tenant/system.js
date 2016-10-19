@@ -44,6 +44,7 @@ Meteor.methods({
 
     // Call Task to get external objects
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
+    //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for collect for simulation
      var eolist = Meteor.tools.getExternalObjects(wsid, sysid);
      for(i=0;i< eolist.length;i++)
      {

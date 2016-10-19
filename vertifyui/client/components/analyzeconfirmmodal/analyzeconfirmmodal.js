@@ -28,9 +28,25 @@ Template.analyzeconfirmmodal.events({
     if(ws && id){
       vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
 
-      //TODO: trigger analyze task
+      Meteor.call('tasks.insert', "analyze", ws.id, vo.id
+      , (error, result) => {
+        if(error){
+          //console.log(err);
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + error.error + "] " + error.reason + "</li>";
+          //return false;
+          return;
+        }
+        else {
+         //success
+         //TODO: mock update vertify object analyze status
+         Meteor.tools.artificalProgressBarLoading("analyze", vo.id);
+         console.log("called artifical loading");
 
-      //modal.hide
+         FlowRouter.go('/data/analyze');
+         Modal.hide('analyzeconfirmmodal');
+       }
+      });
     }
   },
 });

@@ -7,9 +7,9 @@ import { VertifyObjects } from "../imports/collections/tenant/vertify_object.js"
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 
 Meteor.tools = {
-  CapitalizeFirstLetter : function(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-  },
+  /*******************************************
+            GENERAL CASE TOOLS
+  *******************************************/
   myAlert : function(msg) {
     alert(msg);
 
@@ -18,51 +18,28 @@ Meteor.tools = {
     }
     return true;
   },
-  getExternalObjects : function(wsid, sysid){
-    console.log("getExternalObjects Called from tools.js");
-
-    var netsuiteExternalObjects = [{
-          name: "Netsuite Customer",
-          is_dynamic: false
-        },{
-          name: "Netsuite Object",
-          is_dynamic: false
-        }];
-
-    var marketoExternalObjects = [{
-          name: "Marketo LeadRecord",
-          is_dynamic: true
-        },{
-          name: "Marketo Agent",
-          is_dynamic: true
-        },{
-          name: "Market Object",
-          is_dynamic: true
-        }];
-
-    var salesforceExternalObjects = [{
-          name: "Salesforce User",
-          is_dynamic: true
-        },{
-          name: "Salesforce Customer",
-          is_dynamic: true
-        }];
-
-    var extobj = null;
-    var connector = Connectors.findOne({"id": sysid});
-    if(connector){
-      if(connector.id == 100000){
-        extobj = netsuiteExternalObjects;
-      }
-      else if (connector.id == 111111){
-        extobj = marketoExternalObjects;
-      }
-      else if (connector.id == 222222){
-        extobj = salesforceExternalObjects;
-      }
-    }
-    return extobj;
+  CapitalizeFirstLetter : function(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
   },
+  randomUUID : function(){
+    var date = new Date().getTime();
+    // user higher precision if available
+    if(window.performance && typeof window.performance.now === "function"){
+      date += performance.now();
+    }
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(char) {
+      var rand = (date + Math.random()*16)%16 | 0;
+      date = Math.floor(date/16);
+      return (char=='x' ? rand : (rand&0x3|0x8)).toString(16);
+    });
+    return uuid;
+  },
+  taskRunner : function(wsid, objectid, tasktype, other){
+
+  },
+  /*******************************************
+            SPECIFIC CASE TOOLS
+  *******************************************/
   connectStatus : function(wsid){
     var systemCount = Systems.find({"workspace_id": wsid}).count();
     if(systemCount > 1)
@@ -131,22 +108,6 @@ Meteor.tools = {
       return false;
     }
   },
-  randomUUID : function(){
-    var date = new Date().getTime();
-    // user higher precision if available
-    if(window.performance && typeof window.performance.now === "function"){
-      date += performance.now();
-    }
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(char) {
-      var rand = (date + Math.random()*16)%16 | 0;
-      date = Math.floor(date/16);
-      return (char=='x' ? rand : (rand&0x3|0x8)).toString(16);
-    });
-    return uuid;
-  },
-  taskRunner : function(wsid, objectid, tasktype, other){
-
-  },
   getQueryParamByName: function(name, url){
     if(!url)
       url = window.location.href;
@@ -191,10 +152,64 @@ Meteor.tools = {
     var currentTab = $("ul").find("[data-template='" + step + "']");
     currentTab.addClass("active");
   },
-  doTimeout(i, objid){
+  /*******************************************
+        HAPPY PATH MOCKING FUNCTIONS
+  *******************************************/
+  getExternalObjects : function(wsid, sysid){
+    console.log("getExternalObjects Called from tools.js");
+
+    var netsuiteExternalObjects = [{
+          name: "Netsuite Customer",
+          is_dynamic: false
+        },{
+          name: "Netsuite Object",
+          is_dynamic: false
+        }];
+
+    var marketoExternalObjects = [{
+          name: "Marketo LeadRecord",
+          is_dynamic: true
+        },{
+          name: "Marketo Agent",
+          is_dynamic: true
+        },{
+          name: "Market Object",
+          is_dynamic: true
+        }];
+
+    var salesforceExternalObjects = [{
+          name: "Salesforce User",
+          is_dynamic: true
+        },{
+          name: "Salesforce Customer",
+          is_dynamic: true
+        }];
+    //TODO: verify why this uses sysid - rename var to connid?
+    /*
+    var system = Systems.findOne({"id": sysid});
+    if(system){
+      sysid = system.connector_id;
+    }
+    console.log(system);*/
+    var extobj = null;
+    var connector = Connectors.findOne({"id": sysid});
+    if(connector){
+      if(connector.id == 100000){
+        extobj = netsuiteExternalObjects;
+      }
+      else if (connector.id == 111111){
+        extobj = marketoExternalObjects;
+      }
+      else if (connector.id == 222222){
+        extobj = salesforceExternalObjects;
+      }
+    }
+    return extobj;
+  },
+  doTimeout(method, objid, i){
     setTimeout( function() {
       //Make update call to percentage
-      Meteor.call('external_objects.updateLoading', objid, i);
+      Meteor.call(method, objid, i);
     }, (5000 + (i * 100)));
   },
   artificalProgressBarLoading: function(task, objid){
@@ -205,16 +220,55 @@ Meteor.tools = {
         console.log("Collect loading. Id: " + objid);
         for(i = 0; i < 100; i++){
           var j = i + 1;
-          this.doTimeout(j, objid);
+          this.doTimeout('external_objects.updateLoading', objid, j);
         }
     }else if(task == "match"){
       //TODO
+      console.log("Match loading. Id: " + objid);
+      for(i = 0; i < 100; i++){
+        var j = i + 1;
+        //this.doTimeout('vertify_objects.updateLoading', objid, j);
+      }
     }else if(task == "align"){
       //TODO
+      console.log("Align loading. Id: " + objid);
+      for(i = 0; i < 100; i++){
+        var j = i + 1;
+        //this.doTimeout('vertify_properties.updateLoading', objid, j);
+      }
     }else if(task == "analyze"){
       //TODO
+      console.log("Analyze loading. Id: " + objid);
+      for(i = 0; i < 100; i++){
+        var j = i + 1;
+        this.doTimeout('vertify_objects.updateLoading', objid, j);
+      }
+    }else if(task == "fix"){
+      //TODO
+      console.log("Fix loading. Id: " + objid);
+      for(i = 0; i < 100; i++){
+        var j = i + 1;
+        //this.doTimeout('vertify_objects.updateLoading', objid, j);
+      }
     }
   },
+  updateVertifyPropertyAlignStatus: function(wsid, vobjid){
+    var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid, "vertify_object_id": vobjid});
+    if(vertifyPropertiesExist){
+      console.log("TODO: this mock method is incomplete and does not update VertifyProperty collection");
+      vertifyPropertiesExist.forEach(function(vp){
+        var vpextobj = vp.external_objects;
+        if(vpextobj){
+        vpextobj.forEach(function(vpeo){
+          vpeo.approved = true;
+        });
+      }
+      });
+    }
+    else{
+      throw new Meteor.Error("Missing Values", "No Vertify Properties found with the Vertify Object Id: " + vobjid);
+    }
+  }
 }
 
 /*

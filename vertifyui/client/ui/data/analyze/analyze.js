@@ -71,6 +71,16 @@ Template.analyzeVertifyObjectli.helpers({
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
     return eo.record_count;
   },
+  isAnalyzing(status){
+    if(status == "Analyzing") return true;
+
+    return false;
+  },
+  isEnabled(status){
+    if(status == "Enabled") return true;
+
+    return false;
+  }
 });
 
 Template.analyzeEnabled.events({

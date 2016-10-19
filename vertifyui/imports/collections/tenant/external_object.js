@@ -33,6 +33,9 @@ Meteor.methods({
     //TODO: remove once mock data isn't needed
     //Random record count
     var rcdcnt = Math.floor((Math.random() * 100000) + 1000);
+    //TODO: insert properties into external objects by system
+    //then remove once happy path is done.
+    
 
     var newExternalObject = {
       tenant_id: wsid,

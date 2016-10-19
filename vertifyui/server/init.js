@@ -26,7 +26,8 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true
+;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -697,6 +698,13 @@ function initExternalObjects() {
     is_key: true
   },
   {
+    name: "firstName",
+    is_custom: false,
+    is_array: false,
+    type: "string",
+    is_key: false
+  },
+  {
     name: "company",
     is_custom: false,
     is_array: false,
@@ -734,13 +742,6 @@ function initExternalObjects() {
     external_type: "System.String",
     type: "string",
     is_key: false
-  },{
-    name: "leadAttributeList.Name",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: true
   },
   {
     name: "leadAttributeList.FirstName",
@@ -751,6 +752,13 @@ function initExternalObjects() {
     is_key: false
   },{
     name: "leadAttributeList.LastName",
+    is_custom: false,
+    is_array: false,
+    external_type: "System.String",
+    type: "string",
+    is_key: true
+  },{
+    name: "leadAttributeList.Email",
     is_custom: false,
     is_array: false,
     external_type: "System.String",
@@ -770,8 +778,8 @@ function initExternalObjects() {
     ExternalObjectProperties.schema.validate(eop1);
   });
 
-  ExternalObjectProperties2.forEach(function(eop1){
-    ExternalObjectProperties.schema.validate(eop1);
+  ExternalObjectProperties2.forEach(function(eop2){
+    ExternalObjectProperties.schema.validate(eop2);
   });
 
   var netsuiteobj = {
@@ -1159,8 +1167,8 @@ function initVertifyProperties() {
 
   var VertifyPropertyExternalObjects1 = {
 	        external_object_id: 1,
-	        external_property_path: ["$.properties[?(@.name=='addressbookList.addressbook')]"],
-          name: "Addressbook",
+	        external_property_path: ["$.properties[?(@.name=='firstName')]"],
+          name: "FirstName",
           inbound: {
 	            filter: null,
     	        sync_action: ["add","update"]
@@ -1170,9 +1178,27 @@ function initVertifyProperties() {
     	        sync_action: ["add","update"]
 	        },
 	        match: null,
-	        is_truth: true
+	        is_truth: true,
+          approved: true
 	    }
-  var VertifyPropertyExternalObjects2 = {
+    var VertifyPropertyExternalObjects2 = {
+  	        external_object_id: 1,
+  	        external_property_path: ["$.properties[?(@.name=='leadAttributeList.FirstName')]"],
+            name: "FirstName",
+            inbound: {
+  	            filter: null,
+      	        sync_action: ["add","update"]
+  	        },
+  	        outbound: {
+  	            filter: null,
+      	        sync_action: ["add","update"]
+  	        },
+  	        match: null,
+  	        is_truth: true,
+            approved: true
+  	    }
+
+  var VertifyPropertyExternalObjects3 = {
 	        external_object_id: 3,
           external_property_path: ["$.billingaddress"],
 	        name: "Billing Address",
@@ -1201,9 +1227,10 @@ function initVertifyProperties() {
 	                { external_property: "defaultBilling", operator: "eq", vertify_property: "DefaultBilling" }
                 ]
 	        },
-	        is_truth: false
+	        is_truth: false,
+          approved: false
 	    }
-  var VertifyPropertyExternalObjects3 = {
+  var VertifyPropertyExternalObjects4 = {
 	        external_object_id: 3,
           external_property_path: [ "lev1", "lev2" ,"$.shippingaddress"],
 	        name: "Shipping Address",
@@ -1231,7 +1258,8 @@ function initVertifyProperties() {
 	                { external_property: "defaultShipping", operator: "eq", vertify_property: "IsShipping" }
                 ]
 	        },
-	        is_truth: false
+	        is_truth: false,
+          approved: false
 	    }
   VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects1);
   VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects2);
@@ -1248,7 +1276,9 @@ function initVertifyProperties() {
     parent_property_id: 100000,
     name: "FirstName",
     friendly_name: "First Name" ,
-    level: 0
+    level: 0,
+    rules: [VertifyPropertyRules1, VertifyPropertyRules2],
+    external_objects: [VertifyPropertyExternalObjects1, VertifyPropertyExternalObjects2 ]
   };
 
   var VertifyProperties2 = {

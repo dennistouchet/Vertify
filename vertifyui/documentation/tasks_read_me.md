@@ -64,6 +64,7 @@ Precis: From the context of the UI, Tasks are a collection used by the interface
 		On the align results display page, the user can approve the alignment by clicking the 'Confirm Alignment' button. This will prompt the user with a modal displaying a few details to review before officially confirming the alignment. Clicking 'Align' on the align modal will creating all of the vertify_properties for this vertify_object using the alignment results. Once all of the vertfiy_properties are successfully created, an align task will be created.
 - [ ] Analyze:
 		Params: ( 'analyze', workspace_id, vertify_object_id )
+		When a VertifyObject has sucessfully run the Match and Align processes, it will appear on the Analyze page under the Data section. Selecting 'Enable' form the Actions dropdown menu will create the analyze task.
 - [ ] Fix:
 		Params: ( 'fix', workspace_id, vertify_object_id )
 - [ ] Sync:

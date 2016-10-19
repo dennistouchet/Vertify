@@ -108,6 +108,31 @@ Meteor.methods({
 
     return vo.id;
   },
+  'vertify_objects.updateLoading'(id, percent){
+    check(percent, Number);
+    var current = VertifyObjects.findOne({"id": id});
+
+    if(current){
+      if(percent >= 100){
+        VertifyObjects.update(current._id,
+            { $set:
+                { analyze_percentage: percent
+                , analyze_status: "Enabled" }
+            }
+        );
+      }else{
+        VertifyObjects.update(current._id,
+            { $set:
+                { analyze_percentage: percent
+                , analyze_status: "Analyzing" }
+            }
+        );
+      }
+    }
+    else{
+      throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
+    }
+  },
   'vertify_objects.edit'(id,wsid){
     console.log("TODO: Complete VO edit");
   },
@@ -260,13 +285,24 @@ VertifyObjects.schema = new SimpleSchema({
     { type: String },
   workspace_id:
     { type: Number },
-  task_status:
-    { type: String
-    , optional: true },
+  status_match:
+    { type: Boolean
+    , optional: true
+    , defaultValue: false },
+  status_align:
+    { type: Boolean
+    , optional: true
+    , defaultValue: false },
   analyze_status:
     { type: String
     , defaultValue: "disabled"
-    , allowedValues: [ "Enabled", "Analysis in Progress", "Disabled"] },
+    , allowedValues: [ "Enabled", "Analyzing", "Disabled"] },
+  analyze_percentage:
+    { type: Number
+    , min: 0
+    , max: 100
+    , defaultValue: 0
+    , optional: true },
   external_objects:
     { type: [VertifyObjectExternalObjectsSchema] }
 });

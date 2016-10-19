@@ -50,8 +50,8 @@ Template.alignconfirmmodal.events({
             }
             else {
              //success
-             var status = "approved";
              //TODO: mock update vertify property
+            //Get list of Vertify_Properties from Align Task, and updates approved status on properties.
              FlowRouter.go('/setup/align');
              Modal.hide('alignconfirmmodal');
            }

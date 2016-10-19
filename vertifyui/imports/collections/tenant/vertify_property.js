@@ -61,7 +61,6 @@ Meteor.methods({
           //TODO: change this once real Align results are created
           vertify_object_id: vo,//alignResults.vertify_object_id,
           parent_property_id: null,
-          task_status: "queued",
           name: alignproperty.name,
           friendly_name: alignproperty.name,
           friendly_name: alignproperty.friendly_name,
@@ -82,6 +81,9 @@ Meteor.methods({
   },
   'vertify_properties.edit'(){
     console.log("vertify_properties.edit function stub called.");
+  },
+  'vertify_properties.updateMultiple'(){
+    console.log("vertify_properties.updateMultiple function stub called.");
   },
   'vertify_properties.remove'(id, vo, wsid){
     var current = VertifyProperties.findOne(id, {"vertify_object_id": vo, "workspace_id": wsid});
@@ -127,6 +129,10 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
       , optional: true },
     name:
       { type: String},
+    approved:
+      { type: Boolean
+      , optional: true
+      , defaultValue: false },
     is_truth:
       { type: Boolean },
     inbound:
@@ -173,9 +179,10 @@ VertifyProperties.schema = new SimpleSchema({
   parent_property_id:
     { type: Number
     , optional: true },
-  task_status:
-    { type: String
-    , optional: true },
+  status_align:
+    { type: Boolean
+    , optional: true
+    , defaultValue: false },
   name:
     { type: String },
   friendly_name:

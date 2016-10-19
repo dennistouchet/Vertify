@@ -111,6 +111,7 @@ Template.collect.events({
   },
   'click .objlistddl li a' : function(e, t){
     var errDiv = document.getElementById("addErrCollect");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var text = e.target.text;
@@ -152,6 +153,7 @@ Template.collect.events({
               }
               else {
                 // successful call
+
                 Meteor.call('tasks.insert', "collect", ws.id, res
                 , (err, res) => {
                   if(err){
@@ -181,6 +183,7 @@ Template.collect.events({
   },
   'click .addobj a' : function(e, t){
     var errDiv = document.getElementById("addErrCollect");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var text = e.target.childNodes[4].textContent + " - " +  e.target.childNodes[1].textContent;
@@ -239,6 +242,8 @@ Template.collect.events({
                 });
               }
             });
+            Meteor.tools.artificalProgressBarLoading("collect", res);
+            console.log("called artifical loading");
           }
         });
     }

@@ -3,7 +3,7 @@
     <div class="row">
       <h1 class="page_title">Align</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
-        {{#if hasVertifyObjects}}
+        {{#if isAligned}}
           {{> alignCompleted}}
         {{else}}
           {{> alignZeroDataHeader}}
@@ -81,5 +81,26 @@
 </template>
 
 <template name="alignCompleted">
-TODO: HAS ALIGNED OBJECT
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Align Complete! {{vertifyObjectCount}} Vertify object setup and ready for use.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select another object to align or analyze your Vertify objects.
+      </h4>
+    </div>
+  </div>
+  {{>alignVertifyObjects}}
+  <div class="col-md-3">
+    <button class="btn btn-primary toAlign" type=button style="margin-top:10px;margin-bottom:10px;">
+      <a href="/data/analyze" style="text-decoration:none;  cursor: pointer;">Next: Analyze
+      <i class="glyphicon glyphicon-chevron-right"></i></a>
+    </button>
+  </div>
+  <div class="col-md-9"> </div>
 </template>

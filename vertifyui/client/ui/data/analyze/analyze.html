@@ -60,18 +60,36 @@
       {{/each}}
     </div>
     <div class="col-md-2">
-      disabled
+      {{analyze_status}}
     </div>
     <div class="col-md-2">
-      <div class="dropdown" style="display:inline-block;">
-        <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
-          Options
-        <span class="caret"></span></button>
-        <ul class="dropdown-menu voddl">
-          <li><a data-id="{{id}}" href="#"> Enable</a></li>
-          <li><a data-id="{{id}}" href="#"> Edit</a></li>
-        </ul>
-      </div>
+      {{#if isAnalyzing analyze_status}}
+        <div class="progress">
+          <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="{{analyze_percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{analyze_percentage}}%;">
+          </div>
+        </div>
+      {{else}}
+        {{#if isEnabled analyze_status}}
+          <div class="dropdown" style="display:inline-block;">
+            <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+              Options
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu voddl">
+              <li><a data-id="{{id}}" href="#"> Redetect</a></li>
+              <li><a data-id="{{id}}" href="#"> Disable</a></li>
+            </ul>
+          </div>
+        {{else}}
+          <div class="dropdown" style="display:inline-block;">
+            <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+              Options
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu voddl">
+              <li><a data-id="{{id}}" href="#"> Enable</a></li>
+            </ul>
+          </div>
+        {{/if}}
+      {{/if}}
     </div>
   </div>
 </template>
