@@ -10,7 +10,8 @@ Template.matchconfirmmodal.helpers({
     mr = Session.get("selectedMatchResultId");
     if(ws && mr){
       console.log(mr);
-      return MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      //TODO: adjust this to use workspace once real match results are being sent
+      return MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
     }
   },
   systemOfTruth: function(id){
@@ -18,12 +19,14 @@ Template.matchconfirmmodal.helpers({
     mr = Session.get("selectedMatchResultId");
     var sot = "No SOT";
     if(ws && mr){
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      //TODO: adjust this to use workspace once real match results are being sent
+      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
           console.log(eo);
-          sot = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id":ws.id}).name;
+          //TODO: adjust this to use workspace once real match results are being sent
+          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws.id}).name;
         }
       });
     }
@@ -34,7 +37,8 @@ Template.matchconfirmmodal.helpers({
     mr = Session.get("selectedMatchResultId");
     var sot = "No Records found";
     if(ws && mr){
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      //TODO: adjust this to use workspace once real match results are being sent
+      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -50,11 +54,13 @@ Template.matchconfirmmodal.helpers({
     mr = Session.get("selectedMatchResultId");
     var sot = "External object error";
     if(ws && mr){
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      //TODO: adjust this to use workspace once real match results are being sent
+      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(!eo.is_truth)
         {
-          sot = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id":ws.id}).name;
+          //TODO: adjust this to use workspace once real match results are being sent
+          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws.id}).name;
           sot += ": " + eo.total + " records.";
         }
       });

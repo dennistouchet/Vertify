@@ -29,21 +29,6 @@ Template.alignprocess.helpers({
       return thisVo.name;
     }
   },
-  hasObjects(){
-    //TODO:
-    return false;
-  },
-  hasProperties(id){
-    var ws = Session.get("currentWs");
-    var hasProperties = false;
-    if(ws && id){
-      var cnt = VertifyProperties.find({"workspace_id": ws.id, "vertify_object_id": id}).count();
-      if(cnt > 0){
-        hasProperties = true;
-      }
-    }
-    return hasProperties;
-  }
 });
 
 
@@ -53,7 +38,6 @@ Template.alignprocess.events({
     //ModalHelper.openAlignConfirmModalFor(sysId);
   },
   'change .radio': function(e, t){
-    //TODO: change this event so it only happens on the radio buttons and not other inputs
     console.log(e.target);
     var el = e.target.value;
 
@@ -75,6 +59,7 @@ Template.alignprocess.events({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne({"_id": id});
 
+    console.log("calling align task with void: " + vo.id);
     if(ws && vo){
       Meteor.call('tasks.insert', "aligntest", ws.id, vo.id
       , (error, result) => {
@@ -101,7 +86,8 @@ Template.alignProcessComplete.helpers({
   align_results(){
     var ws = Session.get("currentWs");
     if(ws){
-        return AlignResults.findOne({"workspace_id": ws.id});
+        //TODO: set by workspace_id once Align results are real
+        return AlignResults.findOne({});
     }
     return null;
   },
@@ -109,7 +95,8 @@ Template.alignProcessComplete.helpers({
     console.log("getTotal called with: " + id);
     var ws = Session.get("currentWs");
     if(ws && id){
-      var VP = VertifyProperties.findOne({"workspace_id": ws.id, "id": id});
+      //TODO: update with real workspace onces using Elixir for results
+      var VP = VertifyProperties.findOne({"id": id});//, "workspace_id": ws.id});
       return VP.name;
     }
     //throw error

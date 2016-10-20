@@ -33,9 +33,15 @@ Meteor.methods({
     //TODO: remove once mock data isn't needed
     //Random record count
     var rcdcnt = Math.floor((Math.random() * 100000) + 1000);
-    //TODO: insert properties into external objects by system
-    //then remove once happy path is done.
-    
+
+    // Call Task to get external objects properties
+    //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
+    //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
+    var proplist = Meteor.tools.getExternalObjectProperties(wsid, sysid);
+    console.log(proplist);
+    proplist.forEach(function(prop){
+      ExternalObjectProperties.schema.validate(prop);
+    });
 
     var newExternalObject = {
       tenant_id: wsid,
@@ -46,7 +52,8 @@ Meteor.methods({
       system_id: sysid,
       workspace_id: wsid,
       record_count: rcdcnt,
-      percentage: 0
+      percentage: 0,
+      properties: proplist
     };
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
@@ -121,8 +128,11 @@ ExternalObjects.schema = new SimpleSchema({
     { type: Number },
   workspace_id:
     { type: Number },
-  task_status:
-    { type: String
+  collectschema:
+    { type: Boolean
+    , optional: true },
+  collect:
+    { type: Boolean
     , optional: true },
   last_query:
     { type: Date

@@ -118,8 +118,6 @@ Meteor.tools = {
 
     if(!results) return null;
     if(!results[2]) return '';
-    console.log(name);
-    console.log(results);
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){
@@ -205,6 +203,112 @@ Meteor.tools = {
       }
     }
     return extobj;
+  },
+  getExternalObjectProperties: function(wsid, sysid){
+    console.log("getExternalObjectProperties Called from tools.js");
+
+    var ExternalObjectProperties1 = [{
+      name: "internalId",
+      is_custom: false,
+      is_array: false,
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "firstName",
+      is_custom: false,
+      is_array: false,
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "company",
+      is_custom: false,
+      is_array: false,
+      type: "string",
+      is_key: false
+    }];
+
+    var ExternalObjectProperties2 = [{
+      name: "Id",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "Email",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "CompanyId",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "leadAttributeList",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "leadAttributeList.FirstName",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "leadAttributeList.LastName",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: true
+    },
+    {
+      name: "leadAttributeList.Email",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: true
+    },
+    {
+      name: "leadAttributeList.Company",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "string",
+      is_key: false
+    }];
+
+    var properties = null;
+    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
+    console.log(system);
+    if(system){
+      if(system.connector_id == 100000 ){
+        properties = ExternalObjectProperties1;
+        console.log("inside property assignment");
+      }
+      else if (system.connector_id ==  111111 || system.connector_id === 222222){
+        properties = ExternalObjectProperties2;
+        console.log("inside property assignment");
+      }
+    }
+    return properties;
+
   },
   doTimeout(method, objid, i){
     setTimeout( function() {

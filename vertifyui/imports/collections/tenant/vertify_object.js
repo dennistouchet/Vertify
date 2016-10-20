@@ -285,7 +285,11 @@ VertifyObjects.schema = new SimpleSchema({
     { type: String },
   workspace_id:
     { type: Number },
-  status_match:
+  matchtest:
+    { type: Boolean
+    , optional: true
+    , defaultValue: false },
+  match:
     { type: Boolean
     , optional: true
     , defaultValue: false },

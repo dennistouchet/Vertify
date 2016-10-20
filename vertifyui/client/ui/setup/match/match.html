@@ -10,8 +10,8 @@
               {{> matchVertifyObjects}}
               {{> matchCompleteFooter}}
             {{else}}
+              {{> matchHeader}}
               {{> matchVertifyObjects}}
-              {{> matchAddCustomVertifyObj}}
               {{> matchRecommendations}}
             {{/if}}
           {{else}}
@@ -104,6 +104,22 @@
     <div class="col-md-6"> </div>
   </div>
 </template>
+
+<template name="matchHeader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you haven't matched your existing Vertify Objects.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Select Match from an existing Vertify Object's action menu below or create a new custom Vertify object.<br/>
+      </h4>
+    </div>
+  </div>
+  {{> matchAddCustomVertifyObj}}
+</template>
+
 
 <template name="matchCompleteHeader">
   <div class="row">

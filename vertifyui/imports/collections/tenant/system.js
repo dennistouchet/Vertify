@@ -6,9 +6,9 @@ import { ExternalObjects } from './external_object.js';
 export const Systems = new Mongo.Collection('systems');
 
 Meteor.methods({
-  'systems.insert'(wsid, sysid, nm, pf, maxtasks, cred) {
+  'systems.insert'(wsid, connid, nm, pf, maxtasks, cred) {
     check(wsid, Number);
-    check(sysid, Number);
+    check(connid, Number);
     check(nm, String);
     check(pf, String);
     var maxtask = parseInt(maxtasks);
@@ -45,7 +45,7 @@ Meteor.methods({
     // Call Task to get external objects
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for collect for simulation
-     var eolist = Meteor.tools.getExternalObjects(wsid, sysid);
+     var eolist = Meteor.tools.getExternalObjects(wsid, connid);
      for(i=0;i< eolist.length;i++)
      {
        SystemExternalObjectsSchema.validate(eolist[i]);
@@ -59,7 +59,7 @@ Meteor.methods({
       modified: new Date(),
       is_deleted: false,
       workspace_id: wsid,
-      connector_id: sysid,
+      connector_id: connid,
       last_scanned: new Date(),
       max_concurrent_tasks: maxtask,
       prefix: pf,
@@ -155,10 +155,13 @@ Systems.schema = new SimpleSchema({
     { type:  Number },
   connector_id:
     { type: Number },
-  task_status:
-    { type: String
+  authentication:
+    { type: Boolean
     , optional: true },
-  last_scanned:
+  discover:
+    { type: Boolean
+    , optional: true }
+  ,  last_scanned:
     { type: Date
       , label: "Last Scanned Date"
       , optional:true },
