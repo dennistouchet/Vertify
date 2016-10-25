@@ -20,9 +20,13 @@ Meteor.methods({
       intid = (lastTask.id + 1);
     }
 
+    //TODO: replace with real tenant_id
+    var tid = 100000;
+
     var newTasks = null;
     if(t == "authentication" || t == "discover"){
       newTasks = {
+        tenant_id: tid,
         id: intid,
         system_id: itemid,
         workspace_id: wsid,
@@ -33,6 +37,7 @@ Meteor.methods({
       }
     }else if(t == "collectschema" || t == "collect"){
       newTasks = {
+        tenant_id: tid,
         id: intid,
         external_object_id: itemid,
         workspace_id: wsid,
@@ -43,6 +48,7 @@ Meteor.methods({
       }
     }else if(t == "matchtest" || t == "match"){
       newTasks = {
+        tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
         workspace_id: wsid,
@@ -51,8 +57,20 @@ Meteor.methods({
         modified: new Date(),
         is_deleted: false,
       }
-    }else if(t == "aligntest" || t == "align"){
+    }else if(t == "aligntest"){
       newTasks = {
+        tenant_id: tid,
+        id: intid,
+        vertify_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false,
+      }
+    }else if(t == "align"){
+      newTasks = {
+        tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
         workspace_id: wsid,
@@ -63,12 +81,16 @@ Meteor.methods({
       }
     }else if(t == "analyze"){
       newTasks = {
+        tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
         workspace_id: wsid,
         task: t,
         created: new Date(),
         modified: new Date(),
+        start: new Date(),
+        end: new Date(),
+        status: 'success',
         is_deleted: false,
       }
     }else if(t == "fix"){
@@ -94,8 +116,7 @@ Meteor.methods({
 
 Tasks.schema = new SimpleSchema({
   tenant_id:
-    { type: Number
-    , optional: true },
+    { type: Number },
   id:
     { type: Number },
   modified:

@@ -64,7 +64,7 @@ Meteor.methods({
     }
 
     var newVertifyObject = {
-      tenant_id: 000000,
+      tenant_id: 100000,
       id: newid,
       modified: new Date(),
       created: new Date(),
@@ -98,7 +98,7 @@ Meteor.methods({
 
     }
     else{
-      //throw error
+      throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
     }
 
     vo.external_objects.forEach(function(eo){
@@ -107,6 +107,26 @@ Meteor.methods({
     VertifyObjects.update(id, {$set: {external_objects: vo.external_objects}});
 
     return vo.id;
+  },
+  'vertify_objects.updateStatus'(wsid, id, field, status){
+    check(wsid, Number);
+    check(id, Number);
+    check(field, String);
+    check(status, Boolean);
+
+    console.log("id: " + id + " | ws: " + wsid + " | " + field + " | " + status);
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": wsid});
+
+    if(field == 'align'){
+      console.log("update align: " + vo._id);
+      return VertifyObjects.update(vo._id,{$set: {align: status}});
+    }else if(field == 'analyze'){
+      console.log("update analyze_status: " + vo._id);
+      return VertifyObjects.update(vo._id,
+        {$set:
+          {analyze_status: status, analyze_percentage: 0, analyze_status: "Disabled"}
+        });
+    }
   },
   'vertify_objects.updateLoading'(id, percent){
     check(percent, Number);
@@ -293,7 +313,11 @@ VertifyObjects.schema = new SimpleSchema({
     { type: Boolean
     , optional: true
     , defaultValue: false },
-  status_align:
+  aligntest:
+    { type: Boolean
+    , optional: true
+    , defaultValue: false },
+  align:
     { type: Boolean
     , optional: true
     , defaultValue: false },

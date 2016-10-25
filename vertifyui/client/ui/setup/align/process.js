@@ -105,7 +105,8 @@ Template.alignProcessComplete.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      var EO = ExternalObjects.findOne({"workspace_id": ws.id, "id": id});
+      //TODO set this up to use workspace once using Elixir for results
+      var EO = ExternalObjects.findOne({"id": id});//, "workspace_id": ws.id});
       return EO.name;
     }
     return null;
@@ -157,11 +158,10 @@ Template.alignProcessComplete.events({
 
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
-    //TODO: verify search
-    var alignresults = AlignResults.findOne({"workspace_id": ws.id});
+    //TODO: verify search and add workspace "workspace_id": ws.id
+    var alignresults = AlignResults.findOne({});
 
-    //TODO: update align_results.friendly_name with input values
-    //Get all inputs with type text
+    //Get all inputs with type text to set friendly_name
     var inputs = document.getElementsByTagName('input');
     var nameInputs = [];
     for(var i = 0; i < inputs.length; i++){

@@ -25,46 +25,57 @@ Meteor.methods({
   'vertify_properties.insertMultiple'(ws, vo){
     /*
     var ruleobj = {
-      rule: alignResults.alignment_properties[i].align_method,
-      external_property: alignResults.alignment_properties[i].fields[j]
-      value: {}
+      rule: alignProperty.align_method,
+      external_property: alignProperty.fields[j]
     }
 
     var extobj = {
-      external_object_id:
-        { type: Number },
-      property_group:
-        { type: Number
-          , optional: true },
-      direction:
-        { type: String
-        , allowedValues: _directions },
-      sync_action:
-        { type: String
-        , allowedValues: _sync_actions_enum },
-      rule:
-        { type: VertifyPropertyRulesRuleSchema },
-      is_truth: alignResults.alignmentProperties[i]
+      external_object_id: alignProperty.
+      property_group: 0,
+      direction: "bidirectional",
+      sync_action: "add_update",,
+      is_truth: alignProperty.
     }*/
-    //TODO: ADD Vertify Object ID to filter once alignresults are actually being created
 
-    var alignResults = AlignResults.findOne({"workspace_id": ws});//,"vertify_object_id": vo});
+    //TODO: ADD Vertify Object ID and Workspace ID to filter once alignresults are actually being created
+    var alignResults = AlignResults.findOne({});//"workspace_id": ws});//,"vertify_object_id": vo});
     var Properties = [];
 
     alignResults.alignment_properties.forEach(function(alignproperty){
       if(alignproperty.approved){
+        console.log("inside align results to vp. align property:");
+        console.log(alignproperty);
+
+        //TODO NEED TO ADD RULES
+
+        var ExtObjs = [];
+        alignproperty.fields.forEach(function(field){
+          var newExtObj = {
+            external_object_id: field.external_object_id,
+            external_property_path: field.external_property_path,
+            name: field.external_property_path[0],
+            approved: true,
+            is_truth: field.is_truth,
+          }
+          VertifyPropertyExternalObjectsSchema.validate(newExtObj);
+          ExtObjs.push(newExtObj);
+        });
+
         var newProperty = {
+          tenant_id: 100000,
           modified: new Date(),
           created: new Date(),
           is_deleted: false,
-          workspace_id: alignResults.workspace_id,
+          workspace_id: ws,
           //TODO: change this once real Align results are created
           vertify_object_id: vo,//alignResults.vertify_object_id,
           parent_property_id: null,
           name: alignproperty.name,
           friendly_name: alignproperty.name,
           friendly_name: alignproperty.friendly_name,
+          align: alignproperty.approved,
           level: 0,
+          external_objects: ExtObjs
         }
         Properties.push(newProperty);
       }
@@ -85,9 +96,20 @@ Meteor.methods({
   'vertify_properties.updateMultiple'(){
     console.log("vertify_properties.updateMultiple function stub called.");
   },
-  'vertify_properties.remove'(id, vo, wsid){
-    var current = VertifyProperties.findOne(id, {"vertify_object_id": vo, "workspace_id": wsid});
-    VertifyProperties.remove(current._id);
+  'vertify_properties.removeMultiple'(wsid, vo){
+    var current = VertifyProperties.find({"vertify_object_id": vo, "workspace_id": wsid});
+
+    console.log("Vertify Properties remove: " + wsid + " | void: " + vo);
+    var count = 0;
+    if(current){
+      current.forEach(function(prop){
+        VertifyProperties.remove(prop._id);
+        count += 1;
+      });
+    }else {
+      console.log("No Vertify Properties for the current Vertify Object");
+    }
+    return count;
   },
 })
 
@@ -136,7 +158,8 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
     is_truth:
       { type: Boolean },
     inbound:
-      { type: Object },
+      { type: Object
+      , optional: true },
     "inbound.sync_action":
       { type: [String]
       , allowedValues: _sync_actions_arr },
@@ -145,7 +168,8 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
       , blackbox: true
       , optional: true },
     outbound:
-      { type: Object },
+      { type: Object
+      , optional: true },
     "outbound.sync_action":
       { type: [String]
       , allowedValues: _sync_actions_arr },
@@ -161,8 +185,7 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
 
 VertifyProperties.schema = new SimpleSchema({
   tenant_id:
-    { type: Number
-    , optional: true },
+    { type: Number },
   id:
     { type: Number
     , optional: true },
@@ -179,7 +202,7 @@ VertifyProperties.schema = new SimpleSchema({
   parent_property_id:
     { type: Number
     , optional: true },
-  status_align:
+  align:
     { type: Boolean
     , optional: true
     , defaultValue: false },

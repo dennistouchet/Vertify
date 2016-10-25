@@ -32,5 +32,7 @@ Connectors.schema = new SimpleSchema({
   assembly:
     { type: String},
   settings:
-    { type: [String]}
+    { type: [String]},
+  connector_runner_path:
+    { type: String}
 });

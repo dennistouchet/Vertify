@@ -13,7 +13,8 @@ Template.alignconfirmmodal.helpers({
     if(ws && ar){
       console.log("AlignResult id:")
       console.log(ar);
-      return AlignResults.findOne({"id": ar, "workspace_id": ws.id});
+      //TODO: add workspcaae when Exlisir generates align results
+      return AlignResults.findOne({"id": ar}); //, "workspace_id": ws.id
     }
   },
 });
@@ -30,7 +31,9 @@ Template.alignconfirmmodal.events({
 
     ws = Session.get("currentWs");
     if(ws && vo){
-      Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
+      //TODO: reset vertify object ANALYZE status to disabled
+      //TODO: delete all existing  vertify_properties for the vertify_object
+      Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -39,34 +42,70 @@ Template.alignconfirmmodal.events({
           //return false;
           return;
         }else {
-          Meteor.call('tasks.insert', "align", ws.id, vo.id
-          , (error, result) => {
-            if(error){
+          console.log("Align Update VO Status success");
+          Meteor.call('vertify_properties.removeMultiple', ws.id, vo.id
+          , (err, result)   => {
+            if(err){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Align " + error.error + "] " + error.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Property Remove " + err.error + "] " + err.reason + "</li>";
               //return false;
               return;
+            }else {
+              console.log("Align Remove VProperties success");
+              Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
+              , (err, res) => {
+                if(err){
+                  //console.log(err);
+                  errDiv.style.display = 'block';
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Property " + err.error + "] " + err.reason + "</li>";
+                  //return false;
+                  return;
+                }else {
+                  console.log("Align Insert Multiple VProperties success");
+                  Meteor.call('tasks.insert', "align", ws.id, vo.id
+                  , (error, result) => {
+                    if(error){
+                      //console.log(err);
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Align " + error.error + "] " + error.reason + "</li>";
+                      //return false;
+                      return;
+                    }
+                    else {
+                    console.log("Align Task success");
+                     //success
+                     Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', true);
+                    //TODO update vertify object align status
+                     FlowRouter.go('/setup/align');
+                     Modal.hide('alignconfirmmodal');
+                   }
+                  });
+                }
+              });
             }
-            else {
-             //success
-             //TODO: mock update vertify property
-            //Get list of Vertify_Properties from Align Task, and updates approved status on properties.
-             FlowRouter.go('/setup/align');
-             Modal.hide('alignconfirmmodal');
-           }
           });
         }
-      })
+      });
     }
   },
 });
 
+Meteor.subscribe('external_objects', function (){
+  console.log( "Match - ExternalObjects now subscribed.");
+});
+
+Meteor.subscribe('vertify_objects', function (){
+  console.log( "Align - VertifyObjects now subscribed.");
+});
+
+Meteor.subscribe('vertify_properties', function (){
+  console.log( "Align - VertifyProperties now subscribed.");
+});
 
 Meteor.subscribe("align_result", function (){
   console.log( "Aligncomfirmmodal - AlignResults now subscribed.");
 });
-
 
 Meteor.subscribe("tasks", function (){
   console.log( "Aligncomfirmmodal - Tasks now subscribed.");

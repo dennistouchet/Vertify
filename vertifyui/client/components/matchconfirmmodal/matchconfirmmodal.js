@@ -80,6 +80,7 @@ Template.matchconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
+      //TODO: reset vertify object ANALYZE status to disabled
       Meteor.call('tasks.insert', "match", ws.id, vo.id
       , (error, result) => {
         if(error){

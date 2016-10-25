@@ -65,7 +65,6 @@ Meteor.tools = {
       vertifyObjectsExist.forEach(function(vo){
 
         var voextobj = vo.external_objects;
-        console.log(voextobj);
         if(voextobj){
           voextobj.forEach(function(voeo){
             if(voeo.approved) complete = voeo.approved;
@@ -76,20 +75,35 @@ Meteor.tools = {
     return complete;
   },
   alignStatus : function(wsid){
-    var complete = false;
-    var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid});
-    if(this.matchStatus(wsid) && vertifyPropertiesExist){
+    var approvedVPs = false;
+    var approvedVO = false;
 
-      vertifyPropertiesExist.forEach(function(vp){
-        var vpextobj = vp.external_objects;
-        if(vpextobj){
-        vpextobj.forEach(function(vpeo){
-          if(vpeo.approved) complete = vpeo.approved;
+    if(this.matchStatus(wsid)){
+      var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid});
+      console.log("Inside alignStatus(). Vertify Property exist count:");
+      console.log(vertifyPropertiesExist.count());
+      if(vertifyPropertiesExist.count() > 0){
+        vertifyPropertiesExist.forEach(function(vprop){
+        if(vprop.align) approvedVPs = vprop.align;
         });
       }
-      });
+      var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid});
+      console.log("Inside alignStatus(). Vertify Objects exist count:");
+      console.log(vertifyObjectsExist.count());
+      if(vertifyObjectsExist.count() > 0){
+        vertifyObjectsExist.forEach(function(vobj){
+          if(vobj.align) approvedVO = vobj.align;
+        });
+      }
     }
-    return complete;
+    console.log(approvedVPs);
+    console.log(approvedVO);
+    if(approvedVPs && approvedVO){
+      return true;
+    }
+    else{
+      return false;
+    }
   },
   setupStatus : function(wsid, status){
     if(status == "Connect"){
@@ -149,6 +163,22 @@ Meteor.tools = {
 
     var currentTab = $("ul").find("[data-template='" + step + "']");
     currentTab.addClass("active");
+  },
+  updateAlignStatus(ws, vo, field, status){
+    Meteor.call('vertify_objects.updateStatus', ws, vo, 'align', status
+    , (err, res) => {
+      if(err){
+        //console.log(err);
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Object " + err.error + "] " + err.reason + "</li>";
+        //return false;
+        return;
+      }else {
+        console.log("Vertify Object align status update success");
+       //success
+       console.log("result: "+res);
+      }
+    });
   },
   /*******************************************
         HAPPY PATH MOCKING FUNCTIONS
