@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Connectors } from '../../../../imports/collections/global/connectors.js';
+import { Connectors } from '../../../../imports/collections/global/connector.js';
 
 import './connect.html';
 

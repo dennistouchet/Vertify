@@ -3,7 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import { Navitems } from '../imports/collections/navitems.js';
 import { Datas } from '../imports/collections/datas.js';
 
-import { Connectors } from '../imports/collections/global/connectors.js';
+import { Connectors } from '../imports/collections/global/connector.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 import { Tasks } from '../imports/collections/global/task.js';
 

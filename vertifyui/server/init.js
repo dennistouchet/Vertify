@@ -16,7 +16,7 @@ import { VertifyObjects, VertifyObjectExternalObjectsSchema
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
 import { Tasks } from '../imports/collections/global/task.js';
-import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connectors.js';
+import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connector.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 // Workspace Collection Imports
 import { MatchResults, MatchResultsExternalObjectsSchema } from '../imports/collections/workspace/match_result.js';
@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -642,9 +642,10 @@ function initConnectors() {
     modified: new Date(),
     created: new Date(),
     name: "Netsuite",
-    namespace: "Elixir.Connector.Netsuite",
     default_prefix: "NS",
-    requires_agent: false,
+    assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Netsuite.dll",
+    data_assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Netsuite.Data.dll",
+    connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings2
   };
 
@@ -653,9 +654,10 @@ function initConnectors() {
     modified: new Date(),
     created: new Date(),
     name: "Marketo",
-    namespace: "Elixir.Connector.Marketo",
     default_prefix: "MK",
-    requires_agent: false,
+    assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Marketo.dll",
+    data_assembly:"C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Marketo.Data.dll",
+    connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings1
   };
 
@@ -664,9 +666,10 @@ function initConnectors() {
     modified: new Date(),
     created: new Date(),
     name: "Salesforce",
-    namespace: "Elixir.Connector.Salesforce",
     default_prefix: "SF",
-    requires_agent: false,
+    assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Salesforce.dll",
+    data_assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Salesforce.Data.dll",
+    connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings2
   };
 
@@ -675,9 +678,10 @@ function initConnectors() {
     modified: new Date(),
     created: new Date(),
     name: "Vertify",
-    namespace: "Elixir.Connector.Vertify",
     default_prefix: "VF",
-    requires_agent: false,
+    assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Vertify.dll",
+    data_assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Vertify.Data.dll",
+    connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings1
   };
 

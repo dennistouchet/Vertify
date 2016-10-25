@@ -4,35 +4,59 @@ import { check } from 'meteor/check';
 
 export const Connectors = new Mongo.Collection('connectors');
 
+export const ConnectorsSettingsSchema = new SimpleSchema({
+    name:
+    { type: String },
+    value:
+    { type: String },
+    is_encrypted:
+    { type: Boolean
+    , defaultValue: false }
+});
+
 Connectors.schema = new SimpleSchema({
   id:
-    {type: Number},
+    { type: Number },
   modified:
-    {type: Date},
+    { type: Date },
   created:
-    {type: Date},
+    { type: Date },
+  name:
+    { type: String },
+  default_prefix:
+    { type: String },
   system_info_id:
-    {type: String},
+    {type: String
+    , optional: true},
   version:
-    {type: String},
+    {type: String
+      , optional: true},
   is_dynamic_wsdl:
-    {type: Boolean},
+    {type: Boolean
+    , optional: true},
   is_username_required:
-    {type: Boolean},
+    {type: Boolean
+    , optional: true},
   is_password_required:
-    {type: Boolean},
+    {type: Boolean
+    , optional: true},
   is_current_version:
-    {type: Boolean},
-  data_assembly:
-    {type: String},
+    {type: Boolean
+    , optional: true},
   md5_hash:
-    {type: String},
+    {type: String
+    , optional: true},
   md5_data_hash:
-    {type: String},
+    {type: String
+    , optional: true},
+  data_assembly:
+    {type: String
+    , optional: true},
   assembly:
-    { type: String},
-  settings:
-    { type: [String]},
+    { type: String
+    , optional: true},
   connector_runner_path:
-    { type: String}
+    { type: String },
+  settings:
+    { type: [ConnectorsSettingsSchema]},
 });

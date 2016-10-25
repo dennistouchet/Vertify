@@ -1,6 +1,6 @@
 import { Meteor } from  "meteor/meteor";
 import { Systems } from "../imports/collections/tenant/system.js";
-import { Connectors } from '../imports/collections/global/connectors.js';
+import { Connectors } from '../imports/collections/global/connector.js';
 import { ExternalObjects } from "../imports/collections/tenant/external_object.js";
 import { MatchSetup } from "../imports/collections/tenant/match_setup.js";
 import { VertifyObjects } from "../imports/collections/tenant/vertify_object.js";

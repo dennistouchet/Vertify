@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
-import { Connectors } from '../../../../imports/collections/global/connectors.js';
+import { Connectors } from '../../../../imports/collections/global/connector.js';
 import { Tasks } from '../../../../imports/collections/global/task.js';
 
 import './connect.html';
