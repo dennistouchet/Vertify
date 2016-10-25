@@ -17,7 +17,7 @@ Template.alignVertifyObjects.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: figure out how to check if approved
-      return VertifyObjects.find({"workspace_id": ws.id});
+      return VertifyObjects.find({"workspace_id": ws.id, "approved": true});
     }
     return VertifyObjects.find();
   },

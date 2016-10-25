@@ -9,10 +9,21 @@ Template.fix.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id});
+      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"});
       return vo;
     }
     return null;
+  },
+  hasObjects: function(){
+    var ws = Session.get("currentWs");
+    var valid = false;
+    if(ws){
+      var count = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"}).count();
+      if(count > 0){
+        valid = true;
+      }
+    }
+    return valid;
   },
   complete: function(){
     var ws = Session.get("currentWs");
@@ -31,6 +42,9 @@ Template.fix.events({
     else{
       console.log(e.target.text);
     }
+  },
+  'click .analyze' : function(e, t){
+    FlowRouter.go('/data/analyze');
   }
 });
 
@@ -38,7 +52,7 @@ Template.fixVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id});
+      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"});
       return vo;
     }
     return null;

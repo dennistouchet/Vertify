@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = true;
+var clearCollections = false;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }

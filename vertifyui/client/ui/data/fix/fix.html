@@ -3,13 +3,45 @@
     <div class="row">
       <h1 class="page_title">Fix</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
-      {{#if complete}}
-        {{> fixComplete}}
+      {{#if hasObjects}}
+        {{#if complete}}
+          {{> fixComplete}}
+        {{else}}
+          {{> fixIncomplete}}
+        {{/if}}
       {{else}}
-        {{> fixIncomplete}}
+        {{> invalid}}
       {{/if}}
     </div>
   </section>
+</template>
+
+<template name="invalid">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that need to be fix.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">You must have at least one Vertify Object with Analysis enabled to run fix.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary analyze" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-floppy-disk"></i>
+        Analyze
+      </button>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
 </template>
 
 <template name="fixIncomplete">

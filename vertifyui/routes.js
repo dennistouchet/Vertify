@@ -84,6 +84,13 @@ dataRoutes.route('/fix/details', {
   }
 });
 
+dataRoutes.route('/fix/records', {
+  name: 'records',
+  action() {
+      BlazeLayout.render('main', {main: 'records'});
+  }
+});
+
 dataRoutes.route('/schedule', {
   name: 'schedule',
   action() {

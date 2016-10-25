@@ -10,17 +10,28 @@ Template.analyze.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: come up with solution for analyzed
-      return VertifyObjects.find({"workspace_id": ws.id});
+      return VertifyObjects.find({"workspace_id": ws.id, "align": true});
     }
     //return VertifyObjects.find();
     return null;
+  },
+  hasObjects: function(){
+    var ws = Session.get("currentWs");
+    var valid = false;
+    if(ws){
+      var count = VertifyObjects.find({"workspace_id": ws.id, "align": true}).count();
+      if(count > 0){
+        valid = true;
+      }
+    }
+    return valid;
   },
   enabled: function(){
     var ws = Session.get("currentWs");
     var enabled = false;
     if(ws){
       var vos = null;
-      vos = VertifyObjects.find({"workspace_id": ws.id});
+      vos = VertifyObjects.find({"workspace_id": ws.id, "align": true});
       vos.forEach(function(vo){
         if(vo.analyze_status == "Enabled"){
           enabled = true;
@@ -50,7 +61,7 @@ Template.analyzeVertifyObjects.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: come up with solution for analyzed
-      return VertifyObjects.find({"workspace_id": ws.id});
+      return VertifyObjects.find({"workspace_id": ws.id, "align": true});
     }
     //return VertifyObjects.find();
     return null;
