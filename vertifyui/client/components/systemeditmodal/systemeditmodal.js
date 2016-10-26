@@ -74,8 +74,19 @@ Template.systemeditmodal.events({
             errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
           }
           else {
-            // successful call
-            // return true;
+            Meteor.call('tasks.insert', "authentication", ws.id, res
+            , (error, result) => {
+              if(error){
+                //console.log(err);
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                //return false;
+                return;
+              }
+              else {
+                // successful call
+              }
+            });
             Modal.hide('systemeditmodal');
           }
         });

@@ -110,9 +110,10 @@ Template.systemaddmodal.events({
                 }
                 else {
                   // successful call
-                  console.log(res)
+                  // update status of system
+                  Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
                   Meteor.call('tasks.insert', "discover", ws.id, res
-                  , (err, res) => {
+                  , (err, result) => {
                     if(err){
                       //console.log(err);
                       errDiv.style.display = 'block';
@@ -122,7 +123,8 @@ Template.systemaddmodal.events({
                     }
                     else {
                       // successful call
-
+                      // update status of system
+                      Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
                       Modal.hide('systemaddmodal');
                     }
                   });
@@ -134,7 +136,6 @@ Template.systemaddmodal.events({
       else {
         //TODO: show error
       }
-
     }
   }
 });

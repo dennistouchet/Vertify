@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = false;
+var clearCollections = true;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -531,6 +531,8 @@ function initSystems(){
     max_concurrent_tasks: 9,
     prefix: 'NS',
     agent_id: '',
+    authentication: true,
+    discover: true,
     credentials: SystemCredentials,
     settings: SystemSettings,
     external_objects: [SystemExternalObjects[0], SystemExternalObjects[1]]
@@ -548,6 +550,8 @@ function initSystems(){
     max_concurrent_tasks: 8,
     prefix: 'MK',
     agent_id: '',
+    authentication: true,
+    discover: true,
     credentials: SystemCredentials,
     settings: SystemSettings,
     external_objects: [SystemExternalObjects[2],SystemExternalObjects[3],SystemExternalObjects[4]]
@@ -565,6 +569,8 @@ function initSystems(){
     max_concurrent_tasks: 7,
     prefix: 'SF',
     agent_id: '',
+    authentication: true,
+    discover: false,
     credentials: SystemCredentials,
     settings: SystemSettings,
     external_objects: [SystemExternalObjects[5],SystemExternalObjects[6]]
@@ -582,6 +588,8 @@ function initSystems(){
     max_concurrent_tasks: 7,
     prefix: 'VF',
     agent_id: '',
+    authentication: false,
+    discover: false,
     credentials: SystemCredentials,
     settings: SystemSettings,
     external_objects: []
@@ -1135,6 +1143,9 @@ function initVertifyObjects() {
     is_deleted: false,
     name: "Vertify Lead",
     workspace_id: 100000,
+    match: true,
+    aligntest: false,
+    align: false,
     analyze_status: "Disabled",
     external_objects: [ VertifyObjectExternalObject1, VertifyObjectExternalObject2 ]
   }

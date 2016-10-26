@@ -85,6 +85,7 @@ Meteor.methods({
     check(wsid, Number);
     check(status, String);
 
+    //TODO:  need to update by radio selection
     var vo = VertifyObjects.findOne(id, {"workspace_id": wsid});
     if(vo){
       vo.external_objects.forEach(function(eo){
@@ -104,7 +105,8 @@ Meteor.methods({
     vo.external_objects.forEach(function(eo){
       VertifyObjectExternalObjectsSchema.validate(eo);
     })
-    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects}});
+    //TODO: need to change way status value is given to Vertify Object
+    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects, match: true}});
 
     return vo.id;
   },

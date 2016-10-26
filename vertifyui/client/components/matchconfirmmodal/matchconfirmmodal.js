@@ -80,7 +80,8 @@ Template.matchconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      //TODO: reset vertify object ANALYZE status to disabled
+      //TODO: reset vertify object ANALYZE AND ALIGNTEST/ALIGN status to disabled
+      //TODO: refactor this into a different recursive Status reset section like Status search
       Meteor.call('tasks.insert', "match", ws.id, vo.id
       , (error, result) => {
         if(error){

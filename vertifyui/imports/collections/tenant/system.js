@@ -100,6 +100,19 @@ Meteor.methods({
     var sys = Systems.findOne(id);
     return sys.id;
   },
+  'systems.updateStatus'(wsid, sysid, field, status){
+    check(wsid, Number);
+    check(sysid, Number);
+    check(field, String);
+    check(status, Boolean);
+
+    var sys = Systems.findOne({workspace_id: wsid, id:sysid});
+    if(field == "authentication"){
+      return Systems.update(sys._id, {$set: { authentication: true, modified: new Date()}});
+    }else if(field == "discover"){
+      return Systems.update(sys._id, {$set: { discover: true, modified: new Date()}});
+    }
+  },
 });
 
 export const SystemSettingsSchema = new SimpleSchema({

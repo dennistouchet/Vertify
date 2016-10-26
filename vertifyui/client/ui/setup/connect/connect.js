@@ -234,9 +234,10 @@ Template.connectSysZeroData.events({
                 }
                 else {
                   // successful call
-                  console.log(res)
+                  // update status of system
+                  Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
                   Meteor.call('tasks.insert', "discover", ws.id, res
-                  , (err, res) => {
+                  , (err, result) => {
                     if(err){
                       //console.log(err);
                       errDiv.style.display = 'block';
@@ -246,7 +247,8 @@ Template.connectSysZeroData.events({
                     }
                     else {
                       // successful call
-
+                      // update status of system
+                      Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
                       Modal.hide('systemaddmodal');
                     }
                   });
@@ -275,6 +277,17 @@ Template.connectSys.helpers({
   getConnectorName : function(id){
     if(Session.get("currentWs") && id){
       var conn = Connectors.findOne({"id" : id});
+
+      return conn.name;
+    }
+    else {
+      console.log("no workspace selected");
+      return "DefaultSystem";
+    }
+  },
+  getAuthenticationStatus : function(id){
+    if(Session.get("currentWs") && id){
+      var sys = Systems.findOne({id});
 
       return conn.name;
     }

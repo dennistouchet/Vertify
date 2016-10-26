@@ -59,7 +59,7 @@ Meteor.tools = {
   matchStatus : function(wsid){
     //TODO: adjust to be more precise
     var complete = false;
-    var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid});
+    var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid, match: true});
     if(this.collectStatus(wsid) && vertifyObjectsExist){
 
       vertifyObjectsExist.forEach(function(vo){
@@ -177,6 +177,17 @@ Meteor.tools = {
         console.log("Vertify Object align status update success");
        //success
        console.log("result: "+res);
+      }
+    });
+  },
+  updateSystemStatus(ws, id, field, status){
+    Meteor.call('systems.updateStatus', ws, id, field, status
+    , (err, res) => {
+      if(err){
+        console.log(err);
+      }else {
+        console.log("System " + field + " status update success");
+        console.log("result: "+res);
       }
     });
   },

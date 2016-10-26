@@ -144,9 +144,28 @@
   <div class="row">
     <div class="col-xs-12 system" data-id="{{_id}}">
       <div class="x_panel">
-        <h3>
-          <img src="/images/{{getConnectorName connector_id}}.png" alt="..." style="width:30px;height:30px;margin-right:10px;" >
-          {{getConnectorName connector_id}} - {{name}}({{prefix}})
+        <div class="col-md-8">
+          <h3>
+            <img src="/images/{{getConnectorName connector_id}}.png" alt="..." style="width:30px;height:30px;margin-right:10px;" >
+            {{getConnectorName connector_id}} - {{name}}({{prefix}})
+          </h3>
+        </div>
+        <div class="col-md-1" style="text-align:right;color:red;padding-top:10px;">
+          {{#if authentication}}
+            {{#if discover}}
+              <p style="color:green;">
+                Discovered
+              </p>
+            {{else}}
+              <p style="color:orange;">
+                Authenticated
+              </p>
+            {{/if}}
+          {{else}}
+            Unathenticated
+          {{/if}}
+        </div>
+        <div class="col-md-3">
           <button class="btn btn-primary pull-right delete" type="button">
             <i class="glyphicon glyphicon-remove"></i>
           </button>
@@ -156,7 +175,7 @@
           <button class="btn btn-primary pull-right details" style="z-index:1;" type="button" data-toggle="collapse" data-target="#details{{_id}}">
             <i class="glyphicon glyphicon-chevron-down" style="z-index:0;"></i>
           </button>
-        </h3>
+        </div>
         <div id="details{{_id}}" class="collapse" >
           System Id: {{id}} <br/>
           Prefix: {{prefix}} <br/>
