@@ -40,7 +40,6 @@ Template.setup.events({
 });
 
 Template.navcard.helpers({
-
   step_status : function(name){
 
     if(Session.get("currentWs")){

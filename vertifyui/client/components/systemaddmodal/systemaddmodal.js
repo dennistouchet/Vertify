@@ -111,7 +111,7 @@ Template.systemaddmodal.events({
                 else {
                   // successful call
                   // update status of system
-                  Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
+                  //Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
                   Meteor.call('tasks.insert', "discover", ws.id, res
                   , (err, result) => {
                     if(err){
@@ -124,8 +124,23 @@ Template.systemaddmodal.events({
                     else {
                       // successful call
                       // update status of system
-                      Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
-                      Modal.hide('systemaddmodal');
+                      //Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
+                      Meteor.call('tasks.insert', "scan", ws.id, res
+                      , (err, result) => {
+                        if(err){
+                          //console.log(err);
+                          errDiv.style.display = 'block';
+                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                          //return false;
+                          return;
+                        }
+                        else {
+                          // successful call
+                          // update status of system
+                          //Meteor.tools.updateSystemStatus(ws.id, res, "scan", true);
+                          Modal.hide('systemaddmodal');
+                        }
+                      });
                     }
                   });
                 }

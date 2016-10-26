@@ -51,6 +51,8 @@ Meteor.methods({
       name: n,
       system_id: sysid,
       workspace_id: wsid,
+      collectschema: false,
+      collect: false,
       record_count: rcdcnt,
       percentage: 0,
       properties: proplist
@@ -129,11 +131,9 @@ ExternalObjects.schema = new SimpleSchema({
   workspace_id:
     { type: Number },
   collectschema:
-    { type: Boolean
-    , optional: true },
+    { type: Boolean },
   collect:
-    { type: Boolean
-    , optional: true },
+    { type: Boolean },
   last_query:
     { type: Date
     , optional: true },

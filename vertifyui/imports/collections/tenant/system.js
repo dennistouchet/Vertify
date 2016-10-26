@@ -111,6 +111,8 @@ Meteor.methods({
       return Systems.update(sys._id, {$set: { authentication: true, modified: new Date()}});
     }else if(field == "discover"){
       return Systems.update(sys._id, {$set: { discover: true, modified: new Date()}});
+    }else if(field == "scan"){
+      return Systems.update(sys._id, {$set: { scan: true, modified: new Date()}});
     }
   },
 });
@@ -173,8 +175,11 @@ Systems.schema = new SimpleSchema({
     , optional: true },
   discover:
     { type: Boolean
-    , optional: true }
-  ,  last_scanned:
+    , optional: true },
+  scan:
+    { type: Boolean
+    , optional: true },
+  last_scanned:
     { type: Date
       , label: "Last Scanned Date"
       , optional:true },

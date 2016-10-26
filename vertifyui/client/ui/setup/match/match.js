@@ -89,12 +89,42 @@ Template.match.events({
       FlowRouter.go('/setup/match/vertifywizard');
   },
   'click .voddl li a' : function(e, t){
-    console.log("dropdown event clicked:");
-    console.log(e.target);
-    if(e.target.text.trim() == 'Match'){
+    var errDiv = document.getElementById("addErrMatch");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+    var ws = Session.get("currentWs");
+
+    if(e.target.text.trim() == 'Match')
+    {
       FlowRouter.go('/setup/match/process?id=' + this._id);
     }
-    else{
+    else if(e.target.text.trim() == 'Edit')
+    {
+      //TODO: edit VO functionality
+    }
+    else if(e.target.text.trim() == 'Add Object')
+    {
+      console.log('Match - Add Object dropdown value clicked');
+      FlowRouter.go('/setup/match/vertifywizard');
+    }
+    else if(e.target.text.trim() == 'Delete')
+    {
+      Meteor.call('vertify_objects.remove', ws.id, this._id
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        }else{
+          //success
+          //TODO Need a call to remove
+          //all Vertify Properties associate with this VO
+        }
+      });
+    }
+    else
+    {
       console.log(e.target.text);
     }
   },

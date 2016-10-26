@@ -135,7 +135,7 @@ Meteor.tools = {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   },
   convertMatchSetuptoVertifyObj : function(wsid, msid){
-    console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
+    //console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
 
     //TODO: Check Vertify object with current External Object doesn't already exist.
 
@@ -168,15 +168,15 @@ Meteor.tools = {
     Meteor.call('vertify_objects.updateStatus', ws, vo, 'align', status
     , (err, res) => {
       if(err){
-        //console.log(err);
+        console.log(err);
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Object " + err.error + "] " + err.reason + "</li>";
         //return false;
         return;
       }else {
-        console.log("Vertify Object align status update success");
+        //console.log("Vertify Object align status update success");
        //success
-       console.log("result: "+res);
+       //console.log("result: "+res);
       }
     });
   },
@@ -186,8 +186,8 @@ Meteor.tools = {
       if(err){
         console.log(err);
       }else {
-        console.log("System " + field + " status update success");
-        console.log("result: "+res);
+        //console.log("System " + field + " status update success");
+        //console.log("result: "+res);
       }
     });
   },

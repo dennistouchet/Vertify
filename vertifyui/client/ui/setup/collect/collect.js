@@ -88,6 +88,7 @@ Template.collect.events({
 
   'click .delete' : function(){
     var errDiv = document.getElementById("addErrCollect");
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var ws = Session.get("currentWs");
@@ -329,7 +330,7 @@ Template.objectList.helpers({
       return false;
     }
     return true;
-  }
+  },
 });
 
 Template.collectObj.helpers({
@@ -349,6 +350,18 @@ Template.collectObj.helpers({
     var curCon = Connectors.findOne({"id": curSys.connector_id});
     return curCon.name;
   },
+  getCollectedRecords : function(record_count, percentage){
+    if(percentage == 0){
+      return percentage;
+    }
+    percentage = (percentage / 100);
+    var records_collected = record_count * percentage;
+    return records_collected;
+  },
+  timeRemaining : function(percentage){
+    var time = 100 - percentage;
+    return time + " seconds";
+  }
 });
 
 

@@ -85,9 +85,36 @@ Template.systemeditmodal.events({
               }
               else {
                 // successful call
+                Meteor.call('tasks.insert', "discover", ws.id, res
+                , (err, result) => {
+                  if(err){
+                    //console.log(err);
+                    errDiv.style.display = 'block';
+                    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                    //return false;
+                    return;
+                  }
+                  else {
+                    // successful call
+                    Meteor.call('tasks.insert', "scan", ws.id, res
+                    , (err, result) => {
+                      if(err){
+                        //console.log(err);
+                        errDiv.style.display = 'block';
+                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                        //return false;
+                        return;
+                      }
+                      else {
+                        // successful call
+
+                        Modal.hide('systemeditmodal');
+                      }
+                    });
+                  }
+                });
               }
             });
-            Modal.hide('systemeditmodal');
           }
         });
       }

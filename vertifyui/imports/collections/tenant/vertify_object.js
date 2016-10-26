@@ -116,14 +116,14 @@ Meteor.methods({
     check(field, String);
     check(status, Boolean);
 
-    console.log("id: " + id + " | ws: " + wsid + " | " + field + " | " + status);
+    //console.log("id: " + id + " | ws: " + wsid + " | " + field + " | " + status);
     var vo = VertifyObjects.findOne({"id": id, "workspace_id": wsid});
 
     if(field == 'align'){
-      console.log("update align: " + vo._id);
+      //console.log("update align: " + vo._id);
       return VertifyObjects.update(vo._id,{$set: {align: status}});
     }else if(field == 'analyze'){
-      console.log("update analyze_status: " + vo._id);
+      //console.log("update analyze_status: " + vo._id);
       return VertifyObjects.update(vo._id,
         {$set:
           {analyze_status: status, analyze_percentage: 0, analyze_status: "Disabled"}
@@ -155,12 +155,15 @@ Meteor.methods({
       throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
     }
   },
-  'vertify_objects.edit'(id,wsid){
+  'vertify_objects.edit'(wsid, id){
     console.log("TODO: Complete VO edit");
   },
-  'vertify_objects.remove'(id, wsid){
-    var current = VertifyObjects.findOne(id, {"workspace_id": wsid});
-    VertifyObjects.remove(current._id);
+  'vertify_objects.remove'(wsid, _id){
+    var current = VertifyObjects.findOne(_id, {"workspace_id": wsid});
+    if(current)
+      return VertifyObjects.remove(current._id);
+
+    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + wsid + " with ID: " + vo);
   },
 });
 

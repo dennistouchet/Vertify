@@ -31,7 +31,7 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
-initTasks();
+//initTasks();
 initWorkspaces();
 initConnectors();
 initSystems();
@@ -810,11 +810,13 @@ function initExternalObjects() {
     name: "Netsuite Customer",
     system_id: 100000,
     workspace_id: 100000,
+    collectschema: true,
+    collect: true,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
     record_count: 20000,
-    percentage: 0,
+    percentage: 100,
     type: "",
     properties: ExternalObjectProperties1,
     generic_integer_1: 1,
@@ -846,11 +848,13 @@ function initExternalObjects() {
     name: "Marketo Object",
     system_id: 111111,
     workspace_id: 100000,
+    collectschema: true,
+    collect: true,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
     record_count: 15000,
-    percentage: 0,
+    percentage: 100,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,
@@ -882,11 +886,13 @@ function initExternalObjects() {
     name: "Marketo LeadRecord",
     system_id: 111111,
     workspace_id: 100000,
+    collectschema: true,
+    collect: true,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
     record_count: 10000,
-    percentage: 0,
+    percentage: 100,
     type: "",
     properties: ExternalObjectProperties2,
     generic_integer_1: 1,
@@ -918,6 +924,8 @@ function initExternalObjects() {
     name: "Salesforce User",
     system_id: 222222,
     workspace_id: 222222,
+    collectschema: false,
+    collect: false,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,
@@ -954,6 +962,8 @@ function initExternalObjects() {
     name: "Salesforce Customer",
     system_id: 222222,
     workspace_id: 222222,
+    collectschema: false,
+    collect: false,
     last_query: new Date(),
     page_size: 25,
     request_size: 5,

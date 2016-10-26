@@ -44,7 +44,7 @@ Meteor.methods({
     alignResults.alignment_properties.forEach(function(alignproperty){
       if(alignproperty.approved){
         console.log("inside align results to vp. align property:");
-        console.log(alignproperty);
+        //console.log(alignproperty);
 
         //TODO NEED TO ADD RULES
 

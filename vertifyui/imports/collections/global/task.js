@@ -24,7 +24,7 @@ Meteor.methods({
     var tid = 100000;
 
     var newTasks = null;
-    if(t == "authentication" || t == "discover"){
+    if(t == "authentication" || t == "discover" || t == "scan"){
       newTasks = {
         tenant_id: tid,
         id: intid,
@@ -94,7 +94,18 @@ Meteor.methods({
         is_deleted: false,
       }
     }else if(t == "fix"){
-      //TODO: fix task
+      newTasks = {
+        tenant_id: tid,
+        id: intid,
+        vertify_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        start: new Date(),
+        end: new Date(),
+        is_deleted: false,
+      }
     }else if(t == "sync"){
       //TODO: sync task
     }
@@ -137,7 +148,7 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
   task:
     { type: String
-    , allowedValues: [ "authentication", "discover", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fix", "sync"]
+    , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fix", "sync"]
     },
   load:
     { type: String
