@@ -10,13 +10,13 @@
           {{> fixIncomplete}}
         {{/if}}
       {{else}}
-        {{> invalid}}
+        {{> invalidFix}}
       {{/if}}
     </div>
   </section>
 </template>
 
-<template name="invalid">
+<template name="invalidFix">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that need to be fix.</h4>
@@ -30,9 +30,8 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-      <button class="btn btn-primary analyze" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-floppy-disk"></i>
-        Analyze
+      <button class="btn btn-primary" type=button style="margin-top:10px;margin-bottom:10px;">
+        <a href="/data/analyze/" style="text-decoration:none;  cursor: pointer;">Analyze</a>
       </button>
     </div>
     <div class="col-md-3">

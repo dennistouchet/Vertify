@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Systems } from './system.js';
 import { VertifyObjects } from './vertify_object.js';
 
 export const ExternalObjects = new Mongo.Collection('external_objects');
@@ -37,11 +38,26 @@ Meteor.methods({
     // Call Task to get external objects properties
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
+
     var proplist = Meteor.tools.getExternalObjectProperties(wsid, sysid);
     console.log(proplist);
     proplist.forEach(function(prop){
       ExternalObjectProperties.schema.validate(prop);
     });
+
+    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
+
+    var sysExtObj = null;
+    system.external_objects.forEach(function(eo){
+      if(eo.name == n){
+        sysExtObj = eo;
+      }
+    });
+
+    if(sysExtObj == null){
+      console.log("No external object: " + n + "found in system: " + sysid);
+      throw new Meteor.Error("Missing Value", "No external object: " + n + "found in system: " + sysid);
+    }
 
     var newExternalObject = {
       tenant_id: wsid,
@@ -55,7 +71,24 @@ Meteor.methods({
       collect: false,
       record_count: rcdcnt,
       percentage: 0,
-      properties: proplist
+      //TODO: clean up with Spread Operator
+      is_dynamic: sysExtObj.is_dynamic,
+      description: sysExtObj.description,
+      supports_discovery: sysExtObj.supports_discovery,
+      supports_query: sysExtObj.supports_query,
+      supports_pagination: sysExtObj.supports_pagination,
+      supports_add: sysExtObj.supports_add,
+      supports_update: sysExtObj.supports_update,
+      supports_count: sysExtObj.supports_count,
+      supports_delete: sysExtObj.supports_delete,
+      supports_last_modified_query: sysExtObj.supports_last_modified_query,
+      last_modified_property_name: sysExtObj.last_modified_property_name,
+      key_properties: sysExtObj.key_properties,
+      ignore_properties: sysExtObj.ignore_properties,
+      read_only_properties: sysExtObj.read_only_properties,
+      ignore_properties_if_null: sysExtObj.ignore_properties_if_null
+
+      ,properties: proplist
     };
     ExternalObjects.schema.validate(newExternalObject);
     ExternalObjects.insert(newExternalObject);
@@ -153,6 +186,63 @@ ExternalObjects.schema = new SimpleSchema({
   type:
     { type: String
     , optional: true  },
+  is_custom:
+    { type: Boolean
+    , optional: true },
+  level:
+    { type: String
+    , optional: true },
+  is_hidden:
+    { type: Boolean
+    , optional: true },
+  is_dynamic:
+    { type: Boolean
+    , optional: true },
+  description:
+    { type: String
+    , optional: true },
+  supports_discovery:
+    { type: Boolean
+    , optional: true },
+  supports_query:
+    { type: Boolean
+    , optional: true },
+  supports_pagination:
+    { type: Boolean
+    , optional: true },
+  supports_add:
+    { type: Boolean
+    , optional: true },
+  supports_update:
+    { type: Boolean
+    , optional: true },
+  supports_count:
+    { type: Boolean
+    , optional: true },
+  supports_delete:
+    { type: Boolean
+    , optional: true },
+  supports_last_modified_query:
+    { type: Boolean
+    , optional: true },
+  last_modified_property_name:
+    { type: String
+    , optional: true },
+  key_properties:
+    { type: [String]
+    , optional: true },
+  ignore_properties:
+    { type: [String]
+    , optional: true },
+  read_only_properties:
+    { type: [String]
+    , optional: true },
+  ignore_properties_if_null:
+    { type: [String]
+    , optional: true },
+  collect_filters:
+    { type: String
+    , optional: true },
   properties:
     { type:  [ExternalObjectProperties.schema ]
     , optional: true },
@@ -173,41 +263,5 @@ ExternalObjects.schema = new SimpleSchema({
     , optional: true },
   generic_string_3:
     { type: String
-    , optional: true },
-  is_custom:
-    { type: Boolean
-    , optional: true },
-  level:
-    { type: String
-    , optional: true },
-  is_hidden:
-    { type: Boolean
-    , optional: true },
-  last_modified_property_name:
-    { type: String
-    , optional: true },
-  supports_add:
-    { type: Boolean
-    , optional: true },
-  supports_update:
-    { type: Boolean
-    , optional: true },
-  supports_delete:
-    { type: Boolean
-    , optional: true },
-  supports_query:
-    { type: Boolean
-    , optional: true },
-  supports_pagination:
-    { type: Boolean
-    , optional: true },
-  supports_last_modified_query:
-    { type: Boolean
-    , optional: true },
-  supports_collect_filters:
-    { type: Boolean
-    , optional: true },
-  collect_filters:
-    { type: String
-    , optional: true },
+    , optional: true }
 });

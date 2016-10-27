@@ -26,14 +26,14 @@ Template.analyze.helpers({
     }
     return valid;
   },
-  enabled: function(){
+  isEnabled: function(){
     var ws = Session.get("currentWs");
     var enabled = false;
     if(ws){
       var vos = null;
       vos = VertifyObjects.find({"workspace_id": ws.id, "align": true});
       vos.forEach(function(vo){
-        if(vo.analyze_status == "Enabled"){
+        if(vo.analyze_status == "enabled"){
           enabled = true;
         }
       });
@@ -83,12 +83,12 @@ Template.analyzeVertifyObjectli.helpers({
     return eo.record_count;
   },
   isAnalyzing(status){
-    if(status == "Analyzing") return true;
+    if(status == "analyzing") return true;
 
     return false;
   },
   isEnabled(status){
-    if(status == "Enabled") return true;
+    if(status == "enabled") return true;
 
     return false;
   }

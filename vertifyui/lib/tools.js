@@ -138,16 +138,16 @@ Meteor.tools = {
     //console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
 
     //TODO: Check Vertify object with current External Object doesn't already exist.
-
     MatchObject = MatchSetup.findOne({"id": msid, "workspace_id": wsid});
     if(MatchObject){
       //Create new VO
       if(MatchObject.new_object){
-
           Meteor.call('vertify_objects.insert', MatchObject);
-
       }//Update Existing VO
       else{
+        //TODO: this function doesn't exist
+        // NOT HAPPY PATH
+        // Will be used to ADD TO EXISTING VO's that are in progress
           Meteor.call('vertify_objects.update', MatchObject);
       }
     }
@@ -164,7 +164,7 @@ Meteor.tools = {
     var currentTab = $("ul").find("[data-template='" + step + "']");
     currentTab.addClass("active");
   },
-  updateAlignStatus(ws, vo, field, status){
+  updateAlignStatus: function(ws, vo, field, status){
     Meteor.call('vertify_objects.updateStatus', ws, vo, 'align', status
     , (err, res) => {
       if(err){
@@ -180,7 +180,7 @@ Meteor.tools = {
       }
     });
   },
-  updateSystemStatus(ws, id, field, status){
+  updateSystemStatus: function(ws, id, field, status){
     Meteor.call('systems.updateStatus', ws, id, field, status
     , (err, res) => {
       if(err){

@@ -45,11 +45,14 @@ Meteor.methods({
     // Call Task to get external objects
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for collect for simulation
+    //DEVENV: This fills in system external objects when no Elixir engine is available
+    /*
      var eolist = Meteor.tools.getExternalObjects(wsid, connid);
      for(i=0;i< eolist.length;i++)
      {
        SystemExternalObjectsSchema.validate(eolist[i]);
      }
+     */
 
     var newSystem = {
       name: nm,
@@ -64,8 +67,8 @@ Meteor.methods({
       max_concurrent_tasks: maxtask,
       prefix: pf,
       agent_id: wsid.toString(),
-      credentials: cred,
-      external_objects: eolist
+      credentials: cred
+      //external_objects: eolist
     };
 
     Systems.schema.validate(newSystem);
@@ -124,11 +127,66 @@ export const SystemSettingsSchema = new SimpleSchema({
   { type: String }
 })
 
+//TODO: VERIFY WHY EXTRA FIELDS THESE NEEDED TO BE HERE AND EXTERNAL OBJECTS
 export const SystemExternalObjectsSchema = new SimpleSchema({
   name:
-  { type: String },
+    { type: String },
   is_dynamic:
-  { type: Boolean },
+    { type: Boolean
+    , defaultValue: false },
+  description:
+    { type: String
+    , optional: true },
+  supportsdiscovery:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportsquery:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportspagination:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportsadd:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportsupdate:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportscount:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportsdelete:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  supportslastmodifiedquery:
+    { type: Boolean
+    , defaultValue: false
+    , optional: true  },
+  lastmodifiedpropertyname:
+    { type: String
+    , optional: true },
+  keyproperties:
+    { type: String
+    , optional: true },
+  ignoreproperties:
+    { type: String
+    , optional: true },
+  readonlyproperties:
+    { type: String
+    , optional: true },
+  ignorepropertiesifnull:
+    { type: String
+    , optional: true },
+  collectfilters:
+    { type: String
+    , optional: true },
   generic_string_1:
     { type: String
     , optional: true },

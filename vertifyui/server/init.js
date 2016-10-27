@@ -515,8 +515,8 @@ function initSystems(){
   SystemExternalObjectsSchema.validate(SystemExternalObjects[2]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[3]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[4]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
+//  SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
+//  SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
 
   // create system objects
   var Netsuite = {
@@ -556,7 +556,7 @@ function initSystems(){
     settings: SystemSettings,
     external_objects: [SystemExternalObjects[2],SystemExternalObjects[3],SystemExternalObjects[4]]
   };
-
+/*
   var Salesforce = {
     tenant_id: 100000,
     id: 222222,
@@ -594,14 +594,14 @@ function initSystems(){
     settings: SystemSettings,
     external_objects: []
   };
-
+*/
   Systems.schema.validate(Netsuite);
   Systems.schema.validate(Marketo);
-  Systems.schema.validate(Salesforce);
-  Systems.schema.validate(Vertify);
+//  Systems.schema.validate(Salesforce);
+//  Systems.schema.validate(Vertify);
 
   if (! Systems.findOne()){
-    var systems = [ Netsuite, Marketo, Salesforce, Vertify ];
+    var systems = [ Netsuite, Marketo];//, Salesforce, Vertify ];
     systems.forEach(function (system) {
       Systems.insert(system);
     })
@@ -617,10 +617,25 @@ function initConnectors() {
       is_encrypted: false
     },
     {
-      name: "password",
-      value: "password",
+      name: "EncryptionKey",
+      value: "EncryptionKey",
+      is_encrypted: false
+    },
+    {
+      name: "EndpointSubdomain",
+      value: "EndpointSubdomain",
       is_encrypted: true
-    }
+    },
+    {
+      name: "IncludeEmailsOnActivity",
+      value: "IncludeEmailsOnActivity",
+      is_encrypted: false
+    },
+    {
+      name: "SetExternalId",
+      value: "SetExternalId",
+      is_encrypted: true
+    },
   ]
   var ConnectorsSettings2 = [
     {
@@ -637,13 +652,46 @@ function initConnectors() {
       name: "api key",
       value: "api key",
       is_encrypted: true
+    },
+    {
+      name: "ApplicationId",
+      value: "ApplicationId",
+      is_encrypted: false
+    },
+    {
+      name: "AccountNumber",
+      value: "AccountNumber",
+      is_encrypted: true
+    },
+    {
+      name: "ReleasePreview",
+      value: "ReleasePreview",
+      is_encrypted: true
+    },
+    {
+      name: "IncludeSavedSearches",
+      value: "IncludeSavedSearches",
+      is_encrypted: false
+    },
+    {
+      name: "Sandbox",
+      value: "Sandbox",
+      is_encrypted: true
     }
   ]
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[1]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings1[2]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings1[3]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings1[4]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[1]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[2]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings2[3]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings2[4]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings2[5]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings2[6]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings2[7]);
 
   var Netsuite = {
     id: 100000,
@@ -668,7 +716,7 @@ function initConnectors() {
     connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings1
   };
-
+/*
   var Salesforce = {
     id: 222222,
     modified: new Date(),
@@ -693,13 +741,14 @@ function initConnectors() {
     settings: ConnectorsSettings1
   };
 
+*/
   Connectors.schema.validate(Netsuite);
   Connectors.schema.validate(Marketo);
-  Connectors.schema.validate(Salesforce);
-  Connectors.schema.validate(Vertify);
+//  Connectors.schema.validate(Salesforce);
+//  Connectors.schema.validate(Vertify);
 
   if(! Connectors.findOne()){
-    var connectors = [ Netsuite, Marketo, Salesforce, Vertify ];
+    var connectors = [ Netsuite, Marketo];//, Salesforce, Vertify ];
     connectors.forEach(function (connector){
       Connectors.insert(connector);
     })
@@ -835,7 +884,6 @@ function initExternalObjects() {
     supports_query: true,
     supports_pagination: true,
     supports_last_modified_query: true,
-    supports_collect_filters: true,
     collect_filters: "string"
   };
 
@@ -873,7 +921,6 @@ function initExternalObjects() {
     supports_query: true,
     supports_pagination: true,
     supports_last_modified_query: true,
-    supports_collect_filters: true,
     collect_filters: "string"
   };
 
@@ -911,10 +958,10 @@ function initExternalObjects() {
     supports_query: true,
     supports_pagination: true,
     supports_last_modified_query: true,
-    supports_collect_filters: true,
     collect_filters: "string"
   };
 
+/*
   var salesforceuser = {
     tenant_id: 100000,
     id:  4,
@@ -949,7 +996,6 @@ function initExternalObjects() {
     supports_query: true,
     supports_pagination: true,
     supports_last_modified_query: true,
-    supports_collect_filters: true,
     collect_filters: "string"
   };
 
@@ -987,22 +1033,21 @@ function initExternalObjects() {
     supports_query: true,
     supports_pagination: true,
     supports_last_modified_query: true,
-    supports_collect_filters: true,
     collect_filters: "string"
   };
-
+*/
   ExternalObjects.schema.validate(netsuiteobj);
   ExternalObjects.schema.validate(marketoobj);
   ExternalObjects.schema.validate(marketolead);
-  ExternalObjects.schema.validate(salesforceuser);
-  ExternalObjects.schema.validate(salesforcecustomer);
+//  ExternalObjects.schema.validate(salesforceuser);
+//  ExternalObjects.schema.validate(salesforcecustomer);
   if(! ExternalObjects.findOne()){
     var external_objects = [
       netsuiteobj,
       marketoobj,
-      marketolead,
-      salesforceuser,
-      salesforcecustomer
+      marketolead
+//      salesforceuser,
+//      salesforcecustomer
     ];
     external_objects.forEach(function (obj){
       ExternalObjects.insert(obj);
@@ -1052,6 +1097,7 @@ function initVertifyObjects() {
   //NS Customer
   var VertifyObjectExternalObject1 = {
     external_object_id: 1,
+    system_id: 100000,
     inbound: VertifyObjectExternalObjectInbound1,
     outbound: VertifyObjectExternalObjectOutbound1,
     match: VertifyObjectMatch1,
@@ -1137,6 +1183,7 @@ function initVertifyObjects() {
   //MK Lead
   var VertifyObjectExternalObject2 = {
     external_object_id: 3,
+    system_id: 111111,
     inbound: VertifyObjectExternalObjectInbound2,
     outbound: VertifyObjectExternalObjectOutbound2,
     match: VertifyObjectMatch2,
@@ -1156,7 +1203,7 @@ function initVertifyObjects() {
     match: true,
     aligntest: false,
     align: false,
-    analyze_status: "Disabled",
+    analyze_status: "disabled",
     external_objects: [ VertifyObjectExternalObject1, VertifyObjectExternalObject2 ]
   }
 

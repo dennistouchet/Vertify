@@ -31,8 +31,17 @@ Meteor.methods({
     VertifyObjectMatchSchema.validate(matchfields[0]);
     VertifyObjectMatchSchema.validate(matchfields[1]);
 
+    //TODO: CHANGE THIS, THIS SHOULD HAPPEN ON ELIXIR side
+    //BEING DONE FOR HAPPY PATH
+    var sys_ids = [];
+    var eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[0]});
+    sys_ids.push(eo.system_id);
+    eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[0]});
+    sys_ids.push(eo.system_id);
+
     var newExternalObjects = [{
       external_object_id: MatchObject.eo_ids[0],
+      system_id: sys_ids[0],
       inbound: eoinbound,
       outbound: eooutbound,
       match: matchfields[0],
@@ -40,6 +49,7 @@ Meteor.methods({
     },
     {
       external_object_id: MatchObject.eo_ids[1],
+      system_id: sys_ids[1],
       inbound: eoinbound,
       outbound: eooutbound,
       match: matchfields[1],
@@ -71,7 +81,7 @@ Meteor.methods({
       is_deleted: false,
       name: MatchObject.vo_name,
       workspace_id: MatchObject.workspace_id,
-      analyze_status: "Disabled",
+      analyze_status: "disabled",
       external_objects: newExternalObjects
     };
 
@@ -126,7 +136,7 @@ Meteor.methods({
       //console.log("update analyze_status: " + vo._id);
       return VertifyObjects.update(vo._id,
         {$set:
-          {analyze_status: status, analyze_percentage: 0, analyze_status: "Disabled"}
+          {analyze_status: status, analyze_percentage: 0, analyze_status: "disabled"}
         });
     }
   },
@@ -139,14 +149,14 @@ Meteor.methods({
         VertifyObjects.update(current._id,
             { $set:
                 { analyze_percentage: percent
-                , analyze_status: "Enabled" }
+                , analyze_status: "enabled" }
             }
         );
       }else{
         VertifyObjects.update(current._id,
             { $set:
                 { analyze_percentage: percent
-                , analyze_status: "Analyzing" }
+                , analyze_status: "analyzing" }
             }
         );
       }
@@ -281,6 +291,8 @@ export const VertifyObjectExternalObjectInboundSchema = new SimpleSchema({
 export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
   external_object_id:
     { type: Number },
+  system_id:
+    { type: Number },
   inbound:
     { type: VertifyObjectExternalObjectInboundSchema },
   outbound:
@@ -329,7 +341,7 @@ VertifyObjects.schema = new SimpleSchema({
   analyze_status:
     { type: String
     , defaultValue: "disabled"
-    , allowedValues: [ "Enabled", "Analyzing", "Disabled"] },
+    , allowedValues: [ "enabled", "analyzing", "disabled"] },
   analyze_percentage:
     { type: Number
     , min: 0
