@@ -9,6 +9,7 @@ import './collect.html';
 
 Template.collect.helpers({
   systems() {
+    //TODO: remove this from Collect
     //determines if a workspace has been selected and added to session
     if(Session.get("currentWs")) {
       ws = Session.get("currentWs");
@@ -24,10 +25,8 @@ Template.collect.helpers({
         return Systems.find();
       }
     }else {
-      //TODO: should not show all systems just temporary until we have more data
       Session.set("systemCount", "0");
       console.log("Session systemCount: " + Session.get("systemCount"));
-      return Systems.find();
     }
   },
   external_objects() {
@@ -43,8 +42,7 @@ Template.collect.helpers({
     else{
       Session.set("externalObjectCount", "0");
       console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
-      //TODO: remove this option after testing
-      return ExternalObjects.find();
+      //TODO: throw error or notify user that workspace isn't selected
     }
   },
   connectStatus : function(){
@@ -138,7 +136,8 @@ Template.collect.events({
             //console.log(err);
             //TODO: improve with error Template
             errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li><li>" + err + "</li>";
+            console.log(err);
           }
           else {
             // successful call

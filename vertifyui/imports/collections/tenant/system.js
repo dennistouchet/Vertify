@@ -46,13 +46,12 @@ Meteor.methods({
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for collect for simulation
     //DEVENV: This fills in system external objects when no Elixir engine is available
-    /*
-     var eolist = Meteor.tools.getExternalObjects(wsid, connid);
-     for(i=0;i< eolist.length;i++)
-     {
-       SystemExternalObjectsSchema.validate(eolist[i]);
-     }
-     */
+
+    var eolist = Meteor.tools.getExternalObjects(wsid, connid);
+    for(i=0;i< eolist.length;i++)
+    {
+     SystemExternalObjectsSchema.validate(eolist[i]);
+    }
 
     var newSystem = {
       name: nm,
@@ -67,8 +66,8 @@ Meteor.methods({
       max_concurrent_tasks: maxtask,
       prefix: pf,
       agent_id: wsid.toString(),
-      credentials: cred
-      //external_objects: eolist
+      credentials: cred,
+      external_objects: eolist
     };
 
     Systems.schema.validate(newSystem);
@@ -134,6 +133,9 @@ export const SystemExternalObjectsSchema = new SimpleSchema({
   is_dynamic:
     { type: Boolean
     , defaultValue: false },
+  object_type:
+    { type: String
+    , optional: true },
   description:
     { type: String
     , optional: true },

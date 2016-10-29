@@ -45,5 +45,9 @@ MatchResults.schema = new SimpleSchema({
     { type: Number },
   external_objects:
     { type: [MatchResultsExternalObjectsSchema],
-      min: 2 }
+      min: 2 },
+  match_object:
+    { type: Object
+    , blackbox: true
+    , optional: true }
 });

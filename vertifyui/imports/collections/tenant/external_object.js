@@ -38,7 +38,6 @@ Meteor.methods({
     // Call Task to get external objects properties
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
-
     var proplist = Meteor.tools.getExternalObjectProperties(wsid, sysid);
     console.log(proplist);
     proplist.forEach(function(prop){
@@ -72,6 +71,7 @@ Meteor.methods({
       record_count: rcdcnt,
       percentage: 0,
       //TODO: clean up with Spread Operator
+      type: sysExtObj.object_type,
       is_dynamic: sysExtObj.is_dynamic,
       description: sysExtObj.description,
       supports_discovery: sysExtObj.supports_discovery,
@@ -232,7 +232,8 @@ ExternalObjects.schema = new SimpleSchema({
     { type: [String]
     , optional: true },
   ignore_properties:
-    { type: [String]
+    { type: [Object]
+      , blackbox: true
     , optional: true },
   read_only_properties:
     { type: [String]

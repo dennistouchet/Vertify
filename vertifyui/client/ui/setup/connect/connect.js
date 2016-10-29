@@ -9,26 +9,16 @@ import './connect.html';
 Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
-    if(Session.get("currentWs")) {
-      ws = Session.get("currentWs");
-      console.log("connect systems")
-      if(ws.id) {
-        systemcount = Systems.find({"workspace_id": ws.id}).count();
-        Session.set("systemCount", systemcount);
-        console.log("Session SystemCount: " + Session.get("systemCount"));
-
-        return Systems.find({"workspace_id": ws.id});
-      }
-      else{
-        Session.set("systemCount", "0");
-        console.log("Session SystemCount: " + Session.get("systemCount"));
-        return Systems.find({});
-      }
-    }else {
-      //TODO: should not show all systems
+    ws = Session.get("currentWs");
+    if(ws.id) {
+      systems = Systems.find({"workspace_id": ws.id});
+      Session.set("systemCount", systems.count());
+      console.log("Session SystemCount: " + Session.get("systemCount"));
+      return systems
+    }
+    else{
       Session.set("systemCount", "0");
       console.log("Session SystemCount: " + Session.get("systemCount"));
-      return Systems.find({});
     }
   },
   hasWorkspace : function(){

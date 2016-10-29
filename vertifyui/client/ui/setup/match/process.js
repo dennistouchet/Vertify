@@ -74,9 +74,8 @@ Template.matchProcessComplete.helpers({
     if(ws && id){
       var vo = VertifyObjects.findOne(id).name;
       //TODO: update this to use VO ID when match results are real
-      return MatchResults.findOne({});
+      return MatchResults.findOne({"workspace_id":ws.id});
     }
-    return MatchResults.findOne({});
   },
   vertify_object(){
     //TODO: fix this. It tries to get the ID before the template is rendered and the queryparams are set so it fails
@@ -127,7 +126,7 @@ Template.matchProcessComplete.events({
       var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
       var ws = Session.get("currentWs");
       //TODO: this should use workspace, fix once match results are sent by Elixir
-      var matchresults = MatchResults.findOne({});//"workspace_id": ws.id});
+      var matchresults = MatchResults.findOne({"workspace_id":ws.id});//"workspace_id": ws.id});
       console.log("match Results:");
       console.log(matchresults);
       ModalHelper.openMatchConfirmModalFor(vertifyobjectid, matchresults.id);

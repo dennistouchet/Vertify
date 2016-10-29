@@ -11,7 +11,7 @@ Template.matchconfirmmodal.helpers({
     if(ws && mr){
       console.log(mr);
       //TODO: adjust this to use workspace once real match results are being sent
-      return MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
+      return MatchResults.findOne({"id":mr, "workspace_id": ws.id});
     }
   },
   systemOfTruth: function(id){
@@ -20,7 +20,7 @@ Template.matchconfirmmodal.helpers({
     var sot = "No SOT";
     if(ws && mr){
       //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -38,7 +38,7 @@ Template.matchconfirmmodal.helpers({
     var sot = "No Records found";
     if(ws && mr){
       //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -55,7 +55,7 @@ Template.matchconfirmmodal.helpers({
     var sot = "External object error";
     if(ws && mr){
       //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr});//, "workspace_id": ws.id});
+      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(!eo.is_truth)
         {
@@ -105,6 +105,9 @@ Template.matchconfirmmodal.events({
                return;
              }
              else {
+               //TODO: this should be moved to elixir eventually
+               Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', false);
+
                FlowRouter.go('/setup/match');
                Modal.hide('matchconfirmmodal');
              }

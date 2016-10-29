@@ -3,13 +3,44 @@
     <div class="row">
       <h1 class="page_title">Align</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+      {{#if hasObjects}}
         {{#if isAligned}}
           {{> alignCompleted}}
         {{else}}
           {{> alignZeroDataHeader}}
         {{/if}}
+      {{else}}
+        {{> invalidAlign}}
+      {{/if}}
     </div>
   </section>
+</template>
+
+<template name="invalidAlign">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that can be Aligned.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">You must have at least one Vertify Object with match completed to enable alignment.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary" type=button style="margin-top:10px;margin-bottom:10px;">
+        <a href="/setup/match/" style="text-decoration:none;  cursor: pointer;">Match</a>
+      </button>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
 </template>
 
 <template name="alignZeroDataHeader">

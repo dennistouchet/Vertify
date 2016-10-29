@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { ExternalObjects } from './external_object.js';
 
 export const VertifyObjects = new Mongo.Collection('vertify_objects');
 

@@ -44,9 +44,11 @@ Meteor.methods({
         task: t,
         created: new Date(),
         modified: new Date(),
-        is_deleted: false
+        is_deleted: false,
+        query_type: "All"
       }
     }else if(t == "matchtest" || t == "match"){
+      //TODO: send sample size from match input
       newTasks = {
         tenant_id: tid,
         id: intid,
@@ -56,8 +58,10 @@ Meteor.methods({
         created: new Date(),
         modified: new Date(),
         is_deleted: false,
+        match_options: { sample_size: 100 }
       }
     }else if(t == "aligntest"){
+      //TODO: send sample size from align input
       newTasks = {
         tenant_id: tid,
         id: intid,
@@ -67,6 +71,7 @@ Meteor.methods({
         created: new Date(),
         modified: new Date(),
         is_deleted: false,
+        align_options: { sample_size: 100 }
       }
     }else if(t == "align"){
       newTasks = {
@@ -223,15 +228,21 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
 
   // TASK OPTIONS
+  query_type:
+    { type: String
+    , allowedValues: [ "All" ]
+    , optional: true },
   collect_options:
     { type: [Object]
     , optional: true },
   match_options:
-    { type: [Object]
-    , optional: true },
+    { type: Object
+    , optional: true
+    , blackbox: true },
   align_options:
-    { type: [Object]
-    , optional: true },
+    { type: Object
+    , optional: true
+    , blackbox: true  },
   user_number:
     { type: Number
     , optional: true },

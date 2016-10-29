@@ -509,14 +509,18 @@ function initSystems(){
       },{
         name: "Salesforce Customer",
         is_dynamic: true
+      },{
+        name: "Jira Issue",
+        is_dynamic: true
       }];
   SystemExternalObjectsSchema.validate(SystemExternalObjects[0]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[1]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[2]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[3]);
   SystemExternalObjectsSchema.validate(SystemExternalObjects[4]);
-//  SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
-//  SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
+  SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
+  SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
+  SystemExternalObjectsSchema.validate(SystemExternalObjects[7]);
 
   // create system objects
   var Netsuite = {
@@ -555,6 +559,25 @@ function initSystems(){
     credentials: SystemCredentials,
     settings: SystemSettings,
     external_objects: [SystemExternalObjects[2],SystemExternalObjects[3],SystemExternalObjects[4]]
+  };
+
+  var Jira = {
+    tenant_id: 100000,
+    id: 444444,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    workspace_id: 100000,
+    name: 'Jira',
+    connector_id: 444444,
+    max_concurrent_tasks: 2,
+    prefix: 'JI',
+    agent_id: '',
+    authentication: true,
+    discover: true,
+    credentials: SystemCredentials,
+    settings: SystemSettings,
+    external_objects: [SystemExternalObjects[7]]
   };
 /*
   var Salesforce = {
@@ -597,11 +620,12 @@ function initSystems(){
 */
   Systems.schema.validate(Netsuite);
   Systems.schema.validate(Marketo);
+  Systems.schema.validate(Jira);
 //  Systems.schema.validate(Salesforce);
 //  Systems.schema.validate(Vertify);
 
   if (! Systems.findOne()){
-    var systems = [ Netsuite, Marketo];//, Salesforce, Vertify ];
+    var systems = [ Netsuite, Marketo, Jira];//, Salesforce, Vertify ];
     systems.forEach(function (system) {
       Systems.insert(system);
     })
@@ -639,8 +663,8 @@ function initConnectors() {
   ]
   var ConnectorsSettings2 = [
     {
-      name: "login",
-      value: "login",
+      name: "username",
+      value: "username",
       is_encrypted: false
     },
     {
@@ -679,6 +703,28 @@ function initConnectors() {
       is_encrypted: true
     }
   ]
+  var ConnectorsSettings3 = [
+    {
+      name: "username",
+      value: "username",
+      is_encrypted: false
+    },
+    {
+      name: "password",
+      value: "password",
+      is_encrypted: true
+    },
+    {
+      name: "Jql",
+      value: "Jql",
+      is_encrypted: true
+    },
+    {
+      name: "BaseURL",
+      value: "BaseURL",
+      is_encrypted: true
+    },
+  ]
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[1]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[2]);
@@ -692,6 +738,9 @@ function initConnectors() {
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[5]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[6]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[7]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings3[0]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings3[1]);
+  ConnectorsSettingsSchema.validate(ConnectorsSettings3[2]);
 
   var Netsuite = {
     id: 100000,
@@ -715,6 +764,18 @@ function initConnectors() {
     data_assembly:"C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Marketo.Data.dll",
     connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings1
+  };
+
+  var Jira = {
+    id: 444444,
+    modified: new Date(),
+    created: new Date(),
+    name: "Jira",
+    default_prefix: "JI",
+    assembly: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Jira.dll",
+    data_assembly:"C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\Flywheel.Connector.Jira.Data.dll",
+    connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
+    settings: ConnectorsSettings3
   };
 /*
   var Salesforce = {
@@ -744,11 +805,12 @@ function initConnectors() {
 */
   Connectors.schema.validate(Netsuite);
   Connectors.schema.validate(Marketo);
+  Connectors.schema.validate(Jira);
 //  Connectors.schema.validate(Salesforce);
 //  Connectors.schema.validate(Vertify);
 
   if(! Connectors.findOne()){
-    var connectors = [ Netsuite, Marketo];//, Salesforce, Vertify ];
+    var connectors = [ Netsuite, Marketo, Jira ];//, Salesforce, Vertify ];
     connectors.forEach(function (connector){
       Connectors.insert(connector);
     })
@@ -961,6 +1023,43 @@ function initExternalObjects() {
     collect_filters: "string"
   };
 
+  var jiraissue = {
+    tenant_id: 100000,
+    id:  4,
+    modified:  new Date(),
+    created:   new Date(),
+    is_deleted: false,
+    name: "Jira Issue",
+    system_id: 444444,
+    workspace_id: 100000,
+    collectschema: true,
+    collect: true,
+    last_query: new Date(),
+    page_size: 10,
+    request_size: 5,
+    record_count: 6600,
+    percentage: 100,
+    type: "",
+    properties: ExternalObjectProperties1,
+    generic_integer_1: 1,
+    generic_integer_2: null,
+    generic_integer_3: null,
+    generic_string_1: "string",
+    generic_string_2: null,
+    generic_string_3: null,
+    is_custom: false,
+    level: "",
+    is_hidden: false,
+    last_modified_property_name: "",
+    supports_add: true,
+    supports_update: true,
+    supports_delete: true,
+    supports_query: true,
+    supports_pagination: true,
+    supports_last_modified_query: true,
+    collect_filters: "string"
+  };
+
 /*
   var salesforceuser = {
     tenant_id: 100000,
@@ -1039,13 +1138,15 @@ function initExternalObjects() {
   ExternalObjects.schema.validate(netsuiteobj);
   ExternalObjects.schema.validate(marketoobj);
   ExternalObjects.schema.validate(marketolead);
+  ExternalObjects.schema.validate(jiraissue);
 //  ExternalObjects.schema.validate(salesforceuser);
 //  ExternalObjects.schema.validate(salesforcecustomer);
   if(! ExternalObjects.findOne()){
     var external_objects = [
       netsuiteobj,
       marketoobj,
-      marketolead
+      marketolead,
+      jiraissue
 //      salesforceuser,
 //      salesforcecustomer
     ];

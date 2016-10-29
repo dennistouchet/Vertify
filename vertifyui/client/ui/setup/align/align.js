@@ -6,6 +6,17 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 import './align.html';
 
 Template.align.helpers({
+  hasObjects: function(){
+    var ws = Session.get("currentWs");
+    var valid = false;
+    if(ws){
+      var count = VertifyObjects.find({"workspace_id": ws.id, "match": true}).count();
+      if(count > 0){
+        valid = true;
+      }
+    }
+    return valid;
+  },
   isAligned: function(){
     var ws = Session.get("currentWs");
     return Meteor.tools.alignStatus(ws.id);

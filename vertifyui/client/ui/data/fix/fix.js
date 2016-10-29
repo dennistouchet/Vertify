@@ -18,7 +18,7 @@ Template.fix.helpers({
     var ws = Session.get("currentWs");
     var valid = false;
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"}).count();
+      var count = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"}).count();
       if(count > 0){
         valid = true;
       }

@@ -80,24 +80,18 @@ Meteor.tools = {
 
     if(this.matchStatus(wsid)){
       var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid});
-      console.log("Inside alignStatus(). Vertify Property exist count:");
-      console.log(vertifyPropertiesExist.count());
       if(vertifyPropertiesExist.count() > 0){
         vertifyPropertiesExist.forEach(function(vprop){
         if(vprop.align) approvedVPs = vprop.align;
         });
       }
       var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid});
-      console.log("Inside alignStatus(). Vertify Objects exist count:");
-      console.log(vertifyObjectsExist.count());
       if(vertifyObjectsExist.count() > 0){
         vertifyObjectsExist.forEach(function(vobj){
           if(vobj.align) approvedVO = vobj.align;
         });
       }
     }
-    console.log(approvedVPs);
-    console.log(approvedVO);
     if(approvedVPs && approvedVO){
       return true;
     }
@@ -168,15 +162,16 @@ Meteor.tools = {
     Meteor.call('vertify_objects.updateStatus', ws, vo, 'align', status
     , (err, res) => {
       if(err){
+        console.log("Tools.js updateAlignStatus error:");
         console.log(err);
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Object " + err.error + "] " + err.reason + "</li>";
         //return false;
         return;
       }else {
-        //console.log("Vertify Object align status update success");
-       //success
-       //console.log("result: "+res);
+        console.log("Vertify Object align status update success");
+        //success
+        console.log("result: "+res);
       }
     });
   },
@@ -184,6 +179,7 @@ Meteor.tools = {
     Meteor.call('systems.updateStatus', ws, id, field, status
     , (err, res) => {
       if(err){
+        console.log("Tools.js updateSystemStatus error:");
         console.log(err);
       }else {
         //console.log("System " + field + " status update success");
@@ -216,6 +212,11 @@ Meteor.tools = {
           is_dynamic: true
         }];
 
+    var jiraExternalObjects = [{
+          name: "Jira Issue",
+          is_dynamic: true
+        }];
+
     var salesforceExternalObjects = [{
           name: "Salesforce User",
           is_dynamic: true
@@ -223,13 +224,13 @@ Meteor.tools = {
           name: "Salesforce Customer",
           is_dynamic: true
         }];
-    //TODO: verify why this uses sysid - rename var to connid?
     /*
     var system = Systems.findOne({"id": sysid});
     if(system){
       sysid = system.connector_id;
     }
     console.log(system);*/
+    //TODO: verify why this uses sysid - rename var to connid?
     var extobj = null;
     var connector = Connectors.findOne({"id": sysid});
     if(connector){
@@ -241,6 +242,9 @@ Meteor.tools = {
       }
       else if (connector.id == 222222){
         extobj = salesforceExternalObjects;
+      }
+      else if (connector.id == 444444){
+        extobj = jiraExternalObjects;
       }
     }
     return extobj;
@@ -337,14 +341,17 @@ Meteor.tools = {
 
     var properties = null;
     var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
-    console.log(system);
     if(system){
       if(system.connector_id == 100000 ){
         properties = ExternalObjectProperties1;
-        console.log("inside property assignment");
+        console.log("tools.js | inside property assignment");
       }
       else if (system.connector_id ==  111111 || system.connector_id === 222222){
         properties = ExternalObjectProperties2;
+        console.log("inside property assignment");
+      }
+      else if (system.connector_id === 444444){
+        properties = ExternalObjectProperties1;
         console.log("inside property assignment");
       }
     }
