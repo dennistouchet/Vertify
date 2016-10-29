@@ -38,7 +38,7 @@ Meteor.methods({
     }*/
 
     //TODO: ADD Vertify Object ID and Workspace ID to filter once alignresults are actually being created
-    var alignResults = AlignResults.findOne({});//"workspace_id": ws});//,"vertify_object_id": vo});
+    var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
     var Properties = [];
 
     alignResults.alignment_properties.forEach(function(alignproperty){
@@ -53,8 +53,8 @@ Meteor.methods({
           var newExtObj = {
             external_object_id: field.external_object_id,
             external_property_path: field.external_property_path,
-            name: field.external_property_path[0],
-            approved: true,
+            name: field.external_property_path,
+            approved: true, 
             is_truth: field.is_truth,
           }
           VertifyPropertyExternalObjectsSchema.validate(newExtObj);
@@ -147,7 +147,7 @@ VertifyPropertyExternalObjectsSchema = new SimpleSchema({
     external_object_id:
       { type: Number },
     external_property_path:
-      { type: [String]
+      { type: String
       , optional: true },
     name:
       { type: String},

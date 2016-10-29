@@ -85,9 +85,11 @@ Template.alignprocess.events({
 Template.alignProcessComplete.helpers({
   align_results(){
     var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
     if(ws){
         //TODO: set by workspace_id once Align results are real
-        return AlignResults.findOne({});
+        console.log("align_results id:");
+        return AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": id});
     }
     return null;
   },

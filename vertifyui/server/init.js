@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = true;
+var clearCollections = false;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -1347,7 +1347,7 @@ function initVertifyProperties() {
 
   var VertifyPropertyExternalObjects1 = {
 	        external_object_id: 1,
-	        external_property_path: ["$.properties[?(@.name=='firstName')]"],
+	        external_property_path: "$.properties[?(@.name=='firstName')]",
           name: "FirstName",
           inbound: {
 	            filter: null,
@@ -1363,7 +1363,7 @@ function initVertifyProperties() {
 	    }
     var VertifyPropertyExternalObjects2 = {
   	        external_object_id: 1,
-  	        external_property_path: ["$.properties[?(@.name=='leadAttributeList.FirstName')]"],
+  	        external_property_path: "$.properties[?(@.name=='leadAttributeList.FirstName')]",
             name: "FirstName",
             inbound: {
   	            filter: null,
@@ -1380,7 +1380,7 @@ function initVertifyProperties() {
 
   var VertifyPropertyExternalObjects3 = {
 	        external_object_id: 3,
-          external_property_path: ["$.billingaddress"],
+          external_property_path: "$.billingaddress",
 	        name: "Billing Address",
 	        inbound: {
     	        sync_action: ["add","update"],
@@ -1412,7 +1412,7 @@ function initVertifyProperties() {
 	    }
   var VertifyPropertyExternalObjects4 = {
 	        external_object_id: 3,
-          external_property_path: [ "lev1", "lev2" ,"$.shippingaddress"],
+          external_property_path: "lev1.lev2.$.shippingaddress",
 	        name: "Shipping Address",
 	        inbound: {
     	        sync_action: ["add","update"],
@@ -1535,36 +1535,36 @@ function initAlignResults(){
 
   var alignmentObjectFieldMK = [{
       external_object_id: 3,
-      external_property_path: ["FirstName"],
+      external_property_path: "FirstName",
       is_truth: true
     },
       { external_object_id: 3,
-      external_property_path: ["Lastname"],
+      external_property_path: "Lastname",
       is_truth: true
     },
       {external_object_id: 3,
-      external_property_path: ["Status"],
+      external_property_path: "Status",
       is_truth: true
     },
       {external_object_id: 3,
-      external_property_path: ["Company"],
+      external_property_path: "Company",
       is_truth: true
     }]
   , alignmentObjectFieldNS = [{
     external_object_id: 1,
-    external_property_path: ["firstname"],
+    external_property_path: "firstname",
     is_truth: false
   },
     { external_object_id: 1,
-    external_property_path: ["lastname"],
+    external_property_path: "lastname",
     is_truth: false
   },
     {external_object_id: 1,
-    external_property_path: ["entityStatus"],
+    external_property_path: "entityStatus",
     is_truth: false
   },
     {external_object_id: 1,
-    external_property_path: ["organization"],
+    external_property_path: "organization",
     is_truth: false
   }];
 

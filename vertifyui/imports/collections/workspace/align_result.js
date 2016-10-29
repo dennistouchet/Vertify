@@ -50,7 +50,7 @@ export const AlignmentObjectField = new SimpleSchema({
     external_object_id:
       { type : Number },
     external_property_path:
-      { type: [String] },
+      { type: String },
     is_truth:
       { type: Boolean }
 });
