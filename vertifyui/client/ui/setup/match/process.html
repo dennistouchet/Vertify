@@ -1,7 +1,7 @@
 <template name="process">
   <section class="right_col" role="main" style="height:900px;">
     <div class="">
-      <h1 class="page_title">Match / Process {{vertify_object}}</h1>
+      <h1 class="page_title">Match / Process {{getVertifyObjectName}}</h1>
       <div id="addErrMatch" class="alert alert-danger" style="display:none;"></div>
     {{> Template.dynamic template=mprocess }}
   </div>
@@ -42,7 +42,7 @@
               {{#each properties}}
                 <li data-name="{{name}}"><a href="#">{{name}}</a></li>
               {{else}}
-                <li> No Existing Propreties</li>
+                <li> No Existing Properties</li>
               {{/each}}
             </ul>
           {{else}}
@@ -105,7 +105,7 @@
           <div class="col-md-1"></div>
         </div>
           <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
-            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectName vertify_object_id}}</div>
+            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectNameById vertify_object_id}}</div>
             <div class="col-md-2">{{total}}</div>
             <div class="col-md-2">{{matched}}</div>
             <div class="col-md-2">{{duplicates}}</div>
@@ -114,7 +114,7 @@
           </div>
           {{#each external_objects}}
             <div class="row" style="padding:10px;">
-              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectName external_object_id}}</div>
+              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectNameById external_object_id}}</div>
               <div class="col-md-2">{{total}}</div>
               <div class="col-md-2">{{matched}}</div>
               <div class="col-md-2">{{duplicates}}</div>

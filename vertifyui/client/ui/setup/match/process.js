@@ -18,6 +18,19 @@ Template.process.helpers({
     //TODO: get vertify object properties
     return false;
   },
+  getVertifyObjectName: function(){
+    //TODO: fix this. It tries to get the ID before the template is rendered and the queryparams are set so it fails
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    if(ws && id){
+      console.log("vertify_object id from param:" + id);
+      var vo = VertifyObjects.findOne(id).name;
+      console.log("Vertify object from getVertObjName:");
+      console.log(vo);
+      return vo.name;
+    }
+    return null;
+  },
 });
 
 Template.process.events({
@@ -77,16 +90,7 @@ Template.matchProcessComplete.helpers({
       return MatchResults.findOne({"workspace_id":ws.id});
     }
   },
-  vertify_object(){
-    //TODO: fix this. It tries to get the ID before the template is rendered and the queryparams are set so it fails
-    var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
-    if(ws && id){
-      return VertifyObjects.findOne(id).name;
-    }
-    return null;
-  },
-  getExternalObjectName: function(id){
+  getExternalObjectNameById: function(id){
     //TODO:
     var ws = Session.get("currentWs");
     if(ws && id){
@@ -97,7 +101,7 @@ Template.matchProcessComplete.helpers({
     //TODO: throw error
     return "External Object Name";
   },
-  getVertifyObjectName: function(id){
+  getVertifyObjectNameById: function(id){
     var ws = Session.get("currentWs");
     if(ws && id){
       console.log("id: " + id + " | " + "ws: " + ws.id);
@@ -105,7 +109,7 @@ Template.matchProcessComplete.helpers({
     }
     //TODO: throw error
     return "Vertify Object Name";
-  }
+  },
 })
 
 Template.matchProcessComplete.events({

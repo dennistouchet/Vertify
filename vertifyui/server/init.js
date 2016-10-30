@@ -660,6 +660,11 @@ function initConnectors() {
       value: "SetExternalId",
       is_encrypted: true
     },
+    {
+      name: "StaticList",
+      value: "StaticList",
+      is_encrypted: true
+    }
   ]
   var ConnectorsSettings2 = [
     {

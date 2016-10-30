@@ -319,7 +319,7 @@ Template.vwSelect.helpers({
     external_objects(){
       var ws = Session.get("currentWs");
       if(ws){
-        return ExternalObjects.find({"workspace_id": ws.id});
+        return ExternalObjects.find({"workspace_id": ws.id},{sort : {name: 1, "properties.name": 1} });
       }
       return null
     }
@@ -360,7 +360,7 @@ Template.vwFilter.helpers({
       console.log(msObj);
       var ids = msObj.eo_ids;
       console.log(msObj.eo_ids);
-      return ExternalObjects.find({"id": { $in: ids }});
+      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
       return null;
     }
@@ -402,7 +402,7 @@ Template.vwMatch.helpers({
       console.log(msObj);
       var ids = msObj.eo_ids;
       console.log(msObj.eo_ids);
-      return ExternalObjects.find({"id": { $in: ids }});
+      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
       return null;
     }
@@ -442,7 +442,7 @@ Template.vwFinish.helpers({
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
       var ids = msObj.eo_ids;
-      return ExternalObjects.find({"id": { $in: ids }});
+      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
       return null;
     }

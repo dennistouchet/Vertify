@@ -18,15 +18,13 @@ Template.alignprocess.helpers({
     //TODO:
     return null;
   },
-  vertify_object(){
+  getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
-    var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
-    if(ws && vertifyobjectid){
-      console.log("vertifyobjectid" + vertifyobjectid);
-      var thisVo = VertifyObjects.findOne(vertifyobjectid);
-      console.log("thisVo:");
-      console.log(thisVo);
-      return thisVo.name;
+    var id = Meteor.tools.getQueryParamByName("id");
+    if(ws && id){
+      console.log("vertify_object id from param:" + id);
+      var vo = VertifyObjects.findOne(id).name;
+      return vo.name;
     }
   },
 });
@@ -86,10 +84,11 @@ Template.alignProcessComplete.helpers({
   align_results(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
-    if(ws){
+    if(ws && id){
         //TODO: set by workspace_id once Align results are real
         console.log("align_results id:");
-        return AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": id});
+        console.log(id);
+        return AlignResults.findOne(id,{"workspace_id": ws.id});
     }
     return null;
   },
