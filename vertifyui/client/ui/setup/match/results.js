@@ -7,6 +7,6 @@ Template.matchresults.helpers({
 
 Template.matchresults.events({
   'click' : function(){
-    console.log("match results click event");
+    console.log("match results page click event");
   },
 });

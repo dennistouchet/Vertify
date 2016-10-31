@@ -79,77 +79,90 @@
 </template>
 
 <template name="matchProcessComplete">
-  {{#with match_results}}
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Match process complete. <strong>{{match_results.matched}}</strong> out of <strong>{{match_results.total}}</strong> records matched.<br/>
-      </h4>
+  {{#if taskComplete}}
+    {{#with match_results}}
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">Match process complete. <strong>{{match_results.matched}}</strong> out of <strong>{{match_results.total}}</strong> records matched.<br/>
+        </h4>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Review the match results to determine if the match rule is correct, then edit the match rule or accept the match to match all records.<br/>
-      </h4>
+    <div class="row">
+      <div class="col-md-12">
+        <h4 style="padding-left:10px">Review the match results to determine if the match rule is correct, then edit the match rule or accept the match to match all records.<br/>
+        </h4>
+      </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-    <h4><strong>Match Results</strong></h4>
-      <div class="x_panel" style="padding:10px;">
-        <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
-          <div class="col-md-3">Records</div>
-          <div class="col-md-2">Total</div>
-          <div class="col-md-2">Matched</div>
-          <div class="col-md-2">Duplicates</div>
-          <div class="col-md-2">Not Matched</div>
-          <div class="col-md-1"></div>
-        </div>
+    <div class="row">
+      <div class="col-md-12">
+      <h4><strong>Match Results</strong></h4>
+        <div class="x_panel" style="padding:10px;">
           <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
-            <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectNameById vertify_object_id}}</div>
-            <div class="col-md-2">{{total}}</div>
-            <div class="col-md-2">{{matched}}</div>
-            <div class="col-md-2">{{duplicates}}</div>
-            <div class="col-md-2">{{not_matched}}</div>
+            <div class="col-md-3">Records</div>
+            <div class="col-md-2">Total</div>
+            <div class="col-md-2">Matched</div>
+            <div class="col-md-2">Duplicates</div>
+            <div class="col-md-2">Not Matched</div>
             <div class="col-md-1"></div>
           </div>
-          {{#each external_objects}}
-            <div class="row" style="padding:10px;">
-              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectNameById external_object_id}}</div>
+            <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
+              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getVertifyObjectNameById vertify_object_id}}</div>
               <div class="col-md-2">{{total}}</div>
               <div class="col-md-2">{{matched}}</div>
               <div class="col-md-2">{{duplicates}}</div>
               <div class="col-md-2">{{not_matched}}</div>
               <div class="col-md-1"></div>
             </div>
-          {{/each}}
+            {{#each external_objects}}
+              <div class="row" style="padding:10px;">
+                <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectNameById external_object_id}}</div>
+                <div class="col-md-2">{{total}}</div>
+                <div class="col-md-2">{{matched}}</div>
+                <div class="col-md-2">{{duplicates}}</div>
+                <div class="col-md-2">{{not_matched}}</div>
+                <div class="col-md-1"></div>
+              </div>
+            {{/each}}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-3">
-      <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
-        <i class="glyphicon glyphicon-arrow-left"></i>
-        Return to List
-      </button>
+    <div class="row">
+      <div class="col-md-3">
+        <button class="btn btn-primary returnToList" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
+          <i class="glyphicon glyphicon-arrow-left"></i>
+          Return to List
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary viewMatchRecords" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-eye-open"></i>
+          View Match Records
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary editMatchRules" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-edit"></i>
+          Edit Filter/Match Rules
+        </button>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary acceptMatchModal" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-floppy-disk"></i>
+          Accept Match
+        </button>
+      </div>
     </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary viewMatchRecords" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-eye-open"></i>
-        View Match Records
-      </button>
+    {{/with}}
+  {{else}}
+    <div class="row">
+      <div class="col-md-12" style="text-align:center;height:100px;">
+        <h3 style="padding-left:10px">Loading...
+        </h3>
+      </div>
     </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary editMatchRules" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-edit"></i>
-        Edit Filter/Match Rules
-      </button>
+    <div class="row">
+      <div class="loader">
+      </div>
     </div>
-    <div class="col-md-3">
-      <button class="btn btn-primary acceptMatchModal" type=button style="margin-top:10px;margin-bottom:10px;">
-        <i class="glyphicon glyphicon-floppy-disk"></i>
-        Accept Match
-      </button>
-    </div>
-  </div>
-  {{/with}}
+  {{/if}}
 </template>

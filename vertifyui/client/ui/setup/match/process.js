@@ -81,6 +81,20 @@ Template.process.events({
 });
 
 Template.matchProcessComplete.helpers({
+  taskComplete: function(){
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
+    complete = false;
+    if(ws && vo){
+      //var task = Tasks.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id, "task": "matchtest"}});
+      var mr = MatchResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
+      if(mr){
+        complete = true;
+      }
+    }
+    return complete;
+  },
   match_results(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
