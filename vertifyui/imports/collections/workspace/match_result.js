@@ -7,10 +7,14 @@ export const MatchResults = new Mongo.Collection('match_results');
 Meteor.methods({
   'match_results.remove'(wsid){
     //TODO: import this remove with vertify object id
+    console.log("match results remove running");
     var current = MatchResults.findOne({"workspace_id": wsid});
     if(current)
       return MatchResults.remove({"workspace_id": wsid});
 
+    console.log(current);
+    console.log("match results remove finished");
+    return true;
     //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + wsid + " with ID: " + vo);
   },
 });

@@ -37,7 +37,7 @@ Template.fix.helpers({
 Template.fix.events({
   'click .voddl li a' : function(e, t){
     if(e.target.text.trim() == 'View Details'){
-      FlowRouter.go('/data/fix/details');
+      FlowRouter.go('/data/fix/details?id=' + this._id );
     }
     else{
       console.log(e.target.text);
