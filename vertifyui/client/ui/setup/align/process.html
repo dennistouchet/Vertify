@@ -79,7 +79,7 @@
 </template>
 
 <template name="alignProcessComplete">
-{{#if Template.subscriptionsReady}}
+{{#if taskComplete}}
   {{#with align_results}}
     <div class="row">
       <div class="col-md-12">
@@ -157,6 +157,15 @@
     </div>
   {{/with}}
 {{else}}
-  loading...
+  <div class="row">
+    <div class="col-md-12" style="text-align:center;height:100px;">
+      <h3 style="padding-left:10px">Loading...
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="loader">
+    </div>
+  </div>
 {{/if}}
 </template>

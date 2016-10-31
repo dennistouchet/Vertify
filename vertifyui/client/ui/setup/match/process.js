@@ -82,6 +82,7 @@ Template.process.events({
 
 Template.matchProcessComplete.helpers({
   taskComplete: function(){
+    //TODO: update this to use task, not existing results
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);

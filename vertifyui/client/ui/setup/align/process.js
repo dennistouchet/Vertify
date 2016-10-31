@@ -81,14 +81,29 @@ Template.alignprocess.events({
 });
 
 Template.alignProcessComplete.helpers({
+  taskComplete: function(){
+    //TODO: update this to use task, not existing results
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
+    complete = false;
+    if(ws && vo){
+      //var task = Tasks.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id, "task": "matchtest"}});
+      var ar = AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
+      if(ar){
+        complete = true;
+      }
+    }
+    return complete;
+  },
   align_results(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
-    if(ws && id){
-        //TODO: set by workspace_id once Align results are real
-        console.log("align_results id:");
-        console.log(id);
-        return AlignResults.findOne(id,{"workspace_id": ws.id});
+    var vo = VertifyObjects.findOne(id);
+
+    if(ws && vo){
+        console.log("searching for align_results");
+        return AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
     }
     return null;
   },
