@@ -63,19 +63,35 @@ Template.process.events({
 
     //TODO: Send results ID
     if(ws && vo){
-      Meteor.call('tasks.insert', "matchtest", ws.id, vo.id
+
+      //DEVENV TODO this needs to be changed for dev environmkent static mock results
+      Meteor.call('match_results.remove', ws.id
       , (error, result) => {
         if(error){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ matchtest " + error.error + "] " + error.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Match Results Error: </span>[ remove " + error.error + "] " + error.reason + "</li>";
           //return false;
           return;
         }
         else {
-          t.currentPage.set( "matchProcessComplete" );
+          Meteor.call('tasks.insert', "matchtest", ws.id, vo.id
+          , (err, res) => {
+            if(err){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ matchtest " + err.error + "] " + err.reason + "</li>";
+              //return false;
+              return;
+            }
+            else {
+              t.currentPage.set( "matchProcessComplete" );
+            }
+          });
         }
       });
+
+
     }
   },
 });

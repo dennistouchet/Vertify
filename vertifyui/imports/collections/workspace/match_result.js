@@ -4,6 +4,17 @@ import { check } from 'meteor/check';
 
 export const MatchResults = new Mongo.Collection('match_results');
 
+Meteor.methods({
+  'match_results.remove'(wsid){
+    //TODO: import this remove with vertify object id
+    var current = MatchResults.findOne({"workspace_id": wsid});
+    if(current)
+      return MatchResults.remove({"workspace_id": wsid});
+
+    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + wsid + " with ID: " + vo);
+  },
+});
+
 export const MatchResultsExternalObjectsSchema = new SimpleSchema({
   external_object_id:
     { type: Number },

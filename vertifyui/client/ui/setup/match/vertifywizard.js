@@ -349,9 +349,6 @@ Template.vwSelect.events({
 });
 
 Template.vwFilter.helpers({
-  selectExternalObjects(){
-
-  },
   external_objects(){
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId")
@@ -360,10 +357,15 @@ Template.vwFilter.helpers({
       console.log(msObj);
       var ids = msObj.eo_ids;
       console.log(msObj.eo_ids);
-      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
+      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.$.name": 1} });
     }else{
       return null;
     }
+  },
+  sortedProperties: function(id){
+    var ws = Session.get("currentWs");
+
+    return false;
   }
 });
 

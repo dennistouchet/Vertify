@@ -9,7 +9,7 @@ Template.fix.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"});
+      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"});
       return vo;
     }
     return null;
@@ -49,7 +49,7 @@ Template.fixVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "Enabled"});
+      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"});
       return vo;
     }
     return null;

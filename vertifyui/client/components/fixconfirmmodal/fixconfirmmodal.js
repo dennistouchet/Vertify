@@ -44,13 +44,51 @@ Template.fixconfirmmodal.events({
     errDiv.innerHTML = ""; //reset errors
 
     id = Session.get("fixVertifyObject");
+    console.log("fix VO id: " + id);
     ws = Session.get("currentWs");
     if(ws && id){
       vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
 
-      //TODO: trigger fix task
 
-      //modal.hide
+
+      var type = Session.get("fixType");
+      if(type == "issues"){
+        Meteor.call('tasks.insert', "fixissues", ws.id, vo.id
+        , (error, result) => {
+          if(error){
+            //console.log(err);
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + error.error + "] " + error.reason + "</li>";
+            //return false;
+            return;
+          }
+          else {
+           //success
+           FlowRouter.go('/data/fix');
+           Modal.hide('fixconfirmmodal');
+         }
+        });
+      }else if(type == "unmatched"){
+        Meteor.call('tasks.insert', "fixunmatched", ws.id, vo.id
+        , (error, result) => {
+          if(error){
+            //console.log(err);
+            errDiv.style.display = 'block';
+            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + error.error + "] " + error.reason + "</li>";
+            //return false;
+            return;
+          }
+          else {
+           //success
+           FlowRouter.go('/data/fix');
+           Modal.hide('fixconfirmmodal');
+         }
+        });
+      }else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Fix " + type + " unknown ] unrecognized task type</li>";
+      }
+
     }
   },
 });

@@ -95,7 +95,6 @@ Meteor.methods({
         modified: new Date(),
         start: new Date(),
         end: new Date(),
-        status: 'success',
         is_deleted: false,
       }
     }else if(t == "fix"){
@@ -153,7 +152,7 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
   task:
     { type: String
-    , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fix", "sync"]
+    , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fixunmatched", "fixissues", "sync"]
     },
   load:
     { type: String
