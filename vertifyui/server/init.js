@@ -1350,7 +1350,7 @@ function initVertifyProperties() {
   VertifyPropertyRulesSchema.validate(VertifyPropertyRules1);
   VertifyPropertyRulesSchema.validate(VertifyPropertyRules2);
 
-  var VertifyPropertyExternalObjects1 = {
+  var VertifyPropertyFields1 = {
 	        external_object_id: 1,
 	        external_property_path: "$.properties[?(@.name=='firstName')]",
           name: "FirstName",
@@ -1364,9 +1364,10 @@ function initVertifyProperties() {
 	        },
 	        match: null,
 	        is_truth: true,
-          approved: true
+          approved: true,
+          align_method: "exact"
 	    }
-    var VertifyPropertyExternalObjects2 = {
+    var VertifyPropertyFields2 = {
   	        external_object_id: 1,
   	        external_property_path: "$.properties[?(@.name=='leadAttributeList.FirstName')]",
             name: "FirstName",
@@ -1380,10 +1381,11 @@ function initVertifyProperties() {
   	        },
   	        match: null,
   	        is_truth: true,
-            approved: true
+            approved: true,
+            align_method: "exact"
   	    }
 
-  var VertifyPropertyExternalObjects3 = {
+  var VertifyPropertyFields3 = {
 	        external_object_id: 3,
           external_property_path: "$.billingaddress",
 	        name: "Billing Address",
@@ -1413,9 +1415,10 @@ function initVertifyProperties() {
                 ]
 	        },
 	        is_truth: false,
-          approved: false
+          approved: false,
+          align_method: "exact"
 	    }
-  var VertifyPropertyExternalObjects4 = {
+  var VertifyPropertyFields4 = {
 	        external_object_id: 3,
           external_property_path: "lev1.lev2.$.shippingaddress",
 	        name: "Shipping Address",
@@ -1444,11 +1447,13 @@ function initVertifyProperties() {
                 ]
 	        },
 	        is_truth: false,
-          approved: false
+          approved: false,
+          align_method: "exact"
 	    }
-  VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects1);
-  VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects2);
-  VertifyPropertyExternalObjectsSchema.validate(VertifyPropertyExternalObjects3);
+
+  VertifyPropertyFieldsSchema.validate(VertifyPropertyFields1);
+  VertifyPropertyFieldsSchema.validate(VertifyPropertyFields2);
+  VertifyPropertyFieldsSchema.validate(VertifyPropertyFields3);
 
   var VertifyProperties1 = {
     tenant_id: 100000,
@@ -1463,7 +1468,7 @@ function initVertifyProperties() {
     friendly_name: "First Name" ,
     level: 0,
     rules: [VertifyPropertyRules1, VertifyPropertyRules2],
-    external_objects: [VertifyPropertyExternalObjects1, VertifyPropertyExternalObjects2 ]
+    fields: [VertifyPropertyFields1, VertifyPropertyFields2 ]
   };
 
   var VertifyProperties2 = {

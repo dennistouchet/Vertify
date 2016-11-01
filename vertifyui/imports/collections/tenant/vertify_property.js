@@ -49,17 +49,17 @@ Meteor.methods({
         //console.log(alignproperty);
         //TODO NEED TO ADD RULES
 
-        var ExtObjs = [];
+        var Fields = [];
         alignproperty.fields.forEach(function(field){
-          var newExtObj = {
+          var newField = {
             external_object_id: field.external_object_id,
             external_property_path: field.external_property_path,
             name: field.external_property_path,
             approved: true,
             is_truth: field.is_truth,
           }
-          VertifyPropertyExternalObjectsSchema.validate(newExtObj);
-          ExtObjs.push(newExtObj);
+          VertifyPropertyFieldsSchema.validate(newField);
+          Fields.push(newField);
         });
 
         var newProperty = {
@@ -72,11 +72,11 @@ Meteor.methods({
           vertify_object_id: vo,//alignResults.vertify_object_id,
           parent_property_id: null,
           name: alignproperty.name,
-          friendly_name: alignproperty.name,
           friendly_name: alignproperty.friendly_name,
           align: alignproperty.approved,
+          align_method: alignproperty.align_method,
           level: 0,
-          external_objects: ExtObjs
+          fields: Fields
         }
         Properties.push(newProperty);
       }
@@ -145,12 +145,14 @@ VertifyPropertyRulesSchema = new SimpleSchema({
     { type: Boolean }
 });
 
-VertifyPropertyExternalObjectsSchema = new SimpleSchema({
+VertifyPropertyFieldsSchema = new SimpleSchema({
     external_object_id:
       { type: Number },
     external_property_path:
       { type: String
       , optional: true },
+    align_method:
+      { type: String },
     name:
       { type: String},
     approved:
@@ -217,7 +219,7 @@ VertifyProperties.schema = new SimpleSchema({
   rules:
     { type: [VertifyPropertyRulesSchema]
     , optional: true },
-  external_objects:
-    { type: [VertifyPropertyExternalObjectsSchema]
+  fields:
+    { type: [VertifyPropertyFieldsSchema]
     , optional: true }
 });

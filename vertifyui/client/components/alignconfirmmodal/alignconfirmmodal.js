@@ -37,7 +37,7 @@ Template.alignconfirmmodal.events({
           //return false;
           return;
         }else {
-          console.log("Align Update VO Status success");
+          //console.log("Align Update VO Status success");
           Meteor.call('vertify_properties.removeMultiple', ws.id, vo.id
           , (error, result)   => {
             if(err){
@@ -47,8 +47,8 @@ Template.alignconfirmmodal.events({
               //return false;
               return;
             }else {
-              console.log("Align Remove Vertify Properties success");
-              console.log("Calling Meteor.VP.insert multuple. WS: " + ws.id + " | vo: " + vo.id);
+              //console.log("Align Remove Vertify Properties success");
+              //console.log("Calling Meteor.VP.insert multuple. WS: " + ws.id + " | vo: " + vo.id);
               Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
               , (err, res) => {
                 if(err){
@@ -58,7 +58,7 @@ Template.alignconfirmmodal.events({
                   //return false;
                   return;
                 }else {
-                  console.log("Align Insert Multiple Vertify Properties success");
+                  //console.log("Align Insert Multiple Vertify Properties success");
                   Meteor.call('tasks.insert', "align", ws.id, vo.id
                   , (error, result) => {
                     if(error){

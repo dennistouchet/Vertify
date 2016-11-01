@@ -71,7 +71,7 @@ Meteor.methods({
         created: new Date(),
         modified: new Date(),
         is_deleted: false,
-        align_options: { sample_size: 10 }
+        align_options: { sample_size: 100 }
       }
     }else if(t == "align"){
       newTasks = {

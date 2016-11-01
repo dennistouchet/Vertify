@@ -182,37 +182,40 @@ Template.alignProcessComplete.events({
 
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
-    //TODO: verify search and add workspace "workspace_id": ws.id
-    var alignresults = AlignResults.findOne({});
+    var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws.id});
 
-    //Get all inputs with type text to set friendly_name
-    var inputs = document.getElementsByTagName('input');
-    var nameInputs = [];
-    for(var i = 0; i < inputs.length; i++){
-      if(inputs[i].type.toLowerCase() == 'text'){
-          //TODO: Validate Inputs
-          nameInputs.push(inputs[i]);
+    if(ws)// && vo)
+    {
+      var alignresults = AlignResults.findOne({"workspace_id": ws.id});//,"vertify_object_id": vo.id});
+
+      //Get all inputs with type text to set friendly_name
+      var inputs = document.getElementsByTagName('input');
+      var nameInputs = [];
+      for(var i = 0; i < inputs.length; i++){
+        if(inputs[i].type.toLowerCase() == 'text'){
+            //TODO: Validate Inputs
+            nameInputs.push(inputs[i]);
+        }
       }
-    }
-    var err = false;
-    nameInputs.forEach(function(input){
-      var n = input.name;
-      var fn = input.value;
-      Meteor.call('align_results.updateName', ws.id, alignresults._id, n, fn  , (err, res) => {
-          if(err){
-            //console.log(err);
-            errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
-            //return false;
-            err = true;
-          }else {
-            //success
-          }
-        });
-    });
-    //Only open modal if no update errors occured.
-    if(!err){
-      ModalHelper.openAlignConfirmModalFor(vertifyobjectid, alignresults.id);
+      var err = false;
+      nameInputs.forEach(function(input){
+        var n = input.name;
+        var fn = input.value;
+        //TODO: align ids being used
+        Meteor.call('align_results.updateName', ws.id, alignresults._id, n, fn
+        , (err, res) => {
+            if(err){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+              //return false;
+              err = true;
+            }else {
+              //TODO: align ids being used
+              ModalHelper.openAlignConfirmModalFor(vertifyobjectid, alignresults.id);
+            }
+          });
+      });
     }
   }
 });
