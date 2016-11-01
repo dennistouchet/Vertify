@@ -7,12 +7,15 @@ export const AlignResults = new Mongo.Collection('align_results');
 Meteor.methods({
   'align_results.editApproval'(wsid, arid, name, approved){
     var thisAr = AlignResults.findOne(arid,{"workspace_id": wsid});
+    //console.log("Workspace: " + wsid + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
+    //console.log(thisAr);
 
     if(thisAr){
       thisAr.alignment_properties.forEach(function(property){
         if(property.name == name){
           property.approved = approved;
-          //break;
+          //console.log("Name: " + name + "Approved: " + approved);
+          //console.log(property);
         }
       });
     }
@@ -20,9 +23,8 @@ Meteor.methods({
       //throw error
       throw new Meteor.Error("Missing Value", "There was an error processing your request. The Align Results value does not exist.");
     }
+    AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
 
-    var id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
-    console.log("AlignResults update called | id: " + id);
   },
   'align_results.updateName'(wsid, arid, name, friendlyname){
 
@@ -43,7 +45,18 @@ Meteor.methods({
 
     var id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
     console.log("AlignResults update called | id: " + id);
-  }
+  },
+  'align_results.remove'(wsid){
+    //TODO: import this remove with vertify object id
+    console.log("align results remove running");
+    var current = AlignResults.findOne({"workspace_id": wsid});
+    if(current)
+      return AlignResults.remove({"workspace_id": wsid});
+
+    console.log(current);
+    console.log("align results remove finished");
+    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + wsid + " with ID: " + vo);
+  },
 })
 
 export const AlignmentObjectField = new SimpleSchema({
@@ -63,7 +76,7 @@ export const AlignmentVertifyField = new SimpleSchema({
     , optional: true },
   align_method:
     { type: String
-    , defaultValue: "Exact" },
+    , defaultValue: "exact" },
   align_percent:
     { type: Number
     , defaultValue: 100 },

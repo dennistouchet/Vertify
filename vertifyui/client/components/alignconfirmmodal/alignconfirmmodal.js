@@ -9,12 +9,8 @@ import './alignconfirmmodal.html';
 Template.alignconfirmmodal.helpers({
   align_results(){
     ws = Session.get("currentWs");
-    ar = Session.get("selectedAlignResultId");
-    if(ws && ar){
-      console.log("AlignResult id:")
-      console.log(ar);
-      //TODO: add workspcaae when Exlisir generates align results
-      return AlignResults.findOne({"id": ar}); //, "workspace_id": ws.id
+    if(ws){
+      return AlignResults.findOne({"workspace_id": ws.id});
     }
   },
 });
@@ -27,12 +23,11 @@ Template.alignconfirmmodal.events({
     errDiv.innerHTML = ""; //reset errors
 
     id = Session.get("selectedVertifyObject");
+    console.log("Selected Vertify Object Id: " + id);
     vo = VertifyObjects.findOne(id);
 
     ws = Session.get("currentWs");
     if(ws && vo){
-      //TODO: reset vertify object ANALYZE status to disabled
-      //TODO: delete all existing  vertify_properties for the vertify_object
       Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
       , (err, res) => {
         if(err){
@@ -42,38 +37,39 @@ Template.alignconfirmmodal.events({
           //return false;
           return;
         }else {
-          //console.log("Align Update VO Status success");
+          console.log("Align Update VO Status success");
           Meteor.call('vertify_properties.removeMultiple', ws.id, vo.id
-          , (err, result)   => {
+          , (error, result)   => {
             if(err){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Property Remove " + err.error + "] " + err.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Property Remove " + error.error + "] " + error.reason + "</li>";
               //return false;
               return;
             }else {
-              //console.log("Align Remove VProperties success");
+              console.log("Align Remove Vertify Properties success");
+              console.log("Calling Meteor.VP.insert multuple. WS: " + ws.id + " | vo: " + vo.id);
               Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
               , (err, res) => {
                 if(err){
-                  //console.log(err);
+                  console.log(err);
                   errDiv.style.display = 'block';
                   errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Vertify Property " + err.error + "] " + err.reason + "</li>";
                   //return false;
                   return;
                 }else {
-                  //console.log("Align Insert Multiple VProperties success");
+                  console.log("Align Insert Multiple Vertify Properties success");
                   Meteor.call('tasks.insert', "align", ws.id, vo.id
                   , (error, result) => {
                     if(error){
-                      //console.log(err);
+                      console.log(err);
                       errDiv.style.display = 'block';
                       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Align " + error.error + "] " + error.reason + "</li>";
                       //return false;
                       return;
                     }
                     else {
-                    //console.log("Align Task success");
+                     console.log("Align Task success");
                      //success
                      Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', true);
                     //TODO update vertify object align status

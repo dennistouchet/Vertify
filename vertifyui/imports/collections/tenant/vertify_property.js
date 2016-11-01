@@ -36,16 +36,17 @@ Meteor.methods({
       sync_action: "add_update",,
       is_truth: alignProperty.
     }*/
-
-    //TODO: ADD Vertify Object ID and Workspace ID to filter once alignresults are actually being created
+    //console.log("Multiple Vertify property insert started.");
+    //console.log("Workspaceid: " + ws + " | Vertify Object id: " + vo);
     var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
+    //console.log("AlignResults:");
+    //console.log(alignResults);
     var Properties = [];
 
     alignResults.alignment_properties.forEach(function(alignproperty){
       if(alignproperty.approved){
-        console.log("inside align results to vp. align property:");
+        //console.log("inside align results to Vertify Property. align property:");
         //console.log(alignproperty);
-
         //TODO NEED TO ADD RULES
 
         var ExtObjs = [];
@@ -54,7 +55,7 @@ Meteor.methods({
             external_object_id: field.external_object_id,
             external_property_path: field.external_property_path,
             name: field.external_property_path,
-            approved: true, 
+            approved: true,
             is_truth: field.is_truth,
           }
           VertifyPropertyExternalObjectsSchema.validate(newExtObj);
@@ -87,7 +88,8 @@ Meteor.methods({
       var id = VertifyProperties.insert(vp);
       vplist.push(id);
     });
-
+    console.log("List of VertifyProperties Created: ");
+    console.log(vplist);
     return vplist;
   },
   'vertify_properties.edit'(){

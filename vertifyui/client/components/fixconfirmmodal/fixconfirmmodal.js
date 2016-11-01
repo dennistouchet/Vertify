@@ -43,15 +43,13 @@ Template.fixconfirmmodal.events({
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
-    id = Session.get("fixVertifyObject");
-    console.log("fix VO id: " + id);
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
-    if(ws && id){
-      vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
-
-
-
+    if(ws && vo){
+      vo = VertifyObjects.findOne({"workspace_id": ws.id, "id": vo.id});
       var type = Session.get("fixType");
+
       if(type == "issues"){
         Meteor.call('tasks.insert', "fixissues", ws.id, vo.id
         , (error, result) => {
@@ -64,7 +62,7 @@ Template.fixconfirmmodal.events({
           }
           else {
            //success
-           FlowRouter.go('/data/fix');
+           FlowRouter.go('/data/fix/records?id=' + id);
            Modal.hide('fixconfirmmodal');
          }
         });
@@ -80,7 +78,7 @@ Template.fixconfirmmodal.events({
           }
           else {
            //success
-           FlowRouter.go('/data/fix');
+           FlowRouter.go('/data/fix/records?id=' + id);
            Modal.hide('fixconfirmmodal');
          }
         });

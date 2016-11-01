@@ -1,4 +1,5 @@
 import { Datas } from '../imports/collections/datas.js';
+import { FixUnmatchedRecords } from "../imports/collections/workspace/unmatched_record.js";
 
 TabularTables = {};
 
@@ -14,3 +15,13 @@ TabularTables.DataList = new Tabular.Table({
     {data: "description", title: "Description", class: "col-md-4"}
   ]
 });
+
+TabularTables.FixUnmatchedRecords = new Tabular.Table({
+  name: "FixUnmatchedRecords",
+  collection: FixUnmatchedRecords,
+  columns: [
+    {data: "_id", title: "ID", class: "col-md-3"},
+    {data: "name", title: "Name", class: "col-md-3"},
+    {data: "value", title: "Email", class: "col-md-3"}
+  ]
+})

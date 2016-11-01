@@ -71,7 +71,7 @@ Meteor.methods({
         created: new Date(),
         modified: new Date(),
         is_deleted: false,
-        align_options: { sample_size: 100 }
+        align_options: { sample_size: 10 }
       }
     }else if(t == "align"){
       newTasks = {
@@ -97,7 +97,7 @@ Meteor.methods({
         end: new Date(),
         is_deleted: false,
       }
-    }else if(t == "fix"){
+    }else if(t == "fixunmatched" || t == "fixissues"){
       newTasks = {
         tenant_id: tid,
         id: intid,

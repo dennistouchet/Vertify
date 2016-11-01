@@ -36,11 +36,9 @@ Template.alignprocess.events({
     //ModalHelper.openAlignConfirmModalFor(sysId);
   },
   'change .radio': function(e, t){
-    console.log(e.target);
     var el = e.target.value;
 
     if(el === "criteria"){
-      console.log("show filter");
       document.getElementById(("filterCriteria")).style.display = "inline";
     }
     else if(el === "count"){
@@ -57,25 +55,37 @@ Template.alignprocess.events({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne({"_id": id});
 
-    console.log("calling align task with void: " + vo.id);
+    //console.log("calling align task with void: " + vo.id);
     if(ws && vo){
-      Meteor.call('tasks.insert', "aligntest", ws.id, vo.id
-      , (error, result) => {
-        if(error){
+      Meteor.call('align_results.remove', ws.id
+      , (err, res) => {
+        if(err){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ aligntest " + error.error + "] " + error.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Align Results Error: </span>[ remove " + err.error + "] " + err.reason + "</li>";
           //return false;
           return;
         }
         else {
-          t.currentPage.set( "alignProcessComplete" );
+          //console.log("align_results remove returned success");
+          Meteor.call('tasks.insert', "aligntest", ws.id, vo.id
+          , (error, result) => {
+            if(error){
+              //console.log(err);
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ aligntest " + error.error + "] " + error.reason + "</li>";
+              //return false;
+              return;
+            }
+            else {
+              t.currentPage.set( "alignProcessComplete" );
+            }
+          });
         }
       });
     }else{
       errDiv.style.display = 'block';
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Missing Values ] ws:" + ws.id + " | vo :" + vo + "</li>";
-
     }
   },
 });
@@ -100,9 +110,7 @@ Template.alignProcessComplete.helpers({
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
-
     if(ws && vo){
-        console.log("searching for align_results");
         return AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
     }
     return null;
@@ -133,16 +141,16 @@ Template.alignProcessComplete.events({
   'change input' : function(e, t){
     if(e.target.type.toLowerCase() == 'radio'){
       var radio = e.target;
-      //TODO: verify search
       var alignresults = AlignResults.findOne({"workspace_id": ws.id});
-      //TODO: set up how values get set
+      var approved: false;
       if(radio.value == "accept" || radio.value == "reject"){
-        console.log("accept/reject: " + radio.value);
-        var approved: true;
-        //TODO: currently splitting name. clean this code up
+          if(radio.value == "accept"){
+          approved = true;
+        }else{
+          approved: false;
+        }
         var n = radio.name;
-
-        Meteor.call('align_results.editApproval', ws.id, alignresults._id, n, approved
+        Meteor.call('align_results.editApproval', ws.id, alignresults._id, n.substr(11), approved
         , (err, res) => {
             if(err){
               //console.log(err);

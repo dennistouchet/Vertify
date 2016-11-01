@@ -7,20 +7,15 @@ import { Tasks } from '../../../imports/collections/global/task.js';
 Template.matchconfirmmodal.helpers({
   match_results(){
     ws = Session.get("currentWs");
-    mr = Session.get("selectedMatchResultId");
-    if(ws && mr){
-      console.log(mr);
-      //TODO: adjust this to use workspace once real match results are being sent
+    if(ws){
       return MatchResults.findOne({"id":mr, "workspace_id": ws.id});
     }
   },
   systemOfTruth: function(id){
     ws = Session.get("currentWs");
-    mr = Session.get("selectedMatchResultId");
     var sot = "No SOT";
-    if(ws && mr){
-      //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+    if(ws ){
+      var MR = MatchResults.findOne({"workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -34,11 +29,9 @@ Template.matchconfirmmodal.helpers({
   },
   systemOfTruthRecords: function(id){
     ws = Session.get("currentWs");
-    mr = Session.get("selectedMatchResultId");
     var sot = "No Records found";
-    if(ws && mr){
-      //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+    if(ws ){
+      var MR = MatchResults.findOne({"workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -49,13 +42,10 @@ Template.matchconfirmmodal.helpers({
     return sot;
   },
   getExternalObjectInfo: function(id){
-    //TODO: if SoT do not return value - get SOT of this external object by id
     ws = Session.get("currentWs");
-    mr = Session.get("selectedMatchResultId");
     var sot = "External object error";
-    if(ws && mr){
-      //TODO: adjust this to use workspace once real match results are being sent
-      var MR = MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+    if(ws){
+      var MR = MatchResults.findOne({"workspace_id": ws.id});
       MR.external_objects.forEach(function(eo){
         if(!eo.is_truth)
         {

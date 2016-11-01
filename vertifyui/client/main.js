@@ -18,7 +18,7 @@ Template.main.rendered = function () {
     return new Date(year, month - 1, day).getTime();
   }
   //<!-- /Flot -->
-} 
+}
 
 
 Meteor.startup(function(){
@@ -28,11 +28,19 @@ Meteor.startup(function(){
     import { Workspaces } from '../imports/collections/tenant/workspace.js';
 
     if(Workspaces.find().count() > 0){
-      var ws = Workspaces.findOne({}, {
-        sort: {order : -1,}
-      });
+      var ws = Workspaces.findOne({"id": 111111});
 
-      Session.set("currentWs", ws);
+      if(ws){
+        Session.set("currentWs", ws);
+      }
+      else{
+        ws = Workspaces.findOne({}, {
+          sort: {order : -1,}
+        });
+
+        Session.set("currentWs", ws);
+      }
+
     }
   }
 });

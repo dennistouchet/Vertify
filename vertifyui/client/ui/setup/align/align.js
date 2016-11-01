@@ -73,13 +73,12 @@ Template.alignVertifyObjectli.events({
 
 Template.alignCompleted.helpers({
  vertifyObjectCount: function(){
-   //TODO: calculate aligned vertify objects
-   return 1;
+   var ws = Session.get("currentWs");
+   if(ws){
+     return VertifyObjects.find({"workspace_id": ws.id}).count();
+   }
+   return 0;
  }
-});
-
-Template.alignCompleted.events({
-
 });
 
 Meteor.subscribe('external_objects', function (){

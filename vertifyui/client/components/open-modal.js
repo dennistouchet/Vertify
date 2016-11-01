@@ -37,8 +37,7 @@ ModalHelper.openAnalysisConfirmModalFor = function(id){
   Modal.show('analyzeconfirmmodal');
 }
 
-ModalHelper.openFixConfirmModalFor = function(type, id){
-  Session.set('fixVertifyObject', id);
+ModalHelper.openFixConfirmModalFor = function(type){
   Session.set('fixType', type);
   Modal.show('fixconfirmmodal');
 }

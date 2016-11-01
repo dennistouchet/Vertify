@@ -338,7 +338,7 @@ VertifyObjects.schema = new SimpleSchema({
   align:
     { type: Boolean
     , optional: true
-    , defaultValue: false },  
+    , defaultValue: false },
   analyze_status:
     { type: String
     , defaultValue: "disabled"
@@ -348,6 +348,10 @@ VertifyObjects.schema = new SimpleSchema({
     , min: 0
     , max: 100
     , defaultValue: 0
+    , optional: true },
+  fix:
+    { type: Boolean
+    , defaultValue: false
     , optional: true },
   external_objects:
     { type: [VertifyObjectExternalObjectsSchema] }

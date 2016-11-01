@@ -26,7 +26,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 // Remove all collections in development environment when set to true
-var clearCollections = true; 
+var clearCollections = false;
 if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
@@ -1582,28 +1582,28 @@ function initAlignResults(){
 
   var alignmentVertifyField = [{
     name: "FirstName",
-    align_method: "Set",
+    align_method: "exact",
     align_percent: 100,
     approved: true,
     fields: [alignmentObjectFieldMK[0], alignmentObjectFieldNS[0]]
   },{
     name: "LastName",
     friendly_name: "",
-    align_method: "Set",
+    align_method: "exact",
     align_percent: 100,
     approved: true,
     fields: [alignmentObjectFieldMK[1], alignmentObjectFieldNS[1]]
   },{
     name: "Lead Status",
     friendly_name: "",
-    align_method: "Set",
+    align_method: "exact",
     align_percent: 100,
     approved: true,
     fields: [alignmentObjectFieldMK[2], alignmentObjectFieldNS[2]]
   },{
     name: "Company Name",
     friendly_name: "",
-    align_method: "Set",
+    align_method: "exact",
     align_percent: 100,
     approved: true,
     fields: [alignmentObjectFieldMK[3], alignmentObjectFieldNS[3]]

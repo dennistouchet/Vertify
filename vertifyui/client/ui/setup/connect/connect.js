@@ -317,4 +317,4 @@ Meteor.subscribe('connectors', function(){
 
 Meteor.subscribe('tasks', function(){
   console.log('Connect - Tasks now subscribed');
-})
+});

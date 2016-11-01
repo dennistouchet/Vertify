@@ -6,7 +6,13 @@ import './details.html';
 
 Template.details.helpers({
   getVertifyObjectName: function(){
-    return "todo name";
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne({"_id": id});
+    if(ws && vo){
+      return vo.name
+    }
+    return "Name unavailable";
   },
   totalAlignRecords: function(){
     //TODO calculate real values
@@ -27,10 +33,10 @@ Template.details.events({
     FlowRouter.go('/data/fix');
   },
   'click .fixIssues': function(e){
-    ModalHelper.openFixConfirmModalFor('issues', this._id);
+    ModalHelper.openFixConfirmModalFor('issues');
   },
   'click .fixUnmatched': function(e){
-    ModalHelper.openFixConfirmModalFor('unmatched', this._id);
+    ModalHelper.openFixConfirmModalFor('unmatched');
   },
 });
 
