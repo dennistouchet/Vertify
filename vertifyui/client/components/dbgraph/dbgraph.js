@@ -11,11 +11,11 @@ Template.dbgraph.helpers({
         tasksData = [{
           y: incompleteTasks,
           name: "Converting",
-          color: '#1D6093'
+          color: '#4F3A95' //purpke
         }, {
           y: allTasks - (incompleteTasks + errorTasks),
           name: "Syncing",
-          color: '#369DD8'
+          color: '#40B8C8' //teal
         },{
           y: errorTasks,
           name: "Errors",

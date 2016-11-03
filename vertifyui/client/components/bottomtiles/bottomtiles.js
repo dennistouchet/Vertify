@@ -20,21 +20,21 @@ function drawDoughnutChart(){
   var data = [
     {
         value: 50,
-        color:"#3498DB",
-        highlight: "#1498DB",
+        color:"#40B8C8",
+        highlight: "#9FDBE3",
         label: "Converting"
     },
     {
         value: 30,
-        color: "#1D6093",
-        highlight: "#5D6093",
+        color: "#4F3A95",
+        highlight: "#9588BF",
         label: "Syncing"
     }
     ,
     {
         value: 20,
         color: "#E81C57",
-        highlight: "#A81C57",
+        highlight: "#F38DAB",
         label: "Errors"
     }
   ]

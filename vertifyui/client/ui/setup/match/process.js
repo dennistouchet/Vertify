@@ -90,8 +90,6 @@ Template.process.events({
           });
         }
       });
-
-
     }
   },
 });

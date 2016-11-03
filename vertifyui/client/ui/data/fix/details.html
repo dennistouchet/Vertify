@@ -6,19 +6,27 @@
         <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       </div>
       <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
+        <h5>
         {{total}} matched records are Vertified (all aligned fields have the same values).<br/>
         {{aligned}} matched records have issues (one or more aligned fields have different values).<br/>
         {{unmatchedRecords}} records are unmatched (missing in one or more systems).<br/>
+      </h5>
       </div>
       {{>detailsResults}}
+    {{else}}
+      <div class="row">
+        <h1>Whoops!</h1><br/>
+        <h4>Looks like something went wrong, trying refreshing the page.</h4>
+      </div>
     {{/with}}
+
   </section>
 </template>
 
 <template name="detailsResults">
   <div class="row">
     <div class="col-md-12">
-    <h4><strong>Details Results</strong></h4>
+    <h3>Details Results</h3>
       <div class="x_panel" style="padding:10px;">
         <div class="row" style="border-bottom: solid 1px #e6e6e6;padding:10px;">
           <div class="col-md-3">Records</div>

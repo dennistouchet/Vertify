@@ -1,7 +1,7 @@
-<template name="collect">
+ <template name="collect">
   <section class="right_col" role="main" style="padding-bottom:100px;">
     <div class="">
-      <div class ="row">
+      <div class ="row" >
         <h1 class="page_title">Collect</h1>
         <div id="addErrCollect" class="alert alert-danger" style="display:none;"></div>
         {{#if hasObject}}
@@ -28,21 +28,22 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12">
+      </div>
+      <div class="row" style="height:320px; overflow:hidden;background-color:#C1CCD3;margin-bottom:15px;">
+        <div class="col-md-12" style="height:300px;max-height:300px;overflow-y:scroll;padding-top:15px;">
           {{#if Template.subscriptionsReady}}
             {{#each systems}}
               {{> systemObjectList}}
             {{/each}}
           {{/if}}
         </div>
+      </div>
+      <div class="row">
         {{#if Template.subscriptionsReady}}
           {{#each external_objects}}
             {{> collectObj}}
           {{/each}}
         {{/if}}
-      </div>
-      <div class="row" style="margin-top:100px;">
-
       </div>
     </div>
   </section>

@@ -132,7 +132,13 @@ Meteor.methods({
 
     if(field == 'align'){
       //console.log("update align: " + vo._id);
-      return VertifyObjects.update(vo._id,{$set: {align: status}});
+      if(status){
+        return VertifyObjects.update(vo._id,{$set: {align: status }});
+      }
+      else{
+        return VertifyObjects.update(vo._id,{$set: {align: status, aligntest: status, analyze_status:"disabled", analyze_percentage: 0 }});
+      }
+
     }else if(field == 'analyze'){
       return VertifyObjects.update(vo._id,
         {$set:

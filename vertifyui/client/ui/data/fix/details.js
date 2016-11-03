@@ -9,8 +9,11 @@ Template.details.helpers({
   vertify_object(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
-    if(ws && id){
-      return VertifyObjects.findOne(id, {"workspace_id": ws.id});
+    var _id = Session.get('fixDetailsID');
+    //TODO: fix this to use querey param
+    console.log(_id);
+    if(ws){
+      return VertifyObjects.findOne(_id,{"workspace_id": ws.id});
     }
   },
 });
