@@ -23,6 +23,12 @@ Template.align.helpers({
   },
 });
 
+Template.align.events({
+  'click .toMatch': function(){
+    FlowRouter.go('/setup/match');
+  }
+})
+
 Template.alignVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");

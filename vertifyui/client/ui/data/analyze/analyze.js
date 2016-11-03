@@ -76,7 +76,11 @@ Template.analyze.events({
        }
       });
     }
-  }
+  },
+  'click .toAlign'(e){
+    console.log('toAlign clicked');
+    FlowRouter.go('/setup/Align');
+  },
 });
 
 Template.analyzeVertifyObjects.helpers({

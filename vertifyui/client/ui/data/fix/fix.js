@@ -44,6 +44,9 @@ Template.fix.events({
       console.log(e.target.text);
     }
   },
+  'click .toAnalyze': function(){
+    FlowRouter.go('/data/analyze');
+  }
 });
 
 Template.fixVertifyObjects.helpers({
