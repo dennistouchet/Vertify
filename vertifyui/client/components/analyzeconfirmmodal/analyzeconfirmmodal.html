@@ -14,20 +14,19 @@
           <div class="modal-body">
             <!-- TODO: replace with error template -->
             <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
-              <h2>
-                Ready to enable real-time analysis? This process runs in real-time and automatically finds records and fields that do not match the designated system of truth.
-                This happens whenever changes are detected in a system.
-                <br />
-                <br />
-                When enabled, an initial analysis of truth is performed. From that point forward, the process runs automatically in real-time whenever data changes are detected until the process is disabled.
-                <br />
-                <br />
-                If you later decide to alter your workspace setup, you will need to disable real-time analysis.
-              </h2><br />
+            {{#if isEnable}}
+              {{> analyzeEnable}}
+            {{else}}
+              {{#if isRedetect}}
+                {{> analyzeRedetect}}
+              {{else}}
+                {{> analyzeDisable}}
+              {{/if}}
+            {{/if}}
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="save">Enable Analysis</button>
+            <button type="button" class="btn btn-primary" id="save">{{getTask}} Analysis</button>
             <button type="button" class="btn btn-default" data-dismiss="modal" >Cancel</button>
           </div>
           {{/with}}
@@ -36,4 +35,32 @@
       </div>
   </div>
 
+</template>
+
+<template name="analyzeEnable">
+  <h2>
+    Ready to enable real-time analysis? This process runs in real-time and automatically finds records and fields that do not match the designated system of truth.
+    This happens whenever changes are detected in a system.
+    <br />
+    <br />
+    When enabled, an initial analysis of truth is performed. From that point forward, the process runs automatically in real-time whenever data changes are detected until the process is disabled.
+    <br />
+    <br />
+    If you later decide to alter your workspace setup, you will need to disable real-time analysis.
+  </h2><br />
+</template>
+
+<template name="analyzeRedetect">
+  <h2>
+    Are you sure you would like to Redetect?
+  </h2><br />
+</template>
+
+<template name="analyzeDisable">
+  <h2>
+    Are you sure would like to Disable real-time analysis? This process is currently running in real-time and automatically finding records and fields that do not match the designated system of truth.
+    <br />
+    <br />
+    You need to disable real-time analysis to to alter your workspace setup.
+  </h2><br />
 </template>

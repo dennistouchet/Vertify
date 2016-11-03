@@ -77,8 +77,13 @@ Template.alignCompleted.helpers({
    if(ws){
      return VertifyObjects.find({"workspace_id": ws.id}).count();
    }
-   return 0;
  }
+});
+
+Template.alignCompleted.events({
+    'click .toAlign': function(){
+      FlowRouter.go('/data/analyze');
+    }
 });
 
 Meteor.subscribe('external_objects', function (){

@@ -1364,8 +1364,7 @@ function initVertifyProperties() {
 	        },
 	        match: null,
 	        is_truth: true,
-          approved: true,
-          align_method: "exact"
+          approved: true
 	    }
     var VertifyPropertyFields2 = {
   	        external_object_id: 1,
@@ -1381,8 +1380,7 @@ function initVertifyProperties() {
   	        },
   	        match: null,
   	        is_truth: true,
-            approved: true,
-            align_method: "exact"
+            approved: true
   	    }
 
   var VertifyPropertyFields3 = {
@@ -1415,8 +1413,7 @@ function initVertifyProperties() {
                 ]
 	        },
 	        is_truth: false,
-          approved: false,
-          align_method: "exact"
+          approved: false
 	    }
   var VertifyPropertyFields4 = {
 	        external_object_id: 3,
@@ -1447,8 +1444,7 @@ function initVertifyProperties() {
                 ]
 	        },
 	        is_truth: false,
-          approved: false,
-          align_method: "exact"
+          approved: false
 	    }
 
   VertifyPropertyFieldsSchema.validate(VertifyPropertyFields1);
@@ -1464,6 +1460,7 @@ function initVertifyProperties() {
     workspace_id: 100000,
     vertify_object_id: 100000,
     parent_property_id: 100000,
+    align_method: "exact",
     name: "FirstName",
     friendly_name: "First Name" ,
     level: 0,
@@ -1480,6 +1477,7 @@ function initVertifyProperties() {
     workspace_id: 100000,
     vertify_object_id: 100000,
     parent_property_id: 100000,
+    align_method: "exact",
     name: "PricingMatrix",
     friendly_name: "Pricing Matrix" ,
     level: 0

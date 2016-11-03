@@ -61,13 +61,13 @@
 <template name="fixVertifyObjects">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
-      <div class="col-md-2">Vertify Object </div>
+      <div class="col-md-3">Vertify Object </div>
       <div class="col-md-2">Total </div>
-      <div class="col-md-2">Matched </div>
+      <div class="col-md-1">Matched </div>
       <div class="col-md-1">Issues </div>
-      <div class="col-md-2">Vertified </div>
+      <div class="col-md-1">Vertified </div>
       <div class="col-md-1">Unmatched </div>
-      <div class="col-md-2">Actions </div>
+      <div class="col-md-3" style="text-align:right;">Actions </div>
     </div>
     <div>
       {{#if Template.subscriptionsReady}}
@@ -81,28 +81,28 @@
 
 <template name="fixVertifyObjectli">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
-    <div class="col-md-2">{{name}} </div>
+    <div class="col-md-3">{{name}} </div>
     <div class="col-md-2" >
-      {{getRecordCountVo id}}<br/>
-    </div>
-    <div class="col-md-2">
-      {{getRecordCountVo id}}<br/>
+      {{getTotalCount id}}<br/>
     </div>
     <div class="col-md-1">
-      {{getRecordCountEo id}}<br/>
-    </div>
-    <div class="col-md-2">
-      {{getRecordCountEo id}}<br/>
+      {{getMatchedCount id}}<br/>
     </div>
     <div class="col-md-1">
-       0-todo
+      {{getIssuesCount id}}<br/>
     </div>
-    <div class="col-md-2">
-      <div class="dropdown" style="display:inline-block;">
-        <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+    <div class="col-md-1">
+      {{getVertifiedCount id}}<br/>
+    </div>
+    <div class="col-md-1">
+       {{getUnmatchedCount id}}<br/>
+    </div>
+    <div class="col-md-3">
+      <div class="dropdown" style="display:inline-block; float:right;">
+        <button class="btn btn-primary dropdown-toggle voddlbtn" type="button" data-toggle="dropdown" >
           Options
         <span class="caret"></span></button>
-        <ul class="dropdown-menu voddl">
+        <ul class="dropdown-menu dropdown-menu-right voddl">
           <li><a data-id="{{id}}" href="#"> View Details</a></li>
         </ul>
       </div>

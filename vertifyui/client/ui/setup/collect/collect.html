@@ -108,7 +108,7 @@
             Estimated Time Remaining: {{timeRemaining percentage}}
           </p>
           <div class="progress">
-            <div class="progress-bar bg-blue" data-id="{{id}}" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
+            <div class="progress-bar" data-id="{{id}}" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
             </div>
           </div>
         </div>
@@ -163,11 +163,9 @@
       <div class="row">
         <div class="col-md-12">
           <h4 style="padding-left:10px">
-            <button class="btn btn-primary" type="button">
-              <a href="/setup/connect">
+            <button class="btn btn-primary toConnect" type="button">
               <i class="glyphicon glyphicon-plus"></i>
               Add System
-              </a>
             </button>
           </h4>
         </div>
@@ -221,15 +219,14 @@
   <div class="row">
     <div class="col-md-3"> </div>
     <div class="col-md-3">
-      <button class="btn btn-primary" type=button style="margin-top:10px;margin-bottom:10px;">
-          <a href="/setup/connect" style="text-decoration:none;  cursor: pointer;">
-        <i class="glyphicon glyphicon-plus"></i>Connect Object</a>
+      <button class="btn btn-primary toConnect" type=button style="margin-top:10px;margin-bottom:10px;">
+        <i class="glyphicon glyphicon-plus"></i>Connect Object
       </button>
     </div>
     <div class="col-md-3">
       <button class="btn btn-primary toMatch" type=button style="margin-top:10px;margin-bottom:10px;">
-        <a href="/setup/match" style="text-decoration:none;  cursor: pointer;">Next: Match Objects
-        <i class="glyphicon glyphicon-chevron-right"></i></a>
+        Next: Match Objects
+        <i class="glyphicon glyphicon-chevron-right"></i>
       </button>
     </div>
     <div class="col-md-3"> </div>

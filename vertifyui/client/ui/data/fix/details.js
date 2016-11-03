@@ -1,30 +1,17 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { Tasks } from '../../../../imports/collections/global/task.js'
 
 import './details.html';
 
 Template.details.helpers({
-  getVertifyObjectName: function(){
+  vertify_object(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
-    var vo = VertifyObjects.findOne({"_id": id});
-    if(ws && vo){
-      return vo.name
+    if(ws && id){
+      return VertifyObjects.findOne(id, {"workspace_id": ws.id});
     }
-    return "Name unavailable";
-  },
-  totalAlignRecords: function(){
-    //TODO calculate real values
-    return "30,000";
-  },
-  unalignedRecords: function(){
-    //TODO calculate real values
-    return "11,250";
-  },
-  unmatchedRecords: function(){
-    //TODO calculate real values
-    return "18,052";
   },
 });
 
@@ -41,7 +28,27 @@ Template.details.events({
 });
 
 Template.detailsResults.helpers({
-  getVertifyObjectName: function(){
-    return "todo name";
+  getExternalObjectName: function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var ext_obj = ExternalObjects.findOne({"workspace_id":ws.id, "id": id});
+      return ext_obj.name;
+    }
+  },
+  getTotal: function(){
+    //TODO calculate real values
+    return "0-todo";
+  },
+  getMatched: function(){
+    //TODO calculate real values
+    return "0-todo";
+  },
+  getDuplicates: function(){
+    //TODO calculate real values
+    return "0-todo";
+  },
+  getUnmatched: function(){
+    //TODO calculate real values
+    return "0-todo";
   },
 });

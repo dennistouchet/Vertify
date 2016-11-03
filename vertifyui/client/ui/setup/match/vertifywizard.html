@@ -31,9 +31,6 @@
 </template >
 
 <template name="vwStart">
-  <div class="x_panel">
-    WIZARD START
-  </div>
     <div class="row" style="display:block;margin-top:20px;vertical-align:center;font-size:1.6em;">
       <div class="radio" style="width:50%; margin: 0 auto;">
         <label><input type="radio" name="optradio" id="radionew" value="new" checked> Create a New Vertify Object</label>
@@ -62,9 +59,6 @@
 </template>
 
 <template name="vwSelect">
-  <div class="x_panel">
-    WIZARD SELECT
-  </div>
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:150px;">
@@ -115,9 +109,6 @@
 </template>
 
 <template name="vwFilter">
-  <div class="x_panel">
-    WIZARD FILTER
-  </div>
   {{#each external_objects}}
     {{> filterRecords}}
   {{else}}
@@ -176,9 +167,6 @@
 </template>
 
 <template name="vwMatch">
-  <div class="x_panel">
-    WIZARD MATCH
-  </div>
   <div class="col-md-12">
     <h4 style="padding-left:150px;">
       Choose how to match the fields:
@@ -233,9 +221,6 @@
 </template>
 
 <template name="vwFinish">
-  <div class="x_panel">
-    WIZARD FINISH
-  </div>
   <div class="col-md-6">
     <h4 style="padding-left:50px;">Vertify Object Summary:</h4><br/>
     <h4 style="padding-left:50px;">Objects:</h4>
@@ -289,12 +274,12 @@
   <div class="row">
     <div class="col-md-9"> </div>
     <div class="col-md-3">
-      <button class="btn btn-primary next pull-right" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;border-radius:10px;">
-        <a href="#" style="text-decoration:none; cursor: pointer;"> Next
-        <i class="glyphicon glyphicon-chevron-right"></i></a>
+      <button class="btn btn-primary next pull-right" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+        Next
+        <i class="glyphicon glyphicon-chevron-right"></i>
       </button>
-      <button class="btn btn-primary back pull-right" type=button style="margin-top:10px;margin-bottom:10px;border-radius:10px;">
-          <a href="#" style="text-decoration:none; cursor: pointer;"> Back </a>
+      <button class="btn btn-primary back pull-right" type=button style="margin-top:10px;margin-bottom:10px;">
+          Back
       </button>
     </div>
   </div>

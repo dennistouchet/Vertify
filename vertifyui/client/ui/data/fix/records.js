@@ -13,8 +13,52 @@ Template.records.helpers({
 
 Template.records.events({
   'click .returnToSummary': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
     FlowRouter.go('/data/fix');
   },
+  'click .selectAll': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Select/Unselect functionality is unsupported</li>";
+  },
+  'click .action': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Action functionality is unsupported</li>";
+  },
+  'click .fix': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Fix functionality is unsupported</li>";
+  },
+  'click .export': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Export functionality is unsupported</li>";
+  },
+  'click .addCol': function(e){
+    var errDiv = document.getElementById("addErrRecords");
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Add Column functionality is unsupported</li>";
+  }
 });
 
 

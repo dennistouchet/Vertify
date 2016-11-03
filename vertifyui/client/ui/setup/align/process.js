@@ -85,20 +85,18 @@ Template.alignprocess.events({
       });
     }else{
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Missing Values ] ws:" + ws.id + " | vo :" + vo + "</li>";
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Values ] Please click cancel and retry the alignment.</li>";
     }
   },
 });
 
 Template.alignProcessComplete.helpers({
   taskComplete: function(){
-    //TODO: update this to use task, not existing results
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     complete = false;
     if(ws && vo){
-      //var task = Tasks.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id, "task": "matchtest"}});
       var ar = AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
       if(ar){
         complete = true;
@@ -119,8 +117,7 @@ Template.alignProcessComplete.helpers({
     console.log("getTotal called with: " + id);
     var ws = Session.get("currentWs");
     if(ws && id){
-      //TODO: update with real workspace onces using Elixir for results
-      var VP = VertifyProperties.findOne({"id": id});//, "workspace_id": ws.id});
+      var VP = VertifyProperties.findOne({"id": id, "workspace_id": ws.id});
       return VP.name;
     }
     //throw error
@@ -129,8 +126,7 @@ Template.alignProcessComplete.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      //TODO set this up to use workspace once using Elixir for results
-      var EO = ExternalObjects.findOne({"id": id});//, "workspace_id": ws.id});
+      var EO = ExternalObjects.findOne({"id": id, "workspace_id": ws.id});
       return EO.name;
     }
     return null;
@@ -183,10 +179,9 @@ Template.alignProcessComplete.events({
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
     var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws.id});
-
-    if(ws)// && vo)
+    if(ws && vo)
     {
-      var alignresults = AlignResults.findOne({"workspace_id": ws.id});//,"vertify_object_id": vo.id});
+      var alignresults = AlignResults.findOne({"workspace_id": ws.id,"vertify_object_id": vo.id});
 
       //Get all inputs with type text to set friendly_name
       var inputs = document.getElementsByTagName('input');

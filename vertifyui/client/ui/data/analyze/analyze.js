@@ -9,10 +9,8 @@ Template.analyze.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      //TODO: come up with solution for analyzed
       return VertifyObjects.find({"workspace_id": ws.id, "align": true});
     }
-    //return VertifyObjects.find();
     return null;
   },
   hasObjects: function(){
@@ -47,11 +45,36 @@ Template.analyze.events({
     console.log('Analyze click event.');
   },
   'click .voddl li a' : function(e, t){
-    if(e.target.text.trim() == 'Enable'){
-      ModalHelper.openAnalysisConfirmModalFor(this._id);
+    if(e.target.text.trim() == 'Enable'
+      || e.target.text.trim() == 'Redetect'
+      || e.target.text.trim() == 'Disable')
+    {
+      ModalHelper.openAnalysisConfirmModalFor(this._id, e.target.text.trim());
     }
     else{
+      //TODO: Throw error?
       console.log(e.target.text);
+    }
+  },
+  'click .cancelAnalyze' : function(e){
+    console.log("Cancel Analyze called");
+    var ws = Session.get("currentWs");
+    var vo = VertifyObjects.findOne(this._id);
+    if(ws && vo){
+      Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + err.error + "] " + err.reason + "</li>";
+          //return false;
+          return;
+        }
+        else {
+         //success
+        //console.log("successfully update Vertify Object Analyze status");
+       }
+      });
     }
   }
 });
@@ -60,10 +83,8 @@ Template.analyzeVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      //TODO: come up with solution for analyzed
       return VertifyObjects.find({"workspace_id": ws.id, "align": true});
     }
-    //return VertifyObjects.find();
     return null;
   },
 });

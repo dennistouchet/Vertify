@@ -32,8 +32,9 @@ ModalHelper.openAlignConfirmModalFor = function(id, arid){
   Modal.show('alignconfirmmodal');
 }
 
-ModalHelper.openAnalysisConfirmModalFor = function(id){
+ModalHelper.openAnalysisConfirmModalFor = function(id, action){
   Session.set('analyzeVertifyObject', id);
+  Session.set('analyzeAction', action);
   Modal.show('analyzeconfirmmodal');
 }
 

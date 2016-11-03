@@ -83,4 +83,19 @@ Template.fixVertifyObjectli.helpers({
     });
     return count;
   },
+  getTotalCount : function(id){
+    return "0 -todo";
+  },
+  getMatchedCount : function(id){
+    return "0 -todo";
+  },
+  getIssuesCount : function(id){
+    return "0 -todo";
+  },
+  getVertifiedCount : function(id){
+    return "0 -todo";
+  },
+  getUnmatchedCount : function(id){
+     return "0 -todo";
+  },
 });

@@ -37,7 +37,7 @@ Meteor.methods({
     var sys_ids = [];
     var eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[0]});
     sys_ids.push(eo.system_id);
-    eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[0]});
+    eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[1]});
     sys_ids.push(eo.system_id);
 
     var newExternalObjects = [{
@@ -134,10 +134,9 @@ Meteor.methods({
       //console.log("update align: " + vo._id);
       return VertifyObjects.update(vo._id,{$set: {align: status}});
     }else if(field == 'analyze'){
-      //console.log("update analyze_status: " + vo._id);
       return VertifyObjects.update(vo._id,
         {$set:
-          {analyze_status: status, analyze_percentage: 0, analyze_status: "disabled"}
+          {analyze_status: "disabled", analyze_percentage: 0 }
         });
     }
   },

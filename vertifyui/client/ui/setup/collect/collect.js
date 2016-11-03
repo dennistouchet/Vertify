@@ -104,6 +104,9 @@ Template.collect.events({
       }
     });
   },
+  'click .toConnect': function(){
+    FlowRouter.go('/setup/connect');
+  },
   'click .toMatch' : function(e){
     console.log('Collect - toMatch event clicked.');
     FlowRouter.go('/setup/match');
@@ -277,6 +280,12 @@ Template.collectZeroObjHeader.helpers({
       return false;
     }
   },
+});
+
+Template.collectZeroObjHeader.events({
+  'click .toConnect': function(){
+    FlowRouter.go('/setup/connect');
+  }
 });
 
 Template.systemObjectList.helpers({

@@ -36,11 +36,11 @@ Meteor.methods({
       sync_action: "add_update",,
       is_truth: alignProperty.
     }*/
-    //console.log("Multiple Vertify property insert started.");
-    //console.log("Workspaceid: " + ws + " | Vertify Object id: " + vo);
+    console.log("Multiple Vertify property insert started.");
+    console.log("Workspaceid: " + ws + " | Vertify Object id: " + vo);
     var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
-    //console.log("AlignResults:");
-    //console.log(alignResults);
+    console.log("AlignResults:");
+    console.log(alignResults);
     var Properties = [];
 
     alignResults.alignment_properties.forEach(function(alignproperty){
@@ -62,6 +62,10 @@ Meteor.methods({
           Fields.push(newField);
         });
 
+        console.log("Fields created:");
+        console.log(Fields);
+        console.log("Starting Property creation...");
+
         var newProperty = {
           tenant_id: 100000,
           modified: new Date(),
@@ -81,7 +85,9 @@ Meteor.methods({
         Properties.push(newProperty);
       }
     });
-
+    console.log("Properties created:");
+    console.log(Properties);
+    console.log("Starting properties insert...");
     vplist = [];
     Properties.forEach(function(vp){
       VertifyProperties.schema.validate(vp);
@@ -151,8 +157,6 @@ VertifyPropertyFieldsSchema = new SimpleSchema({
     external_property_path:
       { type: String
       , optional: true },
-    align_method:
-      { type: String },
     name:
       { type: String},
     approved:
@@ -210,6 +214,8 @@ VertifyProperties.schema = new SimpleSchema({
     { type: Boolean
     , optional: true
     , defaultValue: false },
+  align_method:
+    { type: String },
   name:
     { type: String },
   friendly_name:
