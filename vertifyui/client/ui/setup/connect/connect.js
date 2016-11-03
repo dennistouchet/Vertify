@@ -114,7 +114,11 @@ Template.connect.events({
   'click .toCollect' : function(e){
     console.log('Connect - toCollect event clicked.');
     FlowRouter.go('/setup/collect');
-  }
+  },
+  'click .toWorkspace': function(e){
+    console.log('Connect - toWorkspace event clicked.');
+    FlowRouter.go('/admin/workspaces');
+  },
 });
 
 /*************************************

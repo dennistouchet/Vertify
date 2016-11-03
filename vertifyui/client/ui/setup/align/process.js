@@ -88,6 +88,10 @@ Template.alignprocess.events({
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Values ] Please click cancel and retry the alignment.</li>";
     }
   },
+  'click .toAlign': function(e){
+    console.log('Cancel alignment clicked');
+    FlowRouter.go('/setup/align');
+  },
 });
 
 Template.alignProcessComplete.helpers({
@@ -165,10 +169,6 @@ Template.alignProcessComplete.events({
   },
   'click .viewAlignment': function(e){
     //TODO:
-  },
-  'click .cancelAlignment': function(e){
-    console.log('cancel alignment clicked');
-    FlowRouter.go('/setup/align');
   },
   'click .acceptAlignModal': function(e){
     e.preventDefault();

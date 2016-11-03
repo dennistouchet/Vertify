@@ -36,7 +36,11 @@ Template.setup.helpers({
 Template.setup.events({
   'click' : function() {
       console.log("setup click event");
-  }
+  },
+  'click .toWorkspace': function(e){
+    console.log('Setup - toWorkspace event clicked.');
+    FlowRouter.go('/admin/workspaces');
+  },
 });
 
 Template.navcard.helpers({

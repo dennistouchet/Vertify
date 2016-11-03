@@ -4,6 +4,7 @@
 @black: #000000;
 @grey-lt: #E8ECF0;
 @grey-md: #C1CCD3;
+@grey-dk: #333333;
 @teal: #40B8C8;
 @purple: #4F3A95;
 /****other****/
@@ -295,6 +296,16 @@ html {
 .nav.child_menu {
   display: none;
 }*/
+.nav.child_menu{
+    overflow: hidden;
+    position: relative;
+    top: 0;
+}
+.nav.child_menu > li > a {
+  color: @white;
+  font-size: 14px;
+  padding: 9px 9px 9px 25px;
+}
 .nav.child_menu li a:hover,
 .nav.child_menu li a.active {
   background-color: @grey-md
@@ -319,7 +330,7 @@ html {
 .nav.side-menu> li a.current-page,
 .nav.side-menu> li a.active {
   border-right: 5px solid @teal;
-  background: rgba(255,255,255,0.2);
+  background: @grey-dk; //rgba(255,255,255,0.2);
 }
 .nav.side-menu> li a {
   font-size:14px;
@@ -491,144 +502,6 @@ html {
 .site_title:hover, .site_title:focus {
   text-decoration: none
 }
-
-.sidebar-header {
-  border-bottom: 0;
-  margin-top: 46px;
-}
-.sidebar-header:first-of-type {
-  margin-top: 0
-}
-
-
-// SIDEBAR LINK COLOR VARIABLES
-@bg-color: @teal;
-@side-color-1: #001217;
-@side-color-2: darken(@side-color-3, 5%);
-@side-color-3: darken(@side-color-4, 5%);
-@side-color-4: @bg-color;
-@side-color-5: lighten(@side-color-4, 5%);
-@side-color-6: lighten(@side-color-5, 5%);
-@side-color-7: lighten(@side-color-6, 5%);
-@side-color-8: lighten(@side-color-7, 5%);
-@side-color-9: lighten(@side-color-8, 5%);
-
-.sidebar-nav {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  position: absolute;
-  top: 0;
-  width: 220px;
-  li {
-    display: inline-block;
-    line-height: 20px;
-    position: relative;
-    width: @full-width;
-    &:before {
-      background-color: #1c1c1c;
-      content: '';
-      height: @full-height;
-      left: 0;
-      position: absolute;
-      top: 0;
-      transition: width .2s ease-in;
-      width: 3px;
-      z-index: -1;
-    }
-    &:first-child {
-      a {
-        background-color: @side-color-1;
-        color: #ffffff;
-      }
-    }
-    &:nth-child(2) {
-      &:before {
-        background-color: @side-color-2;
-      }
-    }
-    &:nth-child(3) {
-      &:before {
-        background-color: @side-color-3;
-      }
-    }
-    &:nth-child(4) {
-      &:before {
-        background-color: @side-color-4;
-      }
-    }
-    &:nth-child(5) {
-      &:before {
-        background-color: @side-color-5;
-      }
-    }
-    &:nth-child(6) {
-      &:before {
-        background-color: @side-color-6;
-      }
-    }
-    &:nth-child(7) {
-      &:before {
-        background-color: @side-color-7;
-      }
-    }
-    &:nth-child(8) {
-      &:before {
-        background-color: @side-color-8;
-      }
-    }
-    &:nth-child(9) {
-      &:before {
-        background-color: @side-color-9;
-      }
-    }
-    &:hover {
-      &:before {
-        transition: width .2s ease-in;
-        width: @full-width;
-      }
-    }
-    a {
-      color: #dddddd;
-      display: block;
-      padding: 10px 15px 10px 30px;
-      text-decoration: none;
-    }
-  }
-  li.open {
-    &:hover {
-      before {
-        transition: width .2s ease-in;
-        width: @full-width;
-      }
-    }
-  }
-  .dropdown-menu {
-    background-color: #222222;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    width: @full-width;
-  }
-}
-.sidebar-nav li a:hover,
-.sidebar-nav li a:active,
-.sidebar-nav li a:focus,
-.sidebar-nav li.open a:hover,
-.sidebar-nav li.open a:active,
-.sidebar-nav li.open a:focus {
-  background-color: transparent;
-  color: #ffffff;
-  text-decoration: none;
-}
-.sidebar-nav>.sidebar-brand {
-  font-size: 20px;
-  height: 65px;
-  line-height: 44px;
-}
 .top_nav .nav>li>a:focus,
 .top_nav .nav>li>a:hover {
   background: #CCCCCC;
@@ -734,7 +607,10 @@ table.no-margin .progress {
   margin: 0 auto;
   float: none!important;
 }
-
+label{
+  margin-top:5px;
+  margin-bottom:0;
+}
 .row {
   margin-right: -10px;
   margin-left: -10px;
@@ -769,18 +645,8 @@ a:hover, a:focus {
 }
 .toggle a i {
   font-size: 26px;
-  padding: 2px 0 0;
-  color:@black;
-}
-.nav.child_menu{
-    overflow: hidden;
-    position: relative;
-    top: 0;
-}
-.nav.child_menu > li > a {
-  color: @white;
-  font-size: 14px;
-  padding: 9px 9px 9px 25px;
+  padding: 4px 0 0;
+  color: @black;
 }
 .panel_toolbox {
   float: right;
@@ -1434,9 +1300,9 @@ table.tile_info span.right {
 }
 .btn-default{
   margin: 0 2px 0 0;
-  color: @black;
+  color: @teal;
   background-color: @white;
-  border: 2px solid @black;
+  border: 2px solid @teal;
   border-radius: 0;
   font-weight: 500;
   -webkit-transition: all 200ms linear;
@@ -1456,6 +1322,40 @@ table.tile_info span.right {
 , .open > .dropdown-toggle.btn-default:focus
 , .btn-default.focus:active
 , .btn-default.active.focus
+, .open > .dropdown-toggle.btn-default.focus{
+  color: @white;
+  background-color:@teal;
+  border: 2px solid @teal;
+  -webkit-transition: all 200ms linear;
+  -moz-transition: all 200ms linear;
+  -ms-transition: all 200ms linear;
+  -o-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+.btn.btn-default.dropdown-toggle{
+  margin: 0 2px 0 0;
+  color: @black;
+  background-color: @white;
+  border: 2px solid @black;
+  border-radius: 0;
+  font-weight: 500;
+  -webkit-transition: all 200ms linear;
+  -moz-transition: all 200ms linear;
+  -ms-transition: all 200ms linear;
+  -o-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+.btn-default.dropdown-toggle:hover
+, .btn-default.dropdown-toggle:focus
+, .btn-default.dropdown-toggle:active
+, .btn-default.dropdown-toggle:active:hover
+, .btn-default.dropdown-toggle.active:hover
+, .open > .dropdown-toggle.btn-default:hover
+, .btn-default.dropdown-toggle:active:focus
+, .btn-default.dropdown-toggle.active:focus
+, .open > .dropdown-toggle.btn-default:focus
+, .btn-default.dropdown-toggle.focus:active
+, .btn-default.dropdown-toggle.active.focus
 , .open > .dropdown-toggle.btn-default.focus{
   color: @white;
   background-color:@black;
@@ -1585,7 +1485,7 @@ table.tile_info span.right {
 .form-control {
     display: block;
     width: 100%;
-    height: 34px;
+    height: 35px;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
