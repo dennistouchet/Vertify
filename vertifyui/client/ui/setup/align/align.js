@@ -71,7 +71,11 @@ Template.alignVertifyObjectli.events({
     if(e.target.text.trim() == 'Align'){
       FlowRouter.go('/setup/align/process?id=' + this._id);
     }
-    else{
+    else if(e.target.text.trim() == 'Properties'){
+      FlowRouter.go('/setup/align/fieldeditor?id=' + this._id);
+    }
+    else
+    {
       console.log(e.target.text);
     }
   },

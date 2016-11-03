@@ -1,7 +1,42 @@
 <template name="fieldeditor">
   <section class="right_col" role="main" style="height:900px;">
-    <div class="">
-      <h1>Field Editor Page</h1>
+    <div class="row">
+      <h1 class="page_title">Vertify Properties</h1>
+    </div>
+    <div class="row">
+      {{#each vertify_properties}}
+        {{> fieldEditorProperties}}
+      {{else}}
+        No Vertify Objects Found.
+      {{/each}}
     </div>
   </section>
+</template>
+
+<template name="fieldEditorProperties">
+  <div class="x_panel">
+    <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
+      <div class="col-md-2">
+        Friendly Name: {{friendly_name}}
+      </div>
+      <div class="col-md-2">
+        Name: {{name}}
+      </div>
+      <div class="col-md-2">
+        Vertify Object Id: {{vertify_object_id}}
+      </div>
+      <div class="col-md-2">
+        Rules: {{rules}}
+      </div>
+      <div class="col-md-2" >
+        {{#each fields}}
+          Name: {{name}} | EO ID: {{external_object_id}}<br/>
+        {{/each}}
+      </div>
+      <div class="col-md-2">
+        Align: {{align}} <br/>
+        Align Method: {{align_method}}
+      </div>
+    </div>
+  </div>
 </template>

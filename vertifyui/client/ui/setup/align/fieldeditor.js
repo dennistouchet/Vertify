@@ -5,7 +5,14 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 import './fieldeditor.html';
 
 Template.fieldeditor.helpers({
-
+  vertify_properties(){
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    console.log("Param Id: "+ id);
+    if(ws){
+        return VertifyProperties.find({"workspace_id":ws.id});
+    }
+  }
 });
 
 Template.fieldeditor.events({

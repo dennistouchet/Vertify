@@ -213,7 +213,7 @@ VertifyProperties.schema = new SimpleSchema({
   align:
     { type: Boolean
     , optional: true
-    , defaultValue: false },
+    , defaultValue: false }, 
   align_method:
     { type: String },
   name:

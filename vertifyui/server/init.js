@@ -750,7 +750,6 @@ function initConnectors() {
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[5]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[6]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings2[7]);
-  ConnectorsSettingsSchema.validate(ConnectorsSettings2[8]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings3[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings3[1]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings3[2]);
