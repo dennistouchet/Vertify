@@ -186,6 +186,15 @@ setupRoutes.route('/match/process', {
   }
 });
 
+setupRoutes.route('/match/loading', {
+  name: 'loading',
+  action: function(queryParams) {
+      console.log("queryParams: ");
+      console.log(queryParams);
+      BlazeLayout.render('main', {main: 'matchloading'});
+  }
+});
+
 setupRoutes.route('/match/results', {
   name: 'results',
   action() {

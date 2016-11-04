@@ -4,6 +4,7 @@ import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { Connectors } from '../../../../imports/collections/global/connector.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { ObjectsList } from '../../../../imports/collections/global/object_list.js';
+import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 
 import './collect.html';
 
@@ -90,30 +91,44 @@ Template.collect.events({
     errDiv.innerHTML = ""; //reset errors
 
     var ws = Session.get("currentWs");
-    Meteor.call('external_objects.remove', this._id, ws.id
-    , (err, res) => {
-      if(err){
-        //console.log(err);
-        //TODO: improve with error Template
-        errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ ExternalObject " + err.error + "] " + err.reason + "</li>";
-      }
-      else {
-        // successful call
-        Meteor.call('tasks.insert', 'deleteexternalobject', ws.id, this._id
-        , (error, result) => {
-          if(error){
+    var eo = ExternalObjects.findOne(this._id);
+
+    //TODO: move this later
+    // TODO: ad validation to check by external object
+    var objectCount = VertifyObjects.find({"workspace_id": ws.id}).count();
+    if(objectCount > 0){
+      //TODO: improve with error Template
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] You must delete any existing Vertify Objects before you can remove external objects.</li>";
+    }
+    else{
+      Meteor.call('tasks.insert', 'deleteexternalobject', ws.id, eo.id
+      , (error, result) => {
+        if(error){
           //console.log(err);
           //TODO: improve with error Template
           errDiv.style.display = 'block';
           errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
-          }
-          else {
-            console.log('Successfully created task: deleteexternalobject');
-          }
-        });
-      }
-    });
+        }
+        else {
+          console.log('Successfully created task: deleteexternalobject');
+          //TODO: Change this so elixir deletes workspace data by oplog data
+          /*
+          Meteor.call('external_objects.remove', this._id, ws.id
+          , (err, res) => {
+            if(err){
+              //console.log(err);
+              //TODO: improve with error Template
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ ExternalObject " + err.error + "] " + err.reason + "</li>";
+            }
+            else {
+              // successful call
+            }
+          });*/
+        }
+      });
+    }
   },
   'click .toConnect': function(){
     FlowRouter.go('/setup/connect');

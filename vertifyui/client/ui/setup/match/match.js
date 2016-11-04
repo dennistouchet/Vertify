@@ -56,8 +56,7 @@ Template.match.helpers({
   matchCompleted : function(){
     var ws = Session.get("currentWs");
     if(ws){
-      var voApproved = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true});
-      var count = VertifyObjects.find({"workspace_id": ws.id, "external_objects.approved": true}).count();
+      var count = VertifyObjects.find({"workspace_id": ws.id, "match": true}).count();
       if(count > 0)
         return true;
     }
@@ -109,19 +108,43 @@ Template.match.events({
     }
     else if(e.target.text.trim() == 'Delete')
     {
-      Meteor.call('vertify_objects.remove', ws.id, this._id
+      var vo = VertifyObject.findOne(this._id);
+      var count = VertifyProperties.find({"workspace_id": ws.id, "vertify_object_id": vo.id}).count();
+
+      if(count > 0){
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
+      }
+      else{
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws.id, vo.id
       , (err, res) => {
         if(err){
           //console.log(err);
           //TODO: improve with error Template
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
         }else{
+          console.log("Task deletevertifyobject called");
           //success
-          //TODO Need a call to remove
-          //all Vertify Properties associate with this VO
-        }
-      });
+          //TODO This should be done and elixir monitors and dleetes data
+          /*
+          Meteor.call('vertify_objects.remove', ws.id, this._id
+          , (error, result) => {
+            if(error){
+              //console.log(err);
+              //TODO: T
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + error.error + "] " + error.reason + "</li>";
+            }else{
+              //success
+              //TODO Need a call to remove
+              //all Vertify Properties associate with this VO
+            }
+          });
+          */
+          }
+        });
+      }
     }
     else
     {

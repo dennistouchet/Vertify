@@ -16,5 +16,22 @@ Template.fieldeditor.helpers({
 });
 
 Template.fieldeditor.events({
+  'click .delete' : function(e){
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.innerHTML = ""; //reset errors
 
+    Meteor.call('vertify_properties.remove'
+    , this._id
+    , (err, res) => {
+      if(err){
+        //console.log(err);
+        //TODO: improve with error Template
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+      }
+      else {
+        // successful call
+      }
+    });
+  }
 });

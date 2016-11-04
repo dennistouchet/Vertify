@@ -18,7 +18,7 @@
             <input id="objectlist" type="text" class="form-control" name="objectlist" />
             <div class="input-group-btn">
               <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-                <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl">
+                <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl" style="max-height:300px;overflow-y:scroll;">
                   {{#if Template.subscriptionsReady}}
                     {{#each systems}}
                       {{> objectList}}
@@ -85,10 +85,10 @@
 <template name="collectObj">
     <div class="col-md-12 system" data-id="{{_id}}">
       <div class="x_panel">
-        <div style="float: left; width: 12%;" >
+        <div class="col-md-2"  >
             <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
         </div>
-        <div style="float: left; width: 12%; padding-top:28px;">
+        <div class="col-md-2" style="padding-top:35px;">
           <h6>
           {{name}}
           </h6>
@@ -103,7 +103,7 @@
             {{/each}}
           </div>
         </div>
-        <div style="float: left; width: 66%; padding-top:5px">
+        <div class="col-md-5" style="padding-top:5px">
           <p style="text-align:center">
             Collecting Data: {{getCollectedRecords record_count percentage}} of {{#if record_count}}{{record_count}}{{else}}10,000{{/if}} records ({{percentage}}%)<br/>
             Estimated Time Remaining: {{timeRemaining percentage}}
@@ -113,7 +113,24 @@
             </div>
           </div>
         </div>
-        <div style="float: right; width: 10%;">
+        <div class="col-md-1" style="text-align:right;padding-top:35px;">
+          {{#if collectschema}}
+            {{#if collect}}
+              <p style="color:#72D2A4;">
+                Collected
+              </p>
+            {{else}}
+              <p style="color:#E81C57;">
+                Collect Schema
+              </p>
+            {{/if}}
+          {{else}}
+          <p style="color:#E81C57;">
+            Uncollected
+          </p>
+          {{/if}}
+        </div>
+        <div class="col-md-2" style="">
           <button class="btn btn-primary pull-right delete" type="button">
             <i class="glyphicon glyphicon-remove"></i>
           </button>

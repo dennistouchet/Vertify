@@ -176,7 +176,7 @@ Tasks.schema = new SimpleSchema({
     { type: String
     , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align"
                       , "analyze", "fixunmatched", "fixissues", "sync"
-                      , "deleteexternalObject" , "deletevertifyobject" ]
+                      , "deleteexternalobject" , "deletevertifyobject" ]
     },
   load:
     { type: String

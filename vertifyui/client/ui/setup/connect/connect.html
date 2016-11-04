@@ -150,19 +150,21 @@
             {{getConnectorName connector_id}} - {{name}}({{prefix}})
           </h3>
         </div>
-        <div class="col-md-1" style="text-align:right;color:red;padding-top:10px;">
+        <div class="col-md-1" style="text-align:right;padding-top:10px;">
           {{#if authentication}}
             {{#if discover}}
-              <p style="color:green;">
+              <p style="color:#72D2A4;">
                 Discovered
               </p>
             {{else}}
-              <p style="color:orange;">
+              <p style="color:#E81C57;">
                 Authenticated
               </p>
             {{/if}}
           {{else}}
+          <p style="color:#E81C57;">
             Unauthenticated
+          </p>
           {{/if}}
         </div>
         <div class="col-md-3">

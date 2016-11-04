@@ -119,6 +119,13 @@ Meteor.methods({
     }
     return count;
   },
+  'vertify_properties.remove'(_id){
+    var current = VertifyProperties.findOne(_id);
+    if(current)
+      return VertifyProperties.remove(current._id);
+
+    throw new Meteor.Error("Missing Value", "No Vertify Property found in Workspace: " + wsid + " with ID: " + vo);
+  },
 })
 
 VertifyPropertyRulesRuleSchema = new SimpleSchema({
@@ -213,7 +220,7 @@ VertifyProperties.schema = new SimpleSchema({
   align:
     { type: Boolean
     , optional: true
-    , defaultValue: false }, 
+    , defaultValue: false },
   align_method:
     { type: String },
   name:

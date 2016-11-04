@@ -1,5 +1,6 @@
 <template name="fieldeditor">
   <section class="right_col" role="main" style="height:900px;">
+    <div id="addErrEditor" class="alert alert-danger" style="display:none;"></div>
     <div class="row">
       <h1 class="page_title">Vertify Properties</h1>
     </div>
@@ -19,16 +20,16 @@
       <div class="col-md-2">
         Friendly Name: {{friendly_name}}
       </div>
-      <div class="col-md-2">
+      <div class="col-md-1">
         Name: {{name}}
       </div>
-      <div class="col-md-2">
-        Vertify Object Id: {{vertify_object_id}}
+      <div class="col-md-1">
+        VObj Id: {{vertify_object_id}}
       </div>
       <div class="col-md-2">
         Rules: {{rules}}
       </div>
-      <div class="col-md-2" >
+      <div class="col-md-3" >
         {{#each fields}}
           Name: {{name}} | EO ID: {{external_object_id}}<br/>
         {{/each}}
@@ -36,6 +37,9 @@
       <div class="col-md-2">
         Align: {{align}} <br/>
         Align Method: {{align_method}}
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-primary delete">Delete</button>
       </div>
     </div>
   </div>

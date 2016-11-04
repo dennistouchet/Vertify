@@ -8,7 +8,7 @@ Template.matchconfirmmodal.helpers({
   match_results(){
     ws = Session.get("currentWs");
     if(ws){
-      return MatchResults.findOne({"id":mr, "workspace_id": ws.id});
+      return MatchResults.findOne({"workspace_id": ws.id});
     }
   },
   systemOfTruth: function(id){
@@ -105,7 +105,7 @@ Template.matchconfirmmodal.events({
                    //TODO: this should be moved to elixir eventually
                    Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', false);
 
-                   FlowRouter.go('/setup/match');
+                   FlowRouter.go('/setup/match/loading');
                    Modal.hide('matchconfirmmodal');
                  }
              });

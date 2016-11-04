@@ -1,0 +1,32 @@
+<template name="matchloading">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="">
+      <h1 class="page_title">Match</h1>
+      <div id="addErrMatch" class="alert alert-danger" style="display:none;"></div>
+      {{#if isComplete}}
+        <div class="row">
+          <div class="col-md-12" style="text-align:center;">
+            <h3 style="padding-left:10px">No Matches Currently Processing.
+            </h3>
+          </div>
+        </div>
+      {{else}}
+        <div class="row">
+          <div class="col-md-12" style="text-align:center;height:100px;">
+            <h3 style="padding-left:10px">Matching Your Records!
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="loader">
+          </div>
+        </div>
+      {{/if}}
+      <div class="row">
+        <button class="btn btn-default pull-right toMatch">
+          Match
+        </button>
+      </div>
+  </div>
+  </section>
+</template>

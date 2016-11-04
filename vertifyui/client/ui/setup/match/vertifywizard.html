@@ -205,7 +205,7 @@
       <div class="input-group-btn" data-name="{{name}}">
         {{#if Template.subscriptionsReady}}
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-          <ul data-id="{{id}}" class="dropdown-menu dropdown-menu-right fieldddl">
+          <ul data-id="{{id}}" class="dropdown-menu dropdown-menu-right fieldddl" style="max-height:300px;overflow-y:scroll;">
             {{#each properties}}
               <li ><a href="#">{{name}}</a></li>
             {{else}}
