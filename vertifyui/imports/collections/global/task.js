@@ -112,6 +112,28 @@ Meteor.methods({
       }
     }else if(t == "sync"){
       //TODO: sync task
+    }else if(t == "deleteexternalobject"){
+      newTasks = {
+        tenant_id: tid,
+        id: intid,
+        external_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false,
+      }
+    }else if(t == "deletevertifyobject"){
+      newTasks = {
+        tenant_id: tid,
+        id: intid,
+        vertify_object_id: itemid,
+        workspace_id: wsid,
+        task: t,
+        created: new Date(),
+        modified: new Date(),
+        is_deleted: false
+      }
     }
 
     Tasks.schema.validate(newTasks);
@@ -152,7 +174,9 @@ Tasks.schema = new SimpleSchema({
     , optional: true },
   task:
     { type: String
-    , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align", "analyze", "fixunmatched", "fixissues", "sync"]
+    , allowedValues: [ "authentication", "discover", "scan", "collectschema", "collect", "matchtest", "match", "aligntest", "align"
+                      , "analyze", "fixunmatched", "fixissues", "sync"
+                      , "deleteexternalObject" , "deletevertifyobject" ]
     },
   load:
     { type: String

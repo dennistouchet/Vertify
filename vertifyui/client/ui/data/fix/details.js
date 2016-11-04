@@ -40,18 +40,18 @@ Template.detailsResults.helpers({
   },
   getTotal: function(){
     //TODO calculate real values
-    return "0-todo";
+    return "0";
   },
   getMatched: function(){
     //TODO calculate real values
-    return "0-todo";
+    return "0";
   },
   getDuplicates: function(){
     //TODO calculate real values
-    return "0-todo";
+    return "0";
   },
   getUnmatched: function(){
     //TODO calculate real values
-    return "0-todo";
+    return "0";
   },
 });

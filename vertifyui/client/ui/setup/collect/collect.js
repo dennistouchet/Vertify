@@ -96,11 +96,22 @@ Template.collect.events({
         //console.log(err);
         //TODO: improve with error Template
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ ExternalObject " + err.error + "] " + err.reason + "</li>";
       }
       else {
         // successful call
-        // return true;
+        Meteor.call('tasks.insert', 'deleteexternalobject', ws.id, this._id
+        , (error, result) => {
+          if(error){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
+          }
+          else {
+            console.log('Successfully created task: deleteexternalobject');
+          }
+        });
       }
     });
   },

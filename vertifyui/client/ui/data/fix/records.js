@@ -7,7 +7,7 @@ import './records.html';
 
 Template.records.helpers({
   getVertifyObjectName: function(){
-    return "todo name";
+    return "Vertify Lead";
   },
 });
 

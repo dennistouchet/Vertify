@@ -1299,7 +1299,7 @@ table.tile_info span.right {
   border-radius: 0;
 }
 .btn-default{
-  margin: 0 2px 0 0;
+  margin: 0 0 0 0;
   color: @teal;
   background-color: @white;
   border: 2px solid @teal;
@@ -1333,11 +1333,12 @@ table.tile_info span.right {
   transition: all 200ms linear;
 }
 .btn.btn-default.dropdown-toggle{
-  margin: 0 2px 0 0;
+  margin: 0 0 0 0;
   color: @black;
   background-color: @white;
   border: 2px solid @black;
   border-radius: 0;
+  height: 35px;
   font-weight: 500;
   -webkit-transition: all 200ms linear;
   -moz-transition: all 200ms linear;
@@ -1481,7 +1482,10 @@ table.tile_info span.right {
   font-weight: 400;
 }
 /* ***** /buttons *******/
-
+.input-group-btn:last-child > .btn, .input-group-btn:last-child > .btn-group {
+    z-index: 2;
+    margin-left: 0px;
+}
 .form-control {
     display: block;
     width: 100%;
@@ -1491,7 +1495,7 @@ table.tile_info span.right {
     line-height: 1.42857143;
     color: #000000;
     background-color: #fff;
-    background-image: none; 
+    background-image: none;
     border: 2px solid #000000;
      border-radius: 0px;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);

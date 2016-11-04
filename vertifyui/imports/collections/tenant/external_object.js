@@ -123,7 +123,7 @@ Meteor.methods({
     else{
       throw new Meteor.Error("External Object not Found", "The object with id: " +  id + " could not be found.");
     }
-  }
+  },
 });
 
 
