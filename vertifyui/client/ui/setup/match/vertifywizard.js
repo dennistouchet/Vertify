@@ -408,7 +408,7 @@ Template.vwMatch.helpers({
     }else{
       return null;
     }
-  },
+  }
 });
 
 Template.vwMatch.events({
@@ -427,6 +427,15 @@ Template.vwMatch.events({
     document.getElementById(field).value = e.target.text;
   },
 });
+
+Template.vwMatchObjects.helpers({
+  getSystemName : function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+    }
+  }
+})
 
 Template.vwFinish.helpers({
   match_setup(){
@@ -487,6 +496,12 @@ Template.vwFinish.helpers({
       return false;
     }
   },
+  getSystemName : function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+    }
+  }
 });
 
 

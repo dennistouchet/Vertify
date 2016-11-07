@@ -113,29 +113,26 @@
 
 # Fix - Resolving Vertify Object issues
 
-  28.
-
-  29.
-
-  30.
 
 #Index
 
 1. System connector credential fields
 
+
+
   I.  Netsuite
-    a. username
-    b. password
-    c. api key
-    d. ApplicationId
+    a. username: tnodev@thenewoffice.com
+    b. password: N
+    c. api key:
+    d. ApplicationId:
     e. AccountNumber
     f. ReleasePreview
     g. IncludeSavedSearches
     h. Sandbox
 
   II.  Marketo
-    a. username
-    b. EncryptionKey
+    a. username: thenewofficedev_13259052950CA2A54205CF8
+    b. EncryptionKey: 63980079033605475500CCAA555622006775F255
     c. EndpointSubdomain
     d. IncludeEmailsOnActivity
     e. SetExternalId

@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { MatchResults } from '../../../../imports/collections/workspace/match_result.js';
+import { Systems } from  '../../../../imports/collections/tenant/system.js';
 
 import './process.html';
 
@@ -92,6 +93,9 @@ Template.process.events({
       });
     }
   },
+  'click .toMatch': function(){
+    FlowRouter.go('/setup/match');
+  }
 });
 
 Template.matchProcessComplete.helpers({

@@ -4,6 +4,7 @@
       <div class="row">
         <h1 class="page_title">{{#if hasVertifyObjects}}Match{{else}}Match / New Vertify Object{{/if}}</h1>
         <div id="addErrMatch" class="alert alert-danger" style="display:none;"></div>
+        {{#if isValid}}
           {{#if hasVertifyObjects}}
             {{#if matchCompleted}}
               {{> matchCompleteHeader}}
@@ -18,9 +19,39 @@
             {{> matchZeroDataHeader}}
             {{> matchRecommendations}}
           {{/if}}
+        {{else}}
+          {{> invalidMatch}}
+        {{/if}}
       </div>
     </div>
   </section>
+</template>
+
+<template name="invalidMatch">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you do not have any External Objects that can be Match.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">You must have at least two distinct External Objects collected to enable Match.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary toCollect" type=button style="margin-top:10px;margin-bottom:10px;">
+        Collect
+      </button>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
 </template>
 
 <template name="matchZeroDataHeader">

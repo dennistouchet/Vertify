@@ -66,6 +66,10 @@ Template.alignVertifyObjectli.helpers({
 
 Template.alignVertifyObjectli.events({
   'click .voddl li a' : function(e, t){
+    var errDiv = document.getElementById("addErrAlign");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
     console.log("dropdown event clicked:");
     console.log(e.target);
     if(e.target.text.trim() == 'Align'){
@@ -73,6 +77,46 @@ Template.alignVertifyObjectli.events({
     }
     else if(e.target.text.trim() == 'Properties'){
       FlowRouter.go('/setup/align/fieldeditor?id=' + this._id);
+    }
+    else if(e.target.text.trim() == 'Delete')
+    {
+      var vo = VertifyObjects.findOne(this._id);
+      var count = VertifyProperties.find({"workspace_id": vo.workspace_id, "vertify_object_id": vo.id}).count();
+
+      if(count > 0){
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
+      }
+      else{
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws.id, vo.id
+      , (err, res) => {
+        if(err){
+          //console.log(err);
+          //TODO: improve with error Template
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
+        }else{
+          console.log("Task deletevertifyobject called");
+          //success
+          //TODO This should be done and elixir monitors and dleetes data
+          /*
+          Meteor.call('vertify_objects.remove', ws.id, this._id
+          , (error, result) => {
+            if(error){
+              //console.log(err);
+              //TODO: T
+              errDiv.style.display = 'block';
+              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + error.error + "] " + error.reason + "</li>";
+            }else{
+              //success
+              //TODO Need a call to remove
+              //all Vertify Properties associate with this VO
+            }
+          });
+          */
+          }
+        });
+      }
     }
     else
     {

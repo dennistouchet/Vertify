@@ -3,10 +3,19 @@ import { Workspaces } from '../../../../imports/collections/tenant/workspace.js'
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js';
 
 import './match.html';
 
 Template.match.helpers({
+  isValid: function(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return Meteor.tools.collectStatus(ws.id);
+    }else{
+      return false;
+    }
+  },
   hasWorkspace: function(){
     var ws = Session.get("currentWs");
     if(ws){
@@ -108,7 +117,7 @@ Template.match.events({
     }
     else if(e.target.text.trim() == 'Delete')
     {
-      var vo = VertifyObject.findOne(this._id);
+      var vo = VertifyObjects.findOne(this._id);
       var count = VertifyProperties.find({"workspace_id": ws.id, "vertify_object_id": vo.id}).count();
 
       if(count > 0){
@@ -151,6 +160,9 @@ Template.match.events({
       console.log(e.target.text);
     }
   },
+  'click .toCollect': function(e){
+    FlowRouter.go('/setup/collect');
+  }
 });
 
 Template.matchVertifyObjectli.helpers({
@@ -186,4 +198,8 @@ Meteor.subscribe('external_objects', function (){
 
 Meteor.subscribe('vertify_objects', function (){
   console.log( "Match - VertifyObjects now subscribed." );
+});
+
+Meteor.subscribe('vertify_properties', function (){
+  console.log( "Match - VertifyProperties now subscribed." );
 });

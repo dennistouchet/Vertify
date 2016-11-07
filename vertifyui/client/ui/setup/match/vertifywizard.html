@@ -199,7 +199,7 @@
 
 <template name="vwMatchObjects">
   <div class="col-md-4">
-    {{name}} Field:
+    {{getSystemName system_id}} - {{name}} Field:
     <div class="input-group">
       <input id="field{{id}}" type="text" class="form-control" name="field{{id}}" />
       <div class="input-group-btn" data-name="{{name}}">
@@ -261,7 +261,7 @@
     <h4 >  Select System of Truth<a href="/test">*</a>:</h4>
     {{#each external_objects}}
       <div class="radio" style="padding-left:20px;">
-        <label style=""><input id="{{id}}" type="radio" name="truthRadio"> {{name}}</label>
+        <label style=""><input id="{{id}}" type="radio" name="truthRadio"> {{getSystemName system_id}} - {{name}}</label>
       </div>
     {{else}}
       {{error}}
