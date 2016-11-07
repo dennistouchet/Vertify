@@ -88,18 +88,18 @@ Template.fixVertifyObjectli.helpers({
     return count;
   },
   getTotalCount : function(id){
-    return "0 -todo";
+    return "0";
   },
   getMatchedCount : function(id){
-    return "0 -todo";
+    return "0";
   },
   getIssuesCount : function(id){
-    return "0 -todo";
+    return "0";
   },
   getVertifiedCount : function(id){
-    return "0 -todo";
+    return "0";
   },
   getUnmatchedCount : function(id){
-     return "0 -todo";
+     return "0";
   },
 });

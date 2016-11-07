@@ -781,46 +781,57 @@ article.media {
   display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
-  width: 100%;
-  justify-content: space-around;
-  align-items: center;
-  align-content: center;
-  position: inherit;
 }
 .navTile {
   display: flex;
   flex-flow: column nowrap;
-  width: 260px;
+  width: 240px;
   justify-content: center;
-  padding: 10px;
+  padding: 10px 0 0 10px;
 }
 .navTileHeader {
-  width: 80%;
+  border: 3px solid @teal;
+  border-radius: 0px;
+  padding: 10px;
+  color: @white;
+  background-color: @teal;
+  -webkit-transition: all 200ms linear;
+  -moz-transition: all 200ms linear;
+  -ms-transition: all 200ms linear;
+  -o-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+.navTileHeader:hover {
   border: 3px solid;
-  border-radius: 25px;
-  border-color: #E7E7E7;
+  border-radius: 0px;
   padding: 10px;
   color: @teal;
+  background-color: @white;
+  -webkit-transition: all 200ms linear;
+  -moz-transition: all 200ms linear;
+  -ms-transition: all 200ms linear;
+  -o-transition: all 200ms linear;
+  transition: all 200ms linear;
 }
 .navTileIcon {
   display: flex;
-  font-size: 6.5em;
+  font-size: 80px;
   padding-top: 10px;
   justify-content: center;
   order: 1;
 }
 .navTileTitle {
   display: flex;
-  font-size: 1.6em;
+  font-size: 20px;
   font-weight: bold;
   justify-content: center;
   order: 2;
 }
 .navTileText {
   display: flex;
-  font-size: 1em;
+  font-size: 14px;
+  font-weight:500px;
   order:3;
-  color: #696667;
 }
 
 /* END Nav card tiles*/

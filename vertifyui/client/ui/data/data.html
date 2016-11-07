@@ -6,7 +6,10 @@
         {{#if Template.subscriptionsReady}}
           {{#each navitems}}
             {{#if (isData name) }}
-              {{> subnavtile}}
+              {{#each subnavs}}
+                <!-- Template declared on /admin.html-->
+                {{> navtile}}
+              {{/each}}
             {{/if}}
           {{/each}}
         {{else}}

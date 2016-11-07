@@ -154,7 +154,7 @@ function initNavitems(){
   var Dashboard = {
     name: 'Dashboard',
     shortdesc: '',
-    description: 'This is the dashboard description',
+    description: 'The Dashboard is quick visualization of the status and details of your Vertify Workspace.',
     order: 1,
     route: '/',
     icon: 'glyphicon-dashboard',
@@ -164,7 +164,7 @@ function initNavitems(){
   var Setup = {
     name: 'Setup',
     shortdesc: '',
-    description: 'This is the Setup description',
+    description: 'The Setup process allows you to connect to you systems and then collect, configure, and Vertify your data.',
     order:2,
     route: '/setup',
     icon: 'glyphicon-wrench',
@@ -209,7 +209,7 @@ function initNavitems(){
   var Data = {
     name: 'Data',
     shortdesc: '',
-    description: 'This is the Data description',
+    description: 'Allows you to resolve any issues in your data, and setup how and when you sync your data.',
     order: 3,
     route: '/data',
     icon: 'glyphicon-cloud',
@@ -217,7 +217,7 @@ function initNavitems(){
           name: 'Analyze',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Analyze description',
+          description: 'Enable real-type analysis of your data to keep track of any issues.',
           order: 1,
           route: '/data/analyze',
           icon: 'glyphicon-warning-sign'
@@ -226,7 +226,7 @@ function initNavitems(){
           name: 'Fix',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Fix description',
+          description: 'Allows you to resolve any issues in your Vertify objects.',
           order: 2,
           route: '/data/fix',
           icon: 'glyphicon-stats'
@@ -235,7 +235,7 @@ function initNavitems(){
           name: 'Sync',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Sync description',
+          description: 'Allows you to configure when and how your data is processed.',
           order: 3,
           route: '/data/sync',
           icon: 'glyphicon-transfer'
@@ -263,7 +263,7 @@ function initNavitems(){
   var Admin = {
     name: 'Admin',
     shortdesc: '',
-    description: 'This is the Admin description',
+    description: 'The Admin section contains tools to setup and configure your Vertify instance.',
     order: 4,
     route: '/admin',
     icon: 'glyphicon-cog',
@@ -271,7 +271,7 @@ function initNavitems(){
           name: 'Workspaces',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Collect description',
+          description: 'Allows your to create and manage your individual Vertify Workspaces',
           order: 1,
           route: '/admin/workspaces',
           icon: 'glyphicon-tasks'
@@ -280,7 +280,7 @@ function initNavitems(){
           name: 'Users',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Connect description',
+          description: 'This is the Users description',
           order: 2,
           route: '/admin/users',
           icon: 'glyphicon-user'
@@ -289,7 +289,7 @@ function initNavitems(){
           name: 'Groups',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Match description',
+          description: 'This is the Groups description',
           order: 3,
           route: '/admin/groups',
           icon: 'glyphicon-align-center'
@@ -298,7 +298,7 @@ function initNavitems(){
           name: 'Agents',
           shortdesc: '',
           subnavs: [],
-          description: 'This is the Align description',
+          description: 'This is the Agents description',
           order: 4,
           route: '/admin/agents',
           icon: 'glyphicon-pawn'

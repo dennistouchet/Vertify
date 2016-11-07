@@ -6,7 +6,9 @@
           {{#if Template.subscriptionsReady}}
             {{#each navitems}}
               {{#if (isAdmin name) }}
-                {{> subnavtile}}
+                {{#each subnavs}}
+                  {{> navtile}}
+                {{/each}}
               {{/if}}
             {{/each}}
           {{else}}
@@ -30,10 +32,4 @@
     </span>
   </div>
   </a>
-</template>
-
-<template name="subnavtile">
-  {{#each subnavs}}
-    {{> navtile}}
-  {{/each}}
 </template>

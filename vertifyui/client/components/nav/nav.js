@@ -7,6 +7,9 @@ Template.navigation.helpers({
   navitems() {
     return Navitems.find({});
   },
+  user_name(){
+    return "Shia LeBeouf";
+  }
 });
 
 Template.navigation.events({
