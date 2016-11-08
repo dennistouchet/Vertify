@@ -103,11 +103,11 @@ Meteor.methods({
     console.log("match_setup.filteredit: " + step );
   },
   'match_setup.matchedit'(id, wsid, step, match_criteria){
+    check(wsid, Number);
+    check(id, Number);
     if(step != "vwMatch"){
       throw new Meteor.Error("Error","vwMatch edit error");
     }
-    check(wsid, Number);
-    check(id, Number);
 
     for(var i = 0; i < match_criteria.length; i++)
     {

@@ -37,6 +37,13 @@ Meteor.tools = {
   taskRunner : function(wsid, objectid, tasktype, other){
 
   },
+  compare : function(a,b){
+    if( a.name < b.name)
+      return -1;
+    if( a.name > b.name)
+      return 1;
+    return 0;
+  },
   /*******************************************
             SPECIFIC CASE TOOLS
   *******************************************/

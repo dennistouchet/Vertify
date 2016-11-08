@@ -68,6 +68,7 @@ Template.vertifywizard.events({
     var errDiv = document.getElementById("addErrMatch");
     errDiv.innerHTML = "";
     errDiv.style.display = "none"; //reset errors
+    var errors = 0;
 
     for(i = 0; i < steps.length; i++){
       if(steps[i] === tab){
@@ -221,6 +222,19 @@ Template.vertifywizard.events({
                     var field2 = document.getElementById("field" + ids[1]).value;
                     var i2 = ids[1];
                     var pm = document.getElementById("percentMatch").getAttribute("data-value");
+                    console.log("fields");
+                    console.log(field1);
+                    console.log(field2);
+                    if(!field1 && !(field1 instanceof String)){
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Validation Error ] Please select a value for Field 1</li>";
+                      errors += 1;
+                    }
+                    if(!field2 && !(field2 instanceof String)){
+                      errDiv.style.display = 'block';
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Validation Error ] Please select a value for Field 2</li>";
+                      errors += 1;
+                    }
 
                     match_criteria = [{
                       field1: field1,
@@ -230,6 +244,7 @@ Template.vertifywizard.events({
                       match_percentage: parseInt(pm)
                     }];
 
+                    if(errors > 0) return;
                     Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1], match_criteria
                     , (err, res) => {
                       if(err){
@@ -246,7 +261,6 @@ Template.vertifywizard.events({
                   }
                 }
                 break;
-        default: console.log("defaulted");
       }
     }
   },
@@ -322,6 +336,12 @@ Template.vwSelect.helpers({
         return ExternalObjects.find({"workspace_id": ws.id},{sort : {name: 1, "properties.name": 1} });
       }
       return null
+    },
+    getSystemName : function(id){
+      var ws = Session.get("currentWs");
+      if(ws){
+        return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+      }
     }
 });
 
@@ -395,16 +415,13 @@ Template.filterRecords.events({
 });
 
 Template.vwMatch.helpers({
-
   external_objects(){
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
-      console.log(msObj);
       var ids = msObj.eo_ids;
-      console.log(msObj.eo_ids);
-      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
+      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1} });
     }else{
       return null;
     }
@@ -429,6 +446,12 @@ Template.vwMatch.events({
 });
 
 Template.vwMatchObjects.helpers({
+  eo_sorted_properties(_id){
+    var external_object = ExternalObjects.findOne(_id,{fields: {properties: 1}});
+    external_object.properties.sort(Meteor.tools.compare);
+    //TODO sorty here
+    return external_object;
+  },
   getSystemName : function(id){
     var ws = Session.get("currentWs");
     if(ws){

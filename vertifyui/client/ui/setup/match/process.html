@@ -22,10 +22,17 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div class="radio" style="width:50%; margin: 0 auto;">
-        <label><h5><input type="radio" name="processradio" value="count" checked> Match first 100 records found</h5></label>
+      <div class="radio" style="width:40%; margin: 0 auto;">
+        <label>
+          <h5>
+            <input type="radio" name="processradio" value="count" checked>
+            Match first
+            <input type="number"  class="form-control inline" name="processlimit" value="100" max="200" min="1">
+            records found
+          </h5>
+        </label>
       </div>
-      <div class="radio" style="width:50%; margin: 0 auto;">
+      <div class="radio" style="width:40%; margin: 0 auto;">
         <label><h5><input type="radio" name="processradio" value="criteria"> Match only records that meet the following criteria</h5></label>
       </div>
     </div>

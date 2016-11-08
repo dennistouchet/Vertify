@@ -75,7 +75,7 @@
           <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right objddl1">
             {{#each external_objects}}
-              <li id="{{id}}obj1" data-id="{{id}}"><a href="#">{{name}}</a></li>
+              <li id="{{id}}obj1" data-id="{{id}}"><a href="#">{{getSystemName system_id}} - {{name}}</a></li>
             {{else}}
               <li> No Existing External Objects</li>
             {{/each}}
@@ -95,7 +95,7 @@
           <button type="button" class="btn btn-default dropdown-toggle extobjddlbtn2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
           <ul class="dropdown-menu dropdown-menu-right objddl2">
             {{#each external_objects}}
-              <li id="{{id}}obj2" data-id="{{id}}"><a href="#">{{name}}</a></li>
+              <li id="{{id}}obj2" data-id="{{id}}"><a href="#">{{getSystemName system_id}} - {{name}}</a></li>
             {{else}}
               <li> No Existing External Objects</li>
             {{/each}}
@@ -134,7 +134,6 @@
       <div class="input-group" style="width:50%;">
         <input type="text" class="form-control" id="extobjprop{{id}}" name="extobjprop" />
         <div class="input-group-btn" data-id="{{id}}">
-          {{#if Template.subscriptionsReady}}
             <button type="button" class="btn btn-default dropdown-toggle extobjpropddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
             <ul class="dropdown-menu dropdown-menu-right objddl">
               {{#each properties}}
@@ -143,9 +142,6 @@
                 <li> No Existing Propreties</li>
               {{/each}}
             </ul>
-          {{else}}
-            Loading Objects...
-          {{/if}}
         </div><!-- /btn-group -->
       </div><!-- /input-group -->
       <div id="operator{{id}}" class="input-group" style="width:10%; ">
@@ -203,18 +199,16 @@
     <div class="input-group">
       <input id="field{{id}}" type="text" class="form-control" name="field{{id}}" />
       <div class="input-group-btn" data-name="{{name}}">
-        {{#if Template.subscriptionsReady}}
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-          <ul data-id="{{id}}" class="dropdown-menu dropdown-menu-right fieldddl" style="max-height:300px;overflow-y:scroll;">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+        <ul data-id="{{id}}" class="dropdown-menu dropdown-menu-right fieldddl" style="max-height:300px;overflow-y:scroll;">
+          {{#with eo_sorted_properties _id}}
             {{#each properties}}
               <li ><a href="#">{{name}}</a></li>
             {{else}}
               <li> No Existing Properties</li>
             {{/each}}
-          </ul>
-        {{else}}
-          Loading Objects...
-        {{/if}}
+          {{/with}}
+        </ul>
       </div><!-- /btn-group -->
     </div><!-- /input-group -->
   </div>

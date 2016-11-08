@@ -82,7 +82,7 @@
 
 <template name="systemObjectList">
   {{#each eo in external_objects}}
-    {{#if doesntExist eo.name id}}
+    {{#if doesntAlreadyExist eo.name id}}
       <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
         <a href="#">
           <div class="x_panel">
@@ -99,7 +99,7 @@
 
 <template name="objectList">
   {{#each eo in external_objects}}
-    {{#if doesntExist eo.name id}}
+    {{#if doesntAlreadyExist eo.name id}}
     <li>
       <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{id}}">
         <img src="/images/{{getConnectorName id}}.png"

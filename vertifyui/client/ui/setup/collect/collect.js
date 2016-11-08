@@ -333,7 +333,7 @@ Template.systemObjectList.helpers({
       return "DefaultSystem";
     }
   },
-  doesntExist : function(name, id){
+  doesntAlreadyExist : function(name, id){
     var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
     if(extObj){
       return false;
@@ -359,7 +359,7 @@ Template.objectList.helpers({
     var curCon = Connectors.findOne({"id": curSys.connector_id});
     return curCon.name;
   },
-  doesntExist : function(name, id){
+  doesntAlreadyExist : function(name, id){
     var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
     if(extObj){
       return false;
