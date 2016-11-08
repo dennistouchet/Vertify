@@ -1,52 +1,83 @@
  <template name="collect">
   <section class="right_col" role="main" style="padding-bottom:100px;">
-    <div class="">
       <div class ="row" >
         <h1 class="page_title">Collect</h1>
         <div id="addErrCollect" class="alert alert-danger" style="display:none;"></div>
-        {{#if hasObject}}
-          {{#if hasEnoughObject}}
-            {{> collectObjHeader}}
+        {{#if isValid}}
+          {{#if hasObject}}
+            {{#if hasEnoughObject}}
+              {{> collectObjHeader}}
+            {{else}}
+              {{> collectOneObjHeader}}
+            {{/if}}
           {{else}}
-            {{> collectOneObjHeader}}
+                {{> collectZeroObjHeader}}
           {{/if}}
-        {{else}}
-              {{> collectZeroObjHeader}}
-        {{/if}}
-        <div class="col-md-12">
-          <div class="input-group" style="padding: 50px 20px 50px 20px;">
-            <input id="objectlist" type="text" class="form-control" name="objectlist" />
-            <div class="input-group-btn">
-              <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-                <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl" style="max-height:300px;overflow-y:scroll;">
-                  {{#if Template.subscriptionsReady}}
-                    {{#each systems}}
-                      {{> objectList}}
-                    {{/each}}
-                  {{/if}}
-                </ul>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="input-group" style="padding: 50px 20px 50px 20px;">
+                <input id="objectlist" type="text" class="form-control" name="objectlist" />
+                <div class="input-group-btn">
+                  <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+                    <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl" style="max-height:300px;overflow-y:scroll;">
+                      {{#if Template.subscriptionsReady}}
+                        {{#each systems}}
+                          {{> objectList}}
+                        {{/each}}
+                      {{/if}}
+                    </ul>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row" style="height:320px; overflow:hidden;background-color:#C1CCD3;margin-bottom:15px;">
-        <div class="col-md-12" style="height:300px;max-height:300px;overflow-y:scroll;padding-top:15px;">
-          {{#if Template.subscriptionsReady}}
-            {{#each systems}}
-              {{> systemObjectList}}
-            {{/each}}
-          {{/if}}
-        </div>
-      </div>
-      <div class="row">
-        {{#if Template.subscriptionsReady}}
-          {{#each external_objects}}
-            {{> collectObj}}
-          {{/each}}
+          <div class="row" style="height:320px; overflow:hidden;background-color:#C1CCD3;margin-bottom:15px;">
+            <div class="col-md-12" style="height:300px;max-height:300px;overflow-y:scroll;padding-top:15px;">
+              {{#if Template.subscriptionsReady}}
+                {{#each systems}}
+                  {{> systemObjectList}}
+                {{/each}}
+              {{/if}}
+            </div>
+          </div>
+          <div class="row">
+            {{#if Template.subscriptionsReady}}
+              {{#each external_objects}}
+                {{> collectObj}}
+              {{/each}}
+            {{/if}}
+          </div>
+        {{else}}
+          {{> invalidCollect}}
         {{/if}}
       </div>
-    </div>
   </section>
+</template>
+
+<template name="invalidCollect">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you do not have any Systems connected.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">You must have at least one System connected to begin collecting.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary toConnect" type=button style="margin-top:10px;margin-left:10px;">
+        Connect
+      </button>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
+    </div>
+  </div>
 </template>
 
 <template name="systemObjectList">
@@ -105,7 +136,11 @@
         </div>
         <div class="col-md-5" style="padding-top:5px">
           <p style="text-align:center">
-            Collecting Data: {{getCollectedRecords record_count percentage}} of {{#if record_count}}{{record_count}}{{else}}10,000{{/if}} records ({{percentage}}%)<br/>
+            Collecting Data:
+              {{getCollectedRecords record_count percentage}}
+              of
+              {{#if record_count}}{{record_count}}
+              {{else}}0{{/if}} records ({{percentage}}%)<br/>
             Estimated Time Remaining: {{timeRemaining percentage}}
           </p>
           <div class="progress">
@@ -125,9 +160,9 @@
               </p>
             {{/if}}
           {{else}}
-          <p style="color:#E81C57;">
-            Uncollected
-          </p>
+            <p style="color:#E81C57;">
+              Uncollected
+            </p>
           {{/if}}
         </div>
         <div class="col-md-2" style="">
@@ -144,11 +179,11 @@
 
 <template name="collectObjProperty">
   <ul>
-    <li>Property Name: {{this.name}}</li>
-    <li>Is Customer: {{this.is_custom}}</li>
-    <li>Is Array: {{this.is_array}} </li>
-    <li>Type: {{this.type}}</li>
-    <li>Is Key: {{this.is_key}}</li>
+    <li>Property Name: {{name}}</li>
+    <li>Is Customer: {{is_custom}}</li>
+    <li>Is Array: {{is_array}} </li>
+    <li>Type: {{type}}</li>
+    <li>Is Key: {{is_key}}</li>
   </ul>
 </template>
 
@@ -250,44 +285,3 @@
     <div class="col-md-3"> </div>
   </div>
 </template>
-
-<!-- template to display systems on collect for testing
-TODO: delete after collect setup complete
-<template name="collectSys">
-  <div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12 system" data-id="{{_id}}">
-      <div class="x_panel">
-        <h3>
-          <img src="/images/{{name}}.png" alt=".." style="width:30px;height:30px;" >
-          {{name}} ({{prefix}})
-          <button class="btn btn-primary pull-right delete" type="button">
-            <i class="glyphicon glyphicon-remove"></i>
-          </button>
-          <button class="btn btn-primary pull-right edit" type="button">
-            <i class="glyphicon glyphicon-edit"></i>
-          </button>
-          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#details{{_id}}">
-            <i class="glyphicon glyphicon-chevron-down"></i>
-          </button>
-        </h3>
-        <div id="details{{_id}}" class="collapse" >
-          Prefix: {{prefix}} <br/>
-          System Type:{{system_type}} <br/>
-          Workspace Id: {{workspace_id}} <br />
-          Connector Id: {{connector_id}} <br />
-          Tenant Id: {{tenant_id}} <br/>
-          System Id: {{id}} <br/>
-          Is Deleted: {{is_deleted}} <br/>
-          Username: {{username}} <br/>
-          Password: {{password}} <br/>
-          Dynamic WSDL: {{dynamic_wsdl_assembly}} <br/>
-          Max Concurrent Tasks: {{max_concurrent_tasks}} <br/>
-          Agent Id: {{agent_id}} <br/>
-          Settings: {{settings}} <br/>
-          Revision: {{rev_number}} <br/>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
--->

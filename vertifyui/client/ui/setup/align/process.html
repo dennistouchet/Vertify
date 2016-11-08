@@ -1,10 +1,10 @@
 <template name="alignprocess">
   <section class="right_col" role="main" style="height:900px;">
-    <div class="">
-      <h1 class="page_title">Align / Process {{getVertifyObjectName}}</h1>
-      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
-      {{> Template.dynamic template=aprocess}}
-    </div>
+      <div class="">
+        <h1 class="page_title">Align / Process {{getVertifyObjectName}}</h1>
+        <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+        {{> Template.dynamic template=aprocess}}
+      </div>
   </section>
 </template>
 
@@ -36,7 +36,6 @@
       <div class="input-group col-md-3" >
         <input type="text" class="form-control" name="extobjprop"/>
         <div class="input-group-btn" >
-          {{#if Template.subscriptionsReady}}
             <button type="button" class="btn btn-default dropdown-toggle extobjpropddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
             <ul class="dropdown-menu dropdown-menu-right objddl">
               {{#each properties}}
@@ -45,9 +44,6 @@
                 <li> No Existing Properties</li>
               {{/each}}
             </ul>
-          {{else}}
-            Loading Objects...
-          {{/if}}
         </div><!-- /btn-group -->
       </div><!-- /input-group -->
       <div id="operator" class="input-group col-md-1" >

@@ -46,12 +46,13 @@ Template.collect.helpers({
       //TODO: throw error or notify user that workspace isn't selected
     }
   },
-  connectStatus : function(){
-    if(Session.get("currentWs"))
-    {
-      return Session.get("currentWs").connect_status;
+  isValid: function(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return Meteor.tools.connectStatus(ws.id);
+    }else{
+      return false;
     }
-    return false;
   },
   hasObject : function(){
     if(Session.get("externalObjectCount")){

@@ -3,16 +3,12 @@
   <div class="input-group">
     <input id="text" type="text" class="form-control" name="system" />
     <div class="input-group-btn">
-      {{#if Template.subscriptionsReady}}
         <button id="sysddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
         <ul id="sysinfoddl" class="dropdown-menu dropdown-menu-right sysinfoddl">
           {{#each connectors}}
             {{> conns}}
           {{/each}}
         </ul>
-      {{else}}
-        Loading Systems Information...
-      {{/if}}
     </div><!-- /btn-group -->
   </div><!-- /input-group -->
   <label for="name">Name</label>

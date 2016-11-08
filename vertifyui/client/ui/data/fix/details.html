@@ -44,16 +44,22 @@
             <div class="col-md-2">{{getUnmatched}}</div>
             <div class="col-md-1"></div>
           </div>
-          {{#each external_objects}}
+          {{#if Template.subscriptionsReady}}
+            {{#each external_objects}}
+              <div class="row" style="padding:10px;">
+                <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectName external_object_id}}</div>
+                <div class="col-md-2">{{getTotal}}</div>
+                <div class="col-md-2">{{getMatched}}</div>
+                <div class="col-md-2">{{getDuplicates}}</div>
+                <div class="col-md-2">{{getUnmatched}}</div>
+                <div class="col-md-1"></div>
+              </div>
+            {{/each}}
+          {{else}}
             <div class="row" style="padding:10px;">
-              <div class="col-md-3" style="border-right: solid 1px #e6e6e6;">{{getExternalObjectName external_object_id}}</div>
-              <div class="col-md-2">{{getTotal}}</div>
-              <div class="col-md-2">{{getMatched}}</div>
-              <div class="col-md-2">{{getDuplicates}}</div>
-              <div class="col-md-2">{{getUnmatched}}</div>
-              <div class="col-md-1"></div>
+              Loading... <div class="loader-sm"></div>
             </div>
-          {{/each}}
+          {{/if}}
       </div>
     </div>
   </div>
