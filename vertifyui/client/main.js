@@ -1,11 +1,14 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
+import { Version } from '../imports/collections/global/version.js';
 import './main.html';
 
 Highcharts = require( 'highcharts' );
 
 Template.main.helpers({
-
+  version(){
+    return Version.findOne({});
+  }
 });
 
 Template.main.events({
@@ -43,6 +46,10 @@ Meteor.startup(function(){
 
     }
   }
+});
+
+Meteor.subscribe('version', function (){
+  console.log( "Main - Version now subscribed.");
 });
 
 //Temporary development setup to load default workspace

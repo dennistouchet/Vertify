@@ -15,6 +15,7 @@ import { VertifyObjects, VertifyObjectExternalObjectsSchema
          from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
+import { Version } from '../imports/collections/global/version.js';
 import { Tasks } from '../imports/collections/global/task.js';
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connector.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
@@ -31,6 +32,7 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
+initVersion();
 //initTasks();
 initWorkspaces();
 initConnectors();
@@ -316,6 +318,18 @@ function initNavitems(){
       Navitems.insert(navitem);
     })
   }
+}
+
+function initVersion(){
+
+  //TODO pull .git/refs/tags
+  var v = {
+    created: new Date(),
+    version: "v0.9.1.e174c3aaa72b3c9a865c55ceb9f8fca7d18d5422"
+  }
+
+  Version.schema.validate(v);
+  Version.insert(v);
 }
 
 function initTasks(){
