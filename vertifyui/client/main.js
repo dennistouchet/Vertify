@@ -1,13 +1,13 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Version } from '../imports/collections/global/version.js';
+import { Versioning } from '../imports/collections/global/versioning.js';
 import './main.html';
 
 Highcharts = require( 'highcharts' );
 
 Template.main.helpers({
-  version(){
-    return Version.findOne({});
+  versioning(){
+    return Versioning.findOne({},{sort: { created: -1 }});
   }
 });
 
@@ -48,8 +48,8 @@ Meteor.startup(function(){
   }
 });
 
-Meteor.subscribe('version', function (){
-  console.log( "Main - Version now subscribed.");
+Meteor.subscribe('versioning', function (){
+  console.log( "Main - Versioning now subscribed.");
 });
 
 //Temporary development setup to load default workspace

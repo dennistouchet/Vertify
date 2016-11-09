@@ -15,7 +15,7 @@ import { VertifyObjects, VertifyObjectExternalObjectsSchema
          from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
-import { Version } from '../imports/collections/global/version.js';
+import { Versioning } from '../imports/collections/global/versioning.js';
 import { Tasks } from '../imports/collections/global/task.js';
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connector.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
@@ -32,7 +32,7 @@ if( Meteor.isDevelopment && clearCollections) {
   deleteAllCollections();
 }
 
-initVersion();
+initVersioning();
 //initTasks();
 initWorkspaces();
 initConnectors();
@@ -320,16 +320,36 @@ function initNavitems(){
   }
 }
 
-function initVersion(){
+function initVersioning(){
 
-  //TODO pull .git/refs/tags
-  var v = {
-    created: new Date(),
-    version: "v0.9.1.e174c3aaa72b3c9a865c55ceb9f8fca7d18d5422"
-  }
-
-  Version.schema.validate(v);
-  Version.insert(v);
+    // TODO: this can probably be done more efficiently
+    // think about better ways to do this.
+    const dir = '../../../../../../.git/refs/tags/';
+    const fs = require('fs');
+    fs.readdir(dir, Meteor.bindEnvironment(
+      function(err, files){
+        if(err){
+          console.log(err);
+        }
+        else{
+            files.forEach(function(file){
+              fs.stat(dir + file, Meteor.bindEnvironment(
+              function (err, stats){
+                if(err){
+                  console.log(err);
+                }
+                else{
+                  var tag = {version: file, created: stats.birthtime };
+                  var exists = Versioning.findOne({version: file});
+                  if(!exists){
+                    Versioning.schema.validate(tag);
+                    console.log(Versioning.insert(tag));
+                   }
+                }
+              }));
+          });
+        }
+    }));
 }
 
 function initTasks(){

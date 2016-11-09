@@ -2,9 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
-export const Version = new Mongo.Collection('version');
+export const Versioning = new Mongo.Collection('versioning');
 
-Version.schema = new SimpleSchema({
+Versioning.schema = new SimpleSchema({
   created:
     {type: Date},
   version:

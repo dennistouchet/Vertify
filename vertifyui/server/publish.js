@@ -6,7 +6,7 @@ import { Datas } from '../imports/collections/datas.js';
 import { Connectors } from '../imports/collections/global/connector.js';
 import { ObjectsList } from '../imports/collections/global/object_list.js';
 import { Tasks } from '../imports/collections/global/task.js';
-import { Version } from '../imports/collections/global/version.js';
+import { Versioning } from '../imports/collections/global/versioning.js';
 
 
 import { Workspaces } from '../imports/collections/tenant/workspace.js';
@@ -74,8 +74,8 @@ Meteor.publish('tasks', function(){
   return Tasks.find();
 });
 
-Meteor.publish('version', function(){
-  return Version.find();
+Meteor.publish('versioning', function(){
+  return Versioning.find();
 });
 
 Meteor.publish('match_results', function(){
