@@ -13,6 +13,7 @@ Template.workspaces.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrWorkspace");
     errDiv.innerHTML = ""; //reset errors
+    errDiv.style.display = 'none';
 
     const target = e.target;
     const text = target.text.value;
@@ -37,6 +38,7 @@ Template.workspaces.events({
   'click .add' : function(e) {
     var errDiv = document.getElementById("addErrWorkspace");
     errDiv.innerHTML = ""; //reset errors
+    errDiv.style.display = 'none';
 
     var target = document.getElementById("text");
     if(! (target.value === ""))
@@ -67,6 +69,7 @@ Template.workspaces.events({
   'click .delete' : function(){
       var errDiv = document.getElementById("addErrWorkspace");
       errDiv.innerHTML = ""; //reset errors
+      errDiv.style.display = 'none';
 
       Meteor.call('workspaces.remove'
       , this._id
@@ -90,6 +93,23 @@ Template.workspaces.events({
           }
         }
       });
+  },
+  'click .clear' : function(){
+      var errDiv = document.getElementById("addErrWorkspace");
+      errDiv.style.display = 'none';
+      errDiv.innerHTML = ""; //reset errors
+
+      // TODO:
+      // delete vertify properties
+      // delete align_results
+      // delete match_results
+      // delete vertify objects
+      // delete match_setup
+      // delete vertify objects
+      // delete external_objects
+      // delete systems
+
+      console.log()
   },
   'click .edit' : function(e){
     e.preventDefault();

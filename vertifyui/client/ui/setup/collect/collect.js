@@ -10,39 +10,21 @@ import './collect.html';
 
 Template.collect.helpers({
   systems() {
-    //TODO: remove this from Collect
-    //determines if a workspace has been selected and added to session
-    if(Session.get("currentWs")) {
-      ws = Session.get("currentWs");
-      if(ws.id) {
-        systemcount = Systems.find({"workspace_id": ws.id}).count();
-        Session.set("systemCount", systemcount);
-        console.log("Session systemCount: " + Session.get("systemCount"));
-        return Systems.find({"workspace_id": ws.id});
-      }
-      else{
-        Session.set("systemCount", "0");
-        console.log("Session systemCount: " + Session.get("systemCount"));
-        return Systems.find();
-      }
-    }else {
-      Session.set("systemCount", "0");
-      console.log("Session systemCount: " + Session.get("systemCount"));
+    var ws = Session.get("currentWs")
+    if(ws)
+    {
+      var systems = Systems.find({"workspace_id": ws.id},{sort: {name:1}});
+      systems.forEach(function(sys){
+        sys.external_objects.sort(Meteor.tools.compare);
+      });
+      return systems;
     }
   },
   external_objects() {
     var ws = Session.get("currentWs")
     if(ws)
     {
-      var ExtObjs = ExternalObjects.find({"workspace_id": wsid},{sort : {name: 1} });
-      Session.set("externalObjectCount", ExtObjs.count);
-      console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
-      return ExtObjs;
-    }
-    else{
-      Session.set("externalObjectCount", "0");
-      console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
-      //TODO: throw error or notify user that workspace isn't selected
+      return ExternalObjects.find({"workspace_id": ws.id});
     }
   },
   isValid: function(){
@@ -54,33 +36,29 @@ Template.collect.helpers({
     }
   },
   hasObject : function(){
-    if(Session.get("externalObjectCount")){
-      var objectcount =  parseInt(Session.get("externalObjectCount"));
+    //TODO: NEED TO VERIFY THESE ARE ALSO COLLECTED
+    var ws = Session.get("currentWs");
+    var has = false;
+    if(ws){
+      var objectcount = ExternalObjects.find("workspace_id": ws.id).count;
       if(objectcount > 0){
-        return true;
-      }
-      else{
-        return false;
+        has = true;
       }
     }
-    else{
-      return false;
-    }
+    return has;
   },
   hasEnoughObject : function(){
-    if(Session.get("externalObjectCount")){
-      var objectcount =  parseInt(Session.get("externalObjectCount"));
+    //TODO: NEED TO VERIFY THESE ARE ALSO COLLECTED
+    var ws = Session.get("currentWs");
+    var hasEnough = false;
+    if(ws){
+      var objectcount = ExternalObjects.find("workspace_id": ws.id).count;
       if(objectcount > 1){
-        return true;
-      }
-      else{
-        return false;
+        hasEnough = true;
       }
     }
-    else{
-      return false;
-    }
-  },
+    return hasEnough;
+  }
 });
 
 Template.collect.events({
@@ -293,18 +271,14 @@ Template.collectZeroObjHeader.helpers({
     }
   },
   hasSystems : function(){
-    if(Session.get("systemCount")){
-      var sysCnt = parseInt(Session.get("systemCount"));
-      if(sysCnt > 0){
-        return true;
-      }
-      else {
-        return false;
-      }
+    var ws = Session.get("currentWs");
+    var has = false;
+    if(ws) {
+      var sys = Systems.find({"workspace_id": ws.id});
+      if(sys.count > 0)
+        has = true;
     }
-    else {
-      return false;
-    }
+    return has;
   },
 });
 

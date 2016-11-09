@@ -26,24 +26,24 @@ Template.match.helpers({
     return "No Workspace selected.";
   },
   hasSystems : function(){
-    if(Session.get("systemCount")){
-      var sysCnt = parseInt(Session.get("systemCount"));
-      if(sysCnt > 0){
-        return true;
-      }
+    var ws = Session.get("currentWs");
+    var has = false;
+    if(ws) {
+      var sys = Systems.find({"workspace_id": ws.id});
+      if(sys.count > 0)
+        has = true;
     }
-      return false;
+    return has;
   },
   hasEnoughObject : function(){
-    if(Session.get("objectCount"))
-    {
-      var objectcount =  parseInt(Session.get("objectCount"));
-      if(objectcount > 1){
-        return true;
-      }
+    var ws = Session.get("currentWs");
+    var has = false;
+    if(ws) {
+      var count = ExternalObjects.find({"workspace_id": ws.id}).count;
+      if(count > 0)
+        has = true;
     }
-    return false;
-
+    return has;
   },
   hasVertifyObjects : function(){
     var ws = Session.get("currentWs");

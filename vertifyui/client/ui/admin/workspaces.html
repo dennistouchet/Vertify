@@ -45,6 +45,12 @@
           Is Deleted: {{is_deleted}}  <br/>
           Is Archived: {{is_archived}}<br/>
           Group ID: {{group_id}} <br/>
+          <button class="btn btn-primary pull-left" type="button" data-toggle="collapse" data-target="#wsclear{{id}}">
+            Clear Workspace<i class="glyphicon glyphicon-chevron-right"></i>
+          </button>
+          <button id="wsclear{{id}}" class="btn btn-default pull-right clear collapse" style="border-color:#E81C57;color:#E81C57;" aria-expanded="false" type="button">
+            <i class="glyphicon glyphicon-fire"></i>CLEAR ENTIRE WORKSPACE<i class="glyphicon glyphicon-fire"></i>
+          </button>
         </div>
       </div>
     </div>
