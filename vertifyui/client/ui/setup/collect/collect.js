@@ -31,14 +31,13 @@ Template.collect.helpers({
     }
   },
   external_objects() {
-    //check for system and get external objects by system types
-    if(Session.get("currentWs"))
+    var ws = Session.get("currentWs")
+    if(ws)
     {
-      var wsid = Session.get("currentWs").id;
-      objectcount = ExternalObjects.find({"workspace_id": wsid}).count();
-      Session.set("externalObjectCount", objectcount);
+      var ExtObjs = ExternalObjects.find({"workspace_id": wsid},{sort : {name: 1} });
+      Session.set("externalObjectCount", ExtObjs.count);
       console.log("Session externalObjectCount: " + Session.get("externalObjectCount"));
-      return ExternalObjects.find({"workspace_id": wsid});
+      return ExtObjs;
     }
     else{
       Session.set("externalObjectCount", "0");
