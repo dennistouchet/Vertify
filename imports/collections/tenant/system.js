@@ -77,7 +77,7 @@ Meteor.methods({
     check(currentid, String);
     check(ws_id, String);
 
-    var current = Systems.findOne(currentid);
+    var current = Systems.findOne(currentid, {"workspace_id": ws_id});
     // Check if System has objects, cancel delete if true
     var objectCount = ExternalObjects.find({"system_id": current.id}).count();
     if(objectCount > 0){

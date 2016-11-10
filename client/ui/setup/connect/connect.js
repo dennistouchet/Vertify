@@ -90,7 +90,7 @@ Template.connect.events({
     errDiv.style.display = "none";
 
     Meteor.call('systems.remove'
-      , this._id
+      , this._id, ws._id
       , (err, res) => {
         if(err){
           //console.log(err);
