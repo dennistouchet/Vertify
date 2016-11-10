@@ -1,0 +1,18 @@
+version: '2'
+services:
+  db:
+    build:
+      context: .
+      dockerfile: docker/db.Dockerfile
+    ports:
+     - "27017:27017"
+  web:
+    environment:
+     - MONGO_URL=mongodb://db:27017/test
+    build:
+      context: .
+      dockerfile: docker/ui.Dockerfile
+    ports:
+     - "3000:3000"
+    depends_on:
+     - db
