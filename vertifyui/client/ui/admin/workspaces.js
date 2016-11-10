@@ -129,7 +129,3 @@ Template.workspaces.events({
     console.log('workspaces add modal clicked.')
   },
 });
-
-Meteor.subscribe('workspaces', function (){
-  console.log( "Workspaces - Workspaces data ready");
-});

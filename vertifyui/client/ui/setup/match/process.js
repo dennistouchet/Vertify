@@ -7,6 +7,14 @@ import { Systems } from  '../../../../imports/collections/tenant/system.js';
 import './process.html';
 
 Template.process.onCreated(function(){
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Match/Process - VertifyObjects now subscribed." );
+  });
+
+  Meteor.subscribe('match_results', function (){
+    console.log( "Match/Process - MatchResults now subscribed." );
+  });
+
   this.currentPage = new ReactiveVar("processZeroData"); //other Page is matchProcessComplete
 });
 
@@ -93,9 +101,18 @@ Template.process.events({
       });
     }
   },
-  'click .toMatch': function(){
+  'click .back': function(){
     FlowRouter.go('/setup/match');
-  }
+  },
+  'click .preMatchModal' : function(e){
+      e.preventDefault();
+      var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
+      var ws = Session.get("currentWs");
+      var matchresults = {id: 0};
+      ModalHelper.openMatchConfirmModalFor(vertifyobjectid, matchresults.id);
+
+      console.log("Match - prematchtest modal clicked");
+  },
 });
 
 Template.matchProcessComplete.helpers({
@@ -172,12 +189,4 @@ Template.matchProcessComplete.events({
 
       console.log("Match - complete match modal clicked");
   },
-});
-
-Meteor.subscribe('vertify_objects', function (){
-  console.log( "Match/Process - VertifyObjects now subscribed." );
-});
-
-Meteor.subscribe('match_results', function (){
-  console.log( "Match/Process - MatchResults now subscribed." );
 });

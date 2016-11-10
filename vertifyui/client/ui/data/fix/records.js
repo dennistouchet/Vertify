@@ -5,6 +5,14 @@ import { FixUnmatchedRecords } from '../../../../imports/collections/workspace/u
 
 import './records.html';
 
+Template.records.onCreated({
+  subscribe: function(){
+    Meteor.subscribe('fix_unmatched_records', function(){
+      console.log('FixUnmatchedRecords - Tasks now subscribed');
+    })
+  },
+});
+
 Template.records.helpers({
   getVertifyObjectName: function(){
     return "Vertify Lead";
@@ -60,8 +68,3 @@ Template.records.events({
     errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Add Column functionality is unsupported</li>";
   }
 });
-
-
-Meteor.subscribe('fix_unmatched_records', function(){
-  console.log('Connect - Tasks now subscribed');
-})

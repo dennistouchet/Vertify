@@ -20,9 +20,8 @@ ModalHelper.openWsEditModalFor = function(ws_id){
   Modal.show('wseditmodal');
 }
 
-ModalHelper.openMatchConfirmModalFor = function(id, mrid){
+ModalHelper.openMatchConfirmModalFor = function(id){
   Session.set('selectedVertifyObject', id);
-  Session.set('selectedMatchResultId', mrid);
   Modal.show('matchconfirmmodal');
 }
 

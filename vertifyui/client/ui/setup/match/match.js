@@ -7,6 +7,24 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 
 import './match.html';
 
+Template.match.onCreated(function(){
+  Meteor.subscribe('systems', function (){
+    console.log( "Match - Systems now subscribed.");
+  });
+
+  Meteor.subscribe('external_objects', function (){
+    console.log( "Match - ExternalObjects now subscribed.");
+  });
+
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Match - VertifyObjects now subscribed." );
+  });
+
+  Meteor.subscribe('vertify_properties', function (){
+    console.log( "Match - VertifyProperties now subscribed." );
+  });
+});
+
 Template.match.helpers({
   isValid: function(){
     var ws = Session.get("currentWs");
@@ -182,24 +200,4 @@ Template.matchCompleteFooter.events({
   'click .toAlign': function(e){
     FlowRouter.go('/setup/align');
   }
-});
-
-Meteor.subscribe('workspaces', function (){
-  console.log( "Match - Workspaces now subscribed.");
-});
-
-Meteor.subscribe('systems', function (){
-  console.log( "Match - Systems now subscribed.");
-});
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Match - ExternalObjects now subscribed.");
-});
-
-Meteor.subscribe('vertify_objects', function (){
-  console.log( "Match - VertifyObjects now subscribed." );
-});
-
-Meteor.subscribe('vertify_properties', function (){
-  console.log( "Match - VertifyProperties now subscribed." );
 });

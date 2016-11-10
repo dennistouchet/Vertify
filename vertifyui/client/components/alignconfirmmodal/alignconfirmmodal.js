@@ -88,15 +88,15 @@ Template.alignconfirmmodal.events({
 });
 
 Meteor.subscribe('external_objects', function (){
-  console.log( "Match - ExternalObjects now subscribed.");
+  console.log( "Aligncomfirmmodal - ExternalObjects now subscribed.");
 });
 
 Meteor.subscribe('vertify_objects', function (){
-  console.log( "Align - VertifyObjects now subscribed.");
+  console.log( "Aligncomfirmmodal - VertifyObjects now subscribed.");
 });
 
 Meteor.subscribe('vertify_properties', function (){
-  console.log( "Align - VertifyProperties now subscribed.");
+  console.log( "Aligncomfirmmodal - VertifyProperties now subscribed.");
 });
 
 Meteor.subscribe("align_result", function (){

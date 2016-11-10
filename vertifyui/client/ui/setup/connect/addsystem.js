@@ -4,9 +4,13 @@ import { Connectors } from '../../../../imports/collections/global/connector.js'
 import './connect.html';
 
 Template.addsystem.onCreated(function(){
-  //Cleared selected Connector variable if page is reloaded
-  console.log("AddSystem - delete Session connId");
-  delete Session.keys['connId'];
+    Meteor.subscribe('connectors', function(){
+      console.log('AddSystem - Connectors now subscribed.');
+
+    });
+
+    //Cleared selected Connector variable if page is reloaded
+    delete Session.keys['connId'];
 });
 
 Template.addsystem.helpers({
@@ -39,8 +43,4 @@ Template.addsystem.events({
       Session.set("connId", id);
     }
   },
-})
-
-Meteor.subscribe('connectors', function(){
-  console.log('AddSystem - Connectors now subscribed.');
 });

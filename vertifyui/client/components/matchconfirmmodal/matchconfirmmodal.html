@@ -28,6 +28,22 @@
                       {{getExternalObjectInfo external_object_id}}<br/>
                   </div>
                 </h2>
+              {{else}}
+              <h2>
+                <div id="addErrModal" class="alert alert-danger" style="display:block;">
+                  <span>WARNING></span>No Match Results detected. This is usually the result of skipping the Match subset test.
+                  If you think you've reached this warning in error, simple cancel and try again.
+                </div>
+                  By accepting the match, Vertify will begin matching all records against the system of truth.<br />
+                  <br /><br />
+                  <strong>System of truth:</strong><br />
+                    {{#with vertify_object}}
+                      {{name}} | {{_id}}<br/>
+                      {{#each external_objects}}
+                        {{external_object_id}} | SOT: {{#if is_truth}}True{{else}}False{{/if}}<br/>
+                      {{/each}}
+                    {{/with}}
+              </h2>
               {{/with}}
             {{/if}}
           </div>

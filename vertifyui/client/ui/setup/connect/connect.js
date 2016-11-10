@@ -6,6 +6,20 @@ import { Tasks } from '../../../../imports/collections/global/task.js';
 
 import './connect.html';
 
+Template.connect.onCreated(function(){
+    Meteor.subscribe('systems', function (){
+      console.log( "Connect - Systems now subscribed.");
+    });
+
+    Meteor.subscribe('connectors', function(){
+      console.log('Connect - Connectors now subscribed.');
+    });
+
+    Meteor.subscribe('tasks', function(){
+      console.log('Connect - Tasks now subscribed');
+    });
+});
+
 Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
@@ -120,12 +134,6 @@ Template.connect.events({
     FlowRouter.go('/admin/workspaces');
   },
 });
-
-/*************************************
-
-    Template:   connectSysZeroData
-
-*************************************/
 
 Template.connectSysZeroData.events({
   'click .sysinfoddl li a' : function(e, template){
@@ -305,20 +313,4 @@ Template.connectSys.helpers({
       return "DefaultSystem";
     }
   },
-});
-
-Meteor.subscribe('workspaces', function (){
-  console.log( "Connect - Workspaces now subscribed.");
-});
-
-Meteor.subscribe('systems', function (){
-  console.log( "Connect - Systems now subscribed.");
-});
-
-Meteor.subscribe('connectors', function(){
-  console.log('Connect - Connectors now subscribed.');
-});
-
-Meteor.subscribe('tasks', function(){
-  console.log('Connect - Tasks now subscribed');
 });

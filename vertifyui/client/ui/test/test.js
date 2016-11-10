@@ -5,6 +5,18 @@ import { MarketoLeadRecord } from '../../../imports/collections/workspace/market
 
 import './test.html';
 
+Template.test.onCreated(function(){
+  Meteor.subscribe('datas', function(){
+    console.log( "Test - Datas now subscribed.")
+  });
+  Meteor.subscribe('navitems', function (){
+    console.log( "Test - Navitems now subscribed");
+  });
+  Meteor.subscribe('marketo_lead_record', function(){
+    console.log( "Test - MarketoLeadRecord now subscribed");
+  })
+});
+
 Template.test.helpers({
   data(){
     return Datas;
@@ -34,18 +46,6 @@ Template.test.events({
       console.log('Test page click event');
     },
 });
-
-Meteor.subscribe('datas', function(){
-  console.log( "Test - Datas now subscribed.")
-});
-
-Meteor.subscribe('navitems', function (){
-  console.log( "Test - Navitems now subscribed");
-});
-
-Meteor.subscribe('marketo_lead_record', function(){
-  console.log( "Test - MarketoLeadRecord now subscribed");
-})
 
 function drawDoughnutChart(){
   var options = {

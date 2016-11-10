@@ -7,6 +7,23 @@ import { AlignResults } from '../../../../imports/collections/workspace/align_re
 import './process.html';
 
 Template.alignprocess.onCreated(function(){
+  Meteor.subscribe('external_objects', function (){
+    console.log( "Align/Process - VertifyObjects now subscribed." );
+  });
+
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Align/Process - VertifyObjects now subscribed." );
+  });
+
+  Meteor.subscribe('vertify_properties', function (){
+    console.log( "Align/Process - VertifyProperties now subscribed." );
+  });
+
+  Meteor.subscribe('align_results', function (){
+    console.log( "Align/Process - AlignResults now subscribed." );
+  });
+
+  //Alignment click through process for AlignTest/Align
   this.currentPage = new ReactiveVar("alignProcessZeroData"); //other Page is alignProcessComplete
 });
 
@@ -88,10 +105,13 @@ Template.alignprocess.events({
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Values ] Please click cancel and retry the alignment.</li>";
     }
   },
-  'click .toAlign': function(e){
+  'click .back': function(e){
     console.log('Cancel alignment clicked');
     FlowRouter.go('/setup/align');
   },
+  'click .toAlign': function(e, t){
+
+  }
 });
 
 Template.alignProcessComplete.helpers({
@@ -213,20 +233,4 @@ Template.alignProcessComplete.events({
       });
     }
   }
-});
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Align/Process - VertifyObjects now subscribed." );
-});
-
-Meteor.subscribe('vertify_objects', function (){
-  console.log( "Align/Process - VertifyObjects now subscribed." );
-});
-
-Meteor.subscribe('vertify_properties', function (){
-  console.log( "Align/Process - VertifyProperties now subscribed." );
-});
-
-Meteor.subscribe('align_results', function (){
-  console.log( "Align/Process - AlignResults now subscribed." );
 });

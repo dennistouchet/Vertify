@@ -8,6 +8,29 @@ import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_o
 
 import './collect.html';
 
+Template.collect.onCreated(function(){
+  Meteor.subscribe('workspaces', function (){
+    console.log( "Collect - Workspaces now subscribed.");
+  });
+
+  Meteor.subscribe('systems', function (){
+    console.log( "Collect - Systems now subscribed.");
+  });
+
+  Meteor.subscribe('connectors', function (){
+    console.log( "Collect - Connectors now subscribed.");
+  });
+
+  Meteor.subscribe('objects_list', function (){
+    console.log( "Collect - ObjectsList now subscribed.");
+  });
+
+  Meteor.subscribe('external_objects', function (){
+    console.log( "Collect - ExternalObjects now subscribed.");
+  });
+
+});
+
 Template.collect.helpers({
   systems() {
     var ws = Session.get("currentWs")
@@ -36,12 +59,11 @@ Template.collect.helpers({
     }
   },
   hasObject : function(){
-    //TODO: NEED TO VERIFY THESE ARE ALSO COLLECTED
     var ws = Session.get("currentWs");
     var has = false;
     if(ws){
-      var objectcount = ExternalObjects.find("workspace_id": ws._id).count;
-      if(objectcount > 0){
+      var object = ExternalObjects.find({"workspace_id": ws._id});
+      if(object.count() > 0){
         has = true;
       }
     }
@@ -52,8 +74,8 @@ Template.collect.helpers({
     var ws = Session.get("currentWs");
     var hasEnough = false;
     if(ws){
-      var objectcount = ExternalObjects.find("workspace_id": ws._id).count;
-      if(objectcount > 1){
+      var object = ExternalObjects.find({"workspace_id": ws._id});
+      if(object.count() > 1){
         hasEnough = true;
       }
     }
@@ -62,7 +84,6 @@ Template.collect.helpers({
 });
 
 Template.collect.events({
-
   'click .delete' : function(){
     var errDiv = document.getElementById("addErrCollect");
     errDiv.style.display = 'none';
@@ -370,25 +391,4 @@ Template.collectObj.helpers({
     var time = 100 - percentage;
     return time + " seconds";
   }
-});
-
-
-Meteor.subscribe('workspaces', function (){
-  console.log( "Collect - Workspaces now subscribed.");
-});
-
-Meteor.subscribe('systems', function (){
-  console.log( "Collect - Systems now subscribed.");
-});
-
-Meteor.subscribe('connectors', function (){
-  console.log( "Collect - Connectors now subscribed.");
-});
-
-Meteor.subscribe('objects_list', function (){
-  console.log( "Collect - ObjectsList now subscribed.");
-});
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Collect - ExternalObjects now subscribed.");
 });

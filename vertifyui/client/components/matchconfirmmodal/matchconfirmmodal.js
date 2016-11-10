@@ -4,7 +4,23 @@ import { VertifyObjects } from '../../../imports/collections/tenant/vertify_obje
 import { MatchResults } from '../../../imports/collections/workspace/match_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
+Template.matchconfirmmodal.onCreated(function(){
+  Meteor.subscribe("match_results", function (){
+    console.log( "Matchconfirmmodal - MatchResults now subscribed.");
+  });
+  Meteor.subscribe("vertify_objects", function (){
+    console.log( "Matchconfirmmodal - VertifyObjects now subscribed.");
+  });
+  Meteor.subscribe("tasks", function (){
+    console.log( "Matchconfirmmodal - Tasks now subscribed.");
+  });
+});
+
 Template.matchconfirmmodal.helpers({
+  vertify_object(){
+    var vo_id = Session.get("selectedVertifyObject");
+    return VertifyObjects.findOne(vo_id);
+  },
   match_results(){
     ws = Session.get("currentWs");
     if(ws){
@@ -56,6 +72,12 @@ Template.matchconfirmmodal.helpers({
       });
     }
     return sot;
+  },
+  getExternalObjectName: function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return ExternalObjects.findOne({"id": id, "workspace_id": ws._id}).name;
+    }
   }
 });
 
@@ -115,13 +137,4 @@ Template.matchconfirmmodal.events({
       });
     }
   },
-});
-
-Meteor.subscribe("match_results", function (){
-  console.log( "Matchconfirmmodal - MatchResults now subscribed.");
-});
-
-
-Meteor.subscribe("tasks", function (){
-  console.log( "Matchconfirmmodal - Tasks now subscribed.");
 });

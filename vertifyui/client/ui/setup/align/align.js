@@ -5,6 +5,20 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 
 import './align.html';
 
+Template.align.onCreated(function(){
+  Meteor.subscribe('external_objects', function (){
+    console.log( "Align - ExternalObjects now subscribed.");
+  });
+
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Align - VertifyObjects now subscribed.");
+  });
+
+  Meteor.subscribe('vertify_properties', function (){
+    console.log( "Align - VertifyProperties now subscribed.");
+  });  
+});
+
 Template.align.helpers({
   hasObjects: function(){
     var ws = Session.get("currentWs");
@@ -138,16 +152,4 @@ Template.alignCompleted.events({
     'click .toAlign': function(){
       FlowRouter.go('/data/analyze');
     }
-});
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Match - ExternalObjects now subscribed.");
-});
-
-Meteor.subscribe('vertify_objects', function (){
-  console.log( "Align - VertifyObjects now subscribed.");
-});
-
-Meteor.subscribe('vertify_properties', function (){
-  console.log( "Align - VertifyProperties now subscribed.");
 });

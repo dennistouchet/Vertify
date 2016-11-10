@@ -127,11 +127,11 @@ Meteor.methods({
     check(field, String);
     check(status, Boolean);
 
-    //console.log("id: " + id + " | ws: " + ws_id + " | " + field + " | " + status);
+    console.log("id: " + id + " | ws: " + ws_id + " | " + field + " | " + status);
     var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws_id});
 
     if(field == 'align'){
-      //console.log("update align: " + vo._id);
+      console.log("update align: " + vo._id);
       if(status){
         return VertifyObjects.update(vo._id,{$set: {align: status }});
       }

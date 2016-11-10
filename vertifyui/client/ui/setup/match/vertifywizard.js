@@ -6,6 +6,15 @@ import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_o
 import { MatchSetup } from '../../../../imports/collections/tenant/match_setup.js';
 
 Template.vertifywizard.onCreated( function() {
+  Meteor.subscribe('external_objects', function (){
+    console.log( "Match Wizard - ExternalObjects now subscribed.");
+  });
+
+  Meteor.subscribe('match_setup', function (){
+    console.log( "Match Wizard - MatchSetup now subscribed.");
+  });
+
+  //KEEP TRACK OF THE CURRENT VERTIFY OBJECT SETUP PROCESS -incomplete  
   delete Session.keys['setupId'];
   var ws = Session.get("currentWs");
   if(ws == null){
@@ -525,13 +534,4 @@ Template.vwFinish.helpers({
       return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
     }
   }
-});
-
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Match Wizard - ExternalObjects now subscribed.");
-});
-
-Meteor.subscribe('match_setup', function (){
-  console.log( "Match Wizard - MatchSetup now subscribed.");
 });
