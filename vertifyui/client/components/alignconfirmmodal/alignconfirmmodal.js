@@ -10,7 +10,7 @@ Template.alignconfirmmodal.helpers({
   align_results(){
     ws = Session.get("currentWs");
     if(ws){
-      return AlignResults.findOne({"workspace_id": ws.id});
+      return AlignResults.findOne({"workspace_id": ws._id});
     }
   },
 });
@@ -28,7 +28,7 @@ Template.alignconfirmmodal.events({
 
     ws = Session.get("currentWs");
     if(ws && vo){
-      Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
+      Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'analyze', false
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -38,7 +38,7 @@ Template.alignconfirmmodal.events({
           return;
         }else {
           //console.log("Align Update VO Status success");
-          Meteor.call('vertify_properties.removeMultiple', ws.id, vo.id
+          Meteor.call('vertify_properties.removeMultiple', ws._id, vo.id
           , (error, result)   => {
             if(err){
               //console.log(err);
@@ -48,8 +48,8 @@ Template.alignconfirmmodal.events({
               return;
             }else {
               //console.log("Align Remove Vertify Properties success");
-              //console.log("Calling Meteor.VP.insert multuple. WS: " + ws.id + " | vo: " + vo.id);
-              Meteor.call('vertify_properties.insertMultiple', ws.id, vo.id
+              //console.log("Calling Meteor.VP.insert multuple. WS: " + ws._id + " | vo: " + vo.id);
+              Meteor.call('vertify_properties.insertMultiple', ws._id, vo.id
               , (err, res) => {
                 if(err){
                   console.log(err);
@@ -59,7 +59,7 @@ Template.alignconfirmmodal.events({
                   return;
                 }else {
                   //console.log("Align Insert Multiple Vertify Properties success");
-                  Meteor.call('tasks.insert', "align", ws.id, vo.id
+                  Meteor.call('tasks.insert', "align", ws._id, vo.id
                   , (error, result) => {
                     if(error){
                       console.log(err);
@@ -71,7 +71,7 @@ Template.alignconfirmmodal.events({
                     else {
                      console.log("Align Task success");
                      //success
-                     Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', true);
+                     Meteor.tools.updateAlignStatus(ws._id, vo.id, 'align', true);
                     //TODO update vertify object align status
                      FlowRouter.go('/setup/align');
                      Modal.hide('alignconfirmmodal');

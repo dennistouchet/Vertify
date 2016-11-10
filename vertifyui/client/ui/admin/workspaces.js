@@ -85,7 +85,7 @@ Template.workspaces.events({
           // If the Workspace being deleted is the current Workspace
           // all of the session variables set by the workspace need to be deleted.
           var ws = Session.get("currentWs");
-          if(this.id == ws.id){
+          if(this._id == ws._id){
             delete Session.keys["currentWs", "systemCount", "objectCount"];
             // Clear all keys and remove
             //Object.keys(Session.keys).forEach(function(key){ Session.set(key, undefined); })
@@ -94,7 +94,7 @@ Template.workspaces.events({
         }
       });
   },
-  'click .clear' : function(){
+  'click .empty' : function(){
       var errDiv = document.getElementById("addErrWorkspace");
       errDiv.style.display = 'none';
       errDiv.innerHTML = ""; //reset errors
@@ -115,11 +115,11 @@ Template.workspaces.events({
     e.preventDefault();
 
     workspace = $(e.target).closest('.workspace');
-    wsId = workspace.attr('data-id');
+    ws_id = workspace.attr('data-id');
 
-    ModalHelper.openWsEditModalFor(wsId);
+    ModalHelper.openWsEditModalFor(ws_id);
 
-    console.log("workspaces edit clicked for id: " + wsId );
+    console.log("workspaces edit clicked for id: " + ws_id );
   },
   'click .addModal' : function(e){
     e.preventDefault();

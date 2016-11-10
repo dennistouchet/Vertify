@@ -22,7 +22,7 @@ Meteor.methods({
     //TODO: needed for match
     console.log("vertify_properties.insertSingle function stub called.");
   },
-  'vertify_properties.insertMultiple'(ws, vo){
+  'vertify_properties.insertMultiple'(ws_id, vo){
     /*
     var ruleobj = {
       rule: alignProperty.align_method,
@@ -37,8 +37,8 @@ Meteor.methods({
       is_truth: alignProperty.
     }*/
     console.log("Multiple Vertify property insert started.");
-    console.log("Workspaceid: " + ws + " | Vertify Object id: " + vo);
-    var alignResults = AlignResults.findOne({"workspace_id": ws,"vertify_object_id": vo});
+    console.log("Workspace _id: " + ws_id + " | Vertify Object id: " + vo);
+    var alignResults = AlignResults.findOne({"workspace_id": ws_id,"vertify_object_id": vo});
     console.log("AlignResults:");
     console.log(alignResults);
     var Properties = [];
@@ -71,7 +71,7 @@ Meteor.methods({
           modified: new Date(),
           created: new Date(),
           is_deleted: false,
-          workspace_id: ws,
+          workspace_id: ws_id,
           //TODO: change this once real Align results are created
           vertify_object_id: vo,//alignResults.vertify_object_id,
           parent_property_id: null,
@@ -104,10 +104,10 @@ Meteor.methods({
   'vertify_properties.updateMultiple'(){
     console.log("vertify_properties.updateMultiple function stub called.");
   },
-  'vertify_properties.removeMultiple'(wsid, vo){
-    var current = VertifyProperties.find({"vertify_object_id": vo, "workspace_id": wsid});
+  'vertify_properties.removeMultiple'(ws_id, vo){
+    var current = VertifyProperties.find({"vertify_object_id": vo, "workspace_id": ws_id});
 
-    console.log("Vertify Properties remove: " + wsid + " | void: " + vo);
+    console.log("Vertify Properties remove: " + ws_id + " | void: " + vo);
     var count = 0;
     if(current){
       current.forEach(function(prop){
@@ -124,7 +124,7 @@ Meteor.methods({
     if(current)
       return VertifyProperties.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Property found in Workspace: " + wsid + " with ID: " + vo);
+    throw new Meteor.Error("Missing Value", "No Vertify Property with _id: " + _id);
   },
 })
 
@@ -211,7 +211,7 @@ VertifyProperties.schema = new SimpleSchema({
   is_deleted:
     { type: Boolean },
   workspace_id:
-    { type: Number },
+    { type: String },
   vertify_object_id:
     { type: Number },
   parent_property_id:

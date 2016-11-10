@@ -8,7 +8,7 @@ Template.matchloading.helpers({
       var ws = Session.get("currentWs");
       if(ws){
         console.log(ws);
-        var tasks = Tasks.find({"workspace_id": ws.id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
+        var tasks = Tasks.find({"workspace_id": ws._id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
         console.log("Loading - inside task check");
         console.log(tasks);
         var task = tasks.fetch()[0];

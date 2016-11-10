@@ -9,7 +9,7 @@ Template.fix.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"});
+      var vo = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"});
       return vo;
     }
     return null;
@@ -18,7 +18,7 @@ Template.fix.helpers({
     var ws = Session.get("currentWs");
     var valid = false;
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"}).count();
+      var count = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"}).count();
       if(count > 0){
         valid = true;
       }
@@ -53,7 +53,7 @@ Template.fixVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      var vo = VertifyObjects.find({"workspace_id": ws.id, "analyze_status": "enabled"});
+      var vo = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"});
       return vo;
     }
     return null;
@@ -63,7 +63,7 @@ Template.fixVertifyObjects.helpers({
 Template.fixVertifyObjectli.helpers({
   getRecordCountVo : function(id){
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws.id});
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws._id});
     var eos = [];
     vo.external_objects.forEach(function(eo){
         eos.push(eo.external_object_id);
@@ -77,11 +77,11 @@ Template.fixVertifyObjectli.helpers({
   },
   getRecordCountEo : function(id){
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws.id});
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws._id});
     var count = 0;
     vo.external_objects.forEach(function(eo){
       if(eo.is_truth){
-        var extobj = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id": ws.id});
+        var extobj = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id": ws._id});
         count = extobj.record_count;
       }
     });

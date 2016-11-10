@@ -8,20 +8,20 @@ Template.matchconfirmmodal.helpers({
   match_results(){
     ws = Session.get("currentWs");
     if(ws){
-      return MatchResults.findOne({"workspace_id": ws.id});
+      return MatchResults.findOne({"workspace_id": ws._id});
     }
   },
   systemOfTruth: function(id){
     ws = Session.get("currentWs");
     var sot = "No SOT";
     if(ws ){
-      var MR = MatchResults.findOne({"workspace_id": ws.id});
+      var MR = MatchResults.findOne({"workspace_id": ws._id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
           console.log(eo);
           //TODO: adjust this to use workspace once real match results are being sent
-          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws.id}).name;
+          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws._id}).name;
         }
       });
     }
@@ -31,7 +31,7 @@ Template.matchconfirmmodal.helpers({
     ws = Session.get("currentWs");
     var sot = "No Records found";
     if(ws ){
-      var MR = MatchResults.findOne({"workspace_id": ws.id});
+      var MR = MatchResults.findOne({"workspace_id": ws._id});
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
@@ -45,12 +45,12 @@ Template.matchconfirmmodal.helpers({
     ws = Session.get("currentWs");
     var sot = "External object error";
     if(ws){
-      var MR = MatchResults.findOne({"workspace_id": ws.id});
+      var MR = MatchResults.findOne({"workspace_id": ws._id});
       MR.external_objects.forEach(function(eo){
         if(!eo.is_truth)
         {
           //TODO: adjust this to use workspace once real match results are being sent
-          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws.id}).name;
+          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws._id}).name;
           sot += ": " + eo.total + " records.";
         }
       });
@@ -72,7 +72,7 @@ Template.matchconfirmmodal.events({
     if(ws && vo){
       //TODO: reset vertify object ANALYZE AND ALIGNTEST/ALIGN status to disabled
       //TODO: refactor this into a different recursive Status reset section like Status search
-      Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'align',  false
+      Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'align',  false
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -81,7 +81,7 @@ Template.matchconfirmmodal.events({
           return;
         }
         else{
-          Meteor.call('tasks.insert', "match", ws.id, vo.id
+          Meteor.call('tasks.insert', "match", ws._id, vo.id
           , (error, result) => {
             if(error){
               //console.log(err);
@@ -93,7 +93,7 @@ Template.matchconfirmmodal.events({
              //success
              //TODO: this method needs to be removed and called by elixir
              var status = "approved";
-             Meteor.call('vertify_objects.updateApprovedStatus', id, ws.id, status
+             Meteor.call('vertify_objects.updateApprovedStatus', id, ws._id, status
                , (error, result) => {
                  if(error){
                    //console.log(err);
@@ -103,7 +103,7 @@ Template.matchconfirmmodal.events({
                  }
                  else {
                    //TODO: this should be moved to elixir eventually
-                   Meteor.tools.updateAlignStatus(ws.id, vo.id, 'align', false);
+                   Meteor.tools.updateAlignStatus(ws._id, vo.id, 'align', false);
 
                    FlowRouter.go('/setup/match/loading');
                    Modal.hide('matchconfirmmodal');

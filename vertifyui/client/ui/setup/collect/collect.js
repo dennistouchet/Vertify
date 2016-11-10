@@ -13,7 +13,7 @@ Template.collect.helpers({
     var ws = Session.get("currentWs")
     if(ws)
     {
-      var systems = Systems.find({"workspace_id": ws.id},{sort: {name:1}});
+      var systems = Systems.find({"workspace_id": ws._id},{sort: {name:1}});
       systems.forEach(function(sys){
         sys.external_objects.sort(Meteor.tools.compare);
       });
@@ -24,13 +24,13 @@ Template.collect.helpers({
     var ws = Session.get("currentWs")
     if(ws)
     {
-      return ExternalObjects.find({"workspace_id": ws.id});
+      return ExternalObjects.find({"workspace_id": ws._id});
     }
   },
   isValid: function(){
     var ws = Session.get("currentWs");
     if(ws){
-      return Meteor.tools.connectStatus(ws.id);
+      return Meteor.tools.connectStatus(ws._id);
     }else{
       return false;
     }
@@ -40,7 +40,7 @@ Template.collect.helpers({
     var ws = Session.get("currentWs");
     var has = false;
     if(ws){
-      var objectcount = ExternalObjects.find("workspace_id": ws.id).count;
+      var objectcount = ExternalObjects.find("workspace_id": ws._id).count;
       if(objectcount > 0){
         has = true;
       }
@@ -52,7 +52,7 @@ Template.collect.helpers({
     var ws = Session.get("currentWs");
     var hasEnough = false;
     if(ws){
-      var objectcount = ExternalObjects.find("workspace_id": ws.id).count;
+      var objectcount = ExternalObjects.find("workspace_id": ws._id).count;
       if(objectcount > 1){
         hasEnough = true;
       }
@@ -73,14 +73,14 @@ Template.collect.events({
 
     //TODO: move this later
     // TODO: ad validation to check by external object
-    var objectCount = VertifyObjects.find({"workspace_id": ws.id}).count();
+    var objectCount = VertifyObjects.find({"workspace_id": ws._id}).count();
     if(objectCount > 0){
       //TODO: improve with error Template
       errDiv.style.display = 'block';
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] You must delete any existing Vertify Objects before you can remove external objects.</li>";
     }
     else{
-      Meteor.call('tasks.insert', 'deleteexternalobject', ws.id, eo.id
+      Meteor.call('tasks.insert', 'deleteexternalobject', ws._id, eo.id
       , (error, result) => {
         if(error){
           //console.log(err);
@@ -92,7 +92,7 @@ Template.collect.events({
           console.log('Successfully created task: deleteexternalobject');
           //TODO: Change this so elixir deletes workspace data by oplog data
           /*
-          Meteor.call('external_objects.remove', this._id, ws.id
+          Meteor.call('external_objects.remove', this._id, ws._id
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -135,9 +135,9 @@ Template.collect.events({
     //verify that variable doesn't already exist for the system
     var obj = ExternalObjects.findOne({"name": name.trim(), "system_id": sysId });
     if(obj == null){
-      //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId + " | name: " + name );
+      //console.log("ws._id: " + ws._id + "sys.id: " + sysId + " obj.id: " + thisId + " | name: " + name );
       Meteor.call('external_objects.insert'
-        , ws.id, sysId, name
+        , ws._id, sysId, name
         , (err, res) => {
           if(err){
             //console.log(err);
@@ -149,7 +149,7 @@ Template.collect.events({
           else {
             // successful call
             // return true;
-            Meteor.call('tasks.insert', "collectschema", ws.id, res
+            Meteor.call('tasks.insert', "collectschema", ws._id, res
             , (error, result) => {
               if(error){
                 //console.log(err);
@@ -161,7 +161,7 @@ Template.collect.events({
               else {
                 // successful call
 
-                Meteor.call('tasks.insert', "collect", ws.id, res
+                Meteor.call('tasks.insert', "collect", ws._id, res
                 , (err, res) => {
                   if(err){
                     //console.log(err);
@@ -208,9 +208,9 @@ Template.collect.events({
     //verify that variable doesn't already exist for the system
     var obj = ExternalObjects.findOne({"name": name.trim(), "system_id": sysId });
     if(obj == null){
-      //console.log("ws.id: " + ws.id + "sys.id: " + sysId + " obj.id: " + thisId );
+      //console.log("ws._id: " + ws._id + "sys.id: " + sysId + " obj.id: " + thisId );
       Meteor.call('external_objects.insert'
-        , ws.id, sysId, name
+        , ws._id, sysId, name
         , (err, res) => {
           if(err){
             //console.log(err);
@@ -221,7 +221,7 @@ Template.collect.events({
           else {
             // successful call
             // return true;
-            Meteor.call('tasks.insert', "collectschema", ws.id, res
+            Meteor.call('tasks.insert', "collectschema", ws._id, res
             , (error, result) => {
               if(error){
                 //console.log(err);
@@ -232,7 +232,7 @@ Template.collect.events({
               }
               else {
                 // successful call
-                Meteor.call('tasks.insert', "collect", ws.id, res
+                Meteor.call('tasks.insert', "collect", ws._id, res
                 , (err, res) => {
                   if(err){
                     //console.log(err);
@@ -274,7 +274,7 @@ Template.collectZeroObjHeader.helpers({
     var ws = Session.get("currentWs");
     var has = false;
     if(ws) {
-      var sys = Systems.find({"workspace_id": ws.id});
+      var sys = Systems.find({"workspace_id": ws._id});
       if(sys.count > 0)
         has = true;
     }

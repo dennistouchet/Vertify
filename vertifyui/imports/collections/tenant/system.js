@@ -6,8 +6,8 @@ import { ExternalObjects } from './external_object.js';
 export const Systems = new Mongo.Collection('systems');
 
 Meteor.methods({
-  'systems.insert'(wsid, connid, nm, pf, maxtasks, cred) {
-    check(wsid, Number);
+  'systems.insert'(ws_id, connid, nm, pf, maxtasks, cred) {
+    check(ws_id, String);
     check(connid, Number);
     check(nm, String);
     check(pf, String);
@@ -47,7 +47,7 @@ Meteor.methods({
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for collect for simulation
     //DEVENV: This fills in system external objects when no Elixir engine is available
 
-    var eolist = Meteor.tools.getExternalObjects(wsid, connid);
+    var eolist = Meteor.tools.getExternalObjects(ws_id, connid);
     for(i=0;i< eolist.length;i++)
     {
      SystemExternalObjectsSchema.validate(eolist[i]);
@@ -55,17 +55,16 @@ Meteor.methods({
 
     var newSystem = {
       name: nm,
-      tenant_id: wsid,
+      tenant_id: 100000,
       id: intid,
       created: new Date(),
       modified: new Date(),
       is_deleted: false,
-      workspace_id: wsid,
+      workspace_id: ws_id,
       connector_id: connid,
       last_scanned: new Date(),
       max_concurrent_tasks: maxtask,
       prefix: pf,
-      agent_id: wsid.toString(),
       credentials: cred,
       external_objects: eolist
     };
@@ -74,8 +73,9 @@ Meteor.methods({
     var systemval = Systems.insert(newSystem);
     return intid;
   },
-  'systems.remove'(currentid, wsid){
-    check(currentid, String)
+  'systems.remove'(currentid, ws_id){
+    check(currentid, String);
+    check(ws_id, String);
 
     var current = Systems.findOne(currentid);
     // Check if System has objects, cancel delete if true
@@ -87,11 +87,13 @@ Meteor.methods({
     //TODO: Add userid security
     Systems.remove(current._id);
   },
-  'systems.edit'(id, system, pf, maxtasks, cred, wsid){
+  'systems.edit'(id, system, pf, maxtasks, cred, ws_id){
     check(id, String);
     check(system, String);
     check(pf, String);
     check(maxtasks, Number);
+    check(ws_id, String);
+
     for(i = 0; i < cred.length; i++){
       SystemSettingsSchema.validate(cred[i]);
     }
@@ -102,13 +104,13 @@ Meteor.methods({
     var sys = Systems.findOne(id);
     return sys.id;
   },
-  'systems.updateStatus'(wsid, sysid, field, status){
-    check(wsid, Number);
+  'systems.updateStatus'(ws_id, sysid, field, status){
+    check(ws_id, String);
     check(sysid, Number);
     check(field, String);
     check(status, Boolean);
 
-    var sys = Systems.findOne({workspace_id: wsid, id:sysid});
+    var sys = Systems.findOne({workspace_id: ws_id, id:sysid});
     if(field == "authentication"){
       return Systems.update(sys._id, {$set: { authentication: true, modified: new Date()}});
     }else if(field == "discover"){
@@ -227,7 +229,7 @@ Systems.schema = new SimpleSchema({
   name:
     { type: String },
   workspace_id:
-    { type:  Number },
+    { type:  String },
   connector_id:
     { type: Number },
   authentication:
@@ -249,10 +251,10 @@ Systems.schema = new SimpleSchema({
       , min: 0 },
   prefix:
     { type: String
-      , max: 3 },
+      , max: 4 },
   agent_id:
     { type: String
-      , optional:true} ,
+      , optional:true } ,
   credentials:
     { type: [SystemSettingsSchema]
     , optional:true },

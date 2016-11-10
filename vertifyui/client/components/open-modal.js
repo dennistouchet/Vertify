@@ -15,8 +15,8 @@ ModalHelper.openWsAddModalFor = function(){
   Modal.show('wsaddmodal');
 }
 
-ModalHelper.openWsEditModalFor = function(wsId){
-  Session.set('selectedWorkspace', wsId);
+ModalHelper.openWsEditModalFor = function(ws_id){
+  Session.set('selectedWorkspace', ws_id);
   Modal.show('wseditmodal');
 }
 

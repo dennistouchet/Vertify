@@ -10,7 +10,7 @@ Template.fieldeditor.helpers({
     var id = Meteor.tools.getQueryParamByName("id");
     console.log("Param Id: "+ id);
     if(ws){
-        return VertifyProperties.find({"workspace_id":ws.id});
+        return VertifyProperties.find({"workspace_id":ws._id});
     }
   }
 });

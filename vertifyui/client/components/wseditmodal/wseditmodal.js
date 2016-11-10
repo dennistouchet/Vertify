@@ -4,10 +4,10 @@ import { Workspaces } from '../../../imports/collections/tenant/workspace.js';
 
 Template.wseditmodal.helpers({
   workspace: function(){
-    var wsId = Session.get('selectedWorkspace');
+    var ws_id = Session.get('selectedWorkspace');
 
-    if(typeof wsId !== "undefined") {
-      var workspace = Workspaces.findOne(wsId);
+    if(typeof ws_id !== "undefined") {
+      var workspace = Workspaces.findOne(ws_id);
       return workspace;
     } else {
       return {name: ''}
@@ -23,14 +23,14 @@ Template.wseditmodal.events({
     errDiv.innerHTML = ""; //reset errors
 
     //TODO: VERIFY WORKSPACE ID
-    var wsId = Session.get('selectedWorkspace');
+    var ws_id = Session.get('selectedWorkspace');
     var name = document.getElementById("name");
 
     //TODO: check if values are the same as initial values
-    if(wsId) {
+    if(ws_id) {
       console.log("workspace edit called");
       Meteor.call('workspaces.edit'
-        , wsId, name.value.trim()
+        , ws_id, name.value.trim()
         , (err, res) => {
           if(err){
             //console.log(err);

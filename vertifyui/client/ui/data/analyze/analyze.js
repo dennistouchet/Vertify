@@ -9,7 +9,7 @@ Template.analyze.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return VertifyObjects.find({"workspace_id": ws.id, "align": true});
+      return VertifyObjects.find({"workspace_id": ws._id, "align": true});
     }
     return null;
   },
@@ -17,7 +17,7 @@ Template.analyze.helpers({
     var ws = Session.get("currentWs");
     var valid = false;
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id, "align": true}).count();
+      var count = VertifyObjects.find({"workspace_id": ws._id, "align": true}).count();
       if(count > 0){
         valid = true;
       }
@@ -29,7 +29,7 @@ Template.analyze.helpers({
     var enabled = false;
     if(ws){
       var vos = null;
-      vos = VertifyObjects.find({"workspace_id": ws.id, "align": true});
+      vos = VertifyObjects.find({"workspace_id": ws._id, "align": true});
       vos.forEach(function(vo){
         if(vo.analyze_status == "enabled"){
           enabled = true;
@@ -61,7 +61,7 @@ Template.analyze.events({
     var ws = Session.get("currentWs");
     var vo = VertifyObjects.findOne(this._id);
     if(ws && vo){
-      Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
+      Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'analyze', false
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -87,7 +87,7 @@ Template.analyzeVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return VertifyObjects.find({"workspace_id": ws.id, "align": true});
+      return VertifyObjects.find({"workspace_id": ws._id, "align": true});
     }
     return null;
   },
@@ -96,7 +96,7 @@ Template.analyzeVertifyObjects.helpers({
 Template.analyzeVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     if(eo.is_truth){
       return eo.name + "*";
     }
@@ -104,7 +104,7 @@ Template.analyzeVertifyObjectli.helpers({
   },
   getRecordCount : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     return eo.record_count;
   },
   isAnalyzing(status){

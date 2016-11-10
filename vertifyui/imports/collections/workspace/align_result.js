@@ -5,9 +5,11 @@ import { check } from 'meteor/check';
 export const AlignResults = new Mongo.Collection('align_results');
 
 Meteor.methods({
-  'align_results.editApproval'(wsid, arid, name, approved){
-    var thisAr = AlignResults.findOne(arid,{"workspace_id": wsid});
-    //console.log("Workspace: " + wsid + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
+  'align_results.editApproval'(ws_id, arid, name, approved){
+    check(ws_id, String);
+
+    var thisAr = AlignResults.findOne(arid,{"workspace_id": ws_id});
+    //console.log("Workspace: " + ws_id + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
     //console.log(thisAr);
 
     if(thisAr){
@@ -26,9 +28,10 @@ Meteor.methods({
     AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
 
   },
-  'align_results.updateName'(wsid, arid, name, friendlyname){
+  'align_results.updateName'(ws_id, arid, name, friendlyname){
+    check(ws_id, String);
 
-    var thisAr = AlignResults.findOne(arid,{"workspace_id": wsid});
+    var thisAr = AlignResults.findOne(arid,{"workspace_id": ws_id});
 
     if(thisAr){
       thisAr.alignment_properties.forEach(function(property){
@@ -46,16 +49,17 @@ Meteor.methods({
     var id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
     console.log("AlignResults update called | id: " + id);
   },
-  'align_results.remove'(wsid){
+  'align_results.remove'(ws_id){
+    check(ws_id, String);
     //TODO: import this remove with vertify object id
     console.log("align results remove running");
-    var current = AlignResults.findOne({"workspace_id": wsid});
+    var current = AlignResults.findOne({"workspace_id": ws_id});
     if(current)
-      return AlignResults.remove({"workspace_id": wsid});
+      return AlignResults.remove({"workspace_id": ws_id});
 
     console.log(current);
     console.log("align results remove finished");
-    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + wsid + " with ID: " + vo);
+    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
   },
 })
 
@@ -98,7 +102,7 @@ AlignResults.schema = new SimpleSchema({
     { type: Boolean
     , defaultValue: false },
   workspace_id:
-    { type: Number },
+    { type: String },
   vertify_object_id:
     { type: Number },
   total:

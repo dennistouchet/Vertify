@@ -74,7 +74,7 @@ Template.systemeditmodal.events({
             errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
           }
           else {
-            Meteor.call('tasks.insert', "authentication", ws.id, res
+            Meteor.call('tasks.insert', "authentication", ws._id, res
             , (error, result) => {
               if(error){
                 //console.log(err);
@@ -85,7 +85,7 @@ Template.systemeditmodal.events({
               }
               else {
                 // successful call
-                Meteor.call('tasks.insert', "discover", ws.id, res
+                Meteor.call('tasks.insert', "discover", ws._id, res
                 , (err, result) => {
                   if(err){
                     //console.log(err);
@@ -96,7 +96,7 @@ Template.systemeditmodal.events({
                   }
                   else {
                     // successful call
-                    Meteor.call('tasks.insert', "scan", ws.id, res
+                    Meteor.call('tasks.insert', "scan", ws._id, res
                     , (err, result) => {
                       if(err){
                         //console.log(err);

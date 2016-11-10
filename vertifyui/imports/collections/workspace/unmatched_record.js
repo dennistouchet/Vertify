@@ -17,7 +17,7 @@ FixUnmatchedRecords.schema = new SimpleSchema({
     { type: Boolean
     , defaultValue: false },
   workspace_id:
-    { type: Number },
+    { type: String },
   vertify_object_id:
     { type: Number },
   name:

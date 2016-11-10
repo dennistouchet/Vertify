@@ -9,7 +9,7 @@ Template.sync.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return VertifyObjects.find({"workspace_id": ws.id});
+      return VertifyObjects.find({"workspace_id": ws._id});
     }
     return VertifyObjects.find();
   },

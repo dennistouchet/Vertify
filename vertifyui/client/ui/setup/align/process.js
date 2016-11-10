@@ -57,7 +57,7 @@ Template.alignprocess.events({
 
     //console.log("calling align task with void: " + vo.id);
     if(ws && vo){
-      Meteor.call('align_results.remove', ws.id
+      Meteor.call('align_results.remove', ws._id
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -68,7 +68,7 @@ Template.alignprocess.events({
         }
         else {
           //console.log("align_results remove returned success");
-          Meteor.call('tasks.insert', "aligntest", ws.id, vo.id
+          Meteor.call('tasks.insert', "aligntest", ws._id, vo.id
           , (error, result) => {
             if(error){
               //console.log(err);
@@ -101,7 +101,7 @@ Template.alignProcessComplete.helpers({
     var vo = VertifyObjects.findOne(id);
     complete = false;
     if(ws && vo){
-      var ar = AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
+      var ar = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id});
       if(ar){
         complete = true;
       }
@@ -113,7 +113,7 @@ Template.alignProcessComplete.helpers({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
-        return AlignResults.findOne({"workspace_id": ws.id, "vertify_object_id": vo.id});
+        return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id});
     }
     return null;
   },
@@ -121,7 +121,7 @@ Template.alignProcessComplete.helpers({
     console.log("getTotal called with: " + id);
     var ws = Session.get("currentWs");
     if(ws && id){
-      var VP = VertifyProperties.findOne({"id": id, "workspace_id": ws.id});
+      var VP = VertifyProperties.findOne({"id": id, "workspace_id": ws._id});
       return VP.name;
     }
     //throw error
@@ -130,7 +130,7 @@ Template.alignProcessComplete.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      var EO = ExternalObjects.findOne({"id": id, "workspace_id": ws.id});
+      var EO = ExternalObjects.findOne({"id": id, "workspace_id": ws._id});
       return EO.name;
     }
     return null;
@@ -141,7 +141,7 @@ Template.alignProcessComplete.events({
   'change input' : function(e, t){
     if(e.target.type.toLowerCase() == 'radio'){
       var radio = e.target;
-      var alignresults = AlignResults.findOne({"workspace_id": ws.id});
+      var alignresults = AlignResults.findOne({"workspace_id": ws._id});
       var approved: false;
       if(radio.value == "accept" || radio.value == "reject"){
           if(radio.value == "accept"){
@@ -150,7 +150,7 @@ Template.alignProcessComplete.events({
           approved: false;
         }
         var n = radio.name;
-        Meteor.call('align_results.editApproval', ws.id, alignresults._id, n.substr(11), approved
+        Meteor.call('align_results.editApproval', ws._id, alignresults._id, n.substr(11), approved
         , (err, res) => {
             if(err){
               //console.log(err);
@@ -178,10 +178,10 @@ Template.alignProcessComplete.events({
 
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws.id});
+    var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws._id});
     if(ws && vo)
     {
-      var alignresults = AlignResults.findOne({"workspace_id": ws.id,"vertify_object_id": vo.id});
+      var alignresults = AlignResults.findOne({"workspace_id": ws._id,"vertify_object_id": vo.id});
 
       //Get all inputs with type text to set friendly_name
       var inputs = document.getElementsByTagName('input');
@@ -197,7 +197,7 @@ Template.alignProcessComplete.events({
         var n = input.name;
         var fn = input.value;
         //TODO: align ids being used
-        Meteor.call('align_results.updateName', ws.id, alignresults._id, n, fn
+        Meteor.call('align_results.updateName', ws._id, alignresults._id, n, fn
         , (err, res) => {
             if(err){
               //console.log(err);

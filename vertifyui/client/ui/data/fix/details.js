@@ -13,7 +13,7 @@ Template.details.helpers({
     //TODO: fix this to use querey param
     console.log(_id);
     if(ws){
-      return VertifyObjects.findOne(_id,{"workspace_id": ws.id});
+      return VertifyObjects.findOne(_id,{"workspace_id": ws._id});
     }
   },
 });
@@ -34,7 +34,7 @@ Template.detailsResults.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      var ext_obj = ExternalObjects.findOne({"workspace_id":ws.id, "id": id});
+      var ext_obj = ExternalObjects.findOne({"workspace_id":ws._id, "id": id});
       return ext_obj.name;
     }
   },

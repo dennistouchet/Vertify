@@ -10,7 +10,7 @@ Template.align.helpers({
     var ws = Session.get("currentWs");
     var valid = false;
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id, "match": true}).count();
+      var count = VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
       if(count > 0){
         valid = true;
       }
@@ -19,7 +19,7 @@ Template.align.helpers({
   },
   isAligned: function(){
     var ws = Session.get("currentWs");
-    return Meteor.tools.alignStatus(ws.id);
+    return Meteor.tools.alignStatus(ws._id);
   },
 });
 
@@ -34,7 +34,7 @@ Template.alignVertifyObjects.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: figure out how to check if approved
-      return VertifyObjects.find({"workspace_id": ws.id, "match": true});
+      return VertifyObjects.find({"workspace_id": ws._id, "match": true});
     }
     return VertifyObjects.find();
   },
@@ -42,7 +42,7 @@ Template.alignVertifyObjects.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       //TODO: figure out how to check if approved
-      return VertifyProperties.find({"workspace_id": ws.id});
+      return VertifyProperties.find({"workspace_id": ws._id});
     }
     //TODO: remove this once align is complete
     return VertifyProperties.find();;
@@ -50,7 +50,7 @@ Template.alignVertifyObjects.helpers({
   external_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return ExternalObjects.find({"workspace_id": ws.id});
+      return ExternalObjects.find({"workspace_id": ws._id});
     }
     return null;
   },
@@ -59,7 +59,7 @@ Template.alignVertifyObjects.helpers({
 Template.alignVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     return eo.name;
   },
 });
@@ -88,7 +88,7 @@ Template.alignVertifyObjectli.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
       }
       else{
-      Meteor.call('tasks.insert', 'deletevertifyobject', ws.id, vo.id
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo.id
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -100,7 +100,7 @@ Template.alignVertifyObjectli.events({
           //success
           //TODO This should be done and elixir monitors and dleetes data
           /*
-          Meteor.call('vertify_objects.remove', ws.id, this._id
+          Meteor.call('vertify_objects.remove', ws._id, this._id
           , (error, result) => {
             if(error){
               //console.log(err);
@@ -129,7 +129,7 @@ Template.alignCompleted.helpers({
  vertifyObjectCount: function(){
    var ws = Session.get("currentWs");
    if(ws){
-     return VertifyObjects.find({"workspace_id": ws.id}).count();
+     return VertifyObjects.find({"workspace_id": ws._id}).count();
    }
  }
 });

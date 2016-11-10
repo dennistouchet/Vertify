@@ -24,7 +24,7 @@ Template.topnav.helpers({
       //TODO replace session with ReactiveVar
       //This makes sure the text is update if the Workspace is edited
       var ws = Session.get("currentWs");
-      var newws = Workspaces.findOne({"id": ws.id});
+      var newws = Workspaces.findOne(ws._id);
       if(newws){
         Session.set("currentWs", newws);
         return newws.name;
@@ -38,10 +38,6 @@ Template.topnav.helpers({
     }
   },
 });
-
-Template.topnav.rendered = function () {
-
-}
 
 Template.topnav.events({
   'click': function(e) {

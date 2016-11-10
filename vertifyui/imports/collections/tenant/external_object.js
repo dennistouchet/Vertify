@@ -8,8 +8,8 @@ export const ExternalObjects = new Mongo.Collection('external_objects');
 export const ExternalObjectProperties = new Mongo.Collection('external_object_properties');
 
 Meteor.methods({
-  'external_objects.insert'(wsid, sysid, n) {
-    check(wsid, Number);
+  'external_objects.insert'(ws_id, sysid, n) {
+    check(ws_id, String);
     check(sysid, Number);
     check(n, String);
     //check user is logged
@@ -38,13 +38,13 @@ Meteor.methods({
     // Call Task to get external objects properties
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
-    var proplist = Meteor.tools.getExternalObjectProperties(wsid, sysid);
+    var proplist = Meteor.tools.getExternalObjectProperties(ws_id, sysid);
     console.log(proplist);
     proplist.forEach(function(prop){
       ExternalObjectProperties.schema.validate(prop);
     });
 
-    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
+    var system = Systems.findOne({"workspace_id": ws_id, "id": sysid});
 
     var sysExtObj = null;
     system.external_objects.forEach(function(eo){
@@ -59,13 +59,13 @@ Meteor.methods({
     }
 
     var newExternalObject = {
-      tenant_id: wsid,
+      tenant_id: newid,
       id: newid,
       modified: new Date(),
       created: new Date(),
       name: n,
       system_id: sysid,
-      workspace_id: wsid,
+      workspace_id: ws_id,
       collectschema: false,
       collect: false,
       record_count: rcdcnt,
@@ -95,12 +95,12 @@ Meteor.methods({
 
     return newid
   },
-  'external_objects.remove'(currentid, wsid){
+  'external_objects.remove'(currentid, ws_id){
     check(currentid, String)
-
+    check(ws_id, String);
     //TODO: Add userid security
     //TODO: verify object doesn't exist in map/align
-    var objectCount = VertifyObjects.find({"workspace_id": wsid}).count();
+    var objectCount = VertifyObjects.find({"workspace_id": ws_id}).count();
     if(objectCount > 0){
       throw new Meteor.Error("Existing Dependencies", "There was an error deleting the External Object. All Vertify Objects must be deleted from a system before it can be removed.");
     }
@@ -110,6 +110,7 @@ Meteor.methods({
     ExternalObjects.remove(current._id);
   },
   'external_objects.updateLoading'(id, percent){
+    check(id, Number);
     check(percent, Number);
     var current = ExternalObjects.findOne({"id": id});
 
@@ -162,7 +163,7 @@ ExternalObjects.schema = new SimpleSchema({
   system_id:
     { type: Number },
   workspace_id:
-    { type: Number },
+    { type: String },
   collectschema:
     { type: Boolean },
   collect:

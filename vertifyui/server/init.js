@@ -26,25 +26,33 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 
 Meteor.startup(function(){
 
-// Remove all collections in development environment when set to true
-var clearCollections = false;
-if( Meteor.isDevelopment && clearCollections) {
-  deleteAllCollections();
-}
+//GLOBAL MOCK WORKSPACES
 
-initVersioning();
-//initTasks();
-initWorkspaces();
-initConnectors();
-initSystems();
-initExternalObjects();
-initVertifyObjects();
-initVertifyProperties();
-initMatchResults();
-initAlignResults();
-initDatas();
-initNavitems();
+  var ArtsWs = "";
+  var JimsWs = "";
+  var ShaunsWs = "";
 
+  // Remove all collections in development environment when set to true
+  var clearCollections = false;
+  if( Meteor.isDevelopment && clearCollections) {
+    deleteAllCollections();
+  }
+
+  initDatas();
+  initNavitems();
+  initVersioning();
+  initWorkspaces();
+  initConnectors();
+  //TODO:: FIX MOCK DATA FOR DEMO PURPOSES
+  /*
+  initTasks();
+  initSystems();
+  initExternalObjects();
+  initVertifyObjects();
+  initVertifyProperties();
+  initMatchResults();
+  initAlignResults();
+  */
 });
 
 function deleteAllCollections(){
@@ -357,105 +365,9 @@ function initVersioning(){
     }));
 }
 
-function initTasks(){
-
-  var authentication = {
-    tenant_id: 100000,
-    id: 111111,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "authentication",
-    status: "success",
-    workspace_id: 100000,
-    system_id: 100000
-  }, discover = {
-    tenant_id: 100000,
-    id: 222222,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "discover",
-    status: "success",
-    workspace_id: 100000,
-    system_id: 100000
-  }, collectschema = {
-    tenant_id: 100000,
-    id: 333333,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "collectschema",
-    status: "success",
-    workspace_id: 100000,
-    external_object_id: 1
-  }, collect = {
-    tenant_id: 100000,
-    id: 444444,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "collect",
-    status: "success",
-    workspace_id: 100000,
-    external_object_id: 1
-  }, matchtest = {
-    tenant_id: 100000,
-    id: 555555,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "matchtest",
-    status: "success",
-    workspace_id: 100000,
-    vertify_object_id: 100000
-  }, match = {
-    tenant_id: 100000,
-    id: 777777,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "match",
-    status: "success",
-    workspace_id: 100000,
-    vertify_object_id: 100000
-  }, aligntest = {
-    tenant_id: 100000,
-    id: 888888,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "aligntest",
-    status: "queued",
-    workspace_id: 100000,
-    vertify_object_id: 100000
-  }, align = {
-    tenant_id: 100000,
-    id: 999999,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    task: "align",
-    status: "queued",
-    workspace_id: 100000,
-    vertify_object_id: 100000
-  }, tasks = [ authentication, discover, collectschema, collect, matchtest, match, aligntest, align];
-
-  tasks.forEach(function (t){
-    Tasks.schema.validate(t);
-  });
-
-  if(! Tasks.findOne()){
-    tasks.forEach(function (t) {
-      Tasks.insert(t);
-    });
-  }
-}
-
 function initWorkspaces(){
   var ArtsWorkspace = {
     tenant_id: 100000,
-    id: 100000,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
@@ -466,208 +378,35 @@ function initWorkspaces(){
 
   var JimsWorkspace = {
     tenant_id: 100000,
-    id: 111111,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     is_archived: false,
     name: "Jim's Workspace",
-    group_id: 111111
+    group_id: 100000
   };
 
   var ShaunsWorkspace = {
     tenant_id: 100000,
-    id: 222222,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: true,
     is_archived: true,
     name: "Shaun's Workspace",
-    group_id: 222222
+    group_id: 100000
   };
 
   Workspaces.schema.validate(ArtsWorkspace);
   Workspaces.schema.validate(JimsWorkspace);
   Workspaces.schema.validate(ShaunsWorkspace);
   if(! Workspaces.findOne()){
-    var workspaces = [ ArtsWorkspace, JimsWorkspace, ShaunsWorkspace ];
+    /*var workspaces = [ ArtsWorkspace, JimsWorkspace, ShaunsWorkspace ];
     workspaces.forEach(function (workspace) {
       Workspaces.insert(workspace);
-    })
-  }
-};
-
-function initSystems(){
-
-  var SystemCredentials = [{
-        setting: 'username',
-        value: 'username'
-      },{
-        setting: 'password',
-        value: 'password'
-      },{
-        setting: 'api key',
-        value: 'api_key'
-      },{
-        setting: 'token',
-        value: 'token'
-      }];
-  SystemSettingsSchema.validate(SystemCredentials[0]);
-  SystemSettingsSchema.validate(SystemCredentials[1]);
-  SystemSettingsSchema.validate(SystemCredentials[2]);
-  SystemSettingsSchema.validate(SystemCredentials[3]);
-
-  var SystemSettings = [{
-        setting: 'setting1',
-        value: 'value1'
-      },{
-        setting: 'setting2',
-        value: 'value2',
-      }];
-  SystemSettingsSchema.validate(SystemSettings[0]);
-  SystemSettingsSchema.validate(SystemSettings[1]);
-
-  var SystemExternalObjects = [{
-        name: "Netsuite Customer",
-        is_dynamic: false
-      },{
-        name: "Netsuite Object",
-        is_dynamic: false
-      },{
-        name: "Marketo LeadRecord",
-        is_dynamic: true
-      },{
-        name: "Marketo Agent",
-        is_dynamic: true
-      },{
-        name: "Market Object",
-        is_dynamic: true
-      },{
-        name: "Salesforce User",
-        is_dynamic: true
-      },{
-        name: "Salesforce Customer",
-        is_dynamic: true
-      },{
-        name: "Jira Issue",
-        is_dynamic: true
-      }];
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[0]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[1]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[2]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[3]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[4]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
-  SystemExternalObjectsSchema.validate(SystemExternalObjects[7]);
-
-  // create system objects
-  var Netsuite = {
-    tenant_id: 100000,
-    id: 100000,
-    modified: new Date("2015-07-04T20:06:08.310Z"),
-    created: new Date("2015-07-04T20:06:08.310Z"),
-    is_deleted: false,
-    name: 'Netsuite',
-    workspace_id: 100000,
-    connector_id: 100000,
-    max_concurrent_tasks: 9,
-    prefix: 'NS',
-    agent_id: '',
-    authentication: true,
-    discover: true,
-    credentials: SystemCredentials,
-    settings: SystemSettings,
-    external_objects: [SystemExternalObjects[0], SystemExternalObjects[1]]
-  };
-
-  var Marketo = {
-    tenant_id: 100000,
-    id: 111111,
-    modified: new Date("2015-07-04T20:06:08.310Z"),
-    created: new Date("2015-07-04T20:06:08.310Z"),
-    is_deleted: false,
-    workspace_id: 100000,
-    name: 'Marketo',
-    connector_id: 111111,
-    max_concurrent_tasks: 8,
-    prefix: 'MK',
-    agent_id: '',
-    authentication: true,
-    discover: true,
-    credentials: SystemCredentials,
-    settings: SystemSettings,
-    external_objects: [SystemExternalObjects[2],SystemExternalObjects[3],SystemExternalObjects[4]]
-  };
-
-  var Jira = {
-    tenant_id: 100000,
-    id: 444444,
-    modified: new Date(),
-    created: new Date(),
-    is_deleted: false,
-    workspace_id: 100000,
-    name: 'Jira',
-    connector_id: 444444,
-    max_concurrent_tasks: 2,
-    prefix: 'JI',
-    agent_id: '',
-    authentication: true,
-    discover: true,
-    credentials: SystemCredentials,
-    settings: SystemSettings,
-    external_objects: [SystemExternalObjects[7]]
-  };
-/*
-  var Salesforce = {
-    tenant_id: 100000,
-    id: 222222,
-    modified: new Date("2015-07-04T20:06:08.310Z"),
-    created: new Date("2015-07-04T20:06:08.310Z"),
-    is_deleted: false,
-    workspace_id: 222222,
-    name: 'Salesforce',
-    connector_id: 222222,
-    max_concurrent_tasks: 7,
-    prefix: 'SF',
-    agent_id: '',
-    authentication: true,
-    discover: false,
-    credentials: SystemCredentials,
-    settings: SystemSettings,
-    external_objects: [SystemExternalObjects[5],SystemExternalObjects[6]]
-  };
-
-  var Vertify = {
-    tenant_id: 100000,
-    id: 333333,
-    modified: new Date("2015-07-04T20:06:08.310Z"),
-    created: new Date("2015-07-04T20:06:08.310Z"),
-    is_deleted: false,
-    workspace_id: 111111,
-    name: 'Vertify',
-    connector_id: 333333,
-    max_concurrent_tasks: 7,
-    prefix: 'VF',
-    agent_id: '',
-    authentication: false,
-    discover: false,
-    credentials: SystemCredentials,
-    settings: SystemSettings,
-    external_objects: []
-  };
-*/
-  Systems.schema.validate(Netsuite);
-  Systems.schema.validate(Marketo);
-  Systems.schema.validate(Jira);
-//  Systems.schema.validate(Salesforce);
-//  Systems.schema.validate(Vertify);
-
-  if (! Systems.findOne()){
-    var systems = [ Netsuite, Marketo, Jira];//, Salesforce, Vertify ];
-    systems.forEach(function (system) {
-      Systems.insert(system);
-    })
+    })*/
+    ArtsWs = Workspaces.insert(ArtsWorkspace);
+    JimsWs = Workspaces.insert(JimsWorkspace);
+    ShaunsWs = Workspaces.insert(ShaunsWorkspace);
   }
 };
 
@@ -776,6 +515,7 @@ function initConnectors() {
       is_encrypted: true
     },
   ]
+
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[1]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[2]);
@@ -828,7 +568,7 @@ function initConnectors() {
     connector_runner_path: "C:\\Projects\\vertifyconnectorrunner\\ConnectorRunner\\bin\\Release\\ConnectorRunner.exe",
     settings: ConnectorsSettings3
   };
-/*
+  /*
   var Salesforce = {
     id: 222222,
     modified: new Date(),
@@ -853,12 +593,12 @@ function initConnectors() {
     settings: ConnectorsSettings1
   };
 
-*/
+  */
   Connectors.schema.validate(Netsuite);
   Connectors.schema.validate(Marketo);
   Connectors.schema.validate(Jira);
-//  Connectors.schema.validate(Salesforce);
-//  Connectors.schema.validate(Vertify);
+  //  Connectors.schema.validate(Salesforce);
+  //  Connectors.schema.validate(Vertify);
 
   if(! Connectors.findOne()){
     var connectors = [ Netsuite, Marketo, Jira ];//, Salesforce, Vertify ];
@@ -869,91 +609,364 @@ function initConnectors() {
 
 };
 
+/* TODO: FIX MOCK DATA FOR DEMO PURPOSES */
+
+function initTasks(){
+
+  var authentication = {
+    tenant_id: 100000,
+    id: 111111,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "authentication",
+    status: "success",
+    workspace_id: 100000,
+    system_id: 100000
+  }, discover = {
+    tenant_id: 100000,
+    id: 222222,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "discover",
+    status: "success",
+    workspace_id: 100000,
+    system_id: 100000
+  }, collectschema = {
+    tenant_id: 100000,
+    id: 333333,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "collectschema",
+    status: "success",
+    workspace_id: 100000,
+    external_object_id: 1
+  }, collect = {
+    tenant_id: 100000,
+    id: 444444,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "collect",
+    status: "success",
+    workspace_id: 100000,
+    external_object_id: 1
+  }, matchtest = {
+    tenant_id: 100000,
+    id: 555555,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "matchtest",
+    status: "success",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, match = {
+    tenant_id: 100000,
+    id: 777777,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "match",
+    status: "success",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, aligntest = {
+    tenant_id: 100000,
+    id: 888888,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "aligntest",
+    status: "queued",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, align = {
+    tenant_id: 100000,
+    id: 999999,
+    modified: new Date(),
+    created: new Date(),
+    is_deleted: false,
+    task: "align",
+    status: "queued",
+    workspace_id: 100000,
+    vertify_object_id: 100000
+  }, tasks = [ authentication, discover, collectschema, collect, matchtest, match, aligntest, align];
+
+  tasks.forEach(function (t){
+    Tasks.schema.validate(t);
+  });
+
+  if(! Tasks.findOne()){
+    tasks.forEach(function (t) {
+      Tasks.insert(t);
+    });
+  }
+}
+
+function initSystems(){
+
+    var SystemCredentials = [{
+          setting: 'username',
+          value: 'username'
+        },{
+          setting: 'password',
+          value: 'password'
+        },{
+          setting: 'api key',
+          value: 'api_key'
+        },{
+          setting: 'token',
+          value: 'token'
+        }];
+    SystemSettingsSchema.validate(SystemCredentials[0]);
+    SystemSettingsSchema.validate(SystemCredentials[1]);
+    SystemSettingsSchema.validate(SystemCredentials[2]);
+    SystemSettingsSchema.validate(SystemCredentials[3]);
+
+    var SystemSettings = [{
+          setting: 'setting1',
+          value: 'value1'
+        },{
+          setting: 'setting2',
+          value: 'value2',
+        }];
+    SystemSettingsSchema.validate(SystemSettings[0]);
+    SystemSettingsSchema.validate(SystemSettings[1]);
+
+    var SystemExternalObjects = [{
+          name: "Netsuite Customer",
+          is_dynamic: false
+        },{
+          name: "Netsuite Object",
+          is_dynamic: false
+        },{
+          name: "Marketo LeadRecord",
+          is_dynamic: true
+        },{
+          name: "Marketo Agent",
+          is_dynamic: true
+        },{
+          name: "Market Object",
+          is_dynamic: true
+        },{
+          name: "Salesforce User",
+          is_dynamic: true
+        },{
+          name: "Salesforce Customer",
+          is_dynamic: true
+        },{
+          name: "Jira Issue",
+          is_dynamic: true
+        }];
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[0]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[1]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[2]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[3]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[4]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[5]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[6]);
+    SystemExternalObjectsSchema.validate(SystemExternalObjects[7]);
+
+    // create system objects
+    var Netsuite = {
+      tenant_id: 100000,
+      id: 100000,
+      modified: new Date("2015-07-04T20:06:08.310Z"),
+      created: new Date("2015-07-04T20:06:08.310Z"),
+      is_deleted: false,
+      name: 'Netsuite',
+      workspace_id: ArtsWs,
+      connector_id: 100000,
+      max_concurrent_tasks: 9,
+      prefix: 'NS',
+      agent_id: '',
+      authentication: true,
+      discover: true,
+      credentials: SystemCredentials,
+      settings: SystemSettings,
+      external_objects: [SystemExternalObjects[0], SystemExternalObjects[1]]
+    };
+
+    var Marketo = {
+      tenant_id: 100000,
+      id: 111111,
+      modified: new Date("2015-07-04T20:06:08.310Z"),
+      created: new Date("2015-07-04T20:06:08.310Z"),
+      is_deleted: false,
+      workspace_id: ArtsWs,
+      name: 'Marketo',
+      connector_id: 111111,
+      max_concurrent_tasks: 8,
+      prefix: 'MK',
+      agent_id: '',
+      authentication: true,
+      discover: true,
+      credentials: SystemCredentials,
+      settings: SystemSettings,
+      external_objects: [SystemExternalObjects[2],SystemExternalObjects[3],SystemExternalObjects[4]]
+    };
+
+    var Jira = {
+      tenant_id: 100000,
+      id: 444444,
+      modified: new Date(),
+      created: new Date(),
+      is_deleted: false,
+      workspace_id: ArtsWs,
+      name: 'Jira',
+      connector_id: 444444,
+      max_concurrent_tasks: 2,
+      prefix: 'JI',
+      agent_id: '',
+      authentication: true,
+      discover: true,
+      credentials: SystemCredentials,
+      settings: SystemSettings,
+      external_objects: [SystemExternalObjects[7]]
+    };
+
+    /*
+    var Salesforce = {
+      tenant_id: 100000,
+      id: 222222,
+      modified: new Date("2015-07-04T20:06:08.310Z"),
+      created: new Date("2015-07-04T20:06:08.310Z"),
+      is_deleted: false,
+      workspace_id: 222222,
+      name: 'Salesforce',
+      connector_id: 222222,
+      max_concurrent_tasks: 7,
+      prefix: 'SF',
+      agent_id: '',
+      authentication: true,
+      discover: false,
+      credentials: SystemCredentials,
+      settings: SystemSettings,
+      external_objects: [SystemExternalObjects[5],SystemExternalObjects[6]]
+    };
+
+    var Vertify = {
+      tenant_id: 100000,
+      id: 333333,
+      modified: new Date("2015-07-04T20:06:08.310Z"),
+      created: new Date("2015-07-04T20:06:08.310Z"),
+      is_deleted: false,
+      workspace_id: 111111,
+      name: 'Vertify',
+      connector_id: 333333,
+      max_concurrent_tasks: 7,
+      prefix: 'VF',
+      agent_id: '',
+      authentication: false,
+      discover: false,
+      credentials: SystemCredentials,
+      settings: SystemSettings,
+      external_objects: []
+    };
+  */
+    Systems.schema.validate(Netsuite);
+    Systems.schema.validate(Marketo);
+    Systems.schema.validate(Jira);
+    //  Systems.schema.validate(Salesforce);
+  //  Systems.schema.validate(Vertify);
+
+    if (! Systems.findOne()){
+      var systems = [ Netsuite, Marketo, Jira];//, Salesforce, Vertify ];
+      systems.forEach(function (system) {
+        Systems.insert(system);
+      })
+    }
+};
+
 function initExternalObjects() {
 
   var ExternalObjectProperties1 = [{
-    name: "internalId",
-    is_custom: false,
-    is_array: false,
-    type: "integer",
-    is_key: true
-  },
-  {
-    name: "firstName",
-    is_custom: false,
-    is_array: false,
-    type: "string",
-    is_key: false
-  },
-  {
-    name: "company",
-    is_custom: false,
-    is_array: false,
-    type: "string",
-    is_key: false
-  }]
+      name: "internalId",
+      is_custom: false,
+      is_array: false,
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "firstName",
+      is_custom: false,
+      is_array: false,
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "company",
+      is_custom: false,
+      is_array: false,
+      type: "string",
+      is_key: false
+    }]
 
-  var ExternalObjectProperties2 = [{
-    name: "Id",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.Int32",
-    type: "integer",
-    is_key: true
-  },
-  {
-    name: "Email",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: false
-  },{
-    name: "CompanyId",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.Int32",
-    type: "integer",
-    is_key: true
-  },
-  {
-    name: "leadAttributeList",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: false
-  },
-  {
-    name: "leadAttributeList.FirstName",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: false
-  },{
-    name: "leadAttributeList.LastName",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: true
-  },{
-    name: "leadAttributeList.Email",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.String",
-    type: "string",
-    is_key: true
-  },
-  {
-    name: "leadAttributeList.Company",
-    is_custom: false,
-    is_array: false,
-    external_type: "System.Int32",
-    type: "string",
-    is_key: false
-  }]
+    var ExternalObjectProperties2 = [{
+      name: "Id",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "Email",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },{
+      name: "CompanyId",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "integer",
+      is_key: true
+    },
+    {
+      name: "leadAttributeList",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },
+    {
+      name: "leadAttributeList.FirstName",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: false
+    },{
+      name: "leadAttributeList.LastName",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: true
+    },{
+      name: "leadAttributeList.Email",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.String",
+      type: "string",
+      is_key: true
+    },
+    {
+      name: "leadAttributeList.Company",
+      is_custom: false,
+      is_array: false,
+      external_type: "System.Int32",
+      type: "string",
+      is_key: false
+    }
+  ]
 
   ExternalObjectProperties1.forEach(function(eop1){
     ExternalObjectProperties.schema.validate(eop1);
@@ -1111,100 +1124,101 @@ function initExternalObjects() {
     collect_filters: "string"
   };
 
-/*
-  var salesforceuser = {
-    tenant_id: 100000,
-    id:  4,
-    modified:  new Date(),
-    created:   new Date(),
-    is_deleted: false,
-    name: "Salesforce User",
-    system_id: 222222,
-    workspace_id: 222222,
-    collectschema: false,
-    collect: false,
-    last_query: new Date(),
-    page_size: 25,
-    request_size: 5,
-    record_count: 18000,
-    percentage: 0,
-    type: "",
-    properties: ExternalObjectProperties1,
-    generic_integer_1: 1,
-    generic_integer_2: null,
-    generic_integer_3: null,
-    generic_string_1: "string",
-    generic_string_2: null,
-    generic_string_3: null,
-    is_custom: false,
-    level: "",
-    is_hidden: false,
-    last_modified_property_name: "",
-    supports_add: true,
-    supports_update: true,
-    supports_delete: true,
-    supports_query: true,
-    supports_pagination: true,
-    supports_last_modified_query: true,
-    collect_filters: "string"
-  };
+    /*
+    var salesforceuser = {
+      tenant_id: 100000,
+      id:  4,
+      modified:  new Date(),
+      created:   new Date(),
+      is_deleted: false,
+      name: "Salesforce User",
+      system_id: 222222,
+      workspace_id: 222222,
+      collectschema: false,
+      collect: false,
+      last_query: new Date(),
+      page_size: 25,
+      request_size: 5,
+      record_count: 18000,
+      percentage: 0,
+      type: "",
+      properties: ExternalObjectProperties1,
+      generic_integer_1: 1,
+      generic_integer_2: null,
+      generic_integer_3: null,
+      generic_string_1: "string",
+      generic_string_2: null,
+      generic_string_3: null,
+      is_custom: false,
+      level: "",
+      is_hidden: false,
+      last_modified_property_name: "",
+      supports_add: true,
+      supports_update: true,
+      supports_delete: true,
+      supports_query: true,
+      supports_pagination: true,
+      supports_last_modified_query: true,
+      collect_filters: "string"
+    };
 
-  var salesforcecustomer = {
-    tenant_id: 100000,
-    id:  5,
-    modified:  new Date(),
-    created:   new Date(),
-    is_deleted: false,
-    name: "Salesforce Customer",
-    system_id: 222222,
-    workspace_id: 222222,
-    collectschema: false,
-    collect: false,
-    last_query: new Date(),
-    page_size: 25,
-    request_size: 5,
-    record_count: 12000,
-    percentage: 0,
-    type: "",
-    properties: ExternalObjectProperties2,
-    generic_integer_1: 1,
-    generic_integer_2: null,
-    generic_integer_3: null,
-    generic_string_1: "string",
-    generic_string_2: null,
-    generic_string_3: null,
-    is_custom: false,
-    level: "",
-    is_hidden: false,
-    last_modified_property_name: "",
-    supports_add: true,
-    supports_update: true,
-    supports_delete: true,
-    supports_query: true,
-    supports_pagination: true,
-    supports_last_modified_query: true,
-    collect_filters: "string"
-  };
-*/
-  ExternalObjects.schema.validate(netsuiteobj);
-  ExternalObjects.schema.validate(marketoobj);
-  ExternalObjects.schema.validate(marketolead);
-  ExternalObjects.schema.validate(jiraissue);
-//  ExternalObjects.schema.validate(salesforceuser);
-//  ExternalObjects.schema.validate(salesforcecustomer);
-  if(! ExternalObjects.findOne()){
-    var external_objects = [
-      netsuiteobj,
-      marketoobj,
-      marketolead,
-      jiraissue
-//      salesforceuser,
-//      salesforcecustomer
-    ];
-    external_objects.forEach(function (obj){
-      ExternalObjects.insert(obj);
-    })
-  }
+    var salesforcecustomer = {
+      tenant_id: 100000,
+      id:  5,
+      modified:  new Date(),
+      created:   new Date(),
+      is_deleted: false,
+      name: "Salesforce Customer",
+      system_id: 222222,
+      workspace_id: 222222,
+      collectschema: false,
+      collect: false,
+      last_query: new Date(),
+      page_size: 25,
+      request_size: 5,
+      record_count: 12000,
+      percentage: 0,
+      type: "",
+      properties: ExternalObjectProperties2,
+      generic_integer_1: 1,
+      generic_integer_2: null,
+      generic_integer_3: null,
+      generic_string_1: "string",
+      generic_string_2: null,
+      generic_string_3: null,
+      is_custom: false,
+      level: "",
+      is_hidden: false,
+      last_modified_property_name: "",
+      supports_add: true,
+      supports_update: true,
+      supports_delete: true,
+      supports_query: true,
+      supports_pagination: true,
+      supports_last_modified_query: true,
+      collect_filters: "string"
+    };
+    */
+
+    ExternalObjects.schema.validate(netsuiteobj);
+    ExternalObjects.schema.validate(marketoobj);
+    ExternalObjects.schema.validate(marketolead);
+    ExternalObjects.schema.validate(jiraissue);
+    //  ExternalObjects.schema.validate(salesforceuser);
+    //  ExternalObjects.schema.validate(salesforcecustomer);
+    if(! ExternalObjects.findOne()){
+      var external_objects = [
+        netsuiteobj,
+        marketoobj,
+        marketolead,
+        jiraissue
+      //salesforceuser,
+      //salesforcecustomer
+      ];
+      external_objects.forEach(function (obj){
+        ExternalObjects.insert(obj);
+      })
+    }
 
 }
 

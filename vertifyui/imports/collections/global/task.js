@@ -5,9 +5,9 @@ import { check } from 'meteor/check';
 export const Tasks = new Mongo.Collection('tasks');
 
 Meteor.methods({
-  'tasks.insert'(t, wsid, itemid){
+  'tasks.insert'(t, ws_id, itemid){
     check(t , String);
-    check(wsid , Number);
+    check(ws_id , String);
     check(itemid , Number);
 
     // Incrementing ID's
@@ -29,7 +29,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         system_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -40,7 +40,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         external_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -53,7 +53,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -66,7 +66,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -78,7 +78,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -89,7 +89,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -102,7 +102,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -117,7 +117,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         external_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -128,7 +128,7 @@ Meteor.methods({
         tenant_id: tid,
         id: intid,
         vertify_object_id: itemid,
-        workspace_id: wsid,
+        workspace_id: ws_id,
         task: t,
         created: new Date(),
         modified: new Date(),
@@ -139,14 +139,14 @@ Meteor.methods({
     Tasks.schema.validate(newTasks);
     Tasks.insert(newTasks);
   },
-  'tasks.update'(id, wsid){
+  'tasks.update'(id, ws_id){
     check(id, String);
     check(wisid, Number);
-    var thisTask = Tasks.findOne(id, {"workspace_id": wsid});
+    var thisTask = Tasks.findOne(id, {"workspace_id": ws_id});
 
   },
-  'tasks.remove'(id, wsid){
-    var thisTask = Tasks.findOne(id, {"workspace_id": wsid});
+  'tasks.remove'(id, ws_id){
+    var thisTask = Tasks.findOne(id, {"workspace_id": ws_id});
 
   }
 });
@@ -233,7 +233,7 @@ Tasks.schema = new SimpleSchema({
 
   // IDS FOR TASK PROCESSING
   workspace_id:
-    { type: Number },
+    { type: String },
   system_id:
     { type: Number
     , optional: true},

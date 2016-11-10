@@ -91,13 +91,13 @@ Meteor.methods({
 
     return newid;
   },
-  'vertify_objects.updateApprovedStatus'(id, wsid, status){
+  'vertify_objects.updateApprovedStatus'(id, ws_id, status){
     check(id, String);
-    check(wsid, Number);
+    check(ws_id, String);
     check(status, String);
 
     //TODO:  need to update by radio selection
-    var vo = VertifyObjects.findOne(id, {"workspace_id": wsid});
+    var vo = VertifyObjects.findOne(id, {"workspace_id": ws_id});
     if(vo){
       vo.external_objects.forEach(function(eo){
         if(status == "approved"){
@@ -121,14 +121,14 @@ Meteor.methods({
 
     return vo.id;
   },
-  'vertify_objects.updateStatus'(wsid, id, field, status){
-    check(wsid, Number);
+  'vertify_objects.updateStatus'(ws_id, id, field, status){
+    check(ws_id, String);
     check(id, Number);
     check(field, String);
     check(status, Boolean);
 
-    //console.log("id: " + id + " | ws: " + wsid + " | " + field + " | " + status);
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": wsid});
+    //console.log("id: " + id + " | ws: " + ws_id + " | " + field + " | " + status);
+    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws_id});
 
     if(field == 'align'){
       //console.log("update align: " + vo._id);
@@ -171,15 +171,15 @@ Meteor.methods({
       throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
     }
   },
-  'vertify_objects.edit'(wsid, id){
+  'vertify_objects.edit'(ws_id, id){
     console.log("TODO: Complete VO edit");
   },
-  'vertify_objects.remove'(wsid, _id){
-    var current = VertifyObjects.findOne(_id, {"workspace_id": wsid});
+  'vertify_objects.remove'(ws_id, _id){
+    var current = VertifyObjects.findOne(_id, {"workspace_id": ws_id});
     if(current)
       return VertifyObjects.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + wsid + " with ID: " + vo);
+    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo);
   },
 });
 
@@ -327,7 +327,7 @@ VertifyObjects.schema = new SimpleSchema({
   name:
     { type: String },
   workspace_id:
-    { type: Number },
+    { type: String },
   matchtest:
     { type: Boolean
     , optional: true

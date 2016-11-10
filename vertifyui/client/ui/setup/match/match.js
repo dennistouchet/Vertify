@@ -11,7 +11,7 @@ Template.match.helpers({
   isValid: function(){
     var ws = Session.get("currentWs");
     if(ws){
-      return Meteor.tools.collectStatus(ws.id);
+      return Meteor.tools.collectStatus(ws._id);
     }else{
       return false;
     }
@@ -29,7 +29,7 @@ Template.match.helpers({
     var ws = Session.get("currentWs");
     var has = false;
     if(ws) {
-      var sys = Systems.find({"workspace_id": ws.id});
+      var sys = Systems.find({"workspace_id": ws._id});
       if(sys.count > 0)
         has = true;
     }
@@ -39,7 +39,7 @@ Template.match.helpers({
     var ws = Session.get("currentWs");
     var has = false;
     if(ws) {
-      var count = ExternalObjects.find({"workspace_id": ws.id}).count;
+      var count = ExternalObjects.find({"workspace_id": ws._id}).count;
       if(count > 0)
         has = true;
     }
@@ -48,7 +48,7 @@ Template.match.helpers({
   hasVertifyObjects : function(){
     var ws = Session.get("currentWs");
     if(ws){
-    var count = VertifyObjects.find({"workspace_id": ws.id}).count();
+    var count = VertifyObjects.find({"workspace_id": ws._id}).count();
     if(count > 0)
       return true;
     }
@@ -57,7 +57,7 @@ Template.match.helpers({
   vertifyObjectCount : function(){
     var ws = Session.get("currentWs");
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id}).count();
+      var count = VertifyObjects.find({"workspace_id": ws._id}).count();
       return count.toString() + " objects";
     }
     return false;
@@ -65,7 +65,7 @@ Template.match.helpers({
   matchCompleted : function(){
     var ws = Session.get("currentWs");
     if(ws){
-      var count = VertifyObjects.find({"workspace_id": ws.id, "match": true}).count();
+      var count = VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
       if(count > 0)
         return true;
     }
@@ -77,14 +77,14 @@ Template.matchVertifyObjects.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return VertifyObjects.find({"workspace_id": ws.id});
+      return VertifyObjects.find({"workspace_id": ws._id});
     }
     return null;
   },
   external_objects(){
     var ws = Session.get("currentWs");
     if(ws){
-      return ExternalObjects.find({"workspace_id": ws.id});
+      return ExternalObjects.find({"workspace_id": ws._id});
     }
     return null;
   },
@@ -118,14 +118,14 @@ Template.match.events({
     else if(e.target.text.trim() == 'Delete')
     {
       var vo = VertifyObjects.findOne(this._id);
-      var count = VertifyProperties.find({"workspace_id": ws.id, "vertify_object_id": vo.id}).count();
+      var count = VertifyProperties.find({"workspace_id": ws._id, "vertify_object_id": vo.id}).count();
 
       if(count > 0){
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
       }
       else{
-      Meteor.call('tasks.insert', 'deletevertifyobject', ws.id, vo.id
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo.id
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -137,7 +137,7 @@ Template.match.events({
           //success
           //TODO This should be done and elixir monitors and dleetes data
           /*
-          Meteor.call('vertify_objects.remove', ws.id, this._id
+          Meteor.call('vertify_objects.remove', ws._id, this._id
           , (error, result) => {
             if(error){
               //console.log(err);
@@ -168,12 +168,12 @@ Template.match.events({
 Template.matchVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     return eo.name;
   },
   getExternalObjectRecords : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws.id});
+    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     return eo.record_count;
   },
 });

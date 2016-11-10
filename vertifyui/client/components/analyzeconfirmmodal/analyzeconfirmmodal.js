@@ -10,7 +10,7 @@ Template.analyzeconfirmmodal.helpers({
     id = Session.get("analyzeVertifyObject");
     ws = Session.get("currentWs");
     if(ws && id){
-      vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
+      vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
       return vo;
     }
   },
@@ -44,11 +44,11 @@ Template.analyzeconfirmmodal.events({
 
     var id = Session.get("analyzeVertifyObject");
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne(id, {"workspace_id": ws.id});
+    var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
     var action = Session.get("analyzeAction");
     if(ws && vo){
       if(action == "Enable" || action == "Redetect"){
-        Meteor.call('tasks.insert', "analyze", ws.id, vo.id
+        Meteor.call('tasks.insert', "analyze", ws._id, vo.id
         , (error, result) => {
           if(error){
             //console.log(err);
@@ -67,7 +67,7 @@ Template.analyzeconfirmmodal.events({
         });
       }
       else if(action == "Disable"){
-        Meteor.call('vertify_objects.updateStatus', ws.id, vo.id, 'analyze', false
+        Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'analyze', false
         , (err, res) => {
           if(err){
             //console.log(err);

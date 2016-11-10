@@ -12,7 +12,7 @@ Template.vertifywizard.onCreated( function() {
     return false;
   }
   // Set to Select step for workspaces with no Vertify Objects
-  var count = VertifyObjects.find({"workspace_id": ws.id}).count();
+  var count = VertifyObjects.find({"workspace_id": ws._id}).count();
   if(count > 0)
   {
     this.currentTab = new ReactiveVar("vwStart");
@@ -84,7 +84,7 @@ Template.vertifywizard.events({
         console.log(vname);
         var sot = document.querySelector('input[name="truthRadio"]:checked');
         if(vname && sot.id){
-          Meteor.call('match_setup.finishedit', msId, ws.id, steps[index -1], vname, parseInt(sot.id)
+          Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, parseInt(sot.id)
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -95,7 +95,7 @@ Template.vertifywizard.events({
             }
             else{
               //SUCCESS
-              Meteor.tools.convertMatchSetuptoVertifyObj(ws.id, msId);
+              Meteor.tools.convertMatchSetuptoVertifyObj(ws._id, msId);
               FlowRouter.go('/setup/match');
             }
           });
@@ -112,7 +112,7 @@ Template.vertifywizard.events({
         case 1: console.log("start next clicked - moving to select");
                 var isnew = document.getElementById("radionew").checked;
                 if(msId){
-                  Meteor.call('match_setup.startedit', msId, ws.id, steps[index -1], isnew
+                  Meteor.call('match_setup.startedit', msId, ws._id, steps[index -1], isnew
                   , (err, res) => {
                     if(err){
                       //console.log(err);
@@ -126,7 +126,7 @@ Template.vertifywizard.events({
                     }
                   });
                 }else{
-                  var newid = Meteor.call('match_setup.insert', ws.id, steps[index -1], isnew
+                  var newid = Meteor.call('match_setup.insert', ws._id, steps[index -1], isnew
                   , (err, res) => {
                     if(err){
                       //console.log(err);
@@ -144,7 +144,7 @@ Template.vertifywizard.events({
                 break;
         case 2: console.log("select next clicked - moving to filter");
                 if(msId){
-                  currentMs = MatchSetup.findOne({"id": parseInt(msId), "workspace_id": ws.id });
+                  currentMs = MatchSetup.findOne({"id": parseInt(msId), "workspace_id": ws._id });
                   console.log(currentMs);
                   if(currentMs){
                     if(currentMs.new_object){
@@ -159,7 +159,7 @@ Template.vertifywizard.events({
                           return;
                         }
                         var extobjids = [extobj1, extobj2];
-                        Meteor.call('match_setup.selectedit', msId, ws.id, steps[index -1], extobjids
+                        Meteor.call('match_setup.selectedit', msId, ws._id, steps[index -1], extobjids
                         , (err, res) => {
                           if(err){
                             //console.log(err);
@@ -197,7 +197,7 @@ Template.vertifywizard.events({
                   allRecords2 = radioalls[1].checked;
 
                   var output = Meteor.call('match_setup.filteredit'
-                    , Session.get("setupId"), ws.id, steps[index -1], allRecords1, allRecords2, null, null
+                    , Session.get("setupId"), ws._id, steps[index -1], allRecords1, allRecords2, null, null
                     , (err, res) => {
                       if(err){
                         //console.log(err);
@@ -214,7 +214,7 @@ Template.vertifywizard.events({
                 break;
         case 4: console.log("match next clicked - moving to finish");
                 if(msId){
-                  var match_setup = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+                  var match_setup = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
                   if(match_setup){
                     var ids = match_setup.eo_ids;
                     var field1 = document.getElementById("field" + ids[0]).value;
@@ -245,7 +245,7 @@ Template.vertifywizard.events({
                     }];
 
                     if(errors > 0) return;
-                    Meteor.call('match_setup.matchedit', msId, ws.id, steps[index -1], match_criteria
+                    Meteor.call('match_setup.matchedit', msId, ws._id, steps[index -1], match_criteria
                     , (err, res) => {
                       if(err){
                         //console.log(err);
@@ -306,7 +306,7 @@ Template.vwStart.helpers({
     vertify_objects(){
       var ws = Session.get("currentWs");
       if(ws){
-        return VertifyObjects.find({"workspace_id": ws.id});
+        return VertifyObjects.find({"workspace_id": ws._id});
       }
       return null
     }
@@ -333,14 +333,14 @@ Template.vwSelect.helpers({
     external_objects(){
       var ws = Session.get("currentWs");
       if(ws){
-        return ExternalObjects.find({"workspace_id": ws.id},{sort : {name: 1, "properties.name": 1} });
+        return ExternalObjects.find({"workspace_id": ws._id},{sort : {name: 1, "properties.name": 1} });
       }
       return null
     },
     getSystemName : function(id){
       var ws = Session.get("currentWs");
       if(ws){
-        return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+        return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
       }
     }
 });
@@ -373,7 +373,7 @@ Template.vwFilter.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId")
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       console.log(msObj);
       var ids = msObj.eo_ids;
       console.log(msObj.eo_ids);
@@ -419,7 +419,7 @@ Template.vwMatch.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
       return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1} });
     }else{
@@ -455,7 +455,7 @@ Template.vwMatchObjects.helpers({
   getSystemName : function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
     }
   }
 })
@@ -465,7 +465,7 @@ Template.vwFinish.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
     }else{
       return null;
     }
@@ -474,7 +474,7 @@ Template.vwFinish.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
       return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
@@ -485,7 +485,7 @@ Template.vwFinish.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       return msObj;
     }else{
       return null;
@@ -495,7 +495,7 @@ Template.vwFinish.helpers({
     var ws = Session.get("currentWs");
     var msId = Session.get("setupId");
     if(ws && msId){
-      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws.id});
+      var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       return msObj.match_fields;
     }else{
       return null;
@@ -522,7 +522,7 @@ Template.vwFinish.helpers({
   getSystemName : function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      return Systems.findOne({"workspace_id": ws.id, "id": id}).name;
+      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
     }
   }
 });

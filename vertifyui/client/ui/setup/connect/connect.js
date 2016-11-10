@@ -10,8 +10,8 @@ Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
     ws = Session.get("currentWs");
-    if(ws.id) {
-      systems = Systems.find({"workspace_id": ws.id});
+    if(ws._id) {
+      systems = Systems.find({"workspace_id": ws._id});
       Session.set("systemCount", systems.count());
       console.log("Session SystemCount: " + Session.get("systemCount"));
       return systems
@@ -60,7 +60,7 @@ Template.connect.helpers({
   getWorkspaceId : function(){
     if(Session.get("currentWs")){
       var ws = Session.get("currentWs");
-      return ws.id;
+      return ws._id;
     }
     else{
       return null;
@@ -207,7 +207,7 @@ Template.connectSysZeroData.events({
       }
       if(nmexists == null && pfexists == null && setErr == 0){
 
-        Meteor.call('systems.insert', ws.id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws._id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){
@@ -217,7 +217,7 @@ Template.connectSysZeroData.events({
               //return false;
             }
             else {
-              Meteor.call('tasks.insert', "authentication", ws.id, res
+              Meteor.call('tasks.insert', "authentication", ws._id, res
               , (error, result) => {
                 if(error){
                   //console.log(err);
@@ -229,8 +229,8 @@ Template.connectSysZeroData.events({
                 else {
                   // successful call
                   // update status of system
-                  //Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
-                  Meteor.call('tasks.insert', "discover", ws.id, res
+                  //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
+                  Meteor.call('tasks.insert', "discover", ws._id, res
                   , (err, result) => {
                     if(err){
                       //console.log(err);
@@ -242,8 +242,8 @@ Template.connectSysZeroData.events({
                     else {
                       // successful call
                       // update status of system
-                      //Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
-                      Meteor.call('tasks.insert', "scan", ws.id, res
+                      //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
+                      Meteor.call('tasks.insert', "scan", ws._id, res
                       , (err, result) => {
                         if(err){
                           //console.log(err);
@@ -255,7 +255,7 @@ Template.connectSysZeroData.events({
                         else {
                           // successful call
                           // update status of system
-                          Meteor.tools.updateSystemStatus(ws.id, res, "scan", true);
+                          Meteor.tools.updateSystemStatus(ws._id, res, "scan", true);
                           Modal.hide('systemaddmodal');
                         }
                       });

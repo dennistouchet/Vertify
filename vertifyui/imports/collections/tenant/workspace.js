@@ -15,15 +15,14 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-
-    //TODO: Update after accounts are implemented
+    //TODO: REMOVE THIS - Update after accounts are implemented
     //Temporary solution to incrementing ID's until user accounts are implemented
-    var wrkid = Workspaces.findOne({}, {sort: {id: -1}});
+    var wrkid = Workspaces.findOne({}, {sort: {tenant_id: -1}});
     if(wrkid == null) {
       var intid = 111111;
     }
     else {
-      var intid = (wrkid.id + 111111);
+      var intid = (wrkid.tenant_id + 111111);
     }
 
     //Verify Workspace name doesn't exist, else throw error
@@ -36,46 +35,44 @@ Meteor.methods({
     var newWorkspace = {
       name: text,
       tenant_id: intid,
-      id: intid,
       created: new Date(),
       modified: new Date(),
       group_id: intid
     };
 
     Workspaces.schema.validate(newWorkspace)
-    Workspaces.insert(newWorkspace);
+    return Workspaces.insert(newWorkspace);
 
   },
-  'workspaces.remove'(currentid){
-    check(currentid, String);
-    var current = Workspaces.findOne(currentid);
+  'workspaces.remove'(current_id){
+    check(current_id, String);
+    var current = Workspaces.findOne(current_id);
 
     // See if systems exist for the current workspace, if they do, prevent removal
-    var systemCount = Systems.find({"workspace_id": current.id}).count();
+    var systemCount = Systems.find({"workspace_id": current._id}).count();
     if(systemCount > 0){
       throw new Meteor.Error("Existing Dependencies", "There was an error deleting the Workspace. All systems must be deleted from a workspace before it can be removed.");
     }
     //TODO: Add userid security
     Workspaces.remove(current._id);
   },
-  'workspaces.edit'(id, text){
-    check(id, String);
+  'workspaces.edit'(_id, text){
+    check(_id, String);
     check(text, String);
 
     //Verify Workspace name doesn't exist, else throw error
-    var count = Workspaces.find({"_id": id, "name" : text}).count();
+    //TODO: VERIFY WORKSPACE NAME AND PREFIX
+    var count = Workspaces.find({"_id": _id, "name" : text}).count();
     if(count > 0) {
       throw new Meteor.Error( "Value Exists", "There was an error processing your request. Workspace name already exists.");
     }
 
-    Workspaces.update(id, {$set: {name: text, modified: new Date()}});
+    Workspaces.update(_id, {$set: {name: text, modified: new Date()}});
   },
 });
 
 Workspaces.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
-  id:
     { type: Number },
   modified:
     { type: Date },

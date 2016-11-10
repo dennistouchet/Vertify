@@ -34,7 +34,7 @@ Meteor.tools = {
     });
     return uuid;
   },
-  taskRunner : function(wsid, objectid, tasktype, other){
+  taskRunner : function(ws_id, objectid, tasktype, other){
 
   },
   compare : function(a,b){
@@ -47,27 +47,27 @@ Meteor.tools = {
   /*******************************************
             SPECIFIC CASE TOOLS
   *******************************************/
-  connectStatus : function(wsid){
-    var systemCount = Systems.find({"workspace_id": wsid}).count();
+  connectStatus : function(ws_id){
+    var systemCount = Systems.find({"workspace_id": ws_id}).count();
     if(systemCount > 1)
     {
       return true;
     }
     return false;
   },
-  collectStatus : function(wsid){
-    var externalObjectCount = ExternalObjects.find({"workspace_id": wsid}).count();
-    if(this.connectStatus(wsid) && (externalObjectCount > 1))
+  collectStatus : function(ws_id){
+    var externalObjectCount = ExternalObjects.find({"workspace_id": ws_id}).count();
+    if(this.connectStatus(ws_id) && (externalObjectCount > 1))
     {
       return true;
     }
     return false;
   },
-  matchStatus : function(wsid){
+  matchStatus : function(ws_id){
     //TODO: adjust to be more precise
     var complete = false;
-    var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid, match: true});
-    if(this.collectStatus(wsid) && vertifyObjectsExist){
+    var vertifyObjectsExist = VertifyObjects.find({"workspace_id": ws_id, match: true});
+    if(this.collectStatus(ws_id) && vertifyObjectsExist){
 
       vertifyObjectsExist.forEach(function(vo){
 
@@ -81,18 +81,18 @@ Meteor.tools = {
     }
     return complete;
   },
-  alignStatus : function(wsid){
+  alignStatus : function(ws_id){
     var approvedVPs = false;
     var approvedVO = false;
 
-    if(this.matchStatus(wsid)){
-      var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid});
+    if(this.matchStatus(ws_id)){
+      var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": ws_id});
       if(vertifyPropertiesExist.count() > 0){
         vertifyPropertiesExist.forEach(function(vprop){
         if(vprop.align) approvedVPs = vprop.align;
         });
       }
-      var vertifyObjectsExist = VertifyObjects.find({"workspace_id": wsid});
+      var vertifyObjectsExist = VertifyObjects.find({"workspace_id": ws_id});
       if(vertifyObjectsExist.count() > 0){
         vertifyObjectsExist.forEach(function(vobj){
           if(vobj.align) approvedVO = vobj.align;
@@ -106,18 +106,18 @@ Meteor.tools = {
       return false;
     }
   },
-  setupStatus : function(wsid, status){
+  setupStatus : function(ws_id, status){
     if(status == "Connect"){
-      return this.connectStatus(wsid);
+      return this.connectStatus(ws_id);
     }
     else if(status == "Collect"){
-      return this.collectStatus(wsid);
+      return this.collectStatus(ws_id);
     }
     else if(status == "Match"){
-      return this.matchStatus(wsid);
+      return this.matchStatus(ws_id);
     }
     else if(status == "Align"){
-      return this.alignStatus(wsid);
+      return this.alignStatus(ws_id);
     }
     else{
       return false;
@@ -135,11 +135,11 @@ Meteor.tools = {
     if(!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, " "));
   },
-  convertMatchSetuptoVertifyObj : function(wsid, msid){
-    //console.log("Convert values = wsid: " + wsid + " | msid: " + msid );
+  convertMatchSetuptoVertifyObj : function(ws_id, msid){
+    //console.log("Convert values = ws_id: " + ws_id + " | msid: " + msid );
 
     //TODO: Check Vertify object with current External Object doesn't already exist.
-    MatchObject = MatchSetup.findOne({"id": msid, "workspace_id": wsid});
+    MatchObject = MatchSetup.findOne({"id": msid, "workspace_id": ws_id});
     if(MatchObject){
       //Create new VO
       if(MatchObject.new_object){
@@ -165,8 +165,8 @@ Meteor.tools = {
     var currentTab = $("ul").find("[data-template='" + step + "']");
     currentTab.addClass("active");
   },
-  updateAlignStatus: function(ws, vo, field, status){
-    Meteor.call('vertify_objects.updateStatus', ws, vo, 'align', status
+  updateAlignStatus: function(ws_id, vo, field, status){
+    Meteor.call('vertify_objects.updateStatus', ws_id, vo, 'align', status
     , (err, res) => {
       if(err){
         console.log("Tools.js updateAlignStatus error:");
@@ -182,8 +182,8 @@ Meteor.tools = {
       }
     });
   },
-  updateSystemStatus: function(ws, id, field, status){
-    Meteor.call('systems.updateStatus', ws, id, field, status
+  updateSystemStatus: function(ws_id, id, field, status){
+    Meteor.call('systems.updateStatus', ws_id, id, field, status
     , (err, res) => {
       if(err){
         console.log("Tools.js updateSystemStatus error:");
@@ -197,7 +197,7 @@ Meteor.tools = {
   /*******************************************
         HAPPY PATH MOCKING FUNCTIONS
   *******************************************/
-  getExternalObjects : function(wsid, sysid){
+  getExternalObjects : function(ws_id, conn_id){
     console.log("getExternalObjects Called from tools.js");
 
     var netsuiteExternalObjects = [{
@@ -239,7 +239,7 @@ Meteor.tools = {
     console.log(system);*/
     //TODO: verify why this uses sysid - rename var to connid?
     var extobj = null;
-    var connector = Connectors.findOne({"id": sysid});
+    var connector = Connectors.findOne({"id": conn_id});
     if(connector){
       if(connector.id == 100000){
         extobj = netsuiteExternalObjects;
@@ -256,7 +256,7 @@ Meteor.tools = {
     }
     return extobj;
   },
-  getExternalObjectProperties: function(wsid, sysid){
+  getExternalObjectProperties: function(ws_id, sysid){
     console.log("getExternalObjectProperties Called from tools.js");
 
     var ExternalObjectProperties1 = [{
@@ -347,7 +347,7 @@ Meteor.tools = {
     }];
 
     var properties = null;
-    var system = Systems.findOne({"workspace_id": wsid, "id": sysid});
+    var system = Systems.findOne({"workspace_id": ws_id, "id": sysid});
     if(system){
       if(system.connector_id == 100000 ){
         properties = ExternalObjectProperties1;
@@ -411,8 +411,8 @@ Meteor.tools = {
       }
     }
   },
-  updateVertifyPropertyAlignStatus: function(wsid, vobjid){
-    var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": wsid, "vertify_object_id": vobjid});
+  updateVertifyPropertyAlignStatus: function(ws_id, vobjid){
+    var vertifyPropertiesExist = VertifyProperties.find({"workspace_id": ws_id, "vertify_object_id": vobjid});
     if(vertifyPropertiesExist){
       console.log("TODO: this mock method is incomplete and does not update VertifyProperty collection");
       vertifyPropertiesExist.forEach(function(vp){
@@ -429,98 +429,3 @@ Meteor.tools = {
     }
   }
 }
-
-/*
-var CURRENT_URL = window.location.href.split('?')[0],
-    $BODY = $('body'),
-    $MENU_TOGGLE = $('#menu_toggle'),
-    $SIDEBAR_MENU = $('#sidebar-menu'),
-    $SIDEBAR_FOOTER = $('.sidebar-footer'),
-    $LEFT_COL = $('.left_col'),
-    $RIGHT_COL = $('.right_col'),
-    $NAV_MENU = $('.nav_menu'),
-    $FOOTER = $('footer');
-
-// Sidebar
-$(document).ready(function() {
-    // TODO: This is some kind of easy fix, maybe we can improve this
-    var setContentHeight = function () {
-        // reset height
-        $RIGHT_COL.css('min-height', $(window).height());
-
-        var bodyHeight = $BODY.outerHeight(),
-            footerHeight = $BODY.hasClass('footer_fixed') ? -10 : $FOOTER.height(),
-            leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
-            contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-
-        // normalize content
-        contentHeight -= $NAV_MENU.height() + footerHeight;
-
-        $RIGHT_COL.css('min-height', contentHeight);
-    };
-
-    $SIDEBAR_MENU.find('a').on('click', function(ev) {
-        var $li = $(this).parent();
-
-        if ($li.is('.active')) {
-            $li.removeClass('active active-sm');
-            $('ul:first', $li).slideUp(function() {
-                setContentHeight();
-            });
-        } else {
-            // prevent closing menu if we are on child menu
-            if (!$li.parent().is('.child_menu')) {
-                $SIDEBAR_MENU.find('li').removeClass('active active-sm');
-                $SIDEBAR_MENU.find('li ul').slideUp();
-            }
-
-            $li.addClass('active');
-
-            $('ul:first', $li).slideDown(function() {
-                setContentHeight();
-            });
-        }
-    });
-
-    // toggle small or large menu
-    $MENU_TOGGLE.on('click', function() {
-        if ($BODY.hasClass('nav-md')) {
-            $SIDEBAR_MENU.find('li.active ul').hide();
-            $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
-        } else {
-            $SIDEBAR_MENU.find('li.active-sm ul').show();
-            $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
-        }
-
-        $BODY.toggleClass('nav-md nav-sm');
-
-        setContentHeight();
-    });
-
-    // check active menu
-    $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
-
-    $SIDEBAR_MENU.find('a').filter(function () {
-        return this.href == CURRENT_URL;
-    }).parent('li').addClass('current-page').parents('ul').slideDown(function() {
-        setContentHeight();
-    }).parent().addClass('active');
-
-    // recompute content when resizing
-    $(window).smartresize(function(){
-        setContentHeight();
-    });
-
-    setContentHeight();
-
-    // fixed sidebar
-    if ($.fn.mCustomScrollbar) {
-        $('.menu_fixed').mCustomScrollbar({
-            autoHideScrollbar: true,
-            theme: 'minimal',
-            mouseWheel:{ preventDefault: true }
-        });
-    }
-});
-// /Sidebar
-*/

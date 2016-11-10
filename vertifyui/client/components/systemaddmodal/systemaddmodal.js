@@ -89,7 +89,7 @@ Template.systemaddmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-        Meteor.call('systems.insert', ws.id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws._id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){
@@ -99,7 +99,7 @@ Template.systemaddmodal.events({
               //return false;
             }
             else {
-              Meteor.call('tasks.insert', "authentication", ws.id, res
+              Meteor.call('tasks.insert', "authentication", ws._id, res
               , (error, result) => {
                 if(error){
                   //console.log(err);
@@ -111,8 +111,8 @@ Template.systemaddmodal.events({
                 else {
                   // successful call
                   // update status of system
-                  //Meteor.tools.updateSystemStatus(ws.id, res, "authentication", true);
-                  Meteor.call('tasks.insert', "discover", ws.id, res
+                  //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
+                  Meteor.call('tasks.insert', "discover", ws._id, res
                   , (err, result) => {
                     if(err){
                       //console.log(err);
@@ -124,8 +124,8 @@ Template.systemaddmodal.events({
                     else {
                       // successful call
                       // update status of system
-                      //Meteor.tools.updateSystemStatus(ws.id, res, "discover", true);
-                      Meteor.call('tasks.insert', "scan", ws.id, res
+                      //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
+                      Meteor.call('tasks.insert', "scan", ws._id, res
                       , (err, result) => {
                         if(err){
                           //console.log(err);
@@ -137,7 +137,7 @@ Template.systemaddmodal.events({
                         else {
                           // successful call
                           // update status of system
-                          //Meteor.tools.updateSystemStatus(ws.id, res, "scan", true);
+                          //Meteor.tools.updateSystemStatus(ws._id, res, "scan", true);
                           Modal.hide('systemaddmodal');
                         }
                       });
