@@ -82,6 +82,11 @@ function deleteAllCollections(){
   console.log("VertifyProperties collection deleted (" + (beforeCount - afterCount) + " rows)");
 
   // Global collections
+  beforeCount = Versioning.find().count();
+  Versioning.remove({});
+  afterCount = Versioning.find().count();
+  console.log("Versioning collection deleted (" + (beforeCount - afterCount) + " rows)");
+
   beforeCount = Tasks.find().count();
   Tasks.remove({});
   afterCount = Tasks.find().count();
@@ -339,8 +344,8 @@ function initVersioning(){
                   console.log(err);
                 }
                 else{
-                  var tag = {version: file, created: stats.birthtime };
-                  var exists = Versioning.findOne({version: file});
+                  var tag = {meteor: file, created: stats.birthtime };
+                  var exists = Versioning.findOne({meteor: file});
                   if(!exists){
                     Versioning.schema.validate(tag);
                     console.log(Versioning.insert(tag));

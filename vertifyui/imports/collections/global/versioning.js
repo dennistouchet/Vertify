@@ -7,6 +7,13 @@ export const Versioning = new Mongo.Collection('versioning');
 Versioning.schema = new SimpleSchema({
   created:
     {type: Date},
-  version:
-    {type: String}
+  meteor:
+    {type: String},
+  elixir:
+    {type: String,
+    optional: true},
+  runner:
+    {type: String,
+    optional: true}
+
 });

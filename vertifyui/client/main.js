@@ -7,7 +7,7 @@ Highcharts = require( 'highcharts' );
 
 Template.main.helpers({
   versioning(){
-    return Versioning.findOne({},{sort: { created: -1 }});
+    return Versioning.findOne({},{sort: { created: -1 }}); 
   }
 });
 
