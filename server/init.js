@@ -27,7 +27,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 //GLOBAL MOCK WORKSPACES
-
+  console.log("Meteor Server Starting...");
   var ArtsWs = "";
   var JimsWs = "";
   var ShaunsWs = "";
@@ -337,7 +337,7 @@ function initVersioning(){
 
     // TODO: this can probably be done more efficiently
     // think about better ways to do this.
-    const dir = '../../../../../.git/refs/tags/';
+    const dir = '../../../../../.git/refs/tags/'; 
 
     const fs = require('fs');
     fs.readdir(dir, Meteor.bindEnvironment(
