@@ -87,12 +87,12 @@ Meteor.methods({
     //TODO: Add userid security
     Systems.remove(current._id);
   },
-  'systems.edit'(id, system, pf, maxtasks, cred, ws_id){
+  'systems.edit'(ws_id, id, system, pf, maxtasks, cred){
+    check(ws_id, String);
     check(id, String);
     check(system, String);
     check(pf, String);
     check(maxtasks, Number);
-    check(ws_id, String);
 
     for(i = 0; i < cred.length; i++){
       SystemSettingsSchema.validate(cred[i]);

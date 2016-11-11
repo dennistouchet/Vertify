@@ -26,15 +26,16 @@ Template.systemeditmodal.events({
     //TODO: VERIFY WORKSPACE ID
     var sysId = Session.get('selectedSystem');
 
+    var ws = Session.get("currentWs");
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
     var maxtasks = document.getElementById("maxtasks");
     var settings = document.querySelectorAll('*[id^="setting_"]');
 
     if(sysId) {
-      //TODO: Fix logic error that doesn't allow it to reenter same name/prefix for itself
-      var nmexists = Systems.findOne({"name" : nm.value.trim()});
-      var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
+      var nmexists = Systems.findOne({"_id":  {$ne: sysId}, "name" : nm.value.trim()});
+      var pfexists = Systems.findOne({"_id":  {$ne: sysId}, "prefix" : pf.value.trim()});
+
       var setErr = 0;
       if (settings){
             for(i = 0; i < settings.length; i++){
@@ -64,7 +65,7 @@ Template.systemeditmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-      Meteor.call('systems.edit', sysId, nm.value.trim(), pf.value.trim()
+      Meteor.call('systems.edit', ws._id, sysId, nm.value.trim(), pf.value.trim()
         , parseInt(maxtasks.value), sets
         , (err, res) => {
           if(err){

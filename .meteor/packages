@@ -17,7 +17,6 @@ standard-minifier-js@1.2.1    # JS minifier run for production mode
 es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.5.9              # Enable ECMAScript2015+ syntax in app code
 
-flot:flot
 chart:chart
 aldeed:simple-schema
 aldeed:collection2

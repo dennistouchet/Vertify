@@ -13,6 +13,7 @@ RUN useradd -m -G users -s /bin/bash meteor && \
 
 # Add source code to container
 ADD . /vertify-ui
+VOLUME /vertify-ui
 WORKDIR /vertify-ui
 
 RUN chown -R meteor /vertify-ui
