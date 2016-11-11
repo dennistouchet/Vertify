@@ -337,10 +337,10 @@ function initVersioning(){
 
     // TODO: this can probably be done more efficiently
     // think about better ways to do this.
-    const dir = '../../../../../.git/refs/tags/'; 
+    const dir = '../../../../../.git/refs/tags/';
 
     const fs = require('fs');
-    fs.readdir(dir, Meteor.bindEnvironment(
+    fs.readdir(dir, Meteor.bindEnvironment( 
       function(err, files){
         if(err){
           console.log(err);
