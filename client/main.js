@@ -13,7 +13,7 @@ Template.main.onCreated(function(){
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
-
+ 
   if(Meteor.isDevelopment){
     if(Workspaces.findOne()){
       var ws = Workspaces.findOne({"name": "Jim's Workspace"});

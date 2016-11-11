@@ -27,7 +27,7 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
 //GLOBAL MOCK WORKSPACES
-  console.log("Meteor Server Starting...");
+  console.log("Meteor server started...");
   var ArtsWs = "";
   var JimsWs = "";
   var ShaunsWs = "";
@@ -340,7 +340,7 @@ function initVersioning(){
     const dir = '../../../../../.git/refs/tags/';
 
     const fs = require('fs');
-    fs.readdir(dir, Meteor.bindEnvironment( 
+    fs.readdir(dir, Meteor.bindEnvironment(
       function(err, files){
         if(err){
           console.log(err);

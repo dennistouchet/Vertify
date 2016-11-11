@@ -1,0 +1,6 @@
+#!/bin/bash
+
+ID="$(git rev-parse HEAD)"
+git tag v0.9.3.$ID
+
+
