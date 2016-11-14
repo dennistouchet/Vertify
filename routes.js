@@ -86,7 +86,9 @@ dataRoutes.route('/fix/details', {
 
 dataRoutes.route('/fix/records', {
   name: 'records',
-  action() {
+  action: function(queryParams) {
+      console.log("queryParams: ");
+      console.log(queryParams);
       BlazeLayout.render('main', {main: 'records'});
   }
 });
@@ -213,6 +215,13 @@ FlowRouter.route('/test2', {
   name: 'test2',
   action() {
       BlazeLayout.render('main', {main: 'test2'});
+  }
+});
+
+FlowRouter.route('/test3', {
+  name: 'test3',
+  action() {
+      BlazeLayout.render('main', {main: 'test3'});
   }
 });
 

@@ -5,16 +5,35 @@ import { FixUnmatchedRecords } from '../../../../imports/collections/workspace/u
 
 import './records.html';
 
-Template.records.onCreated({
-  subscribe: function(){
+Template.records.onCreated(function(){
     Meteor.subscribe('fix_unmatched_records', function(){
-      console.log('FixUnmatchedRecords - Tasks now subscribed');
-    })
-  },
+      console.log('Records - FixUnmatchRecords now subscribed');
+    });
 });
 
 Template.records.helpers({
+  taskRunning : function(){
+    var ws = Session.get('currentWs');
+    var id = Meteor.tools.getQueryParamByName('id');
+    var vo = VertifyObjects.findOne(id);
+    var running = true;
+    if(ws && vo){
+      var task = Tasks.findOne({workspace_id: ws._id, task: 'fixunmatched' }, { sort: { created: -1}});
+      if(task){
+        if(task.status === 'success'){
+          running = false;
+        }
+      }
+    }
+    return running;
+  },
   getVertifyObjectName: function(){
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
+    if(ws && vo){
+      return vo.name;
+    }
     return "Vertify Lead";
   },
 });
@@ -67,4 +86,16 @@ Template.records.events({
     errDiv.style.display = 'block';
     errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Add Column functionality is unsupported</li>";
   }
+});
+
+Template.taskProcessing.helpers({
+  task(){
+    var ws = Session.get('currentWs');
+    var id = Meteor.tools.getQueryParamByName('id');
+    var vo = VertifyObjects.findOne(id);
+    if(ws && vo){
+      console.log(ws + vo);
+      return Tasks.findOne({workspace_id: ws._id, task: 'fixunmatched'}, { sort: { created: -1}});
+    }
+  },
 });

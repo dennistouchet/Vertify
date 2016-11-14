@@ -1,43 +1,75 @@
 <template name="records">
   <section class="right_col" role="main" style="height:900px;">
-    <div class="row" style="text-align:center;">
-      <h3 >Fix Unmatch Records</h3>
-      Select one or more records to fix, then choose an action and click Fix.
-    </div>
-    <div id="addErrRecords" class="alert alert-danger" style="display:none;"></div>
-    <div class="row">
-      <button class="btn btn-primary returnToSummary pull-left" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        Return to Summary
-      </button>
-    </div>
-    <div class="row">
-      Records Selected: 11,265
-      <button class="btn btn-primary selectAll" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        Unselect All
-      </button>
-      Action:
-      <button class="btn btn-primary action" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        Action
-      </button>
-      <button class="btn btn-primary fix" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        Fix
-      </button>
-    </div>
-    <div class="row">
-      <div class = "col-md-12 x_panel">
-        {{> fixunmatchedtabby}}
-        <br />
+    {{#if taskRunning}}
+      {{> taskProcessing}}
+    {{else}}
+      <div class="row" style="text-align:center;">
+        <h3 >Fix Unmatch Records</h3>
+        Select one or more records to fix, then choose an action and click Fix.
       </div>
-    </div>
-    <div class="row">
-      <button class="btn btn-primary pull-left export" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        Export
-      </button>
-      <button class="btn btn-primary pull-right addCol" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-        + Add Column
-      </button>
-    </div>
+      <div id="addErrRecords" class="alert alert-danger" style="display:none;"></div>
+      <div class="row">
+        <button class="btn btn-primary returnToSummary pull-left" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          Return to Summary
+        </button>
+      </div>
+      <div class="row">
+        Records Selected: 0
+        <button class="btn btn-primary selectAll" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          Unselect All
+        </button>
+        Action:
+        <button class="btn btn-primary action" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          Action
+        </button>
+        <button class="btn btn-primary fix" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          Fix
+        </button>
+      </div>
+      <div class="row">
+        <div class = "col-md-12 x_panel">
+          {{> fixunmatchedtabby}}
+          <br />
+        </div>
+      </div>
+      <div class="row">
+        <button class="btn btn-primary pull-left export" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          Export
+        </button>
+        <button class="btn btn-primary pull-right addCol" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          + Add Column
+        </button>
+      </div>
+    {{/if}}
   </section>
+</template>
+
+<template name="taskProcessing">
+  <div class="row" style="text-align:center;">
+    <h3 >Fix Unmatched Records is processing</h3>
+    Please wait...
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="loader-lg"></div>
+    </div>
+    {{#with task}}
+      <div class="col-sm-6" style="background-color:white;padding:5px;">
+        <strong>task: {{this.task}}  </strong><br/>
+        <strong>id: {{id}} </strong><br/>
+        <strong>status: {{status}}  </strong><br/>
+        <strong>workspace_id: {{workspace_id}}  </strong><br/>
+        <strong>vertify_object_id: {{vertify_object_id}} </strong><br/>
+        created: {{created}} <br/>
+        percent_complete: {{percent_complete}} <br/>
+        total_records: {{total_records}} <br/>
+        records_processed: {{records_processed}} <br/>
+        records_with_errors: {{records_with_errors}} <br/>
+        records_converted: {{records_converted}} <br/>
+        records_moved: {{records_moved}} <br/>
+      </div>
+    {{/with}}
+  </div>
 </template>
 
 <template name="fixunmatchedtabby">

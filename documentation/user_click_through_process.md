@@ -121,25 +121,23 @@
 
 
   I.  Netsuite
-    a. username: tnodev@thenewoffice.com
-    b. password: N
-    c. api key:
-    d. ApplicationId:
-    e. AccountNumber
-    f. ReleasePreview
-    g. IncludeSavedSearches
-    h. Sandbox
+    a. username: sstark@thenewoffice.com
+    b. password: Vertify1234!
+    c. api key:   
+    d. ApplicationId: 03259A74-5CB8-4016-8635-20EDD72BE23A
+    e. AccountNumber: TSTDRV534421
+    f. ReleasePreview: N
+    g. IncludeSavedSearches: N
+    h. Sandbox: N
+    i. SetExternalId: N
 
-  II.  Marketo
-    a. username: thenewofficedev_13259052950CA2A54205CF8
-    b. EncryptionKey: 63980079033605475500CCAA555622006775F255
-    c. EndpointSubdomain
-    d. IncludeEmailsOnActivity
-    e. SetExternalId
-    f. StaticList
-
-  III. Jira
-    a. username
-    b. password
-    c. Jql
-    d. BaseURL
+  II.  Netsuite
+    a. username: chowe@thenewoffice.com
+    b. password: Vertify1234!
+    c. api key:   
+    d. ApplicationId: 03259A74-5CB8-4016-8635-20EDD72BE23A
+    e. AccountNumber: TSTDRV935064
+    f. ReleasePreview: N
+    g. IncludeSavedSearches: N
+    h. Sandbox: N
+    i. SetExternalId: N

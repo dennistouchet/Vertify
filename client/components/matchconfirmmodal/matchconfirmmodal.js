@@ -92,48 +92,36 @@ Template.matchconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      //TODO: reset vertify object ANALYZE AND ALIGNTEST/ALIGN status to disabled
-      //TODO: refactor this into a different recursive Status reset section like Status search
-      Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'align',  false
-      , (err, res) => {
-        if(err){
+
+      Meteor.tools.updateVertifyObjectStatus(ws._id, vo.id, 'match', false);
+      
+      Meteor.call('tasks.insert', "match", ws._id, vo.id
+      , (error, result) => {
+        if(error){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Vertify Object Error: </span>[ Update Status " + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
           return;
         }
-        else{
-          Meteor.call('tasks.insert', "match", ws._id, vo.id
-          , (error, result) => {
-            if(error){
-              //console.log(err);
-              errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
-              return;
-            }
-            else {
-             //success
-             //TODO: this method needs to be removed and called by elixir
-             var status = "approved";
-             Meteor.call('vertify_objects.updateApprovedStatus', id, ws._id, status
-               , (error, result) => {
-                 if(error){
-                   //console.log(err);
-                   errDiv.style.display = 'block';
-                   errDiv.innerHTML = errDiv.innerHTML + "<li><span>Update Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
-                   return;
-                 }
-                 else {
-                   //TODO: this should be moved to elixir eventually
-                   Meteor.tools.updateAlignStatus(ws._id, vo.id, 'align', false);
+        else {
+         //success
+         //TODO: this method needs to be removed and called by elixir
+         var status = "approved";
+         Meteor.call('vertify_objects.updateApprovedStatus', id, ws._id, status
+           , (error, result) => {
+             if(error){
+               //console.log(err);
+               errDiv.style.display = 'block';
+               errDiv.innerHTML = errDiv.innerHTML + "<li><span>Update Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
+               return;
+             }
+             else {
 
-                   FlowRouter.go('/setup/match/loading');
-                   Modal.hide('matchconfirmmodal');
-                 }
-             });
-           }
-          });
-        }
+               FlowRouter.go('/setup/match/loading');
+               Modal.hide('matchconfirmmodal');
+             }
+         });
+       }
       });
     }
   },

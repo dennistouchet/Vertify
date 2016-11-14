@@ -20,7 +20,6 @@ Meteor.methods({
     }
     VertifyObjectExternalObjectOutboundSchema.validate(eooutbound);
 
-    //TODO Create Vertify Properties here?
     var matchfields = [{
       external_property: MatchObject.match_fields[0].field1,
       operator: "eq"
@@ -116,8 +115,7 @@ Meteor.methods({
     vo.external_objects.forEach(function(eo){
       VertifyObjectExternalObjectsSchema.validate(eo);
     })
-    //TODO: need to change way status value is given to Vertify Object
-    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects, match: true}});
+    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects,}});
 
     return vo.id;
   },
@@ -130,7 +128,27 @@ Meteor.methods({
     console.log("id: " + id + " | ws: " + ws_id + " | " + field + " | " + status);
     var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws_id});
 
-    if(field == 'align'){
+    // Updates the status fields if status is true
+    // Resets status field and all subsequent status fields if status is false
+    if(field == 'matchtest'){
+      console.log("update matchtest: " + vo._id);
+      if(status){
+        return VertifyObjects.update(vo._id,{$set: {matchtest: status }});
+      }
+      else{
+        return VertifyObjects.update(vo._id,{$set: {matchtest: status, match: status, align: status, aligntest: status, analyze_status:"disabled", analyze_percentage: 0 }});
+      }
+    }
+    else if(field == 'match'){
+        console.log("update match: " + vo._id);
+      if(status){
+        return VertifyObjects.update(vo._id,{$set: {match: status }});
+      }
+      else{
+        return VertifyObjects.update(vo._id,{$set: {match: status, align: status, aligntest: status, analyze_status:"disabled", analyze_percentage: 0 }});
+      }
+    }
+    else if(field == 'align'){
       console.log("update align: " + vo._id);
       if(status){
         return VertifyObjects.update(vo._id,{$set: {align: status }});
@@ -138,8 +156,8 @@ Meteor.methods({
       else{
         return VertifyObjects.update(vo._id,{$set: {align: status, aligntest: status, analyze_status:"disabled", analyze_percentage: 0 }});
       }
-
-    }else if(field == 'analyze'){
+    }
+    else if(field == 'analyze'){
       return VertifyObjects.update(vo._id,
         {$set:
           {analyze_status: "disabled", analyze_percentage: 0 }
@@ -311,7 +329,6 @@ export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
   is_truth :
     { type: Boolean }
 });
-
 
 VertifyObjects.schema = new SimpleSchema({
   tenant_id:

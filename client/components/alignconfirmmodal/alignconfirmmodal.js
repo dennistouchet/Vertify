@@ -71,8 +71,7 @@ Template.alignconfirmmodal.events({
                     else {
                      console.log("Align Task success");
                      //success
-                     Meteor.tools.updateAlignStatus(ws._id, vo.id, 'align', true);
-                    //TODO update vertify object align status
+                     Meteor.tools.updateVertifyObjectStatus(ws._id, vo.id, 'align', true);
                      FlowRouter.go('/setup/align');
                      Modal.hide('alignconfirmmodal');
                    }

@@ -1,0 +1,42 @@
+<template name="test3">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="" >
+      <div class="row">
+        <h1 class="page_title">Test Page 3 - Admin Tools</h1>
+      </div>
+      <div class ="row">
+        <h4>Tasks by current workspace</h4>
+        {{> tasks}}
+      </div>
+    </div>
+  </section>
+</template>
+
+<template name="tasks">
+  {{#each tasks}}
+    <div class="x_panel">
+      <strong>id: {{id}} </strong><br/>
+      modified: {{modified}} <br />
+      created: {{created}} <br/>
+      is_deleted: {{is_deleted}} <br/>
+      start: {{start}} <br/>
+      end: {{end}} <br/>
+      <strong>task: {{task}}  </strong><br/>
+      load: {{load}} <br/>
+      schedule_id: {{schedule_id}} <br/>
+      engine_id: {{engine_id}} <br/>
+      <strong>status: {{status}}  </strong><br/>
+      percent_complete: {{percent_complete}} <br/>
+      errors: {{errors}} <br/>
+      total_records: {{total_records}} <br/>
+      records_processed: {{records_processed}} <br/>
+      records_with_errors: {{records_with_errors}} <br/>
+      records_converted: {{records_converted}} <br/>
+      records_moved: {{records_moved}} <br/>
+      <strong>workspace_id: {{workspace_id}}  </strong><br/>
+      system_id: {{system_id}} <br/>
+      external_object_id: {{external_object_id}} <br/>
+      <strong>vertify_object_id: {{vertify_object_id}} </strong><br/>
+    </div>
+  {{/each}}
+</template>

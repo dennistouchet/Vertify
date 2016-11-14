@@ -49,7 +49,10 @@ Template.fixconfirmmodal.events({
     if(ws && vo){
       vo = VertifyObjects.findOne({"workspace_id": ws._id, "id": vo.id});
       var type = Session.get("fixType");
-
+      console.log("Workspace | VO | fixtype");
+      console.log(ws);
+      console.log(vo);
+      console.log(type);
       if(type == "issues"){
         Meteor.call('tasks.insert', "fixissues", ws._id, vo.id
         , (error, result) => {
