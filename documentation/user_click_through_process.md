@@ -21,7 +21,7 @@
   3a. On the Setup Page Click *Connect to your Systems*
   3b. OR Click *Connect* under *Setup* in the side navigation menu
 
-  4. Create a system
+  4. Create a system 
     i.    Select a System from the system dropdown
           a. depending on the Systems Connector requirements, several extra fields will appear.
             For more information on these fields and what to enter here, see index 1
