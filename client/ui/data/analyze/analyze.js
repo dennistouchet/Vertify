@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { Tasks } from '../../../../imports/collections/global/task.js'
@@ -97,10 +98,12 @@ Template.analyzeVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
+    var sys = Systems.findOne({"workspace_id": ws._id, "id": eo.system_id});
+
     if(eo.is_truth){
-      return eo.name + "*";
+      return sys.name + "-" + eo.name + "*";
     }
-    return eo.name;
+    return sys.name + "-" + eo.name;
   },
   getRecordCount : function(eo_id){
     var ws = Session.get("currentWs");

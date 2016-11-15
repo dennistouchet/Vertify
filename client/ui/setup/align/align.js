@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
@@ -16,7 +17,7 @@ Template.align.onCreated(function(){
 
   Meteor.subscribe('vertify_properties', function (){
     console.log( "Align - VertifyProperties now subscribed.");
-  });  
+  });
 });
 
 Template.align.helpers({
@@ -74,7 +75,8 @@ Template.alignVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
-    return eo.name;
+    var sys = Systems.findOne({"workspace_id": ws._id, "id": eo.system_id});
+    return sys.name + "-" + eo.name;
   },
 });
 

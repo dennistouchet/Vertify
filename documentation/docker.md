@@ -38,8 +38,22 @@
 
     sudo docker-compose up --build
 
+## run command inside docker
+
+    docker ps
+
+    docker exec -it 'dockerid' bash
+
+
 ## clear docker
 
+### Linux bash
     docker rm $(docker ps -a -q)
     docker rmi -f $(docker images -q)
     docker volume rm $(docker volume ls -q)
+    
+### Windows batch 
+    @FOR /f "tokens=*" %i IN ('docker ps -a -q') DO @docker rm -f %i
+    @FOR /f "tokens=*" %i IN ('docker images -q') DO @docker rmi -f %i
+    @FOR /f "tokens=*" %i IN ('docker volume ls -q') DO @docker volume rm %i
+    

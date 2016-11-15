@@ -187,7 +187,8 @@ Template.matchVertifyObjectli.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
-    return eo.name;
+    var sys = Systems.findOne({"workspace_id": ws._id, "id": eo.system_id});
+    return sys.name + "-" + eo.name;
   },
   getExternalObjectRecords : function(eo_id){
     var ws = Session.get("currentWs");

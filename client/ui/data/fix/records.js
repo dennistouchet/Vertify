@@ -94,7 +94,6 @@ Template.taskProcessing.helpers({
     var id = Meteor.tools.getQueryParamByName('id');
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
-      console.log(ws + vo);
       return Tasks.findOne({workspace_id: ws._id, task: 'fixunmatched'}, { sort: { created: -1}});
     }
   },

@@ -113,31 +113,56 @@
 
 # Fix - Resolving Vertify Object issues
 
+  28. Click *Actions* dropdown menu select *details*
+
+  29. Click *Fix Unmatched*
+
+  30. Click Confirm Fix
+
+  31. Waiting for loading to Complete
+
+  32. DONE!
 
 #Index
 
 1. System connector credential fields
 
-
-
   I.  Netsuite
+
     a. username: sstark@thenewoffice.com
+
     b. password: Vertify1234!
+
     c. api key:   
+
     d. ApplicationId: 03259A74-5CB8-4016-8635-20EDD72BE23A
+
     e. AccountNumber: TSTDRV534421
+
     f. ReleasePreview: N
+
     g. IncludeSavedSearches: N
+
     h. Sandbox: N
+
     i. SetExternalId: N
 
   II.  Netsuite
+
     a. username: chowe@thenewoffice.com
+
     b. password: Vertify1234!
+
     c. api key:   
+
     d. ApplicationId: 03259A74-5CB8-4016-8635-20EDD72BE23A
+
     e. AccountNumber: TSTDRV935064
+
     f. ReleasePreview: N
+
     g. IncludeSavedSearches: N
+
     h. Sandbox: N
+
     i. SetExternalId: N
