@@ -282,7 +282,7 @@ Template.collect.events({
   },
 });
 
-Template.collectZeroObjHeader.helpers({
+Template.collectemptyheader.helpers({
   hasWorkspace : function(){
     if(Session.get("currentWs")){
       return true;
@@ -303,13 +303,39 @@ Template.collectZeroObjHeader.helpers({
   },
 });
 
-Template.collectZeroObjHeader.events({
+Template.collectemptyheader.events({
   'click .toConnect': function(){
     FlowRouter.go('/setup/connect');
   }
 });
 
-Template.systemObjectList.helpers({
+Template.systemobjectdropdown.helpers({
+  getObjectName : function(id){
+    var i = parseInt(id);
+    //var c = ObjectsList.find({"id" : id}).count();
+    //alert("count: " + c);
+    var curObj = ObjectsList.findOne({"id": id});
+    return curObj.name;
+  },
+  getSystemName : function(id){
+    var curSys = Systems.findOne({"id":id});
+    return curSys.name;
+  },
+  getConnectorName : function(id){
+    var curSys = Systems.findOne({"id":id});
+    var curCon = Connectors.findOne({"id": curSys.connector_id});
+    return curCon.name;
+  },
+  doesntAlreadyExist : function(name, id){
+    var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
+    if(extObj){
+      return false;
+    }
+    return true;
+  },
+});
+
+Template.systemobjectmenu.helpers({
   getObjectName : function(id){
     var i = parseInt(id);
     //var c = ObjectsList.find({"id" : id}).count();
@@ -336,33 +362,7 @@ Template.systemObjectList.helpers({
   }
 });
 
-Template.objectList.helpers({
-  getObjectName : function(id){
-    var i = parseInt(id);
-    //var c = ObjectsList.find({"id" : id}).count();
-    //alert("count: " + c);
-    var curObj = ObjectsList.findOne({"id": id});
-    return curObj.name;
-  },
-  getSystemName : function(id){
-    var curSys = Systems.findOne({"id":id});
-    return curSys.name;
-  },
-  getConnectorName : function(id){
-    var curSys = Systems.findOne({"id":id});
-    var curCon = Connectors.findOne({"id": curSys.connector_id});
-    return curCon.name;
-  },
-  doesntAlreadyExist : function(name, id){
-    var extObj = ExternalObjects.findOne({"system_id": id, "name": name});
-    if(extObj){
-      return false;
-    }
-    return true;
-  },
-});
-
-Template.collectObj.helpers({
+Template.collectexternalobject.helpers({
   getObjectName : function(id){
     var i = parseInt(id);
     //var c = ObjectsList.find({"id" : id}).count();

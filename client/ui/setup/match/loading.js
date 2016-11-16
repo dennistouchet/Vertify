@@ -4,10 +4,20 @@ import { Tasks } from '../../../../imports/collections/global/task.js';
 import './loading.html';
 
 Template.matchloading.helpers({
+    task(){
+      var ws = Session.get("currentWs");
+      if(ws){
+        //TODO add vertify object
+        var task = Tasks.findOne({"workspace_id": ws._id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
+        console.log("Loading - inside task check");
+        console.log(task);
+        return task;
+      }
+    },
     isComplete: function(){
       var ws = Session.get("currentWs");
       if(ws){
-        console.log(ws);
+        //TODO add vertify object
         var tasks = Tasks.find({"workspace_id": ws._id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
         console.log("Loading - inside task check");
         console.log(tasks);

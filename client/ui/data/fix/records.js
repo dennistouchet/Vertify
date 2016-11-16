@@ -5,18 +5,19 @@ import { FixUnmatchedRecords } from '../../../../imports/collections/workspace/u
 
 import './records.html';
 
-Template.records.onCreated(function(){
+Template.fixrecords.onCreated(function(){
     Meteor.subscribe('fix_unmatched_records', function(){
       console.log('Records - FixUnmatchRecords now subscribed');
     });
 });
 
-Template.records.helpers({
+Template.fixrecords.helpers({
   taskRunning : function(){
     var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName('id');
     var vo = VertifyObjects.findOne(id);
     var running = true;
+    //TODO: add vertify objects
     if(ws && vo){
       var task = Tasks.findOne({workspace_id: ws._id, task: 'fixunmatched' }, { sort: { created: -1}});
       if(task){
@@ -38,7 +39,7 @@ Template.records.helpers({
   },
 });
 
-Template.records.events({
+Template.fixrecords.events({
   'click .returnToSummary': function(e){
     var errDiv = document.getElementById("addErrRecords");
     errDiv.innerHTML = "";
@@ -88,7 +89,7 @@ Template.records.events({
   }
 });
 
-Template.taskProcessing.helpers({
+Template.fixloading.helpers({
   task(){
     var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName('id');

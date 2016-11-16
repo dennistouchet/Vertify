@@ -49,7 +49,7 @@ Template.fix.events({
   }
 });
 
-Template.fixVertifyObjects.helpers({
+Template.fixvertifyobjecttable.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
@@ -60,7 +60,7 @@ Template.fixVertifyObjects.helpers({
   },
 });
 
-Template.fixVertifyObjectli.helpers({
+Template.fixvertifyobjectrow.helpers({
   getRecordCountVo : function(id){
     var ws = Session.get("currentWs");
     var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws._id});

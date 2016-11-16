@@ -5,18 +5,18 @@
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       {{#if hasObjects}}
         {{#if complete}}
-          {{> fixComplete}}
+          {{> fixcomplete}}
         {{else}}
-          {{> fixIncomplete}}
+          {{> fixincomplete}}
         {{/if}}
       {{else}}
-        {{> invalidFix}}
+        {{> fixinvalid}}
       {{/if}}
     </div>
   </section>
 </template>
 
-<template name="invalidFix">
+<template name="fixinvalid">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that need to be fix.</h4>
@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<template name="fixIncomplete">
+<template name="fixincomplete">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you have issues and/or unmatched records within your data.</h4>
@@ -55,10 +55,10 @@
       </h4>
     </div>
   </div>
-  {{>fixVertifyObjects}}
+  {{>fixvertifyobjecttable}}
 </template>
 
-<template name="fixVertifyObjects">
+<template name="fixvertifyobjecttable">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
       <div class="col-md-3">Vertify Object </div>
@@ -72,14 +72,14 @@
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each vertify_objects}}
-          {{> fixVertifyObjectli}}
+          {{> fixvertifyobjectrow}}
         {{/each}}
       {{/if}}
     </div>
   </div>
 </template>
 
-<template name="fixVertifyObjectli">
+<template name="fixvertifyobjectrow">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-3">{{name}} </div>
     <div class="col-md-2" >

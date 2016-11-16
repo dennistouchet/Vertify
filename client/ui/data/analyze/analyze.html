@@ -5,18 +5,18 @@
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       {{#if hasObjects}}
         {{#if isEnabled}}
-          {{> analyzeEnabled}}
+          {{> analyzeenabled}}
         {{else}}
-          {{> analyzeDisabled}}
+          {{> analyzedisabled}}
         {{/if}}
       {{else}}
-        {{> invalidAnalyze}}
+        {{> analyzeinvalid}}
       {{/if}}
     </div>
   </section>
 </template>
 
-<template name="invalidAnalyze">
+<template name="analyzeinvalid">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that can be Analyzed.</h4>
@@ -43,7 +43,7 @@
   </div>
 </template>
 
-<template name="analyzeDisabled">
+<template name="analyzedisabled">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like no Vertify objects have been analyzed for truth.</h4>
@@ -55,10 +55,10 @@
       </h4>
     </div>
   </div>
-  {{>analyzeVertifyObjects}}
+  {{>analyzevertifyobjecttable}}
 </template>
 
-<template name="analyzeVertifyObjects">
+<template name="analyzevertifyobjecttable">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
       <div class="col-md-3">Vertify Object </div>
@@ -70,14 +70,14 @@
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each vertify_objects}}
-          {{> analyzeVertifyObjectli}}
+          {{> analyzevertifyobjectrow}}
         {{/each}}
       {{/if}}
     </div>
   </div>
 </template>
 
-<template name="analyzeVertifyObjectli">
+<template name="analyzevertifyobjectrow">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-3">{{name}} </div>
     <div class="col-md-3" >
@@ -126,7 +126,7 @@
   </div>
 </template>
 
-<template name="analyzeInProgress">
+<template name="analyzeloading">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -141,10 +141,10 @@
       </h4>
     </div>
   </div>
-  {{> analyzeVertifyObjects}}
+  {{> analyzevertifyobjecttable}}
 </template>
 
-<template name="analyzeEnabled">
+<template name="analyzeenabled">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -159,7 +159,7 @@
       </h4>
     </div>
   </div>
-  {{> analyzeVertifyObjects}}
+  {{> analyzevertifyobjecttable}}
   <div class="row">
     <button class="btn btn-primary toFix" type=button style="margin-top:10px;margin-bottom:10px;margin-left:50px;">
       <i class="glyphicon glyphicon-stats"></i>

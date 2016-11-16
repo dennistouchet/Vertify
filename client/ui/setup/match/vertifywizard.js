@@ -14,7 +14,7 @@ Template.vertifywizard.onCreated( function() {
     console.log( "Match Wizard - MatchSetup now subscribed.");
   });
 
-  //KEEP TRACK OF THE CURRENT VERTIFY OBJECT SETUP PROCESS -incomplete  
+  //KEEP TRACK OF THE CURRENT VERTIFY OBJECT SETUP PROCESS -incomplete
   delete Session.keys['setupId'];
   var ws = Session.get("currentWs");
   if(ws == null){
@@ -398,6 +398,15 @@ Template.vwFilter.helpers({
   }
 });
 
+Template.filterRecords.helpers({
+  getSystemName : function(id){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+    }
+  }
+})
+
 Template.filterRecords.events({
   'change input': function(e, t){
     //TODO: change this event so it only happens on the radio buttons and not other inputs
@@ -519,6 +528,11 @@ Template.vwFinish.helpers({
       return false;
     }
   },
+  getObject1Id: function(eo_ids){
+    if(eo_ids){
+      return eo_ids[0];
+    }
+  },
   getObject2: function(eo_ids){
     if(eo_ids){
       var eo2 = eo_ids[1];
@@ -528,10 +542,22 @@ Template.vwFinish.helpers({
       return false;
     }
   },
+  getObject2Id: function(eo_ids){
+    if(eo_ids){
+      return eo_ids[1];
+    }
+  },
   getSystemName : function(id){
     var ws = Session.get("currentWs");
     if(ws){
       return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+    }
+  },
+  getSystemNameByEoId : function(i, eoids){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var eo = ExternalObjects.findOne({"workspace_id": ws._id, "id": eoids[i]});
+      return Systems.findOne({"workspace_id": ws._id, "id": eo.system_id}).name;
     }
   }
 });

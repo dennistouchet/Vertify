@@ -7,27 +7,28 @@
         {{#if isValid}}
           {{#if hasVertifyObjects}}
             {{#if matchCompleted}}
-              {{> matchCompleteHeader}}
-              {{> matchVertifyObjects}}
-              {{> matchCompleteFooter}}
+              {{> matchcompleteheader}}
+              {{> matchvertifyobjecttable}}
+              {{> matchcompletefooter}}
             {{else}}
-              {{> matchHeader}}
-              {{> matchVertifyObjects}}
-              {{> matchRecommendations}}
+              {{> matchincompleteheader}}
+              {{> matchvertifyobjecttable}}
+              {{> matchrecommended}}
             {{/if}}
           {{else}}
-            {{> matchZeroDataHeader}}
-            {{> matchRecommendations}}
+            {{> matchemptyheader}}
+            {{> matchrecommended}}
           {{/if}}
         {{else}}
-          {{> invalidMatch}}
+          {{> matchinvalid}}
         {{/if}}
       </div>
     </div>
   </section>
 </template>
 
-<template name="invalidMatch">
+<!-- -->
+<template name="matchinvalid">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any External Objects that can be Match.</h4>
@@ -54,7 +55,8 @@
   </div>
 </template>
 
-<template name="matchZeroDataHeader">
+<!-- -->
+<template name="matchemptyheader">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you have no objects matched.</h4>
@@ -67,12 +69,79 @@
     </div>
   </div>
   <div class="row">
-    {{> matchAddCustomVertifyObj}}
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add Custom Vertify Object
+      </button>
+    </div>
+    <div class="col-md-9"> </div>
   </div>
 </template>
 
-<template name="matchVertifyObjects">
+<!-- -->
+<template name="matchincompleteheader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Looks like you haven't matched your existing Vertify Objects.</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">Select Match from an existing Vertify Object's action menu below or create a new custom Vertify object.<br/>
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add Custom Vertify Object
+      </button>
+    </div>
+    <div class="col-md-9"> </div>
+  </div>
+</template>
+
+<!-- -->
+<template name="matchcompleteheader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Match Complete! {{vertifyObjectCount}} connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Add another Vertify object, or start aligning objects.
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- -->
+<template name="matchcompletefooter">
+  <div class="row">
+    <div class="col-md-3">
+      <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Add Custom Vertify Object
+      </button>
+    </div>
+    <div class="col-md-6"> </div>
+    <div class="col-md-3">
+      <button class="btn btn-primary toAlign" type=button style="margin-top:10px;margin-bottom:10px;">
+        Next: Align Objects
+        <i class="glyphicon glyphicon-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</template>
+
+<!-- -->
+<template name="matchvertifyobjecttable">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
       <div class="col-md-2">Vertify Object </div>
@@ -85,14 +154,15 @@
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each vertify_objects}}
-          {{> matchVertifyObjectli}}
+          {{> matchvertifyobjectrow}}
         {{/each}}
       {{/if}}
     </div>
   </div>
 </template>
 
-<template name="matchVertifyObjectli">
+<!-- -->
+<template name="matchvertifyobjectrow">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-2">{{name}} </div>
     <div class="col-md-3" >
@@ -137,86 +207,18 @@
   </div>
 </template>
 
-<template name="matchAddCustomVertifyObj">
-    <div class="col-md-3">
-      <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">
-          <i class="glyphicon glyphicon-plus"></i>
-          Add Custom Vertify Object
-      </button>
-    </div>
-    <div class="col-md-6"> </div>
-</template>
-
-<template name="matchHeader">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Looks like you haven't matched your existing Vertify Objects.</h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">Select Match from an existing Vertify Object's action menu below or create a new custom Vertify object.<br/>
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    {{> matchAddCustomVertifyObj}}
-    <div class="col-md-3"></div>
-  </div>
-</template>
-
-
-<template name="matchCompleteHeader">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        <i class="glyphicon glyphicon-ok-circle"> </i>Match Complete! {{vertifyObjectCount}} connected.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Add another Vertify object, or start aligning objects.
-      </h4>
-    </div>
-  </div>
-</template>
-
-<template name="matchCompleteFooter">
-  <div class="row">
-    {{> matchAddCustomVertifyObj}}
-    <div class="col-md-3">
-      <button class="btn btn-primary toAlign" type=button style="margin-top:10px;margin-bottom:10px;">
-        Next: Align Objects
-        <i class="glyphicon glyphicon-chevron-right"></i>
-      </button>
-    </div>
-  </div>
-</template>
-
-<template name="matchRecommendations">
+<!-- -->
+<template name="matchrecommended">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px;"><strong>Recommendations:</strong></h4>
-      {{> matchRecommedationsPanel}}
-    </div>
-  </div>
-</template>
-
-<template name="matchRecommedationsPanel">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="x_panel" style="height:200px;text-align:center;vertical-align:middle;">
-        RECOMMENDED VERTIFY OBJECTS GO HERE.
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel" style="height:200px;text-align:center;">
+            RECOMMENDED VERTIFY OBJECTS GO HERE.
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</template>
-
-<template name="matchAddRecommendedVertifyObj">
-  <button class="btn btn-primary addRecommended" type=button style="margin-top:10px;margin-bottom:10px;">
-    <i class="glyphicon glyphicon-plus"></i>
-    Add Lead Vertify Object
-  </button>
 </template>

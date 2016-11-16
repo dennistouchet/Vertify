@@ -6,24 +6,24 @@
         <div id="addErrConnect" class="alert alert-danger" style="display:none;"></div>
         {{#if hasSystems}}
           {{#if hasEnoughSystems}}
-            {{> connectSysHeader}}
+            {{> connectcompleteheader}}
           {{else}}
-            {{> connectSysOneHeader}}
+            {{> connectincompleteheader}}
           {{/if}}
         {{else}}
           {{#if hasWorkspace}}
-            {{> connectSysZeroHeader}}
+            {{> connectemptyheader}}
           {{else}}
-            {{> connectWsZeroData}}
+            {{> connectinvalid}}
           {{/if}}
         {{/if}}
         <div class="col-md-12">
           {{#if Template.subscriptionsReady}}
             {{#if hasWorkspace}}
               {{#each systems}}
-                {{> connectSys}}
+                {{> connectsystem}}
               {{else}}
-                {{> connectSysZeroData}}
+                {{> connectempty}}
               {{/each}}
             {{/if}}
           {{else}}
@@ -36,8 +36,75 @@
   </section>
 </template>
 
+<!--No Workspace Selected Header -->
+<template name="connectinvalid">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Whoops, looks like you haven't selected a workspace. Please, select one to continue.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Can't find the workspace you're looking for?
+        <button class="btn btn-primary toWorkspace" >
+          Add One
+        </button>
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- No Systems Connected - Header -->
+<template name="connectemptyheader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Looks like you have no systems connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Search for a system to connect.
+      </h4>
+    </div>
+  </div>
+</template>
+
+<!-- One System Connected - Header -->
+<template name="connectincompleteheader">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Great! One system connected.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Connect at least one more system to get started.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <button class="btn btn-primary pull-right addModal" type=button style="margin-top:10px;margin-bottom:10px;">
+          <i class="glyphicon glyphicon-plus"></i>
+          Connect System
+        </button>
+      </h4>
+    </div>
+  </div>
+</template>
+
 <!-- Connect Page Completed Status -->
-<template name="connectSysHeader">
+<template name="connectcompleteheader">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -70,54 +137,8 @@
   </div>
 </template>
 
-<!-- One System Connected - Header -->
-<template name="connectSysOneHeader">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Great! One system connected.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Connect at least one more system to get started.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        <button class="btn btn-primary pull-right addModal" type=button style="margin-top:10px;margin-bottom:10px;">
-          <i class="glyphicon glyphicon-plus"></i>
-          Connect System
-        </button>
-      </h4>
-    </div>
-  </div>
-</template>
-
-<!-- No Systems Connected - Header -->
-<template name="connectSysZeroHeader">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Looks like you have no systems connected.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Search for a system to connect.
-      </h4>
-    </div>
-  </div>
-</template>
-
 <!--No Systems Connected - Add system form -->
-<template name="connectSysZeroData">
+<template name="connectempty">
   <!-- TODO: replace with error template -->
   <div id="addErr" class="alert alert-danger" style="display:none;"></div>
   <div class="col-md-3"><span> </span></div>
@@ -139,7 +160,7 @@
 </template>
 
 <!--Display data for a single connected System-->
-<template name="connectSys">
+<template name="connectsystem">
   <div class="row">
     <div class="col-xs-12 system" data-id="{{_id}}">
       <div class="x_panel">
@@ -199,27 +220,6 @@
           {{/each}}
         </div>
       </div>
-    </div>
-  </div>
-</template>
-
-<!--No Workspace Selected Header -->
-<template name="connectWsZeroData">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Whoops, looks like you haven't selected a workspace. Please, select one to continue.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Can't find the workspace you're looking for?
-        <button class="btn btn-primary toWorkspace" >
-          Add One
-        </button>
-      </h4>
     </div>
   </div>
 </template>

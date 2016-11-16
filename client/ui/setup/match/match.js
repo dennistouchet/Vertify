@@ -91,7 +91,7 @@ Template.match.helpers({
   },
 });
 
-Template.matchVertifyObjects.helpers({
+Template.matchvertifyobjecttable.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
@@ -183,7 +183,7 @@ Template.match.events({
   }
 });
 
-Template.matchVertifyObjectli.helpers({
+Template.matchvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
@@ -197,7 +197,7 @@ Template.matchVertifyObjectli.helpers({
   },
 });
 
-Template.matchCompleteFooter.events({
+Template.matchcompletefooter.events({
   'click .toAlign': function(e){
     FlowRouter.go('/setup/align');
   }

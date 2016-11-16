@@ -120,7 +120,7 @@
 <template name="filterRecords">
   <div class="col-md-12">
     <h4 style="padding-left:150px;">
-      {{name}}: Choose records to be vertified:
+      {{getSystemName system_id}} - {{name}}: Choose records to be vertified:
     </h4>
   </div>
   <div class="row" style="display:block;margin-top:20px;vertical-align:center;font-size:1.6em;">
@@ -220,22 +220,22 @@
     <h4 style="padding-left:50px;">Objects:</h4>
     <h5 style="padding-left:75px;">
       {{#each external_objects}}
-        -{{name}}<br/>
+        {{getSystemName system_id}} - {{name}}<br/>
       {{/each}}
     </h5><br/>
     <h4 style="padding-left:50px;">Filters:</h4>
     <h5 style="padding-left:75px;">
       {{#with filter_options}}
         {{#if filter_options.eo1_vertify_all}}
-          <span>-{{getObject1 filter_options.eo_ids}}: all selected</span><br/>
+          <span>{{getSystemNameByEoId 0 filter_options.eo_ids}} - {{getObject1 filter_options.eo_ids}}: all selected</span><br/>
         {{else}}
-          <span>-{{getObject1 filter_options.eo_ids}}: filters selected</span><br/>
+          <span>{{getSystemNameByEoId 0 filter_options.eo_ids}} - {{getObject1 filter_options.eo_ids}}: filters selected</span><br/>
           <span>TODO: Add filter data context</span>
         {{/if}}
         {{#if filter_options.eo2_vertify_all}}
-          <span>-{{getObject2 filter_options.eo_ids}}: all selected</span><br/>
+          <span>{{getSystemNameByEoId 1 filter_options.eo_ids}} - {{getObject2 filter_options.eo_ids}}: all selected</span><br/>
         {{else}}
-          <span>-{{getObject2 filter_options.eo_ids}}: filters selected</span><br/>
+          <span>{{getSystemNameByEoId 1 filter_options.eo_ids}} - {{getObject2 filter_options.eo_ids}}: filters selected</span><br/>
           <span>TODO: Add filter data context</span>
         {{/if}}
       {{/with}}
@@ -243,8 +243,8 @@
     <h4 style="padding-left:50px;"> Match: </h4>
     <h5 style="padding-left:75px;">
       {{#each match_fields}}
-        field1: {{field1}}<br/>
-        field2: {{field2}}<br/>
+        Match Field 1: {{getSystemNameByEoId 0 filter_options.eo_ids}} - {{field1}}<br/>
+        Match Field 2: {{getSystemNameByEoId 1 filter_options.eo_ids}} - {{field2}}<br/>
       {{/each}}
     </h5><br/>
   </div>

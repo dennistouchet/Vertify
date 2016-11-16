@@ -5,7 +5,7 @@ import { Tasks } from '../../../../imports/collections/global/task.js'
 
 import './details.html';
 
-Template.details.helpers({
+Template.fixdetails.helpers({
   vertify_object(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
@@ -18,7 +18,7 @@ Template.details.helpers({
   },
 });
 
-Template.details.events({
+Template.fixdetails.events({
   'click .returnToList': function(e){
     FlowRouter.go('/data/fix');
   },
@@ -30,7 +30,7 @@ Template.details.events({
   },
 });
 
-Template.detailsResults.helpers({
+Template.fixdetailsresults.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){

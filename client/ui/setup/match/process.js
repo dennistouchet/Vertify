@@ -15,7 +15,7 @@ Template.process.onCreated(function(){
     console.log( "Match/Process - MatchResults now subscribed." );
   });
 
-  this.currentPage = new ReactiveVar("processZeroData"); //other Page is matchProcessComplete
+  this.currentPage = new ReactiveVar("processmatchtest"); //other Page is processmatch
 });
 
 
@@ -45,7 +45,6 @@ Template.process.helpers({
 Template.process.events({
   'click' : function(){
     console.log("process click event");
-    //ModalHelper.openMatchConfirmModalFor(sysId);
   },
   'change input': function(e, t){
     //TODO: change this event so it only happens on the radio buttons and not other inputs
@@ -94,7 +93,7 @@ Template.process.events({
               return;
             }
             else {
-              t.currentPage.set( "matchProcessComplete" );
+              t.currentPage.set( "processmatch" );
             }
           });
         }
@@ -106,19 +105,11 @@ Template.process.events({
   },
   'click .preMatchModal' : function(e, t){
       e.preventDefault();
-      t.currentPage.set( "matchProcessComplete" );
-      /*
-      var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
-      var ws = Session.get("currentWs");
-      var matchresults = {id: 0};
-      ModalHelper.openMatchConfirmModalFor(vertifyobjectid);
-
-      console.log("Match - prematchtest modal clicked");
-      */
+      t.currentPage.set( "processmatch" );
   },
 });
 
-Template.matchProcessComplete.helpers({
+Template.processmatch.helpers({
   taskComplete: function(){
     //TODO: update this to use task, not existing results
     var ws = Session.get("currentWs");
@@ -167,7 +158,7 @@ Template.matchProcessComplete.helpers({
   },
 })
 
-Template.matchProcessComplete.events({
+Template.processmatch.events({
   'click .returnToList' : function(e){
     console.log('Match - returnToList event clicked.');
     FlowRouter.go('/setup/match');

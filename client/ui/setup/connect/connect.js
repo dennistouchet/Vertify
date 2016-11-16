@@ -135,7 +135,7 @@ Template.connect.events({
   },
 });
 
-Template.connectSysZeroData.events({
+Template.connectempty.events({
   'click .sysinfoddl li a' : function(e, template){
     var btnprnt = $(e.target).parent().parent().parent();
     var text = e.target.text;
@@ -290,7 +290,7 @@ Template.connectSysZeroData.events({
   },
 });
 
-Template.connectSys.helpers({
+Template.connectsystem.helpers({
   getConnectorName : function(id){
     if(Session.get("currentWs") && id){
       var conn = Connectors.findOne({"id" : id});

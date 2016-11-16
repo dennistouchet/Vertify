@@ -84,7 +84,7 @@ Template.analyze.events({
   },
 });
 
-Template.analyzeVertifyObjects.helpers({
+Template.analyzevertifyobjecttable.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
@@ -94,7 +94,7 @@ Template.analyzeVertifyObjects.helpers({
   },
 });
 
-Template.analyzeVertifyObjectli.helpers({
+Template.analyzevertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
@@ -122,7 +122,7 @@ Template.analyzeVertifyObjectli.helpers({
   }
 });
 
-Template.analyzeEnabled.events({
+Template.analyzeenabled.events({
   'click .toFix'(e){
     console.log('toFix clicked');
     FlowRouter.go('/data/fix');

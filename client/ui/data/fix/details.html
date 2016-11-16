@@ -1,4 +1,4 @@
-<template name="details">
+<template name="fixdetails">
   <section class="right_col" role="main" style="height:900px;">
     {{#with vertify_object}}
       <div class="row">
@@ -12,7 +12,7 @@
         {{unmatchedRecords}} records are unmatched (missing in one or more systems).<br/>
       </h5>
       </div>
-      {{>detailsResults}}
+      {{>fixdetailsresults}}
     {{else}}
       <div class="row">
         <h1>Whoops!</h1><br/>
@@ -23,7 +23,7 @@
   </section>
 </template>
 
-<template name="detailsResults">
+<template name="fixdetailsresults">
   <div class="row">
     <div class="col-md-12">
     <h3>Details Results</h3>

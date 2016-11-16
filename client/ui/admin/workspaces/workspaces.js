@@ -1,5 +1,5 @@
 import { Template } from 'meteor/templating';
-import { Workspaces } from '../../../imports/collections/tenant/workspace.js';
+import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import './workspaces.html';
 
 Template.workspaces.helpers({

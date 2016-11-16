@@ -14,7 +14,11 @@
         <div class="row">
           <div class="col-md-12" style="text-align:center;height:100px;">
             <h3 style="padding-left:10px">Matching Your Records!
-            </h3>
+            </h3><br/>
+            {{#with task}}
+              <h3 style="padding-left:10px">Records Matched: {{records_processed}}
+              </h3><br/>
+            {{/with}}
           </div>
         </div>
         <div class="row">

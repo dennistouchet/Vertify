@@ -1,7 +1,7 @@
-<template name="records">
+<template name="fixrecords">
   <section class="right_col" role="main" style="height:900px;">
     {{#if taskRunning}}
-      {{> taskProcessing}}
+      {{> fixloading}}
     {{else}}
       <div class="row" style="text-align:center;">
         <h3 >Fix Unmatch Records</h3>
@@ -44,7 +44,7 @@
   </section>
 </template>
 
-<template name="taskProcessing">
+<template name="fixloading">
   <div class="row" style="text-align:center;">
     <h3 >Fix Unmatched Records is processing</h3>
     Please wait...
@@ -66,7 +66,7 @@
         records_processed: {{records_processed}} <br/>
         records_with_errors: {{records_with_errors}} <br/>
         records_converted: {{records_converted}} <br/>
-        records_moved: {{records_moved}} <br/>
+        <strong>records_moved: {{records_moved}} </strong><br/>
       </div>
     {{/with}}
   </div>

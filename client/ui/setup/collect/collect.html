@@ -6,12 +6,12 @@
         {{#if isValid}}
           {{#if hasObject}}
             {{#if hasEnoughObject}}
-              {{> collectObjHeader}}
+              {{> collectcompleteheader}}
             {{else}}
-              {{> collectOneObjHeader}}
+              {{> collectincompleteheader}}
             {{/if}}
           {{else}}
-                {{> collectZeroObjHeader}}
+                {{> collectemptyheader}}
           {{/if}}
           <div class="row">
             <div class="col-md-12">
@@ -22,7 +22,7 @@
                     <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl" style="max-height:300px;overflow-y:scroll;">
                       {{#if Template.subscriptionsReady}}
                         {{#each systems}}
-                          {{> objectList}}
+                          {{> systemobjectdropdown}}
                         {{/each}}
                       {{/if}}
                     </ul>
@@ -34,7 +34,7 @@
             <div class="col-md-12" style="height:300px;max-height:300px;overflow-y:scroll;padding-top:15px;">
               {{#if Template.subscriptionsReady}}
                 {{#each systems}}
-                  {{> systemObjectList}}
+                  {{> systemobjectmenu}}
                 {{/each}}
               {{/if}}
             </div>
@@ -42,18 +42,19 @@
           <div class="row">
             {{#if Template.subscriptionsReady}}
               {{#each external_objects}}
-                {{> collectObj}}
+                {{> collectexternalobject}}
               {{/each}}
             {{/if}}
           </div>
         {{else}}
-          {{> invalidCollect}}
+          {{> collectinvalid}}
         {{/if}}
       </div>
   </section>
 </template>
 
-<template name="invalidCollect">
+<!-- Workspace doesn't meet requirements for Collect -->
+<template name="collectinvalid">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any Systems connected.</h4>
@@ -80,115 +81,8 @@
   </div>
 </template>
 
-<template name="systemObjectList">
-  {{#each eo in external_objects}}
-    {{#if doesntAlreadyExist eo.name id}}
-      <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
-        <a href="#">
-          <div class="x_panel">
-            Name: {{eo.name}}<br />
-            System Name: {{getSystemName id}}<br/>
-            System Id: {{id}}<br/>
-            Workspace Id: {{workspace_id}}<br/>
-          </div>
-        </a>
-      </div>
-    {{/if}}
-  {{/each}}
-</template>
-
-<template name="objectList">
-  {{#each eo in external_objects}}
-    {{#if doesntAlreadyExist eo.name id}}
-    <li>
-      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{id}}">
-        <img src="/images/{{getConnectorName id}}.png"
-        alt="..." style="width:30px;height:30px; margin-right:10px;" >
-        {{name}} - {{eo.name}}
-      </a>
-    </li>
-    {{/if}}
-  {{else}}
-    <li><a href="#"> No objects found.</a></li>
-  {{/each}}
-</template>
-
-<template name="collectObj">
-    <div class="col-md-12 system" data-id="{{_id}}">
-      <div class="x_panel">
-        <div class="col-md-2"  >
-            <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
-        </div>
-        <div class="col-md-2" style="padding-top:35px;">
-          <h6>
-          {{name}}
-          </h6>
-          <div id="objdetails{{_id}}" class="collapse" >
-            ID: {{id}}<br/>
-            Tenant: {{tenant_id}}<br/>
-            System: {{system_id}}<br/>
-            Workspace: {{workspace_id}}<br/>
-            Properties: <br/>
-            {{#each properties}}
-              {{> collectObjProperty}}
-            {{/each}}
-          </div>
-        </div>
-        <div class="col-md-5" style="padding-top:5px">
-          <p style="text-align:center">
-            Collecting Data:
-              {{getCollectedRecords record_count percentage}}
-              of
-              {{#if record_count}}{{record_count}}
-              {{else}}0{{/if}} records ({{percentage}}%)<br/>
-            Estimated Time Remaining: {{timeRemaining percentage}}
-          </p>
-          <div class="progress">
-            <div class="progress-bar" data-id="{{id}}" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
-            </div>
-          </div>
-        </div>
-        <div class="col-md-1" style="text-align:right;padding-top:35px;">
-          {{#if collectschema}}
-            {{#if collect}}
-              <p style="color:#72D2A4;">
-                Collected
-              </p>
-            {{else}}
-              <p style="color:#E81C57;">
-                Collect Schema
-              </p>
-            {{/if}}
-          {{else}}
-            <p style="color:#E81C57;">
-              Uncollected
-            </p>
-          {{/if}}
-        </div>
-        <div class="col-md-2" style="">
-          <button class="btn btn-primary pull-right delete" type="button">
-            <i class="glyphicon glyphicon-remove"></i>
-          </button>
-          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#objdetails{{_id}}">
-            <i class="glyphicon glyphicon-chevron-down"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-</template>
-
-<template name="collectObjProperty">
-  <ul>
-    <li>Property Name: {{name}}</li>
-    <li>Is Customer: {{is_custom}}</li>
-    <li>Is Array: {{is_array}} </li>
-    <li>Type: {{type}}</li>
-    <li>Is Key: {{is_key}}</li>
-  </ul>
-</template>
-
-<!-- No Object Connected Header  -->
-<template name="collectZeroObjHeader">
+<!-- No Object Collected Header  -->
+<template name="collectemptyheader">
   {{#if hasWorkspace}}
     {{#if hasSystems}}
       <div class="row">
@@ -235,8 +129,8 @@
   {{/if}}
 </template>
 
-<!-- One Object Connected Header -->
-<template name="collectOneObjHeader">
+<!-- One Object Collected Header -->
+<template name="collectincompleteheader">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -254,7 +148,7 @@
 </template>
 
 <!-- Collect Complete Header -->
-<template name="collectObjHeader">
+<template name="collectcompleteheader">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -284,4 +178,115 @@
     </div>
     <div class="col-md-3"> </div>
   </div>
+</template>
+
+<!-- -->
+<template name="systemobjectdropdown">
+  {{#each eo in external_objects}}
+    {{#if doesntAlreadyExist eo.name id}}
+    <li>
+      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{id}}">
+        <img src="/images/{{getConnectorName id}}.png"
+        alt="..." style="width:30px;height:30px; margin-right:10px;" >
+        {{name}} - {{eo.name}}
+      </a>
+    </li>
+    {{/if}}
+  {{else}}
+    <li><a href="#"> No objects found.</a></li>
+  {{/each}}
+</template>
+
+<!-- -->
+<template name="systemobjectmenu">
+  {{#each eo in external_objects}}
+    {{#if doesntAlreadyExist eo.name id}}
+      <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
+        <a href="#">
+          <div class="x_panel">
+            Name: {{eo.name}}<br />
+            System Name: {{getSystemName id}}<br/>
+            System Id: {{id}}<br/>
+            Workspace Id: {{workspace_id}}<br/>
+          </div>
+        </a>
+      </div>
+    {{/if}}
+  {{/each}}
+</template>
+
+<!-- -->
+<template name="collectexternalobject">
+    <div class="col-md-12 system" data-id="{{_id}}">
+      <div class="x_panel">
+        <div class="col-md-2"  >
+            <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
+        </div>
+        <div class="col-md-2" style="padding-top:35px;">
+          <h6>
+          {{getSystemName system_id}} - {{name}}
+          </h6>
+          <div id="objdetails{{_id}}" class="collapse" >
+            ID: {{id}}<br/>
+            Tenant: {{tenant_id}}<br/>
+            System: {{system_id}}<br/>
+            Workspace: {{workspace_id}}<br/>
+            Properties: <br/>
+            {{#each properties}}
+              {{> collectexternalobjectproperties}}
+            {{/each}}
+          </div>
+        </div>
+        <div class="col-md-5" style="padding-top:5px">
+          <p style="text-align:center">
+            Collecting Data:
+              {{getCollectedRecords record_count percentage}}
+              of
+              {{#if record_count}}{{record_count}}
+              {{else}}0{{/if}} records ({{percentage}}%)<br/>
+            Estimated Time Remaining: {{timeRemaining percentage}}
+          </p>
+          <div class="progress">
+            <div class="progress-bar" data-id="{{id}}" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%;">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-1" style="text-align:right;padding-top:52px;">
+          {{#if collectschema}}
+            {{#if collect}}
+              <p style="color:#72D2A4;">
+                Collected
+              </p>
+            {{else}}
+              <p style="color:#E81C57;">
+                Collect Schema
+              </p>
+            {{/if}}
+          {{else}}
+            <p style="color:#E81C57;">
+              Uncollected
+            </p>
+          {{/if}}
+        </div>
+        <div class="col-md-2" style="">
+          <button class="btn btn-primary pull-right delete" type="button">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          <button class="btn btn-primary pull-right details" type="button" data-toggle="collapse" data-target="#objdetails{{_id}}">
+            <i class="glyphicon glyphicon-chevron-down"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+</template>
+
+<!-- -->
+<template name="collectexternalobjectproperties">
+  <ul>
+    <li>Property Name: {{name}}</li>
+    <li>Is Customer: {{is_custom}}</li>
+    <li>Is Array: {{is_array}} </li>
+    <li>Type: {{type}}</li>
+    <li>Is Key: {{is_key}}</li>
+  </ul>
 </template>

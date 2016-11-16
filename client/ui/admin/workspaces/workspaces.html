@@ -11,7 +11,7 @@
           {{#each workspaces}}
             {{> workspace}}
           {{else}}
-            {{> wsZeroData}}
+            {{> workspaceempty}}
           {{/each}}
         {{else}}
           <p>Loading</p>
@@ -57,8 +57,7 @@
   </article>
 </template>
 
-<template name="wsZeroData">
-
+<template name="workspaceempty">
   <form class="new-workspace">
     <p>
       <h2>Looks like you don't have any workspaces! Why not add one? </h2>
@@ -73,5 +72,4 @@
         </button>
     </p>
   </form>
-
 </template>
