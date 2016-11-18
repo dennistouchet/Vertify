@@ -44,7 +44,22 @@ Template.align.events({
   }
 })
 
-Template.alignVertifyObjects.helpers({
+Template.aligncomplete.helpers({
+ vertifyObjectCount: function(){
+   var ws = Session.get("currentWs");
+   if(ws){
+     return VertifyObjects.find({"workspace_id": ws._id}).count();
+   }
+ }
+});
+
+Template.aligncomplete.events({
+    'click .toAlign': function(){
+      FlowRouter.go('/data/analyze');
+    }
+});
+
+Template.alignvertifyobjecttable.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
     if(ws){
@@ -71,7 +86,7 @@ Template.alignVertifyObjects.helpers({
   },
 });
 
-Template.alignVertifyObjectli.helpers({
+Template.alignvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
@@ -80,7 +95,7 @@ Template.alignVertifyObjectli.helpers({
   },
 });
 
-Template.alignVertifyObjectli.events({
+Template.alignvertifyobjectrow.events({
   'click .voddl li a' : function(e, t){
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
@@ -140,18 +155,3 @@ Template.alignVertifyObjectli.events({
     }
   },
 })
-
-Template.alignCompleted.helpers({
- vertifyObjectCount: function(){
-   var ws = Session.get("currentWs");
-   if(ws){
-     return VertifyObjects.find({"workspace_id": ws._id}).count();
-   }
- }
-});
-
-Template.alignCompleted.events({
-    'click .toAlign': function(){
-      FlowRouter.go('/data/analyze');
-    }
-});

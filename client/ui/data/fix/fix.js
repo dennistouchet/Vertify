@@ -36,6 +36,7 @@ Template.fix.helpers({
 
 Template.fix.events({
   'click .voddl li a' : function(e, t){
+    console.log("dropdown event");
     if(e.target.text.trim() == 'View Details'){
       Session.set("fixDetailsID", this._id);
       FlowRouter.go('/data/fix/details?id=' + this._id );

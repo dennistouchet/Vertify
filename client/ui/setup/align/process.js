@@ -24,7 +24,7 @@ Template.alignprocess.onCreated(function(){
   });
 
   //Alignment click through process for AlignTest/Align
-  this.currentPage = new ReactiveVar("alignProcessZeroData"); //other Page is alignProcessComplete
+  this.currentPage = new ReactiveVar("alignprocessaligntest"); //other Page is alignprocessalign
 });
 
 Template.alignprocess.helpers({
@@ -95,7 +95,7 @@ Template.alignprocess.events({
               return;
             }
             else {
-              t.currentPage.set( "alignProcessComplete" );
+              t.currentPage.set( "alignprocessalign" );
             }
           });
         }
@@ -114,7 +114,7 @@ Template.alignprocess.events({
   }
 });
 
-Template.alignProcessComplete.helpers({
+Template.alignprocessalign.helpers({
   taskComplete: function(){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
@@ -157,7 +157,7 @@ Template.alignProcessComplete.helpers({
   }
 });
 
-Template.alignProcessComplete.events({
+Template.alignprocessalign.events({
   'change input' : function(e, t){
     if(e.target.type.toLowerCase() == 'radio'){
       var radio = e.target;

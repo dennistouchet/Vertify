@@ -91,23 +91,6 @@ Template.match.helpers({
   },
 });
 
-Template.matchvertifyobjecttable.helpers({
-  vertify_objects(){
-    var ws = Session.get("currentWs");
-    if(ws){
-      return VertifyObjects.find({"workspace_id": ws._id});
-    }
-    return null;
-  },
-  external_objects(){
-    var ws = Session.get("currentWs");
-    if(ws){
-      return ExternalObjects.find({"workspace_id": ws._id});
-    }
-    return null;
-  },
-});
-
 Template.match.events({
   'click .addCustom' : function(e){
       e.preventDefault();
@@ -183,6 +166,29 @@ Template.match.events({
   }
 });
 
+Template.matchcomplete.events({
+  'click .toAlign': function(e){
+    FlowRouter.go('/setup/align');
+  }
+});
+
+Template.matchvertifyobjecttable.helpers({
+  vertify_objects(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return VertifyObjects.find({"workspace_id": ws._id});
+    }
+    return null;
+  },
+  external_objects(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      return ExternalObjects.find({"workspace_id": ws._id});
+    }
+    return null;
+  },
+});
+
 Template.matchvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
@@ -195,10 +201,4 @@ Template.matchvertifyobjectrow.helpers({
     var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
     return eo.record_count;
   },
-});
-
-Template.matchcompletefooter.events({
-  'click .toAlign': function(e){
-    FlowRouter.go('/setup/align');
-  }
 });

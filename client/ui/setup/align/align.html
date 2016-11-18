@@ -1,3 +1,4 @@
+<!-- -->
 <template name="align">
   <section class="right_col" role="main" style="height:900px;">
     <div class="row">
@@ -5,18 +6,19 @@
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
       {{#if hasObjects}}
         {{#if isAligned}}
-          {{> alignCompleted}}
+          {{> aligncomplete}}
         {{else}}
-          {{> alignZeroDataHeader}}
+          {{> alignempty}}
         {{/if}}
       {{else}}
-        {{> invalidAlign}}
+        {{> aligninvalid}}
       {{/if}}
     </div>
   </section>
 </template>
 
-<template name="invalidAlign">
+<!-- -->
+<template name="aligninvalid">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you do not have any Vertify Objects that can be Aligned.</h4>
@@ -43,7 +45,8 @@
   </div>
 </template>
 
-<template name="alignZeroDataHeader">
+<!-- -->
+<template name="alignempty">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like no Vertify objects are aligned.</h4>
@@ -62,10 +65,37 @@
       </h4>
     </div>
   </div>
-  {{>alignVertifyObjects}}
+  {{> alignvertifyobjecttable}}
 </template>
 
-<template name="alignVertifyObjects">
+<!-- -->
+<template name="aligncomplete">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        <i class="glyphicon glyphicon-ok-circle"> </i>Align Complete! {{vertifyObjectCount}} Vertify object setup and ready for use.
+      </h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4 style="padding-left:10px">
+        Select another object to align or analyze your Vertify objects.
+      </h4>
+    </div>
+  </div>
+  {{> alignvertifyobjecttable}}
+  <div class="col-md-3">
+    <button class="btn btn-primary toAlign" type=button style="margin-top:10px;margin-bottom:10px;">
+      Next: Analyze
+      <i class="glyphicon glyphicon-chevron-right"></i>
+    </button>
+  </div>
+  <div class="col-md-9"> </div>
+</template>
+
+<!-- -->
+<template name="alignvertifyobjecttable">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
       <div class="col-md-3">Vertify Object </div>
@@ -76,14 +106,15 @@
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each vertify_objects}}
-          {{> alignVertifyObjectli}}
+          {{> alignvertifyobjectrow}}
         {{/each}}
       {{/if}}
     </div>
   </div>
 </template>
 
-<template name="alignVertifyObjectli">
+<!-- -->
+<template name="alignvertifyobjectrow">
   <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
     <div class="col-md-3">{{name}} </div>
     <div class="col-md-3" >
@@ -110,29 +141,4 @@
       </div>
     </div>
   </div>
-</template>
-
-<template name="alignCompleted">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        <i class="glyphicon glyphicon-ok-circle"> </i>Align Complete! {{vertifyObjectCount}} Vertify object setup and ready for use.
-      </h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <h4 style="padding-left:10px">
-        Select another object to align or analyze your Vertify objects.
-      </h4>
-    </div>
-  </div>
-  {{>alignVertifyObjects}}
-  <div class="col-md-3">
-    <button class="btn btn-primary toAlign" type=button style="margin-top:10px;margin-bottom:10px;">
-      Next: Analyze
-      <i class="glyphicon glyphicon-chevron-right"></i>
-    </button>
-  </div>
-  <div class="col-md-9"> </div>
 </template>

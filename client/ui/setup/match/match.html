@@ -7,17 +7,12 @@
         {{#if isValid}}
           {{#if hasVertifyObjects}}
             {{#if matchCompleted}}
-              {{> matchcompleteheader}}
-              {{> matchvertifyobjecttable}}
-              {{> matchcompletefooter}}
+              {{> matchcomplete}}
             {{else}}
-              {{> matchincompleteheader}}
-              {{> matchvertifyobjecttable}}
-              {{> matchrecommended}}
+              {{> matchincomplete}}
             {{/if}}
           {{else}}
-            {{> matchemptyheader}}
-            {{> matchrecommended}}
+            {{> matchempty}}
           {{/if}}
         {{else}}
           {{> matchinvalid}}
@@ -56,7 +51,7 @@
 </template>
 
 <!-- -->
-<template name="matchemptyheader">
+<template name="matchempty">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you have no objects matched.</h4>
@@ -77,10 +72,11 @@
     </div>
     <div class="col-md-9"> </div>
   </div>
+  {{> matchrecommended}}
 </template>
 
 <!-- -->
-<template name="matchincompleteheader">
+<template name="matchincomplete">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">Looks like you haven't matched your existing Vertify Objects.</h4>
@@ -101,10 +97,12 @@
     </div>
     <div class="col-md-9"> </div>
   </div>
+  {{> matchvertifyobjecttable}}
+  {{> matchrecommended}}
 </template>
 
 <!-- -->
-<template name="matchcompleteheader">
+<template name="matchcomplete">
   <div class="row">
     <div class="col-md-12">
       <h4 style="padding-left:10px">
@@ -119,10 +117,7 @@
       </h4>
     </div>
   </div>
-</template>
-
-<!-- -->
-<template name="matchcompletefooter">
+  {{> matchvertifyobjecttable}}
   <div class="row">
     <div class="col-md-3">
       <button class="btn btn-primary addCustom" type=button style="margin-top:10px;margin-bottom:10px;margin-left:10px;">

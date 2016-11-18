@@ -9,8 +9,6 @@ Template.matchloading.helpers({
       if(ws){
         //TODO add vertify object
         var task = Tasks.findOne({"workspace_id": ws._id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
-        console.log("Loading - inside task check");
-        console.log(task);
         return task;
       }
     },
@@ -19,11 +17,8 @@ Template.matchloading.helpers({
       if(ws){
         //TODO add vertify object
         var tasks = Tasks.find({"workspace_id": ws._id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
-        console.log("Loading - inside task check");
-        console.log(tasks);
         var task = tasks.fetch()[0];
         if(task){
-          console.log(task);
           if(task.status == "success" || task.status == "terminated" || task.status == "failed"){
             FlowRouter.go('/setup/match');
           }

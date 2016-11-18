@@ -78,18 +78,18 @@ dataRoutes.route('/fix', {
 });
 
 dataRoutes.route('/fix/details', {
-  name: 'details',
+  name: 'fixdetails',
   action() {
-      BlazeLayout.render('main', {main: 'details'});
+      BlazeLayout.render('main', {main: 'fixdetails'});
   }
 });
 
 dataRoutes.route('/fix/records', {
-  name: 'records',
+  name: 'fixrecords',
   action: function(queryParams) {
       console.log("queryParams: ");
       console.log(queryParams);
-      BlazeLayout.render('main', {main: 'records'});
+      BlazeLayout.render('main', {main: 'fixrecords'});
   }
 });
 
@@ -180,11 +180,11 @@ setupRoutes.route('/match/vertifywizard', {
 });
 
 setupRoutes.route('/match/process', {
-  name: 'process',
+  name: 'matchprocess',
   action: function(queryParams) {
       console.log("queryParams: ");
       console.log(queryParams);
-      BlazeLayout.render('main', {main: 'process'});
+      BlazeLayout.render('main', {main: 'matchprocess'});
   }
 });
 

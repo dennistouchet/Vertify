@@ -6,7 +6,7 @@ import { Systems } from  '../../../../imports/collections/tenant/system.js';
 
 import './process.html';
 
-Template.process.onCreated(function(){
+Template.matchprocess.onCreated(function(){
   Meteor.subscribe('vertify_objects', function (){
     console.log( "Match/Process - VertifyObjects now subscribed." );
   });
@@ -15,11 +15,11 @@ Template.process.onCreated(function(){
     console.log( "Match/Process - MatchResults now subscribed." );
   });
 
-  this.currentPage = new ReactiveVar("processmatchtest"); //other Page is processmatch
+  this.currentPage = new ReactiveVar("matchprocessmatchtest"); //other Page is matchprocessmatch
 });
 
 
-Template.process.helpers({
+Template.matchprocess.helpers({
   mprocess() {
     return Template.instance().currentPage.get();
   },
@@ -42,7 +42,7 @@ Template.process.helpers({
   },
 });
 
-Template.process.events({
+Template.matchprocess.events({
   'click' : function(){
     console.log("process click event");
   },
@@ -93,7 +93,7 @@ Template.process.events({
               return;
             }
             else {
-              t.currentPage.set( "processmatch" );
+              t.currentPage.set( "matchprocessmatch" );
             }
           });
         }
@@ -105,11 +105,11 @@ Template.process.events({
   },
   'click .preMatchModal' : function(e, t){
       e.preventDefault();
-      t.currentPage.set( "processmatch" );
+      t.currentPage.set( "matchprocessmatch" );
   },
 });
 
-Template.processmatch.helpers({
+Template.matchprocessmatch.helpers({
   taskComplete: function(){
     //TODO: update this to use task, not existing results
     var ws = Session.get("currentWs");
@@ -158,7 +158,7 @@ Template.processmatch.helpers({
   },
 })
 
-Template.processmatch.events({
+Template.matchprocessmatch.events({
   'click .returnToList' : function(e){
     console.log('Match - returnToList event clicked.');
     FlowRouter.go('/setup/match');
