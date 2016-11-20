@@ -20,11 +20,11 @@ Template.fixconfirmmodal.helpers({
   },
   getRecords: function(){
     //TODO get real values
-    return "11,265";
+    return "0 - TODO";
   },
   getSystemNames: function(){
     //TODO get real values
-    return "Marketo (MK), NetSuite (NS)";
+    return "Marketo (MK), NetSuite (NS) - TODO";
   },
   getActionDescription: function(){
     var type = Session.get("fixType");

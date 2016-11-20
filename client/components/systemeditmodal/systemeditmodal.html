@@ -1,38 +1,30 @@
 <template name="systemeditmodal">
-
   <div class="modal fade">
-      <div class="modal-dialog modal-md">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h3 class="modal-title">System edit
-              <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
-            </h3>
-          </div>
-
-          <div class="modal-body">
-            <div id="editErrModal" class="alert alert-danger" style="display:none;"></div>
-            <label for="name">Name</label>
-            <input id="name" type="text" class="form-control" name="name" value="{{system.name}}" />
-            <label for="pf">Prefix</label>
-            <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" maxlength="3" />
-            <label for="maxtasks">Max Concurrent Tasks</label>
-            <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="{{system.max_concurrent_tasks}}" />
-            {{#each system.credentials}}
-              {{> connCredentials}}
-            {{/each}}
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default pull-right" data-dismiss="modal" >Cancel</button>
-            <button type="button" class="btn btn-primary pull-right" id="save">Save</button>
-          </div>
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">System edit
+            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+          </h3>
+        </div>
+        <div class="modal-body">
+          <div id="editErrModal" class="alert alert-danger" style="display:none;"></div>
+          <label for="name">Name</label>
+          <input id="name" type="text" class="form-control" name="name" value="{{system.name}}" />
+          <label for="pf">Prefix</label>
+          <input id="pf" type="text" class="form-control" name="pf" value="{{system.prefix}}" maxlength="3" />
+          <label for="maxtasks">Max Concurrent Tasks</label>
+          <input id="maxtasks" type="number" class="form-control" name="maxtasks" value="{{system.max_concurrent_tasks}}" />
+          {{#each system.credentials}}
+            <label for="{{setting}}">{{setting}}</label>
+            <input id="setting_{{setting}}" type="text" class="form-control" name="{{setting}}" value="{{value}}"  />
+          {{/each}}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-right" data-dismiss="modal" >Cancel</button>
+          <button type="button" class="btn btn-primary pull-right" id="save">Save</button>
         </div>
       </div>
+    </div>
   </div>
-
-</template>
-
-<template name="connCredentials">
-  <label for="{{setting}}">{{setting}}</label>
-  <input id="setting_{{setting}}" type="text" class="form-control" name="{{setting}}" value="{{value}}"  />
 </template>

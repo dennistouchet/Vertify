@@ -189,8 +189,8 @@ Meteor.methods({
       throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
     }
   },
-  'vertify_objects.edit'(ws_id, id){
-    console.log("TODO: Complete VO edit");
+  'vertify_objects.update'(ws_id, id){
+    console.log("TODO: Complete VO update");
   },
   'vertify_objects.remove'(ws_id, _id){
     var current = VertifyObjects.findOne(_id, {"workspace_id": ws_id});
@@ -199,6 +199,9 @@ Meteor.methods({
 
     throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo);
   },
+  'vertify_objects.removeAll'(ws_id){
+    
+  }
 });
 
 export const VertifyObjectMatchGroupGroupSchema = new SimpleSchema({

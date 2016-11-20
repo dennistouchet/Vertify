@@ -98,18 +98,17 @@ Template.workspaces.events({
       var errDiv = document.getElementById("addErrWorkspace");
       errDiv.style.display = 'none';
       errDiv.innerHTML = ""; //reset errors
+      var ws = Session.get("currentWs");
 
-      // TODO:
-      // delete vertify properties
-      // delete align_results
-      // delete match_results
-      // delete vertify objects
-      // delete match_setup
-      // delete vertify objects
-      // delete external_objects
-      // delete systems
+      Meteor.tools.deleteAllWorkspaceData(ws._id
+      , (err, res) =>{
+        if(error){
+          errDiv.style.display = 'block';
+          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        }else{
 
-      console.log()
+        }
+      });
   },
   'click .edit' : function(e){
     e.preventDefault();

@@ -98,15 +98,16 @@ Meteor.methods({
     console.log(vplist);
     return vplist;
   },
-  'vertify_properties.edit'(){
-    console.log("vertify_properties.edit function stub called.");
+  'vertify_properties.update'(){
+    console.log("vertify_properties.update function stub called.");
   },
   'vertify_properties.updateMultiple'(){
     console.log("vertify_properties.updateMultiple function stub called.");
   },
   'vertify_properties.removeMultiple'(ws_id, vo){
+    check(ws_id, String);
+    check(vo, Number);
     var current = VertifyProperties.find({"vertify_object_id": vo, "workspace_id": ws_id});
-
     console.log("Vertify Properties remove: " + ws_id + " | void: " + vo);
     var count = 0;
     if(current){
@@ -118,6 +119,11 @@ Meteor.methods({
       console.log("No Vertify Properties for the current Vertify Object");
     }
     return count;
+  },
+  'vertify_properties.removeAll'(ws_id){
+    check(ws_id, String);
+    var current = VertifyProperties.remove({"workspace_id": ws_id});
+    return VertifyProperties.remove(current);
   },
   'vertify_properties.remove'(_id){
     var current = VertifyProperties.findOne(_id);
