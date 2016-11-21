@@ -95,24 +95,30 @@ Template.workspaces.events({
       });
   },
   'click .empty' : function(){
-      var errDiv = document.getElementById("addErrWorkspace");
-      errDiv.style.display = 'none';
-      errDiv.innerHTML = ""; //reset errors
-      var ws = Session.get("currentWs");
+    var errDiv = document.getElementById("addErrWorkspace");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+    var ws = Session.get("currentWs");
 
-      Meteor.tools.deleteAllWorkspaceData(ws._id
+    if(ws._id == this._id){
+      Meteor.tools.deleteAllWorkspaceData(this._id
       , (err, res) =>{
         if(error){
           errDiv.style.display = 'block';
           errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
         }else{
-
+          console.log("Workspace Data Cleared Successfully!");
         }
       });
+    }else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span> Workspace Error: </span>[ Deletion Error ] The current workspace and the seleccted workspace do not match. Verify a workspace is selected from the Workspace menu and it matches the workspace you are trying to clear.</li>";
+    }
   },
   'click .edit' : function(e){
     e.preventDefault();
-
+    console.log("Edit clicked");
+    console.log(e);
     workspace = $(e.target).closest('.workspace');
     ws_id = workspace.attr('data-id');
 

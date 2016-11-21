@@ -73,20 +73,6 @@ Meteor.methods({
     var systemval = Systems.insert(newSystem);
     return intid;
   },
-  'systems.remove'(currentid, ws_id){
-    check(currentid, String);
-    check(ws_id, String);
-
-    var current = Systems.findOne(currentid, {"workspace_id": ws_id});
-    // Check if System has objects, cancel delete if true
-    var objectCount = ExternalObjects.find({"system_id": current.id}).count();
-    if(objectCount > 0){
-      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
-    }
-
-    //TODO: Add userid security
-    Systems.remove(current._id);
-  },
   'systems.edit'(ws_id, id, system, pf, maxtasks, cred){
     check(ws_id, String);
     check(id, String);
@@ -103,6 +89,24 @@ Meteor.methods({
                   , max_concurrent_tasks: maxtasks, credentials: cred}});
     var sys = Systems.findOne(id);
     return sys.id;
+  },
+  'systems.remove'(currentid, ws_id){
+    check(currentid, String);
+    check(ws_id, String);
+
+    var current = Systems.findOne(currentid, {"workspace_id": ws_id});
+    // Check if System has objects, cancel delete if true
+    var objectCount = ExternalObjects.find({"system_id": current.id}).count();
+    if(objectCount > 0){
+      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
+    }
+
+    //TODO: Add userid security
+    Systems.remove(current._id);
+  },
+  'systems.removeAll'(ws_id){
+    check(ws_id, String);
+    return Systems.remove({"workspace_id": ws_id});
   },
   'systems.updateStatus'(ws_id, sysid, field, status){
     check(ws_id, String);

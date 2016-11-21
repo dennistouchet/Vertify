@@ -200,7 +200,8 @@ Meteor.methods({
     throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo);
   },
   'vertify_objects.removeAll'(ws_id){
-    
+    check(ws_id, String);
+    return VertifyObjects.remove({"workspace_id": ws_id});
   }
 });
 

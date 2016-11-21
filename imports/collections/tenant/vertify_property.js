@@ -122,8 +122,7 @@ Meteor.methods({
   },
   'vertify_properties.removeAll'(ws_id){
     check(ws_id, String);
-    var current = VertifyProperties.remove({"workspace_id": ws_id});
-    return VertifyProperties.remove(current);
+    return VertifyProperties.remove({"workspace_id": ws_id});
   },
   'vertify_properties.remove'(_id){
     var current = VertifyProperties.findOne(_id);

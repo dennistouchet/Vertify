@@ -125,6 +125,10 @@ Meteor.methods({
       throw new Meteor.Error("External Object not Found", "The object with id: " +  id + " could not be found.");
     }
   },
+  'external_objects.removeAll'(ws_id){
+    check(ws_id, String);
+    return ExternalObjects.remove({"workspace_id": ws_id});
+  }
 });
 
 
