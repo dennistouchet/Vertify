@@ -6,7 +6,6 @@ Template.wsaddmodal.helpers({
 });
 
 Template.wsaddmodal.events({
-
   'click #save': function(e) {
     e.preventDefault();
     var errDiv = document.getElementById("addErrSysModal");

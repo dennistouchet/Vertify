@@ -44,18 +44,6 @@ Meteor.methods({
     return Workspaces.insert(newWorkspace);
 
   },
-  'workspaces.remove'(current_id){
-    check(current_id, String);
-    var current = Workspaces.findOne(current_id);
-
-    // See if systems exist for the current workspace, if they do, prevent removal
-    var systemCount = Systems.find({"workspace_id": current._id}).count();
-    if(systemCount > 0){
-      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the Workspace. All systems must be deleted from a workspace before it can be removed.");
-    }
-    //TODO: Add userid security
-    Workspaces.remove(current._id);
-  },
   'workspaces.edit'(_id, text){
     check(_id, String);
     check(text, String);
@@ -69,6 +57,19 @@ Meteor.methods({
 
     Workspaces.update(_id, {$set: {name: text, modified: new Date()}});
   },
+  'workspaces.remove'(current_id){
+    check(current_id, String);
+    var current = Workspaces.findOne(current_id);
+
+    // See if systems exist for the current workspace, if they do, prevent removal
+    var systemCount = Systems.find({"workspace_id": current._id}).count();
+    if(systemCount > 0){
+      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the Workspace. All systems must be deleted from a workspace before it can be removed.");
+    }
+    //TODO: Add userid security
+    Workspaces.remove(current._id);
+  },
+
 });
 
 Workspaces.schema = new SimpleSchema({

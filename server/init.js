@@ -357,7 +357,7 @@ function initVersioning(){
                   var exists = Versioning.findOne({meteor: file});
                   if(!exists){
                     Versioning.schema.validate(tag);
-                    console.log(Versioning.insert(tag));
+                    console.log("New version update. Versioning id: " +  Versioning.insert(tag));
                    }
                 }
               }));

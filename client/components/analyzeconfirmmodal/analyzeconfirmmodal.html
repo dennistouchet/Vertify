@@ -1,5 +1,4 @@
 <template name="analyzeconfirmmodal">
-
   <div class="modal fade">
       <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -10,21 +9,19 @@
               <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
             </h3>
           </div>
-
           <div class="modal-body">
             <!-- TODO: replace with error template -->
             <div id="addErrModal" class="alert alert-danger" style="display:none;"></div>
             {{#if isEnable}}
-              {{> analyzeEnable}}
+              {{> analyzeenable}}
             {{else}}
               {{#if isRedetect}}
-                {{> analyzeRedetect}}
+                {{> analyzeredetect}}
               {{else}}
-                {{> analyzeDisable}}
+                {{> analyzedisable}}
               {{/if}}
             {{/if}}
           </div>
-
           <div class="modal-footer">
             <button type="button" class="btn btn-default pull-right" data-dismiss="modal" >Cancel</button>
             <button type="button" class="btn btn-primary pull-right" id="save">{{getTask}} Analysis</button>
@@ -34,10 +31,9 @@
         </div>
       </div>
   </div>
-
 </template>
 
-<template name="analyzeEnable">
+<template name="analyzeenable">
   <h2>
     Ready to enable real-time analysis? This process runs in real-time and automatically finds records and fields that do not match the designated system of truth.
     This happens whenever changes are detected in a system.
@@ -50,13 +46,13 @@
   </h2><br />
 </template>
 
-<template name="analyzeRedetect">
+<template name="analyzeredetect">
   <h2>
     Are you sure you would like to Redetect?
   </h2><br />
 </template>
 
-<template name="analyzeDisable">
+<template name="analyzedisable">
   <h2>
     Are you sure would like to Disable real-time analysis? This process is currently running in real-time and automatically finding records and fields that do not match the designated system of truth.
     <br />
