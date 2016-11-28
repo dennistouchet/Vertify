@@ -34,9 +34,9 @@ Meteor.methods({
     //TODO: CHANGE THIS, THIS SHOULD HAPPEN ON ELIXIR side
     //BEING DONE FOR HAPPY PATH
     var sys_ids = [];
-    var eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[0]});
+    var eo = ExternalObjects.findOne(MatchObject.eo_ids[0],{"workspace_id": MatchObject.workspace_id});
     sys_ids.push(eo.system_id);
-    eo = ExternalObjects.findOne({"workspace_id": MatchObject.workspace_id, "id": MatchObject.eo_ids[1]});
+    eo = ExternalObjects.findOne(MatchObject.eo_ids[1],{"workspace_id": MatchObject.workspace_id});
     sys_ids.push(eo.system_id);
 
     var newExternalObjects = [{
@@ -307,9 +307,9 @@ export const VertifyObjectExternalObjectInboundSchema = new SimpleSchema({
 
 export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
   external_object_id:
-    { type: Number },
+    { type: String },
   system_id:
-    { type: Number },
+    { type: String },
   inbound:
     { type: VertifyObjectExternalObjectInboundSchema },
   outbound:

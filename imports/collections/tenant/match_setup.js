@@ -53,7 +53,7 @@ Meteor.methods({
     }
     check(ws_id, String);
     check(id, Number);
-    check(extobjids, [Number]);
+    check(extobjids, [String]);
 
     console.log("select update called");
 
@@ -129,7 +129,7 @@ Meteor.methods({
     check(ws_id, String);
     check(id, Number);
     check(vn, String);
-    check(sotid, Number);
+    check(sotid, String);
 
     var thisMatch = MatchSetup.findOne({"id": id, "workspace_id": ws_id});
     if(thisMatch){
@@ -169,11 +169,11 @@ MatchFieldSchema = new SimpleSchema({
   field1 :
     { type : String },
   id1 :
-    { type : Number },
+    { type : String },
   field2 :
     { type : String },
   id2 :
-    { type : Number },
+    { type : String },
   match_percentage:
     { type: Number,
       allowedValues: [ 100, 99, 98 ] }
@@ -194,7 +194,7 @@ MatchSetup.schema = new SimpleSchema({
 
   //Select Options
   eo_ids:
-    { type: [Number],
+    { type: [String],
       optional: true  },
 
   //Filter Options
@@ -222,6 +222,6 @@ MatchSetup.schema = new SimpleSchema({
     { type: String,
       optional: true  },
   system_of_truth:
-    { type: Number,
+    { type: String,
       optional: true  }
 });

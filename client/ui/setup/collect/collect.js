@@ -3,7 +3,6 @@ import { Workspaces } from '../../../../imports/collections/tenant/workspace.js'
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { Connectors } from '../../../../imports/collections/global/connector.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
-//import { ObjectsList } from '../../../../imports/collections/global/object_list.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 
 import './collect.html';
@@ -20,11 +19,7 @@ Template.collect.onCreated(function(){
   Meteor.subscribe('connectors', function (){
     console.log( "Collect - Connectors now subscribed.");
   });
-/*
-  Meteor.subscribe('objects_list', function (){
-    console.log( "Collect - ObjectsList now subscribed.");
-  });
-*/
+
   Meteor.subscribe('external_objects', function (){
     console.log( "Collect - ExternalObjects now subscribed.");
   });
@@ -145,6 +140,7 @@ Template.collect.events({
     document.getElementById("objectlist").value = text.toString().trim();
     var sys_id = e.target.getAttribute("data-system");
     var name = e.target.getAttribute("data-name");
+    console.log("system id: " + sys_id + " | name: " + name);
 
     var ws = Session.get("currentWs");
     if(ws == null){
@@ -216,8 +212,9 @@ Template.collect.events({
 
     var text = e.target.childNodes[4].textContent + " - " +  e.target.childNodes[1].textContent;
     document.getElementById("objectlist").value = text;
-    var sys_id = parseInt(e.target.childNodes[7].textContent);
+    var sys_id = e.target.childNodes[7].textContent;
     var name = e.target.childNodes[1].textContent;
+    console.log("system id: " + sys_id + " | name: " + name);
 
     var ws = Session.get("currentWs");
     if(ws == null){
@@ -311,16 +308,19 @@ Template.collectemptyheader.events({
 
 Template.systemobjectdropdown.helpers({
   getSystemName : function(sys_id){
-    if(Session.get("currentWs")){
-      var curSys = Systems.findOne(sys_id);
+    var ws = Session.get("currentWs");
+    if(ws){
+      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
       return curSys.name;
     }
   },
   getConnectorName : function(sys_id){
-    if(Session.get("currentWs")){
-      var curSys = Systems.findOne(sys_id);
+    var ws = Session.get("currentWs");
+    if(ws){
+      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
       var curCon = Connectors.findOne({"id": curSys.connector_id});
-      return curCon.name;
+      if(curCon)
+        return curCon.name;
     }
   },
   doesntAlreadyExist : function(name, sys_id){
@@ -334,8 +334,9 @@ Template.systemobjectdropdown.helpers({
 
 Template.systemobjectmenu.helpers({
   getSystemName : function(sys_id){
-    if(Session.get("currentWs")){
-      var curSys = Systems.findOne(sys_id);
+    var ws = Session.get("currentWs");
+    if(ws){
+      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
       return curSys.name;
     }
     else {
@@ -354,16 +355,19 @@ Template.systemobjectmenu.helpers({
 
 Template.collectexternalobject.helpers({
   getSystemName : function(sys_id){
-    if(Session.get("currentWs")){
-      var curSys = Systems.findOne(sys_id);
+    var ws = Session.get("currentWs");
+    if(ws){
+      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
       return curSys.name;
     }
   },
   getConnectorName : function(sys_id){
-    if(Session.get("currentWs")){
-      var curSys = Systems.findOne(sys_id);
+    var ws = Session.get("currentWs");
+    if(ws){
+      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
       var curCon = Connectors.findOne({"id": curSys.connector_id});
-      return curCon.name;
+      if(curCon)
+        return curCon.name;
     }
   },
   getCollectedRecords : function(record_count, percentage){

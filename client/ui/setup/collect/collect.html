@@ -183,14 +183,14 @@
 <!-- -->
 <template name="systemobjectdropdown">
   {{#each eo in external_objects}}
-    {{#if doesntAlreadyExist eo.name id}}
-    <li>
-      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{_id}}">
-        <img src="/images/{{getConnectorName _id}}.png"
-        alt="..." style="width:30px;height:30px; margin-right:10px;" >
-        {{name}} - {{eo.name}}
-      </a>
-    </li>
+    {{#if doesntAlreadyExist eo.name _id}}
+      <li>
+        <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{_id}}">
+          <img src="/images/{{getConnectorName _id}}.png"
+          alt="..." style="width:30px;height:30px; margin-right:10px;" >
+          {{name}} - {{eo.name}}
+        </a>
+      </li>
     {{/if}}
   {{else}}
     <li><a href="#"> No objects found.</a></li>
@@ -200,7 +200,7 @@
 <!-- -->
 <template name="systemobjectmenu">
   {{#each eo in external_objects}}
-    {{#if doesntAlreadyExist eo.name id}}
+    {{#if doesntAlreadyExist eo.name _id}}
       <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
         <a href="#">
           <div class="x_panel">
@@ -220,15 +220,14 @@
     <div class="col-md-12 system" data-id="{{_id}}">
       <div class="x_panel">
         <div class="col-md-2"  >
-            <img src="/images/{{getConnectorName _id}}.png" alt=".." style="width:90px;height:90px;" >
+            <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
         </div>
         <div class="col-md-2" style="padding-top:35px;">
           <h6>
-            {{system_id}} | {{id}} || {{_id}}
-          {{getSystemName system_id}} - {{name}}
+            {{getSystemName system_id}} - {{name}}
           </h6>
           <div id="objdetails{{_id}}" class="collapse" >
-            ID: {{id}}<br/>
+            ID: {{_id}}<br/>
             Tenant: {{tenant_id}}<br/>
             System: {{system_id}}<br/>
             Workspace: {{workspace_id}}<br/>

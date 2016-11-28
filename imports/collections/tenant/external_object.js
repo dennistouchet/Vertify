@@ -31,7 +31,6 @@ Meteor.methods({
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
     var proplist = Meteor.tools.getExternalObjectProperties(ws_id, sys_id);
-    console.log(proplist);
     proplist.forEach(function(prop){
       ExternalObjectProperties.schema.validate(prop);
     });
@@ -50,8 +49,9 @@ Meteor.methods({
       throw new Meteor.Error("Missing Value", "No external object: " + n + "found in system: " + sys_id);
     }
 
+
     var newExternalObject = {
-      tenant_id: newid,
+      tenant_id: 100000,
       modified: new Date(),
       created: new Date(),
       name: n,
@@ -81,10 +81,8 @@ Meteor.methods({
 
       ,properties: proplist
     };
-    ExternalObjects.schema.validate(newExternalObject);
-    ExternalObjects.insert(newExternalObject);
 
-    return newid
+    return ExternalObjects.insert(newExternalObject);
   },
   'external_objects.remove'(currentid, ws_id){
     check(currentid, String)

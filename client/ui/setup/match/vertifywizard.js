@@ -93,7 +93,7 @@ Template.vertifywizard.events({
         console.log(vname);
         var sot = document.querySelector('input[name="truthRadio"]:checked');
         if(vname && sot.id){
-          Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, parseInt(sot.id)
+          Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, sot.id
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -104,8 +104,17 @@ Template.vertifywizard.events({
             }
             else{
               //SUCCESS
-              Meteor.tools.convertMatchSetuptoVertifyObj(ws._id, msId);
-              FlowRouter.go('/setup/match');
+              Meteor.tools.convertMatchSetuptoVertifyObj(ws._id, msId
+              , (error, result) => {
+                if(error){
+                  //TODO: improve with error Template
+                  errDiv.style.display = 'block';
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Insert Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                }
+                else{
+                  FlowRouter.go('/setup/match');
+                }
+              });
             }
           });
         }else{
@@ -157,8 +166,8 @@ Template.vertifywizard.events({
                   console.log(currentMs);
                   if(currentMs){
                     if(currentMs.new_object){
-                      var extobj1 = parseInt(document.getElementById("extobj1").getAttribute("data-id"));
-                      var extobj2 = parseInt(document.getElementById("extobj2").getAttribute("data-id"));
+                      var extobj1 = document.getElementById("extobj1").getAttribute("data-id");
+                      var extobj2 = document.getElementById("extobj2").getAttribute("data-id");
                       console.log("extobj1: " + extobj1 + "| extobj2: " + extobj2);
 
                       if(extobj1 && extobj2){
@@ -247,9 +256,9 @@ Template.vertifywizard.events({
 
                     match_criteria = [{
                       field1: field1,
-                      id1: parseInt(i1),
+                      id1: i1,
                       field2: field2,
-                      id2: parseInt(i2),
+                      id2: i2,
                       match_percentage: parseInt(pm)
                     }];
 
@@ -346,10 +355,10 @@ Template.vwSelect.helpers({
       }
       return null
     },
-    getSystemName : function(id){
+    getSystemName : function(sys_id){
       var ws = Session.get("currentWs");
       if(ws){
-        return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+        return Systems.findOne(sys_id,{"workspace_id": ws._id}).name;
       }
     }
 });
@@ -386,23 +395,18 @@ Template.vwFilter.helpers({
       console.log(msObj);
       var ids = msObj.eo_ids;
       console.log(msObj.eo_ids);
-      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.$.name": 1} });
+      return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1, "properties.$.name": 1} });
     }else{
       return null;
     }
   },
-  sortedProperties: function(id){
-    var ws = Session.get("currentWs");
-
-    return false;
-  }
 });
 
 Template.filterRecords.helpers({
-  getSystemName : function(id){
+  getSystemName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){
-      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+      return Systems.findOne(sys_id, {"workspace_id": ws._id}).name;
     }
   }
 })
@@ -439,7 +443,7 @@ Template.vwMatch.helpers({
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
-      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1} });
+      return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1} });
     }else{
       return null;
     }
@@ -470,10 +474,10 @@ Template.vwMatchObjects.helpers({
     //TODO sorty here
     return external_object;
   },
-  getSystemName : function(id){
+  getSystemName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){
-      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+      return Systems.findOne(sys_id,{"workspace_id": ws._id}).name;
     }
   }
 })
@@ -494,7 +498,7 @@ Template.vwFinish.helpers({
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
-      return ExternalObjects.find({"id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
+      return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
       return null;
     }
@@ -522,7 +526,7 @@ Template.vwFinish.helpers({
   getObject1: function(eo_ids){
     if(eo_ids){
       var eo1 = eo_ids[0];
-      return ExternalObjects.findOne({"id": eo1 }).name;
+      return ExternalObjects.findOne(eo1).name;
     }
     else{
       return false;
@@ -536,7 +540,7 @@ Template.vwFinish.helpers({
   getObject2: function(eo_ids){
     if(eo_ids){
       var eo2 = eo_ids[1];
-      return ExternalObjects.findOne({"id": eo2 }).name;
+      return ExternalObjects.findOne(eo2).name;
     }
     else{
       return false;
@@ -547,17 +551,17 @@ Template.vwFinish.helpers({
       return eo_ids[1];
     }
   },
-  getSystemName : function(id){
+  getSystemName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){
-      return Systems.findOne({"workspace_id": ws._id, "id": id}).name;
+      return Systems.findOne(sys_id, {"workspace_id": ws._id}).name;
     }
   },
   getSystemNameByEoId : function(i, eoids){
     var ws = Session.get("currentWs");
     if(ws){
-      var eo = ExternalObjects.findOne({"workspace_id": ws._id, "id": eoids[i]});
-      return Systems.findOne({"workspace_id": ws._id, "id": eo.system_id}).name;
+      var eo = ExternalObjects.findOne(eoids[i], {"workspace_id": ws._id});
+      return Systems.findOne(eo.system_id,{"workspace_id": ws._id}).name;
     }
   }
 });

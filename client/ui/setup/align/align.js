@@ -89,8 +89,8 @@ Template.alignvertifyobjecttable.helpers({
 Template.alignvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
     var ws = Session.get("currentWs");
-    var eo = ExternalObjects.findOne({"id": parseInt(eo_id), "workspace_id": ws._id});
-    var sys = Systems.findOne({"workspace_id": ws._id, "id": eo.system_id});
+    var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
+    var sys = Systems.findOne(eo.system_id,{"workspace_id": ws._id});
     return sys.name + "-" + eo.name;
   },
 });

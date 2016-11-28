@@ -62,45 +62,45 @@ Template.fixvertifyobjecttable.helpers({
 });
 
 Template.fixvertifyobjectrow.helpers({
-  getRecordCountVo : function(id){
+  getRecordCountVo : function(vo_id){
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws._id});
+    var vo = VertifyObjects.findOne(vo_id,{"workspace_id": ws._id});
     var eos = [];
     vo.external_objects.forEach(function(eo){
         eos.push(eo.external_object_id);
     });
     var count = 0;
-    var ExtObjs = ExternalObjects.find({"id": { "$in": eos}});
+    var ExtObjs = ExternalObjects.find({"_id": { "$in": eos}});
     ExtObjs.forEach(function(extobj){
       count += extobj.record_count;
     });
     return count;
   },
-  getRecordCountEo : function(id){
+  getRecordCountEo : function(vo_id){
     var ws = Session.get("currentWs");
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws._id});
+    var vo = VertifyObjects.findOne(vo_id,{"workspace_id": ws._id});
     var count = 0;
     vo.external_objects.forEach(function(eo){
       if(eo.is_truth){
-        var extobj = ExternalObjects.findOne({"id": eo.external_object_id, "workspace_id": ws._id});
+        var extobj = ExternalObjects.findOne({"_id": eo.external_object_id, "workspace_id": ws._id});
         count = extobj.record_count;
       }
     });
     return count;
   },
-  getTotalCount : function(id){
+  getTotalCount : function(vo_id){
     return "0";
   },
-  getMatchedCount : function(id){
+  getMatchedCount : function(ivo_idd){
     return "0";
   },
-  getIssuesCount : function(id){
+  getIssuesCount : function(vo_id){
     return "0";
   },
-  getVertifiedCount : function(id){
+  getVertifiedCount : function(vo_id){
     return "0";
   },
-  getUnmatchedCount : function(id){
+  getUnmatchedCount : function(vo_id){
      return "0";
   },
 });
