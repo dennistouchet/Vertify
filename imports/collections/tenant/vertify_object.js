@@ -65,17 +65,8 @@ Meteor.methods({
     VertifyObjectExternalObjectsSchema.validate(newExternalObjects[0]);
     VertifyObjectExternalObjectsSchema.validate(newExternalObjects[1]);
 
-    var obj = VertifyObjects.findOne({}, {sort: {id: -1}});
-    if(obj == null) {
-      var newid = 1;
-    }
-    else {
-      var newid = (obj.id + 1);
-    }
-
     var newVertifyObject = {
       tenant_id: 100000,
-      id: newid,
       modified: new Date(),
       created: new Date(),
       is_deleted: false,
@@ -86,17 +77,16 @@ Meteor.methods({
     };
 
     VertifyObjects.schema.validate(newVertifyObject);
-    VertifyObjects.insert(newVertifyObject);
 
-    return newid;
+    return VertifyObjects.insert(newVertifyObject);
   },
-  'vertify_objects.updateApprovedStatus'(id, ws_id, status){
-    check(id, String);
+  'vertify_objects.updateApprovedStatus'(vo_id, ws_id, status){
+    check(vo_id, String);
     check(ws_id, String);
     check(status, String);
 
     //TODO:  need to update by radio selection
-    var vo = VertifyObjects.findOne(id, {"workspace_id": ws_id});
+    var vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws_id});
     if(vo){
       vo.external_objects.forEach(function(eo){
         if(status == "approved"){
@@ -109,24 +99,23 @@ Meteor.methods({
 
     }
     else{
-      throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
+      throw new Meteor.Error("Vertify Object not Found", "The object with vo_id: " +  vo_id + " could not be found.");
     }
 
     vo.external_objects.forEach(function(eo){
       VertifyObjectExternalObjectsSchema.validate(eo);
     })
-    VertifyObjects.update(id, {$set: {external_objects: vo.external_objects,}});
 
-    return vo.id;
+    return VertifyObjects.update(vo_id, {$set: {external_objects: vo.external_objects,}});
   },
-  'vertify_objects.updateStatus'(ws_id, id, field, status){
+  'vertify_objects.updateStatus'(ws_id, vo_id, field, status){
     check(ws_id, String);
-    check(id, Number);
+    check(vo_id, String);
     check(field, String);
     check(status, Boolean);
 
-    console.log("id: " + id + " | ws: " + ws_id + " | " + field + " | " + status);
-    var vo = VertifyObjects.findOne({"id": id, "workspace_id": ws_id});
+    console.log("vo_id: " + vo_id + " | ws: " + ws_id + " | " + field + " | " + status);
+    var vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws_id});
 
     // Updates the status fields if status is true
     // Resets status field and all subsequent status fields if status is false
@@ -192,12 +181,12 @@ Meteor.methods({
   'vertify_objects.update'(ws_id, id){
     console.log("TODO: Complete VO update");
   },
-  'vertify_objects.remove'(ws_id, _id){
-    var current = VertifyObjects.findOne(_id, {"workspace_id": ws_id});
+  'vertify_objects.remove'(ws_id, vo_id){
+    var current = VertifyObjects.findOne(vo_id, {"workspace_id": ws_id});
     if(current)
       return VertifyObjects.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo);
+    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo_id);
   },
   'vertify_objects.removeAll'(ws_id){
     check(ws_id, String);
@@ -336,8 +325,6 @@ export const VertifyObjectExternalObjectsSchema = new SimpleSchema({
 
 VertifyObjects.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
-  id:
     { type: Number },
   modified:
     { type: Date },

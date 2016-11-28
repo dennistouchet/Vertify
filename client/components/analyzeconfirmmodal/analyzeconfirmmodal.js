@@ -48,7 +48,7 @@ Template.analyzeconfirmmodal.events({
     var action = Session.get("analyzeAction");
     if(ws && vo){
       if(action == "Enable" || action == "Redetect"){
-        Meteor.call('tasks.insert', "analyze", ws._id, vo.id
+        Meteor.call('tasks.insert', "analyze", ws._id, vo._id
         , (error, result) => {
           if(error){
             //console.log(err);
@@ -58,7 +58,7 @@ Template.analyzeconfirmmodal.events({
             return;
           }
           else {
-           //Meteor.tools.artificalProgressBarLoading('analyze', vo.id);
+           //Meteor.tools.artificalProgressBarLoading('analyze', vo._id);
            //console.log("called artifical loading");
 
            FlowRouter.go('/data/analyze');
@@ -67,7 +67,7 @@ Template.analyzeconfirmmodal.events({
         });
       }
       else if(action == "Disable"){
-        Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'analyze', false
+        Meteor.call('vertify_objects.updateStatus', ws._id, vo._id, 'analyze', false
         , (err, res) => {
           if(err){
             //console.log(err);

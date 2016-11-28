@@ -71,7 +71,7 @@ Template.matchprocess.events({
 
     if(ws && vo){
 
-      Meteor.tools.updateVertifyObjectStatus( ws._id, vo.id, 'matchtest', false);
+      Meteor.tools.updateVertifyObjectStatus( ws._id, vo._id, 'matchtest', false);
 
       Meteor.call('match_results.remove', ws._id
       , (error, result) => {
@@ -83,7 +83,7 @@ Template.matchprocess.events({
           return;
         }
         else {
-          Meteor.call('tasks.insert', "matchtest", ws._id, vo.id
+          Meteor.call('tasks.insert', "matchtest", ws._id, vo._id
           , (err, res) => {
             if(err){
               //console.log(err);
@@ -119,8 +119,8 @@ Template.matchprocessmatch.helpers({
     console.log(vo);
     complete = false;
     if(ws && vo){
-      //var task = Tasks.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id, "task": "matchtest"}});
-      var mr = MatchResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id});
+      //var task = Tasks.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id, "task": "matchtest"}});
+      var mr = MatchResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
       if(mr){
         complete = true;
       }
@@ -132,7 +132,7 @@ Template.matchprocessmatch.helpers({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && id){
-      return MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo.id});
+      return MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});
     }
   },
   getExternalObjectNameById: function(id){
@@ -165,7 +165,7 @@ Template.matchprocessmatch.events({
   },
   'click .viewMatchRecords' : function(e){
     console.log('Match - viewMatchRecords event clicked.');
-    //FlowRouter.go('/setup/results');
+    FlowRouter.go('/setup/match/results?id=' + Meteor.tools.getQueryParamByName("id"));
   },
   'click .editMatchRules' : function(e){
     console.log('Match - editMatchRules event clicked.');

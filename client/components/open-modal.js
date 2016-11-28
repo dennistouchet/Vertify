@@ -5,8 +5,8 @@ ModalHelper.openSysAddModalFor = function(){
   Modal.show('systemaddmodal');
 }
 
-ModalHelper.openSysEditModalFor = function(sysId){
-  Session.set('selectedSystem', sysId);
+ModalHelper.openSysEditModalFor = function(sys_id){
+  Session.set('selectedSystem', sys_id);
   Modal.show('systemeditmodal');
 }
 

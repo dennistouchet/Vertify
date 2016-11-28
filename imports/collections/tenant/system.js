@@ -24,15 +24,6 @@ Meteor.methods({
     }
     */
 
-    // Incrementing ID's
-    var lastSys = Systems.findOne({}, {sort: {id: -1}});
-    if(lastSys == null) {
-      var intid = 111111;
-    }
-    else {
-      var intid = (lastSys.id + 111111);
-    }
-
     var snexists = Systems.findOne({"name" : nm });
     var pfexists = Systems.findOne({"prefix" : pf });
     if(snexists) {
@@ -56,7 +47,6 @@ Meteor.methods({
     var newSystem = {
       name: nm,
       tenant_id: 100000,
-      id: intid,
       created: new Date(),
       modified: new Date(),
       is_deleted: false,
@@ -70,12 +60,11 @@ Meteor.methods({
     };
 
     Systems.schema.validate(newSystem);
-    var systemval = Systems.insert(newSystem);
-    return intid;
+    return Systems.insert(newSystem);
   },
-  'systems.edit'(ws_id, id, system, pf, maxtasks, cred){
+  'systems.edit'(ws_id, sys_id, system, pf, maxtasks, cred){
     check(ws_id, String);
-    check(id, String);
+    check(sys_id, String);
     check(system, String);
     check(pf, String);
     check(maxtasks, Number);
@@ -84,11 +73,11 @@ Meteor.methods({
       SystemSettingsSchema.validate(cred[i]);
     }
 
-    Systems.update(id, {$set: {name: system
+    Systems.update(sys_id, {$set: {name: system
                   , modified: new Date(), prefix: pf
                   , max_concurrent_tasks: maxtasks, credentials: cred}});
-    var sys = Systems.findOne(id);
-    return sys.id;
+    var sys = Systems.findOne(sys_id);
+    return sys._id;
   },
   'systems.remove'(currentid, ws_id){
     check(currentid, String);
@@ -96,7 +85,7 @@ Meteor.methods({
 
     var current = Systems.findOne(currentid, {"workspace_id": ws_id});
     // Check if System has objects, cancel delete if true
-    var objectCount = ExternalObjects.find({"system_id": current.id}).count();
+    var objectCount = ExternalObjects.find({"system_id": current._id}).count();
     if(objectCount > 0){
       throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
     }
@@ -108,13 +97,13 @@ Meteor.methods({
     check(ws_id, String);
     return Systems.remove({"workspace_id": ws_id});
   },
-  'systems.updateStatus'(ws_id, sysid, field, status){
+  'systems.updateStatus'(ws_id, sys_id, field, status){
     check(ws_id, String);
-    check(sysid, Number);
+    check(sys_id, String);
     check(field, String);
     check(status, Boolean);
 
-    var sys = Systems.findOne({workspace_id: ws_id, id:sysid});
+    var sys = Systems.findOne(sys_id, {workspace_id: ws_id});
     if(field == "authentication"){
       return Systems.update(sys._id, {$set: { authentication: true, modified: new Date()}});
     }else if(field == "discover"){
@@ -218,8 +207,6 @@ export const SystemExternalObjectsSchema = new SimpleSchema({
 
 Systems.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
-  id:
     { type: Number },
   modified:
     { type: Date

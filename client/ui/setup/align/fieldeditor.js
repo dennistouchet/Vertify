@@ -33,5 +33,11 @@ Template.fieldeditor.events({
         // successful call
       }
     });
+  },
+  'click .back' : function(e){
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.innerHTML = ""; //reset errors
+
+    FlowRouter.go('/setup/align');
   }
 });

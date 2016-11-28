@@ -112,14 +112,14 @@ Template.alignvertifyobjectrow.events({
     else if(e.target.text.trim() == 'Delete')
     {
       var vo = VertifyObjects.findOne(this._id);
-      var count = VertifyProperties.find({"workspace_id": vo.workspace_id, "vertify_object_id": vo.id}).count();
+      var count = VertifyProperties.find({"workspace_id": vo.workspace_id, "vertify_object_id": vo._id}).count();
 
       if(count > 0){
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
       }
       else{
-      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo.id
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo._id
       , (err, res) => {
         if(err){
           //console.log(err);

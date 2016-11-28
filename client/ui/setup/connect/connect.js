@@ -108,11 +108,11 @@ Template.connect.events({
       e.preventDefault();
 
       system = $(e.target).closest('.system');
-      sysId = system.attr('data-id');
+      sys_id = system.attr('data-id');
 
-      ModalHelper.openSysEditModalFor(sysId);
+      ModalHelper.openSysEditModalFor(sys_id);
 
-      console.log("Connect - systems edit clicked for id: " + sysId );
+      console.log("Connect - systems edit clicked for id: " + sys_id );
   },
   'click .details' : function(e){
      $(e.target).find('i').toggleClass('glyphicon-chevron-up').toggleClass('glyphicon-chevron-down');

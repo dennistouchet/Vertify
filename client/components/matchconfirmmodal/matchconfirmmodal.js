@@ -93,9 +93,9 @@ Template.matchconfirmmodal.events({
     ws = Session.get("currentWs");
     if(ws && vo){
 
-      Meteor.tools.updateVertifyObjectStatus(ws._id, vo.id, 'match', false);
+      Meteor.tools.updateVertifyObjectStatus(ws._id, vo._id, 'match', false);
       
-      Meteor.call('tasks.insert', "match", ws._id, vo.id
+      Meteor.call('tasks.insert', "match", ws._id, vo._id
       , (error, result) => {
         if(error){
           //console.log(err);

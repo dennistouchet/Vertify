@@ -47,14 +47,14 @@ Template.fixconfirmmodal.events({
     var vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      vo = VertifyObjects.findOne({"workspace_id": ws._id, "id": vo.id});
+      vo = VertifyObjects.findOne({"workspace_id": ws._id, "id": vo._id});
       var type = Session.get("fixType");
       console.log("Workspace | VO | fixtype");
       console.log(ws);
       console.log(vo);
       console.log(type);
       if(type == "issues"){
-        Meteor.call('tasks.insert', "fixissues", ws._id, vo.id
+        Meteor.call('tasks.insert', "fixissues", ws._id, vo._id
         , (error, result) => {
           if(error){
             //console.log(err);
@@ -70,7 +70,7 @@ Template.fixconfirmmodal.events({
          }
         });
       }else if(type == "unmatched"){
-        Meteor.call('tasks.insert', "fixunmatched", ws._id, vo.id
+        Meteor.call('tasks.insert', "fixunmatched", ws._id, vo._id
         , (error, result) => {
           if(error){
             //console.log(err);

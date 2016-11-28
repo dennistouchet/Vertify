@@ -4,10 +4,10 @@ import { Systems } from '../../../imports/collections/tenant/system.js';
 
 Template.systemeditmodal.helpers({
   system: function(){
-    var sysId = Session.get('selectedSystem');
+    var sys_id = Session.get('selectedSystem');
 
-    if(typeof sysId !== "undefined") {
-      var system = Systems.findOne(sysId);
+    if(typeof sys_id !== "undefined") {
+      var system = Systems.findOne(sys_id);
       return system;
     } else {
       return {name: '', pf:'', st: '', un:'', pw:'',maxtasks:''}
@@ -24,7 +24,7 @@ Template.systemeditmodal.events({
     errDiv.innerHTML = ""; //reset errors
 
     //TODO: VERIFY WORKSPACE ID
-    var sysId = Session.get('selectedSystem');
+    var sys_id = Session.get('selectedSystem');
 
     var ws = Session.get("currentWs");
     var nm = document.getElementById("name");
@@ -32,9 +32,9 @@ Template.systemeditmodal.events({
     var maxtasks = document.getElementById("maxtasks");
     var settings = document.querySelectorAll('*[id^="setting_"]');
 
-    if(sysId) {
-      var nmexists = Systems.findOne({"_id":  {$ne: sysId}, "name" : nm.value.trim()});
-      var pfexists = Systems.findOne({"_id":  {$ne: sysId}, "prefix" : pf.value.trim()});
+    if(sys_id) {
+      var nmexists = Systems.findOne({"_id":  {$ne: sys_id}, "name" : nm.value.trim()});
+      var pfexists = Systems.findOne({"_id":  {$ne: sys_id}, "prefix" : pf.value.trim()});
 
       var setErr = 0;
       if (settings){
@@ -65,7 +65,7 @@ Template.systemeditmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-      Meteor.call('systems.edit', ws._id, sysId, nm.value.trim(), pf.value.trim()
+      Meteor.call('systems.edit', ws._id, sys_id, nm.value.trim(), pf.value.trim()
         , parseInt(maxtasks.value), sets
         , (err, res) => {
           if(err){

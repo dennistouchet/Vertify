@@ -8,7 +8,7 @@ Meteor.methods({
   'tasks.insert'(t, ws_id, itemid){
     check(t , String);
     check(ws_id , String);
-    check(itemid , Number);
+    check(itemid , String);
 
     // Incrementing ID's
     var lastTask = Tasks.findOne({}, {sort: {id: -1}});
@@ -141,7 +141,7 @@ Meteor.methods({
   },
   'tasks.update'(id, ws_id){
     check(id, String);
-    check(wisid, Number);
+    check(ws_id, String);
     var thisTask = Tasks.findOne(id, {"workspace_id": ws_id});
 
   },
@@ -235,13 +235,13 @@ Tasks.schema = new SimpleSchema({
   workspace_id:
     { type: String },
   system_id:
-    { type: Number
+    { type: String
     , optional: true},
   external_object_id:
-    { type: Number
+    { type: String
     , optional: true },
   vertify_object_id:
-    { type: Number
+    { type: String
     , optional: true },
   source_object_id:
     { type: Number

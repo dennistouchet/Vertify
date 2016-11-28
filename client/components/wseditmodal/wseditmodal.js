@@ -1,21 +1,23 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../imports/collections/tenant/workspace.js';
 
-Template.wsaddmodal.helpers({
+Template.wseditmodal.helpers({
 
 });
 
-Template.wsaddmodal.events({
+Template.wseditmodal.events({
   'click #save': function(e) {
     e.preventDefault();
-    var errDiv = document.getElementById("addErrWsModal");
+    var errDiv = document.getElementById("editErrWsModal");
     errDiv.innerHTML = ""; //reset errors
 
     //TODO: ADD more value validation
     var name = document.getElementById("name");
+    var _id = Session.get("selectedWorkspace");
     if(name.value) {
-      console.log('workspace insert called with value: ' +  name.value);
-      Meteor.call('workspaces.insert'
+      console.log('workspace edit called with value: ' +  name.value);
+      Meteor.call('workspaces.edit'
+        , _id
         , name.value.trim()
         , (err, res) => {
           if(err){

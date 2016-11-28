@@ -8,9 +8,9 @@ export const ExternalObjects = new Mongo.Collection('external_objects');
 export const ExternalObjectProperties = new Mongo.Collection('external_object_properties');
 
 Meteor.methods({
-  'external_objects.insert'(ws_id, sysid, n) {
+  'external_objects.insert'(ws_id, sys_id, n) {
     check(ws_id, String);
-    check(sysid, Number);
+    check(sys_id, String);
     check(n, String);
     //check user is logged
     /*
@@ -18,15 +18,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-    var obj = ExternalObjects.findOne({}, {sort: {id: -1}});
-    if(obj == null) {
-      var newid = 111111;
-    }
-    else {
-      var newid = (obj.id + 1);
-    }
-
-    var objectExists = ExternalObjects.findOne({"system_id": sysid, "name": n})
+    var objectExists = ExternalObjects.findOne({"system_id": sys_id, "name": n})
     if(objectExists){
       throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
     }
@@ -38,13 +30,13 @@ Meteor.methods({
     // Call Task to get external objects properties
     //TODO: Add isDevelopment check to this when tasks are complete on Elixir side
     //TODO: MOVE THIS CALL INTO MOCK LOADING PROGRESS for match data simulation
-    var proplist = Meteor.tools.getExternalObjectProperties(ws_id, sysid);
+    var proplist = Meteor.tools.getExternalObjectProperties(ws_id, sys_id);
     console.log(proplist);
     proplist.forEach(function(prop){
       ExternalObjectProperties.schema.validate(prop);
     });
 
-    var system = Systems.findOne({"workspace_id": ws_id, "id": sysid});
+    var system = Systems.findOne(sys_id,{"workspace_id": ws_id});
 
     var sysExtObj = null;
     system.external_objects.forEach(function(eo){
@@ -54,17 +46,16 @@ Meteor.methods({
     });
 
     if(sysExtObj == null){
-      console.log("No external object: " + n + "found in system: " + sysid);
-      throw new Meteor.Error("Missing Value", "No external object: " + n + "found in system: " + sysid);
+      console.log("No external object: " + n + "found in system: " + sys_id);
+      throw new Meteor.Error("Missing Value", "No external object: " + n + "found in system: " + sys_id);
     }
 
     var newExternalObject = {
       tenant_id: newid,
-      id: newid,
       modified: new Date(),
       created: new Date(),
       name: n,
-      system_id: sysid,
+      system_id: sys_id,
       workspace_id: ws_id,
       collectschema: false,
       collect: false,
@@ -109,10 +100,10 @@ Meteor.methods({
 
     ExternalObjects.remove(current._id);
   },
-  'external_objects.updateLoading'(id, percent){
-    check(id, Number);
+  'external_objects.updateLoading'(eo_id, percent){
+    check(eo_id, String);
     check(percent, Number);
-    var current = ExternalObjects.findOne({"id": id});
+    var current = ExternalObjects.findOne(eo_id);
 
     if(current){
       ExternalObjects.update(current._id,
@@ -122,7 +113,7 @@ Meteor.methods({
         );
     }
     else{
-      throw new Meteor.Error("External Object not Found", "The object with id: " +  id + " could not be found.");
+      throw new Meteor.Error("External Object not Found", "The object with id: " +  eo_id + " could not be found.");
     }
   },
   'external_objects.removeAll'(ws_id){
@@ -152,8 +143,6 @@ ExternalObjectProperties.schema = new SimpleSchema({
 ExternalObjects.schema = new SimpleSchema({
   tenant_id:
     { type: Number},
-  id:
-    { type: Number },
   modified:
     { type: Date },
   created:
@@ -165,7 +154,7 @@ ExternalObjects.schema = new SimpleSchema({
   name:
     { type: String },
   system_id:
-    { type: Number },
+    { type: String },
   workspace_id:
     { type: String },
   collectschema:

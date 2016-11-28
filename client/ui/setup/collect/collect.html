@@ -185,8 +185,8 @@
   {{#each eo in external_objects}}
     {{#if doesntAlreadyExist eo.name id}}
     <li>
-      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{id}}">
-        <img src="/images/{{getConnectorName id}}.png"
+      <a href="#" data-id="{{eo.name}}" data-name="{{eo.name}}" data-system="{{_id}}">
+        <img src="/images/{{getConnectorName _id}}.png"
         alt="..." style="width:30px;height:30px; margin-right:10px;" >
         {{name}} - {{eo.name}}
       </a>
@@ -205,8 +205,8 @@
         <a href="#">
           <div class="x_panel">
             Name: {{eo.name}}<br />
-            System Name: {{getSystemName id}}<br/>
-            System Id: {{id}}<br/>
+            System Name: {{getSystemName _id}}<br/>
+            System Id: {{_id}}<br/>
             Workspace Id: {{workspace_id}}<br/>
           </div>
         </a>
@@ -220,10 +220,11 @@
     <div class="col-md-12 system" data-id="{{_id}}">
       <div class="x_panel">
         <div class="col-md-2"  >
-            <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
+            <img src="/images/{{getConnectorName _id}}.png" alt=".." style="width:90px;height:90px;" >
         </div>
         <div class="col-md-2" style="padding-top:35px;">
           <h6>
+            {{system_id}} | {{id}} || {{_id}}
           {{getSystemName system_id}} - {{name}}
           </h6>
           <div id="objdetails{{_id}}" class="collapse" >

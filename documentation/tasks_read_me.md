@@ -73,7 +73,7 @@ Precis: From the context of the UI, Tasks are a collection used by the interface
 		Params: ( 'schedule', workspace_id, vertify_object_id )
 
 Check object status and look for existing task type with necessary values
-ex: see if authentication, wsid, sysid exists if system status = incomplete. if not exist create, else nothing.
+ex: see if authentication, wsid, sys_id exists if system status = incomplete. if not exist create, else nothing.
 
 
 

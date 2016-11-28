@@ -50,7 +50,7 @@ Template.alignprocess.helpers({
 Template.alignprocess.events({
   'click' : function(){
     console.log("alignprocess click event");
-    //ModalHelper.openAlignConfirmModalFor(sysId);
+    //ModalHelper.openAlignConfirmModalFor(sys_id);
   },
   'change .radio': function(e, t){
     var el = e.target.value;
@@ -72,7 +72,7 @@ Template.alignprocess.events({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne({"_id": id});
 
-    //console.log("calling align task with void: " + vo.id);
+    //console.log("calling align task with void: " + vo._id);
     if(ws && vo){
       Meteor.call('align_results.remove', ws._id
       , (err, res) => {
@@ -85,7 +85,7 @@ Template.alignprocess.events({
         }
         else {
           //console.log("align_results remove returned success");
-          Meteor.call('tasks.insert', "aligntest", ws._id, vo.id
+          Meteor.call('tasks.insert', "aligntest", ws._id, vo._id
           , (error, result) => {
             if(error){
               //console.log(err);
@@ -121,7 +121,7 @@ Template.alignprocessalign.helpers({
     var vo = VertifyObjects.findOne(id);
     complete = false;
     if(ws && vo){
-      var ar = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id});
+      var ar = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
       if(ar){
         complete = true;
       }
@@ -133,7 +133,7 @@ Template.alignprocessalign.helpers({
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
-        return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo.id});
+        return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
     }
     return null;
   },
@@ -201,7 +201,7 @@ Template.alignprocessalign.events({
     var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws._id});
     if(ws && vo)
     {
-      var alignresults = AlignResults.findOne({"workspace_id": ws._id,"vertify_object_id": vo.id});
+      var alignresults = AlignResults.findOne({"workspace_id": ws._id,"vertify_object_id": vo._id});
 
       //Get all inputs with type text to set friendly_name
       var inputs = document.getElementsByTagName('input');

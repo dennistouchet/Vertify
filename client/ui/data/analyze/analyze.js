@@ -62,7 +62,7 @@ Template.analyze.events({
     var ws = Session.get("currentWs");
     var vo = VertifyObjects.findOne(this._id);
     if(ws && vo){
-      Meteor.call('vertify_objects.updateStatus', ws._id, vo.id, 'analyze', false
+      Meteor.call('vertify_objects.updateStatus', ws._id, vo._id, 'analyze', false
       , (err, res) => {
         if(err){
           //console.log(err);
