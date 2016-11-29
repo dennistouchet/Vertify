@@ -10,16 +10,6 @@ Meteor.methods({
     check(ws_id , String);
     check(itemid , String);
 
-    // Incrementing ID's
-    var lastTask = Tasks.findOne({}, {sort: {id: -1}});
-    var intId = null;
-    if(lastTask == null) {
-      intid = 111111;
-    }
-    else {
-      intid = (lastTask.id + 1);
-    }
-
     //TODO: replace with real tenant_id
     var tid = 100000;
 
@@ -27,7 +17,6 @@ Meteor.methods({
     if(t == "authentication" || t == "discover" || t == "scan"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         system_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -38,7 +27,6 @@ Meteor.methods({
     }else if(t == "collectschema" || t == "collect"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         external_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -51,7 +39,6 @@ Meteor.methods({
       //TODO: send sample size from match input
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -64,7 +51,6 @@ Meteor.methods({
       //TODO: send sample size from align input
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -76,7 +62,6 @@ Meteor.methods({
     }else if(t == "align"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -87,7 +72,6 @@ Meteor.methods({
     }else if(t == "analyze"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -100,7 +84,6 @@ Meteor.methods({
     }else if(t == "fixunmatched" || t == "fixissues"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -115,7 +98,6 @@ Meteor.methods({
     }else if(t == "deleteexternalobject"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         external_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -126,7 +108,6 @@ Meteor.methods({
     }else if(t == "deletevertifyobject"){
       newTasks = {
         tenant_id: tid,
-        id: intid,
         vertify_object_id: itemid,
         workspace_id: ws_id,
         task: t,
@@ -137,7 +118,7 @@ Meteor.methods({
     }
 
     Tasks.schema.validate(newTasks);
-    Tasks.insert(newTasks);
+    return Tasks.insert(newTasks);
   },
   'tasks.update'(id, ws_id){
     check(id, String);
@@ -145,16 +126,14 @@ Meteor.methods({
     var thisTask = Tasks.findOne(id, {"workspace_id": ws_id});
 
   },
-  'tasks.remove'(id, ws_id){
-    var thisTask = Tasks.findOne(id, {"workspace_id": ws_id});
+  'tasks.remove'(_id, ws_id){
+    var thisTask = Tasks.findOne(_id, {"workspace_id": ws_id});
 
   }
 });
 
 Tasks.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
-  id:
     { type: Number },
   modified:
     { type: Date

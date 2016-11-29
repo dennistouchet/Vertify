@@ -24,7 +24,7 @@ Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
     ws = Session.get("currentWs");
-    if(ws._id) {
+    if(ws) {
       systems = Systems.find({"workspace_id": ws._id});
       Session.set("systemCount", systems.count());
       console.log("Session SystemCount: " + Session.get("systemCount"));
@@ -36,7 +36,8 @@ Template.connect.helpers({
     }
   },
   hasWorkspace : function(){
-    if(Session.get("currentWs")){
+    var ws = Session.get("currentWs");
+    if(ws){
       return true;
     }
     else {
@@ -44,9 +45,11 @@ Template.connect.helpers({
     }
   },
   hasSystems : function(){
-    if(Session.get("systemCount")){
-      var sysCnt = parseInt(Session.get("systemCount"));
-      if(sysCnt > 0){
+    var ws = Session.get("currentWs");
+    var syscount = Session.get("systemCount");
+    if(ws && syscount){
+      var syscnt = parseInt(syscount);
+      if(syscnt > 0){
         return true;
       }
       else {
@@ -58,7 +61,8 @@ Template.connect.helpers({
     }
   },
   hasEnoughSystems : function(){
-    if(Session.get("systemCount")){
+    var ws = Session.get("currentWs");
+    if(ws){
       var sysCnt = parseInt(Session.get("systemCount"));
       if(sysCnt > 1){
         return true;
@@ -72,7 +76,8 @@ Template.connect.helpers({
     }
   },
   getWorkspaceId : function(){
-    if(Session.get("currentWs")){
+    var ws = Session.get("currentWs");
+    if(ws){
       var ws = Session.get("currentWs");
       return ws._id;
     }
@@ -215,7 +220,7 @@ Template.connectempty.events({
       }
       if(nmexists == null && pfexists == null && setErr == 0){
 
-        Meteor.call('systems.insert', ws._id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws._id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){
@@ -292,21 +297,10 @@ Template.connectempty.events({
 
 Template.connectsystem.helpers({
   getConnectorName : function(id){
-    if(Session.get("currentWs") && id){
-      var conn = Connectors.findOne({"id" : id});
-
-      return conn.name;
-    }
-    else {
-      console.log("no workspace selected");
-      return "DefaultSystem";
-    }
-  },
-  getAuthenticationStatus : function(id){
-    if(Session.get("currentWs") && id){
-      var sys = Systems.findOne({id});
-
-      return conn.name;
+    if(id){
+      var conn = Connectors.findOne(id);
+      if(conn)
+        return conn.name;
     }
     else {
       console.log("no workspace selected");

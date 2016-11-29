@@ -5,10 +5,11 @@ import { check } from 'meteor/check';
 export const AlignResults = new Mongo.Collection('align_results');
 
 Meteor.methods({
-  'align_results.editApproval'(ws_id, arid, name, approved){
+  'align_results.editApproval'(ws_id, ar_id, name, approved){
     check(ws_id, String);
+    check(ar_id, String);
 
-    var thisAr = AlignResults.findOne(arid,{"workspace_id": ws_id});
+    var thisAr = AlignResults.findOne(ar_id,{"workspace_id": ws_id});
     //console.log("Workspace: " + ws_id + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
     //console.log(thisAr);
 
@@ -28,8 +29,11 @@ Meteor.methods({
     AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
 
   },
-  'align_results.updateName'(ws_id, arid, name, friendlyname){
+  'align_results.updateName'(ws_id, ar_id, name, friendlyname){
     check(ws_id, String);
+    check(ar_id ,String);
+    check(name ,String);
+    check(friendlyname ,String);
 
     var thisAr = AlignResults.findOne(arid,{"workspace_id": ws_id});
 
@@ -46,8 +50,8 @@ Meteor.methods({
       throw new Meteor.Error("Missing Value", "There was an error processing your request. The Align Results Friendly Name value does not exist.");
     }
 
-    var id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
-    console.log("AlignResults update called | id: " + id);
+    var _id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
+    console.log("AlignResults update called | _id: " + _id);
   },
   'align_results.remove'(ws_id){
     check(ws_id, String);
@@ -92,7 +96,7 @@ export const AlignmentVertifyField = new SimpleSchema({
 });
 
 AlignResults.schema = new SimpleSchema({
-  id:
+  tenant_id:
     { type: Number },
   modified:
     { type: Date},

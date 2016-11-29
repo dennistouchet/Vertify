@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating';
-
 import { Systems } from '../../../imports/collections/tenant/system.js';
 
 Template.systemeditmodal.helpers({

@@ -201,7 +201,7 @@
 <template name="systemobjectmenu">
   {{#each eo in external_objects}}
     {{#if doesntAlreadyExist eo.name _id}}
-      <div class="col-md-3 col-sm-3 col-xs-3 addobj" data-name="{{eo.name}}">
+      <div class="col-md-3 col-sm-3 col-xs-3 addextobj" data-name="{{eo.name}}">
         <a href="#">
           <div class="x_panel">
             Name: {{eo.name}}<br />

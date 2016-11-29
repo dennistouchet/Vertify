@@ -35,9 +35,9 @@ Template.matchconfirmmodal.helpers({
       MR.external_objects.forEach(function(eo){
         if(eo.is_truth)
         {
-          console.log(eo);
-          //TODO: adjust this to use workspace once real match results are being sent
-          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws._id}).name;
+          var extobj = ExternalObjects.findOne(eo.external_object_id,{"workspace_id":ws._id});
+          if(extobj)
+            sot = extobj.name;
         }
       });
     }
@@ -65,9 +65,13 @@ Template.matchconfirmmodal.helpers({
       MR.external_objects.forEach(function(eo){
         if(!eo.is_truth)
         {
-          //TODO: adjust this to use workspace once real match results are being sent
-          sot = ExternalObjects.findOne({"id": eo.external_object_id}).name;//, "workspace_id":ws._id}).name;
-          sot += ": " + eo.total + " records.";
+          var eo = ExternalObjects.findOne(eo.external_object_id,{"workspace_id":ws._id});
+          if(eo){
+            sot = eo.name + ": " + eo.total + " records.";
+          }
+          else {
+            sot = "System of Truth error.";
+          }
         }
       });
     }
@@ -76,7 +80,9 @@ Template.matchconfirmmodal.helpers({
   getExternalObjectName: function(id){
     var ws = Session.get("currentWs");
     if(ws){
-      return ExternalObjects.findOne({"id": id, "workspace_id": ws._id}).name;
+      var eo = ExternalObjects.findOne(id, {"workspace_id": ws._id});
+      if(eo)
+        return eo.name;
     }
   }
 });
@@ -94,7 +100,7 @@ Template.matchconfirmmodal.events({
     if(ws && vo){
 
       Meteor.tools.updateVertifyObjectStatus(ws._id, vo._id, 'match', false);
-      
+
       Meteor.call('tasks.insert', "match", ws._id, vo._id
       , (error, result) => {
         if(error){

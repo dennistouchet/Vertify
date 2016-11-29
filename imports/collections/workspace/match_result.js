@@ -38,8 +38,6 @@ export const MatchResultsExternalObjectsSchema = new SimpleSchema({
 MatchResults.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
-  id:
-    { type: Number },
   modified:
     { type: Date},
   created:

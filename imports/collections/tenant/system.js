@@ -8,7 +8,7 @@ export const Systems = new Mongo.Collection('systems');
 Meteor.methods({
   'systems.insert'(ws_id, connid, nm, pf, maxtasks, cred) {
     check(ws_id, String);
-    check(connid, Number);
+    check(connid, String);
     check(nm, String);
     check(pf, String);
     var maxtask = parseInt(maxtasks);
@@ -51,6 +51,7 @@ Meteor.methods({
       modified: new Date(),
       is_deleted: false,
       workspace_id: ws_id,
+      //TODO: VERIFY CONNECTOR EXISTS BEFORE CREATING SYSTEM
       connector_id: connid,
       last_scanned: new Date(),
       max_concurrent_tasks: maxtask,
@@ -222,7 +223,7 @@ Systems.schema = new SimpleSchema({
   workspace_id:
     { type:  String },
   connector_id:
-    { type: Number },
+    { type: String },
   authentication:
     { type: Boolean
     , optional: true },

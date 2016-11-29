@@ -93,6 +93,11 @@ Template.alignvertifyobjectrow.helpers({
     var sys = Systems.findOne(eo.system_id,{"workspace_id": ws._id});
     return sys.name + "-" + eo.name;
   },
+  getExternalObjectRecords : function(eo_id){
+    var ws = Session.get("currentWs");
+    var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
+    return eo.record_count;
+  },
 });
 
 Template.alignvertifyobjectrow.events({

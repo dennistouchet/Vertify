@@ -85,7 +85,10 @@ Template.vertifywizard.events({
       }
     }
 
-    if( index >= steps.length){
+    if( index > steps.length){
+      //TODO ERROR
+    }
+    else if( index = steps.length){
       console.log("Finish Next clicked - Exiting Wizard" );
       if(msId){
         //vo_name:
@@ -112,9 +115,10 @@ Template.vertifywizard.events({
                   errDiv.innerHTML = errDiv.innerHTML + "<li><span>Insert Error: </span>[" + error.error + "] " + error.reason + "</li>";
                 }
                 else{
-                  FlowRouter.go('/setup/match');
+                  console.log("Vertify Object Creation successful");
                 }
               });
+              FlowRouter.go('/setup/match');
             }
           });
         }else{

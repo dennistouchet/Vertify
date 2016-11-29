@@ -205,7 +205,7 @@ Template.collect.events({
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> ExternalObject already exists.</li>";
     }
   },
-  'click .addobj a' : function(e, t){
+  'click .addextobj a' : function(e, t){
     var errDiv = document.getElementById("addErrCollect");
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
@@ -318,7 +318,7 @@ Template.systemobjectdropdown.helpers({
     var ws = Session.get("currentWs");
     if(ws){
       var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
-      var curCon = Connectors.findOne({"id": curSys.connector_id});
+      var curCon = Connectors.findOne(curSys.connector_id);
       if(curCon)
         return curCon.name;
     }
@@ -364,8 +364,10 @@ Template.collectexternalobject.helpers({
   getConnectorName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){
+      console.log("system id:" + sys_id + " | wsid: " + ws._id);
       var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
-      var curCon = Connectors.findOne({"id": curSys.connector_id});
+      console.log(curSys);
+      var curCon = Connectors.findOne(curSys.connector_id);
       if(curCon)
         return curCon.name;
     }

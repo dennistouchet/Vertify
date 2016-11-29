@@ -479,7 +479,7 @@ function initConnectors() {
     },
     {
       name: "IncludeSavedSearches",
-      value: "IncludeSavedSearches",
+      value: "IncludeSavedSearches", 
       is_encrypted: false
     },
     {
@@ -535,7 +535,6 @@ function initConnectors() {
   ConnectorsSettingsSchema.validate(ConnectorsSettings3[2]);
 
   var Netsuite = {
-    id: 100000,
     modified: new Date(),
     created: new Date(),
     name: "Netsuite",
@@ -547,7 +546,6 @@ function initConnectors() {
   };
 
   var Marketo = {
-    id: 111111,
     modified: new Date(),
     created: new Date(),
     name: "Marketo",
@@ -559,7 +557,6 @@ function initConnectors() {
   };
 
   var Jira = {
-    id: 444444,
     modified: new Date(),
     created: new Date(),
     name: "Jira",

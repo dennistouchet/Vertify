@@ -24,7 +24,7 @@ Template.systemaddmodal.events({
     //TODO:REFACTOR TO A SINGLE PLACE\
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
-    errDiv.style.display = 'none';
+    errDiv.style.display = 'none'; 
     errDiv.innerHTML = ""; //reset errors
 
     var nm = document.getElementById("name");
@@ -89,7 +89,7 @@ Template.systemaddmodal.events({
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
       if(nmexists == null && pfexists == null && setErr == 0){
-        Meteor.call('systems.insert', ws._id, parseInt(sysInfoId), nm.value.trim(), pf.value.trim()
+        Meteor.call('systems.insert', ws._id, sysInfoId, nm.value.trim(), pf.value.trim()
           , maxtasks.value.trim(), sets
           , (err, res) => {
             if(err){

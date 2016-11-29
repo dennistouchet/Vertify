@@ -18,17 +18,18 @@ Template.addsystem.helpers({
     return Connectors.find({});
   },
   connSelected : function(){
-    if(Session.get("connId"))
+    var connid = Session.get("connId");
+    if(connid)
     {
       return true
     }
     return false;
   },
   connector() {
-    if(Session.get("connId"))
+    var connid = Session.get("connId");
+    if(connid)
     {
-      var id = Session.get("connId");
-      return Connectors.findOne({"id" : parseInt(id)});
+      return Connectors.findOne(connid);
     }
   },
 });

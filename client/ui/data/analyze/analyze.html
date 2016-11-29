@@ -61,8 +61,8 @@
 <template name="analyzevertifyobjecttable">
   <div class="row" style="border-bottom: 1px solid lightgrey">
     <div class="x_panel">
-      <div class="col-md-3">Vertify Object </div>
-      <div class="col-md-3">Matched Objects </div>
+      <div class="col-md-2">Vertify Object </div>
+      <div class="col-md-4">Matched Objects </div>
       <div class="col-md-2">Total Records </div>
       <div class="col-md-2">Status </div>
       <div class="col-md-2">Actions </div>
@@ -78,9 +78,9 @@
 </template>
 
 <template name="analyzevertifyobjectrow">
-  <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
-    <div class="col-md-3">{{name}} </div>
-    <div class="col-md-3" >
+  <div class="x_row">
+    <div class="col-md-2">{{name}} </div>
+    <div class="col-md-4" >
       {{#each external_objects}}
         {{getExternalObjectName external_object_id}}<br/>
       {{/each}}
@@ -91,7 +91,11 @@
       {{/each}}
     </div>
     <div class="col-md-2">
-      {{analyze_status}}
+      {{#if isEnabled analyze_status}}
+        <p style="color:#72D2A4;">{{analyze_status}}</p>
+      {{else}}
+        <p style="color:#E81C57;">{{analyze_status}}</p>
+      {{/if}}
     </div>
     <div class="col-md-2">
       {{#if isAnalyzing analyze_status}}

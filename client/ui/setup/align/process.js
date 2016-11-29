@@ -161,7 +161,7 @@ Template.alignprocessalign.events({
   'change input' : function(e, t){
     if(e.target.type.toLowerCase() == 'radio'){
       var radio = e.target;
-      var alignresults = AlignResults.findOne({"workspace_id": ws._id});
+      var alignresults = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
       var approved: false;
       if(radio.value == "accept" || radio.value == "reject"){
           if(radio.value == "accept"){

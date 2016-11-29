@@ -131,27 +131,29 @@ Template.matchprocessmatch.helpers({
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
-    if(ws && id){
+    if(ws && vo){
       return MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});
     }
   },
-  getExternalObjectNameById: function(id){
+  getExternalObjectNameById: function(eo_id){
     //TODO:
     var ws = Session.get("currentWs");
-    if(ws && id){
-      console.log("external object id: " +  id);
-      var eo = ExternalObjects.findOne({ "id": id, "workspace_id": ws._id });
-      var sys = Systems.findOne({id: eo.system_id});
+    if(ws && eo_id){
+      console.log("external object id: " +  eo_id);
+      var eo = ExternalObjects.findOne(eo_id,{ "workspace_id": ws._id });
+      var sys = Systems.findOne(eo.system_id,{ "workspace_id": ws._id });
       return sys.name + "-" + eo.name;
     }
     //TODO: throw error
     return "External Object Name";
   },
-  getVertifyObjectNameById: function(id){
+  getVertifyObjectNameById: function(vo_id){
     var ws = Session.get("currentWs");
-    if(ws && id){
-      console.log("id: " + id + " | " + "ws: " + ws._id);
-      return VertifyObjects.findOne({"id": id }).name;
+    if(ws && vo_id){
+      console.log("id: " + vo_id + " | " + "ws: " + ws._id);
+      var vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws._id});
+      if(vo)
+        return vo.name;
     }
     //TODO: throw error
     return "Vertify Object Name";
@@ -173,13 +175,14 @@ Template.matchprocessmatch.events({
   },
   'click .acceptMatchModal' : function(e){
       e.preventDefault();
-      var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
+      var id = Meteor.tools.getQueryParamByName("id");
+      var vo = VertifyObjects.findOne(id);
       var ws = Session.get("currentWs");
       //TODO: this should use workspace, fix once match results are sent by Elixir
-      var matchresults = MatchResults.findOne({"workspace_id":ws._id});//"workspace_id": ws._id});
+      var matchresults = MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});
       console.log("match Results:");
       console.log(matchresults);
-      ModalHelper.openMatchConfirmModalFor(vertifyobjectid, matchresults.id);
+      ModalHelper.openMatchConfirmModalFor(vo._id, matchresults._id);
 
       console.log("Match - complete match modal clicked");
   },

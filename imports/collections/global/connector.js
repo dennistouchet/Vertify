@@ -15,8 +15,6 @@ export const ConnectorsSettingsSchema = new SimpleSchema({
 });
 
 Connectors.schema = new SimpleSchema({
-  id:
-    { type: Number },
   modified:
     { type: Date },
   created:
