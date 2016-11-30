@@ -7,7 +7,7 @@ Meteor core's setup has:
 
 -- Expansion on core features:
 
-*Two databases. 
+*Two databases.
 	**mongoDB (server) and miniMongo (client)
 	**handle data in meteor through the Mongo.Collection class, which works on both the server and client.
 
@@ -31,3 +31,6 @@ Find object (with DB _id):
 
 Remove object:
 	*db.[object-name].remove({ "_id": ObjectId("575f0b75f4e58e92014e8d87") });
+
+#mongo generate collection objects _id's are created as object idsex: Objects("jknsdfg87sdbhijn")
+where as meteor mongo generate id's are prng STRING _ids

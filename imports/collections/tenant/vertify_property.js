@@ -18,11 +18,13 @@ var _sync_actions_enum = [ "add", "update", "empty", "add_update"];
 var _directions = [ "inbound", "outbound", "bidirectional", "none" ];
 
 Meteor.methods({
-  'vertify_properties.insertSingle'(vo, matchResult){
-    //TODO: needed for match
+  'vertify_properties.insertSingle'(vo_id, matchResult){
+    //TODO: may be needed for match
     console.log("vertify_properties.insertSingle function stub called.");
   },
-  'vertify_properties.insertMultiple'(ws_id, vo){
+  'vertify_properties.insertMultiple'(ws_id, vo_id){
+    check(ws_id, String);
+    check(vo_id, String)
     /*
     var ruleobj = {
       rule: alignProperty.align_method,
@@ -37,8 +39,8 @@ Meteor.methods({
       is_truth: alignProperty.
     }*/
     console.log("Multiple Vertify property insert started.");
-    console.log("Workspace _id: " + ws_id + " | Vertify Object id: " + vo);
-    var alignResults = AlignResults.findOne({"workspace_id": ws_id,"vertify_object_id": vo});
+    console.log("Workspace _id: " + ws_id + " | Vertify Object id: " + vo_id);
+    var alignResults = AlignResults.findOne({"workspace_id": ws_id,"vertify_object_id": vo_id});
     console.log("AlignResults:");
     console.log(alignResults);
     var Properties = [];
@@ -73,7 +75,7 @@ Meteor.methods({
           is_deleted: false,
           workspace_id: ws_id,
           //TODO: change this once real Align results are created
-          vertify_object_id: vo,//alignResults.vertify_object_id,
+          vertify_object_id: vo_id,//alignResults.vertify_object_id,
           parent_property_id: null,
           name: alignproperty.name,
           friendly_name: alignproperty.friendly_name,
@@ -98,17 +100,24 @@ Meteor.methods({
     console.log(vplist);
     return vplist;
   },
-  'vertify_properties.update'(){
+  'vertify_properties.update'(ws_id, vp_id){
+    check(ws_id, String);
+    check(vo_id, String);
+
     console.log("vertify_properties.update function stub called.");
   },
-  'vertify_properties.updateMultiple'(){
+  'vertify_properties.updateMultiple'(ws_id, vp_id){
+    check(ws_id, String);
+    check(vo_id, String);
+
     console.log("vertify_properties.updateMultiple function stub called.");
   },
-  'vertify_properties.removeMultiple'(ws_id, vo){
+  'vertify_properties.removeMultiple'(ws_id, vo_id){
     check(ws_id, String);
-    check(vo, Number);
-    var current = VertifyProperties.find({"vertify_object_id": vo, "workspace_id": ws_id});
-    console.log("Vertify Properties remove: " + ws_id + " | void: " + vo);
+    check(vo_id, String);
+
+    var current = VertifyProperties.find({"vertify_object_id": vo_id, "workspace_id": ws_id});
+    console.log("Vertify Properties remove: " + ws_id + " | vo_id: " + vo_id);
     var count = 0;
     if(current){
       current.forEach(function(prop){
@@ -122,14 +131,17 @@ Meteor.methods({
   },
   'vertify_properties.removeAll'(ws_id){
     check(ws_id, String);
+
     return VertifyProperties.remove({"workspace_id": ws_id});
   },
-  'vertify_properties.remove'(_id){
-    var current = VertifyProperties.findOne(_id);
+  'vertify_properties.remove'(vp_id){
+    check(vp_id, String);
+    //TODO add ws and vo validation
+    var current = VertifyProperties.findOne(vp_id);
     if(current)
       return VertifyProperties.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Property with _id: " + _id);
+    throw new Meteor.Error("Missing Value", "No Vertify Property with _id: " + vp_id);
   },
 })
 
@@ -147,7 +159,7 @@ VertifyPropertyRulesRuleSchema = new SimpleSchema({
 
 VertifyPropertyRulesSchema = new SimpleSchema({
   external_object_id:
-    { type: Number },
+    { type: String },
   property_group:
     { type: Number
       , optional: true },
@@ -165,7 +177,7 @@ VertifyPropertyRulesSchema = new SimpleSchema({
 
 VertifyPropertyFieldsSchema = new SimpleSchema({
     external_object_id:
-      { type: Number },
+      { type: String },
     external_property_path:
       { type: String
       , optional: true },
@@ -206,9 +218,6 @@ VertifyPropertyFieldsSchema = new SimpleSchema({
 VertifyProperties.schema = new SimpleSchema({
   tenant_id:
     { type: Number },
-  id:
-    { type: Number
-    , optional: true },
   modified:
     { type: Date },
   created:
@@ -218,9 +227,9 @@ VertifyProperties.schema = new SimpleSchema({
   workspace_id:
     { type: String },
   vertify_object_id:
-    { type: Number },
+    { type: String },
   parent_property_id:
-    { type: Number
+    { type: String
     , optional: true },
   align:
     { type: Boolean

@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../imports/collections/tenant/vertify_property.js';
-import { Tasks } from '../../../imports/collections/global/task.js';
 
 import './fixconfirmmodal.html';
 
@@ -47,12 +46,11 @@ Template.fixconfirmmodal.events({
     var vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
-      vo = VertifyObjects.findOne({"workspace_id": ws._id, "id": vo._id});
+      vo = VertifyObjects.findOne(vo._id,{"workspace_id": ws._id});
       var type = Session.get("fixType");
-      console.log("Workspace | VO | fixtype");
-      console.log(ws);
-      console.log(vo);
-      console.log(type);
+      console.log("ws: " + ws);
+      console.log("vo: " + vo);
+      console.log("fixtype: " + type);
       if(type == "issues"){
         Meteor.call('tasks.insert', "fixissues", ws._id, vo._id
         , (error, result) => {

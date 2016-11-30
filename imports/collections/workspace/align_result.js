@@ -7,7 +7,11 @@ export const AlignResults = new Mongo.Collection('align_results');
 Meteor.methods({
   'align_results.editApproval'(ws_id, ar_id, name, approved){
     check(ws_id, String);
-    check(ar_id, String);
+    // NOTE: ALIGN_RESULTS were created by Elixir Engine
+    // This is the reason for ObjectId instead of String for the typeof _id = String
+    check(ar_id, Meteor.Collection.ObjectID);
+    check(name, String);
+    check(approved, Boolean);
 
     var thisAr = AlignResults.findOne(ar_id,{"workspace_id": ws_id});
     //console.log("Workspace: " + ws_id + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
@@ -31,11 +35,11 @@ Meteor.methods({
   },
   'align_results.updateName'(ws_id, ar_id, name, friendlyname){
     check(ws_id, String);
-    check(ar_id ,String);
+    check(ar_id, Meteor.Collection.ObjectID);
     check(name ,String);
     check(friendlyname ,String);
 
-    var thisAr = AlignResults.findOne(arid,{"workspace_id": ws_id});
+    var thisAr = AlignResults.findOne(ar_id,{"workspace_id": ws_id});
 
     if(thisAr){
       thisAr.alignment_properties.forEach(function(property){

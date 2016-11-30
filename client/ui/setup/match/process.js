@@ -182,6 +182,9 @@ Template.matchprocessmatch.events({
       var matchresults = MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});
       console.log("match Results:");
       console.log(matchresults);
+      console.log("ws: " + ws._id + " | ar: " + matchresults._id + " | n: " + n.substr(11) + " | app: " + approved);
+      console.log(typeof matchresults._id);
+      console.log(matchresults);
       ModalHelper.openMatchConfirmModalFor(vo._id, matchresults._id);
 
       console.log("Match - complete match modal clicked");

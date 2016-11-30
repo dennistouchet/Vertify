@@ -5,13 +5,19 @@ import { Tasks } from '../../../../imports/collections/global/task.js'
 
 import './details.html';
 
+Template.fixdetails.onCreated(function(){
+  //ID NOT setting on first load
+  var id = Meteor.tools.getQueryParamByName("id");
+  console.log(id);
+  this.vo_id = new ReactiveVar(id);
+})
+
 Template.fixdetails.helpers({
   vertify_object(){
     var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
-    var _id = Session.get('fixDetailsID');
-    //TODO: fix this to use querey param
-    console.log(_id);
+    var vo_id = Template.instance().vo_id.get();
+    var _id = Session.get("fixDetailsID");
+    console.log(vo_id);
     if(ws){
       return VertifyObjects.findOne(_id,{"workspace_id": ws._id});
     }
@@ -31,11 +37,12 @@ Template.fixdetails.events({
 });
 
 Template.fixdetailsresults.helpers({
-  getExternalObjectName: function(id){
+  getExternalObjectName: function(eo_id){
     var ws = Session.get("currentWs");
     if(ws){
-      var ext_obj = ExternalObjects.findOne({"workspace_id":ws._id, "id": id});
-      return ext_obj.name;
+      var eo = ExternalObjects.findOne(eo_id,{"workspace_id":ws._id});
+      if(eo)
+        return eo.name;
     }
   },
   getTotal: function(){

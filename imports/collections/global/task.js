@@ -130,6 +130,15 @@ Meteor.methods({
     var thisTask = Tasks.findOne(_id, {"workspace_id": ws_id});
 
   }
+  'task.updateStatus'(ws_id, t_id, s, msg){
+    //TODO verify status NOT in current status request
+    var tsk = Tasks.findOne(t_id,{'workspace_id': ws_id});
+    if(tsk){
+        return task.update(tsk._id, {$set {'status': s}});
+    }
+
+    throw new Meteor.Error("Missing Value", "Task not found for workspace: " + ws_id + " and task id: " + "t_id")
+  }
 });
 
 Tasks.schema = new SimpleSchema({

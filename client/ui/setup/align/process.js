@@ -39,9 +39,9 @@ Template.alignprocess.helpers({
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     if(ws && id){
-      console.log("vertify_object id from param:" + id);
-      var vo = VertifyObjects.findOne(id).name;
-      return vo.name;
+      var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+      if(vo)
+        return vo.name;
     }
   },
 });
@@ -109,9 +109,10 @@ Template.alignprocess.events({
     console.log('Cancel alignment clicked');
     FlowRouter.go('/setup/align');
   },
-  'click .toAlign': function(e, t){
-
-  }
+  'click .preAlignModal' : function(e, t){
+      e.preventDefault();
+      t.currentPage.set( "alignprocessalign" );
+  },
 });
 
 Template.alignprocessalign.helpers({
@@ -137,21 +138,24 @@ Template.alignprocessalign.helpers({
     }
     return null;
   },
-  getVertifyPropertyName: function(id){
-    console.log("getTotal called with: " + id);
+  getVertifyPropertyName: function(vp_id){
     var ws = Session.get("currentWs");
-    if(ws && id){
-      var VP = VertifyProperties.findOne({"id": id, "workspace_id": ws._id});
-      return VP.name;
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
+    if(ws && vo && vp_id){
+      var vp = VertifyProperties.findOne(vp_id,{"workspace_id": ws._id, "vertify_object_id": vo._id});
+      if (vp)
+        return vp.name;
     }
     //throw error
     return "no name";
   },
-  getExternalObjectName: function(id){
+  getExternalObjectName: function(eo_id){
     var ws = Session.get("currentWs");
-    if(ws){
-      var EO = ExternalObjects.findOne({"id": id, "workspace_id": ws._id});
-      return EO.name;
+    if(ws && eo_id){
+      var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
+      if(eo)
+        return eo.name;
     }
     return null;
   }
@@ -159,36 +163,50 @@ Template.alignprocessalign.helpers({
 
 Template.alignprocessalign.events({
   'change input' : function(e, t){
-    if(e.target.type.toLowerCase() == 'radio'){
-      var radio = e.target;
-      var alignresults = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
-      var approved: false;
-      if(radio.value == "accept" || radio.value == "reject"){
-          if(radio.value == "accept"){
-          approved = true;
-        }else{
-          approved: false;
+    console.log('Align Process - input changed.');
+    var errDiv = document.getElementById("addErrAlign");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
+    var ws = Session.get("currentWs");
+    var id = Meteor.tools.getQueryParamByName("id");
+    var vo = VertifyObjects.findOne(id);
+    if(ws && vo){
+      if(e.target.type.toLowerCase() == 'radio'){
+        var radio = e.target;
+        var ar = AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
+        var approved = false;
+        if(radio.value == "accept" || radio.value == "reject"){
+            if(radio.value == "accept"){
+            approved = true;
+          }else{
+            approved = false;
+          }
+          var n = radio.name;
+          //console.log("ws: " + ws._id + " | ar: " + ar._id + " | n: " + n.substr(11) + " | app: " + approved);
+          //console.log(typeof ar._id);
+          //console.log(ar._id);
+          Meteor.call('align_results.editApproval', ws._id, ar._id, n.substr(11), approved
+          , (err, res) => {
+              if(err){
+                //console.log(err);
+                errDiv.style.display = 'block';
+                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+                //return false;
+              }else {
+                //success
+              }
+            });
         }
-        var n = radio.name;
-        Meteor.call('align_results.editApproval', ws._id, alignresults._id, n.substr(11), approved
-        , (err, res) => {
-            if(err){
-              //console.log(err);
-              errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
-              //return false;
-            }else {
-              //success
-            }
-          });
-      }
-      else {
-        //throw error
+        else {
+          //throw error
+        }
       }
     }
-  },
-  'click .viewAlignment': function(e){
-    //TODO:
+    else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Value ] Please verify that a workspace has been selected. If this error persists, return to the previous screen and try again.</li>";
+    }
   },
   'click .acceptAlignModal': function(e){
     e.preventDefault();
