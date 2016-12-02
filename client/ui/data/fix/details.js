@@ -6,20 +6,17 @@ import { Tasks } from '../../../../imports/collections/global/task.js'
 import './details.html';
 
 Template.fixdetails.onCreated(function(){
-  //ID NOT setting on first load
-  var id = Meteor.tools.getQueryParamByName("id");
-  console.log(id);
-  this.vo_id = new ReactiveVar(id);
+  var vo_id = FlowRouter.getQueryParam("id");
+  this.vo_id = new ReactiveVar(vo_id);
 })
 
 Template.fixdetails.helpers({
   vertify_object(){
     var ws = Session.get("currentWs");
-    var vo_id = Template.instance().vo_id.get();
-    var _id = Session.get("fixDetailsID");
-    console.log(vo_id);
+    var id = Template.instance().vo_id.get();
+    console.log(id);
     if(ws){
-      return VertifyObjects.findOne(_id,{"workspace_id": ws._id});
+      return VertifyObjects.findOne(id,{"workspace_id": ws._id});
     }
   },
 });

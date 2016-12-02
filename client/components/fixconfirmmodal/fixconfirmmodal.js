@@ -42,7 +42,7 @@ Template.fixconfirmmodal.events({
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
-    var id = Meteor.tools.getQueryParamByName("id");
+    var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){

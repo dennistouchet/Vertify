@@ -5,7 +5,7 @@ import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_o
 import './results.html';
 
 Template.matchresults.onCreated(function(){
-  var vo_id = Meteor.tools.getQueryParamByName("id");
+  var vo_id = FlowRouter.getQueryParam("id");
   console.log("oncreate void: " +vo_id);
   Template.instance().vertify_object_id = new ReactiveVar(vo_id);
   Template.instance().workspace_id = new ReactiveVar( Session.get("currentWs")._id);

@@ -78,7 +78,6 @@ Template.connect.helpers({
   getWorkspaceId : function(){
     var ws = Session.get("currentWs");
     if(ws){
-      var ws = Session.get("currentWs");
       return ws._id;
     }
     else{
@@ -188,8 +187,8 @@ Template.connectempty.events({
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
       var ws = Session.get("currentWs");
-      var nmexists = Systems.findOne({"name" : nm.value.trim()});
-      var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
+      var nmexists = Systems.findOne({"workspace_id": ws._id, "name" : nm.value.trim()});
+      var pfexists = Systems.findOne({"workspace_id": ws._id, "prefix" : pf.value.trim()});
       var setErr = 0;
       if (settings){
             for(i = 0; i < settings.length; i++){

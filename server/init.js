@@ -201,6 +201,15 @@ function initNavitems(){
           route: '/setup/collect',
           icon: 'glyphicon-cloud-download'
         },
+        /*{
+          name: 'Create',
+          shortdesc: 'Create Vertify Objects',
+          subnavs: [],
+          description: 'Create Vertify objects and determine the which System Objects dictate truth',
+          order: 2,
+          route: '/setup/create',
+          icon: 'glyphicon-sort-by-attributes'
+        },*/
         {
           name: 'Match',
           shortdesc: 'Match Records',
@@ -479,7 +488,7 @@ function initConnectors() {
     },
     {
       name: "IncludeSavedSearches",
-      value: "IncludeSavedSearches", 
+      value: "IncludeSavedSearches",
       is_encrypted: false
     },
     {

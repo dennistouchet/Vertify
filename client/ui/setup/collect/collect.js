@@ -87,9 +87,9 @@ Template.collect.events({
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne(this._id);
 
-    //TODO: move this later
-    // TODO: ad validation to check by external object
-    var objectCount = VertifyObjects.find({"workspace_id": ws._id}).count();
+    // BUSINESS RULE: Only allow deletion of external objects if they arent used in a Vertify Object.
+    var vo_eo = VertifyObjects.find({"workspace_id": ws._id, "external_objects.external_object_id": eo._id});
+    var objectCount = vo_eo.count();
     if(objectCount > 0){
       //TODO: improve with error Template
       errDiv.style.display = 'block';
@@ -364,9 +364,7 @@ Template.collectexternalobject.helpers({
   getConnectorName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){
-      console.log("system id:" + sys_id + " | wsid: " + ws._id);
       var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
-      console.log(curSys);
       var curCon = Connectors.findOne(curSys.connector_id);
       if(curCon)
         return curCon.name;

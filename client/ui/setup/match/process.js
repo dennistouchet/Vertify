@@ -16,6 +16,9 @@ Template.matchprocess.onCreated(function(){
   });
 
   this.currentPage = new ReactiveVar("matchprocessmatchtest"); //other Page is matchprocessmatch
+  // Get vertify object id from query parameters in url
+  var vo_id = FlowRouter.getQueryParam("id");
+  this.vo_id = new ReactiveVar(vo_id);
 });
 
 
@@ -28,17 +31,12 @@ Template.matchprocess.helpers({
     return false;
   },
   getVertifyObjectName: function(){
-    //TODO: fix this. It tries to get the ID before the template is rendered and the queryparams are set so it fails
     var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
+    var id = Template.instance().vo_id.get();
     if(ws && id){
-      console.log("vertify_object id from param:" + id);
-      var vo = VertifyObjects.findOne(id).name;
-      console.log("Vertify object from getVertObjName:");
-      console.log(vo);
+      var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
       return vo.name;
     }
-    return null;
   },
 });
 
@@ -66,13 +64,10 @@ Template.matchprocess.events({
     errDiv.innerHTML = ""; //reset errors
 
     ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
-    var vo = VertifyObjects.findOne({"_id": id});
-
+    var id = Template.instance().vo_id.get()
+    var vo = VertifyObjects.findOne(id);
     if(ws && vo){
-
       Meteor.tools.updateVertifyObjectStatus( ws._id, vo._id, 'matchtest', false);
-
       Meteor.call('match_results.remove', ws._id
       , (error, result) => {
         if(error){
@@ -115,8 +110,6 @@ Template.matchprocessmatch.helpers({
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
-    console.log("vo:");
-    console.log(vo);
     complete = false;
     if(ws && vo){
       //var task = Tasks.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id, "task": "matchtest"}});
@@ -136,7 +129,6 @@ Template.matchprocessmatch.helpers({
     }
   },
   getExternalObjectNameById: function(eo_id){
-    //TODO:
     var ws = Session.get("currentWs");
     if(ws && eo_id){
       console.log("external object id: " +  eo_id);
@@ -178,13 +170,14 @@ Template.matchprocessmatch.events({
       var id = Meteor.tools.getQueryParamByName("id");
       var vo = VertifyObjects.findOne(id);
       var ws = Session.get("currentWs");
-      //TODO: this should use workspace, fix once match results are sent by Elixir
+
+      //NOTE: MATCH RESULTS are created by Elixir/Mongo and use ObjectId for _id instead of String
       var matchresults = MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});
       console.log("match Results:");
       console.log(matchresults);
-      console.log("ws: " + ws._id + " | ar: " + matchresults._id + " | n: " + n.substr(11) + " | app: " + approved);
-      console.log(typeof matchresults._id);
-      console.log(matchresults);
+      console.log("vo: " + vo._id + " | ar: " + matchresults._id );
+      //console.log(typeof matchresults._id);
+      //console.log(matchresults);
       ModalHelper.openMatchConfirmModalFor(vo._id, matchresults._id);
 
       console.log("Match - complete match modal clicked");

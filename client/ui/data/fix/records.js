@@ -14,7 +14,7 @@ Template.fixrecords.onCreated(function(){
 Template.fixrecords.helpers({
   taskRunning : function(){
     var ws = Session.get('currentWs');
-    var id = Meteor.tools.getQueryParamByName('id');
+    var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id);
     var running = true;
     //TODO: add vertify objects
@@ -30,7 +30,7 @@ Template.fixrecords.helpers({
   },
   getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
+    var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
       return vo.name;
@@ -92,7 +92,7 @@ Template.fixrecords.events({
 Template.fixloading.helpers({
   task(){
     var ws = Session.get('currentWs');
-    var id = Meteor.tools.getQueryParamByName('id');
+    var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
       return Tasks.findOne({workspace_id: ws._id, task: 'fixunmatched'}, { sort: { created: -1}});

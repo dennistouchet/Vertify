@@ -88,7 +88,7 @@ Template.vertifywizard.events({
     if( index > steps.length){
       //TODO ERROR
     }
-    else if( index = steps.length){
+    else if( index == steps.length){
       console.log("Finish Next clicked - Exiting Wizard" );
       if(msId){
         //vo_name:

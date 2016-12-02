@@ -165,6 +165,13 @@ setupRoutes.route('/connect', {
   }
 });
 
+setupRoutes.route('/create', {
+  name: 'create',
+  action() {
+      BlazeLayout.render('main', {main: 'create'});
+  }
+});
+
 setupRoutes.route('/match', {
   name: 'match',
   action() {

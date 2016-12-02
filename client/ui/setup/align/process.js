@@ -25,6 +25,10 @@ Template.alignprocess.onCreated(function(){
 
   //Alignment click through process for AlignTest/Align
   this.currentPage = new ReactiveVar("alignprocessaligntest"); //other Page is alignprocessalign
+
+  // Get vertify object id from query parameters in url
+  var vo_id = FlowRouter.getQueryParam("id");
+  this.vo_id = new ReactiveVar(vo_id);
 });
 
 Template.alignprocess.helpers({
@@ -37,7 +41,7 @@ Template.alignprocess.helpers({
   },
   getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
+    var id = Template.instance().vo_id.get();
     if(ws && id){
       var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
       if(vo)
@@ -69,8 +73,8 @@ Template.alignprocess.events({
     errDiv.innerHTML = ""; //reset errors
 
     ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
-    var vo = VertifyObjects.findOne({"_id": id});
+    var id = Template.instance().vo_id.get();
+    var vo = VertifyObjects.findOne(id);
 
     //console.log("calling align task with void: " + vo._id);
     if(ws && vo){
@@ -131,7 +135,7 @@ Template.alignprocessalign.helpers({
   },
   align_results(){
     var ws = Session.get("currentWs");
-    var id = Meteor.tools.getQueryParamByName("id");
+    var id =Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
         return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});

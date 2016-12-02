@@ -3,6 +3,16 @@ import { Navitems } from '../../../imports/collections/navitems.js';
 
 import './sidenav.html';
 
+Template.sidenav.onCreated(function(){
+  //TODO: update side nav to be properly open according to current route
+
+  // Reactively keeps track of the current route.
+  Tracker.autorun(function(){
+    var routeName = FlowRouter.getRouteName();
+    //console.log("Current route is: " + routeName);
+  });
+});
+
 Template.sidenav.helpers({
   navitems() {
     return Navitems.find({});
