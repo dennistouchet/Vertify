@@ -122,8 +122,7 @@ Template.matchconfirmmodal.events({
                return;
              }
              else {
-
-               FlowRouter.go('/setup/match/loading');
+               FlowRouter.go('/setup/match/loading?id=' + vo._id);
                Modal.hide('matchconfirmmodal');
              }
          });

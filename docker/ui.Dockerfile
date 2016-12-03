@@ -35,3 +35,5 @@ EXPOSE 3000
 VOLUME ["/vertify-ui"]
 
 ENTRYPOINT ["meteor"]
+#, "--settings", "settings.json"]
+# to user meteor settings file, add --settings settings.json

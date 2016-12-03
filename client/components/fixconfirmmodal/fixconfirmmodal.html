@@ -2,6 +2,7 @@
   <div class="modal fade">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
+        {{#with vertify_object}}
         <div class="modal-header">
           <h3 class="modal-title">Detect / {{name}}
             <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
@@ -14,8 +15,13 @@
               Vertify will now attempt to fix the selected records in each system using the action selected.
               <br />
               <br />
-              Records to Fix: {{getRecord}}<br/>
-              Affected Systems: {{getSystemNames}}<br/>
+              Records to Fix: {{getRecords _id}}<br/>
+              Affected Systems:
+                {{#each eo in external_objects}}
+                  {{getSystemNames eo._id}}
+                {{else}}
+                  Error
+                {{/each}}<br/>
               Action: {{getActionDescription}}<br/>
             </h2><br />
         </div>
@@ -23,6 +29,7 @@
           <button type="button" class="btn btn-default pull-right" data-dismiss="modal" >Cancel</button>
           <button type="button" class="btn btn-primary pull-right" id="save">Fix</button>
         </div>
+        {{/with}}
       </div>
     </div>
   </div>

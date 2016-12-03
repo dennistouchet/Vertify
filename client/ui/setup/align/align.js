@@ -48,7 +48,7 @@ Template.aligncomplete.helpers({
  vertifyObjectCount: function(){
    var ws = Session.get("currentWs");
    if(ws){
-     return VertifyObjects.find({"workspace_id": ws._id}).count();
+     return VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
    }
  }
 });
@@ -91,7 +91,9 @@ Template.alignvertifyobjectrow.helpers({
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     var sys = Systems.findOne(eo.system_id,{"workspace_id": ws._id});
-    return sys.name + "-" + eo.name;
+    if(ws && eo && sys){
+      return sys.name + "-" + eo.name;
+    }
   },
   getExternalObjectRecords : function(eo_id){
     var ws = Session.get("currentWs");

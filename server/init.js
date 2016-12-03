@@ -26,8 +26,13 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 
 Meteor.startup(function(){
 
-//GLOBAL MOCK WORKSPACES
-  console.log("Meteor server started...");
+  // Kadira Performance Monitoring
+  var app_id = Meteor.settings.app_id;
+  var app_secret = Meteor.settings.app_secret;
+
+  Kadira.connect(app_id, app_secret);
+
+  //GLOBAL MOCK WORKSPACES
   var ArtsWs = "";
   var JimsWs = "";
   var ShaunsWs = "";

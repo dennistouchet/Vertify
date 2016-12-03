@@ -4,6 +4,7 @@ import { Tasks } from '../../../../imports/collections/global/task.js';
 import './loading.html';
 
 Template.matchloading.helpers({
+  //TODO: this needs to be updated to be by VERTIFY OBJECT ID as well
     task(){
       var ws = Session.get("currentWs");
       if(ws){

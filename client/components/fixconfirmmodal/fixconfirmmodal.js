@@ -1,29 +1,48 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../imports/collections/tenant/vertify_property.js';
+import { ExternalObjects } from '../../../imports/collections/tenant/external_object.js';
 
 import './fixconfirmmodal.html';
+
+Template.fixconfirmmodal.onCreated(function(){
+  var vo_id = FlowRouter.getQueryParam("id");
+  this.vo_id = new ReactiveVar(vo_id);
+  console.log(this.vo_id);
+});
 
 Template.fixconfirmmodal.helpers({
   vertify_object(){
     id = Session.get("fixVertifyObject");
     ws = Session.get("currentWs");
+    var vo_id = Template.instance().vo_id.get();
+    console.log(vo_id);
     if(ws && id){
       vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
-      return vo;
+      if(vo)
+        return vo;
     }
   },
-  name: function(){
-    //TODO get real values
-    return "TODO NAME";
+  getRecords: function(vo_id){
+    ws = Session.get("currentWs");
+    if(ws && id){
+      vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+      if(vo){
+        var record_count = 0;
+        vo.external_objects.forEach(function(eo){
+          record_count += eo.record_count;
+        });
+        return record_count;
+      }
+    }
   },
-  getRecords: function(){
-    //TODO get real values
-    return "0 - TODO";
-  },
-  getSystemNames: function(){
-    //TODO get real values
-    return "Marketo (MK), NetSuite (NS) - TODO";
+  getSystemNames: function(eo_id){
+    ws = Session.get("currentWs");
+    if(ws && eo_id){
+      eo = ExternalObjects.findOne(eo_id, {"workspace_id": ws._id});
+      if(eo)
+        return eo.name;
+    }
   },
   getActionDescription: function(){
     var type = Session.get("fixType");

@@ -99,16 +99,19 @@ Template.analyzevertifyobjectrow.helpers({
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     var sys = Systems.findOne(eo.system_id,{"workspace_id": ws._id});
-
+    if(ws && eo && sys){
     if(eo.is_truth){
-      return sys.name + "-" + eo.name + "*";
+        return sys.name + "-" + eo.name + "*";
+      }
+      return sys.name + "-" + eo.name;
     }
-    return sys.name + "-" + eo.name;
   },
   getRecordCount : function(eo_id){
     var ws = Session.get("currentWs");
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
-    return eo.record_count;
+    if(ws && eo){
+      return eo.record_count;
+    } 
   },
   isAnalyzing(status){
     if(status == "analyzing") return true;
