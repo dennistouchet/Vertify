@@ -6,27 +6,26 @@ import { ExternalObjects } from '../../../imports/collections/tenant/external_ob
 import './fixconfirmmodal.html';
 
 Template.fixconfirmmodal.onCreated(function(){
-  var vo_id = FlowRouter.getQueryParam("id");
+  var vo_id = Meteor.tools.getQueryParamByName("id");
   this.vo_id = new ReactiveVar(vo_id);
   console.log(this.vo_id);
 });
 
 Template.fixconfirmmodal.helpers({
   vertify_object(){
-    id = Session.get("fixVertifyObject");
     ws = Session.get("currentWs");
     var vo_id = Template.instance().vo_id.get();
     console.log(vo_id);
-    if(ws && id){
-      vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+    if(ws && vo_id){
+      vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws._id});
       if(vo)
         return vo;
     }
   },
   getRecords: function(vo_id){
     ws = Session.get("currentWs");
-    if(ws && id){
-      vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+    if(ws && vo_id){
+      vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws._id});
       if(vo){
         var record_count = 0;
         vo.external_objects.forEach(function(eo){
@@ -61,7 +60,7 @@ Template.fixconfirmmodal.events({
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
-    var id = FlowRouter.getQueryParam("id");
+    var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     ws = Session.get("currentWs");
     if(ws && vo){
@@ -108,5 +107,8 @@ Template.fixconfirmmodal.events({
       }
 
     }
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error missing vo or id</li>";
+
   },
 });

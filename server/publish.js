@@ -23,6 +23,21 @@ import { AlignResults } from  '../imports/collections/workspace/align_result.js'
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 import { FixUnmatchedRecords } from '../imports/collections/workspace/unmatched_record.js';
 
+//import { MatchData } from  '../imports/collections/workspace/match_data';
+let MatchData = null;
+
+Meteor.methods({
+  'publishMatchResults' : function(ws_id, name){
+    console.log("server dynamic publication called");
+
+    Meteor.publish(name, function(){
+      if(MatchData == null)
+      MatchData = new Mongo.Collection(name);
+      return MatchData.find();
+    });
+  }
+});
+
 Meteor.publish('navitems', function(){
   return Navitems.find({}, {
     sort: {order : 1,

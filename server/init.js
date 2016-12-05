@@ -27,11 +27,15 @@ import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead
 Meteor.startup(function(){
 
   // Kadira Performance Monitoring
-  var app_id = Meteor.settings.app_id;
-  var app_secret = Meteor.settings.app_secret;
-
-  Kadira.connect(app_id, app_secret);
-
+  var run_monitoring = Meteor.settings.run_monitoring;
+  if(run_monitoring){
+    console.log("Application Monitoring turned on");
+    var app_id = Meteor.settings.app_id;
+    var app_secret = Meteor.settings.app_secret;
+    Kadira.connect(app_id, app_secret);
+  }else{
+    console.log("Application Monitoring turned off");
+  }
   //GLOBAL MOCK WORKSPACES
   var ArtsWs = "";
   var JimsWs = "";
