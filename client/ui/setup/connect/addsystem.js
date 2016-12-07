@@ -45,3 +45,26 @@ Template.addsystem.events({
     }
   },
 });
+
+
+Template.connSettings.helpers({
+  isPrivate : function(name){
+    if(name === 'password' || name === 'Password')
+      return true;
+  }
+});
+
+Template.connSettings.events({
+  'mouseenter .view' : function(e, t){
+    e.target.innerHTML = "Hide";
+    var id = 'setting_' + e.target.id;
+    var target = document.getElementById(id);
+    target.type = "text";
+  },
+  'mouseleave .view' : function(e, t){
+    e.target.innerHTML = "Show";
+    var id = 'setting_' + e.target.id;
+    var target = document.getElementById(id);
+    target.type = "password";
+  },
+});

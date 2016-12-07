@@ -16,7 +16,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="input-group" style="padding: 50px 20px 50px 20px;">
-                <input id="objectlist" type="text" class="form-control" name="objectlist" />
+                <input id="objectlist" type="text" class="form-control" name="objectlist" autofocus/>
                 <div class="input-group-btn">
                   <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
                     <ul id="objlistddl" class="dropdown-menu dropdown-menu-right objlistddl" style="max-height:300px;overflow-y:scroll;">
@@ -238,7 +238,7 @@
           </div>
         </div>
         <div class="col-md-5" style="padding-top:5px">
-          <p style="text-align:center">
+          <p class="centerp">
             Collecting Data:
               {{getCollectedRecords record_count percentage}}
               of

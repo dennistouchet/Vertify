@@ -1,7 +1,7 @@
 <template name="addsystem">
   <label for="system">System</label>
   <div class="input-group">
-    <input id="text" type="text" class="form-control" name="system" />
+    <input id="text" type="text" class="form-control" name="system" autofocus/>
     <div class="input-group-btn">
         <button id="sysddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
         <ul id="sysinfoddl" class="dropdown-menu dropdown-menu-right sysinfoddl">
@@ -31,5 +31,14 @@
 
 <template name="connSettings">
   <label for="{{name}}">{{name}}</label>
-  <input id="setting_{{name}}" type="text" class="form-control" name="{{name}}" value=""  />
+  {{#if isPrivate name}}
+    <div class="input-group">
+      <input id="setting_{{name}}" type="password" class="form-control" name="{{name}}" value=""  />
+      <div class="input-group-btn">
+        <button id="{{name}}" class="btn btn-default dropdown-toggle view">Show</button>
+      </div>
+    </div>
+  {{else}}
+    <input id="setting_{{name}}" type="text" class="form-control" name="{{name}}" value=""  />
+  {{/if}}
 </template>

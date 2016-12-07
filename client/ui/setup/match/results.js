@@ -1,12 +1,13 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import Tabular  from 'meteor/aldeed:tabular';
+import { TabularTables } from '../../../../lib/datalist.js';
 
 import './results.html';
 
 let mrhandle = null;
 let MatchData = null;
-
 
 Template.matchresults.onCreated(function(){
   var vo_id = FlowRouter.getQueryParam("id");
@@ -20,6 +21,15 @@ Template.matchresults.onCreated(function(){
     var exists = Meteor.connection._stores[matchresults_collection_name];
     if(exists ==  null){
       MatchData = new Mongo.Collection(matchresults_collection_name);
+      TabularTables.MatchData = new Tabular.Table({
+        name: "MatchData",
+        collection: MatchData,
+        columns: [
+          {data: "_id", title: "ID", class: "col-md-3"},
+          {data: "data", title: "Data", class: "col-md-3"},
+          {data: "links", title: "Links", class: "col-md-3"}
+        ]
+      });
     }
 
     Meteor.call('publishMatchResults', ws._id, matchresults_collection_name
@@ -39,6 +49,9 @@ Template.matchresults.onCreated(function(){
 });
 
 Template.matchresults.helpers({
+  isReady: function(){
+    return false;
+  },
   vertify_object_id : function(){
     var ws = Session.get("currentWs");
     if(ws)

@@ -23,7 +23,8 @@ import { AlignResults } from  '../imports/collections/workspace/align_result.js'
 import { MarketoLeadRecord } from '../imports/collections/workspace/marketo_lead_record.js';
 import { FixUnmatchedRecords } from '../imports/collections/workspace/unmatched_record.js';
 
-//import { MatchData } from  '../imports/collections/workspace/match_data';
+import Tabular  from 'meteor/aldeed:tabular';
+import { TabularTables } from '../lib/datalist.js';
 let MatchData = null;
 
 Meteor.methods({
@@ -32,7 +33,17 @@ Meteor.methods({
 
     Meteor.publish(name, function(){
       if(MatchData == null)
-      MatchData = new Mongo.Collection(name);
+        MatchData = new Mongo.Collection(name);
+
+      TabularTables.MatchData = new Tabular.Table({
+        name: "MatchData",
+        collection: MatchData,
+        columns: [
+          {data: "_id", title: "ID", class: "col-md-3"},
+          {data: "data", title: "Data", class: "col-md-3"},
+          {data: "links", title: "Links", class: "col-md-3"}
+        ]
+      });
       return MatchData.find();
     });
   }
