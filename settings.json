@@ -1,5 +1,10 @@
 {
   "run_monitoring": false,
   "app_id": "CGpxq3rCzHEnwZB9z"  ,
-  "app_secret": "d0e1c1a1-0478-4ac1-b66d-e132365a51f1"
+  "app_secret": "d0e1c1a1-0478-4ac1-b66d-e132365a51f1",
+  "versioning":{
+      "ui": "",
+      "backend": "",
+      "connectorrunner": ""
+  }
 }

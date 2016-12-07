@@ -19,12 +19,17 @@ Template.matchconfirmmodal.onCreated(function(){
 Template.matchconfirmmodal.helpers({
   vertify_object(){
     var vo_id = Session.get("selectedVertifyObject");
+    var id = Meteor.tools.getQueryParamByName("id");
+    console.log("If id exists - TODO: replace session variable with: ", id);
     return VertifyObjects.findOne(vo_id);
   },
   match_results(){
-    ws = Session.get("currentWs");
-    if(ws){
-      return MatchResults.findOne({"workspace_id": ws._id});
+    var ws = Session.get("currentWs");
+    var vo_id = Session.get("selectedVertifyObject");
+    var id = Meteor.tools.getQueryParamByName("id");
+    console.log("If id exists - TODO: replace session variable with: ", id);
+    if(ws && vo_id){
+      return MatchResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo_id});
     }
   },
   systemOfTruth: function(id){
@@ -113,7 +118,7 @@ Template.matchconfirmmodal.events({
          //success
          //TODO: this method needs to be removed and called by elixir
          var status = "approved";
-         Meteor.call('vertify_objects.updateApprovedStatus', id, ws._id, status
+         Meteor.call('vertify_objects.updateApprovedStatus', ws._id, vo._id, status
            , (error, result) => {
              if(error){
                //console.log(err);

@@ -87,8 +87,7 @@ dataRoutes.route('/fix/details', {
 dataRoutes.route('/fix/records', {
   name: 'fixrecords',
   action: function(queryParams) {
-      console.log("queryParams: ");
-      console.log(queryParams);
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'fixrecords'});
   }
 });
@@ -131,22 +130,23 @@ setupRoutes.route('/align', {
 setupRoutes.route('/align/process', {
   name: 'alignprocess',
   action: function(queryParams) {
-      console.log("queryParams: ");
-      console.log(queryParams);
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'alignprocess'});
   }
 });
 
 setupRoutes.route('/align/results', {
   name: 'alignresults',
-  action() {
+  action: function(queryParams) {
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'alignresults'});
   }
 });
 
 setupRoutes.route('/align/fieldeditor', {
   name: 'fieldeditor',
-  action() {
+  action: function(queryParams) {
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'fieldeditor'});
   }
 });
@@ -189,8 +189,7 @@ setupRoutes.route('/match/vertifywizard', {
 setupRoutes.route('/match/process', {
   name: 'matchprocess',
   action: function(queryParams) {
-      console.log("queryParams: ");
-      console.log(queryParams);
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'matchprocess'});
   }
 });
@@ -198,8 +197,7 @@ setupRoutes.route('/match/process', {
 setupRoutes.route('/match/loading', {
   name: 'loading',
   action: function(queryParams) {
-      console.log("queryParams: ");
-      console.log(queryParams);
+      console.log("QueryParams:",queryParams);
       BlazeLayout.render('main', {main: 'matchloading'});
   }
 });

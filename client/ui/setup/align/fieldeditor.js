@@ -4,13 +4,19 @@ import { VertifyProperties } from '../../../../imports/collections/tenant/vertif
 
 import './fieldeditor.html';
 
+Template.fieldeditor.onCreated(function(){
+
+  // Get vertify object id from query parameters in url
+  var vo_id = FlowRouter.getQueryParam("id");
+  this.vo_id = new ReactiveVar(vo_id);
+});
+
 Template.fieldeditor.helpers({
   vertify_properties(){
     var ws = Session.get("currentWs");
-    var id = FlowRouter.getQueryParam("id");
-    console.log("Param Id: "+ id);
-    if(ws){
-        return VertifyProperties.find({"workspace_id":ws._id});
+    var vo_id = Template.instance().vo_id.get();
+    if(ws && vo_id){
+        return VertifyProperties.find({"workspace_id":ws._id, "vertify_object_id": vo_id});
     }
   }
 });

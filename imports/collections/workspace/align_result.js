@@ -7,11 +7,11 @@ export const AlignResults = new Mongo.Collection('align_results');
 Meteor.methods({
   'align_results.editApproval'(ws_id, ar_id, name, approved){
     check(ws_id, String);
+    check(name, String);
+    check(approved, Boolean);
     // NOTE: ALIGN_RESULTS were created by Elixir Engine
     // This is the reason for ObjectId instead of String for the typeof _id = String
     check(ar_id, Meteor.Collection.ObjectID);
-    check(name, String);
-    check(approved, Boolean);
 
     var thisAr = AlignResults.findOne(ar_id,{"workspace_id": ws_id});
     //console.log("Workspace: " + ws_id + " | ARid: " + arid + " | name: " + name + " | approved: " + approved + "Align_Results:");
@@ -57,15 +57,15 @@ Meteor.methods({
     var _id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
     console.log("AlignResults update called | _id: " + _id);
   },
-  'align_results.remove'(ws_id){
+  'align_results.remove'(ws_id, vo_id){
     check(ws_id, String);
+    check(vo_id, String);
     //TODO: import this remove with vertify object id
     console.log("align results remove running");
-    var current = AlignResults.findOne({"workspace_id": ws_id});
+    var current = AlignResults.findOne({"workspace_id": ws_id, "vertify_object_id": vo_id});
     if(current)
-      return AlignResults.remove({"workspace_id": ws_id});
+      return AlignResults.remove({"workspace_id": ws_id, "vertify_object_id": vo_id});
 
-    console.log(current);
     console.log("align results remove finished");
     //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
   },

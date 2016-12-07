@@ -5,17 +5,16 @@ import { check } from 'meteor/check';
 export const MatchResults = new Mongo.Collection('match_results');
 
 Meteor.methods({
-  'match_results.remove'(ws_id){
+  'match_results.remove'(ws_id, vo_id){
     check(ws_id, String);
+    check(vo_id, String);
     //TODO: import this remove with vertify object id
     console.log("match results remove running");
-    var current = MatchResults.findOne({"workspace_id": ws_id});
+    var current = MatchResults.findOne({"workspace_id": ws_id, "vertify_object_id": vo_id});
     if(current)
-      return MatchResults.remove({"workspace_id": ws_id});
+      return MatchResults.remove({"workspace_id": ws_id, "vertify_object_id": vo_id});
 
-    console.log(current);
     console.log("match results remove finished");
-    return true;
     //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
   },
 });

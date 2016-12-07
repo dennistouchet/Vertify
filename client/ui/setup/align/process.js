@@ -78,7 +78,7 @@ Template.alignprocess.events({
 
     //console.log("calling align task with void: " + vo._id);
     if(ws && vo){
-      Meteor.call('align_results.remove', ws._id
+      Meteor.call('align_results.remove', ws._id, vo._id
       , (err, res) => {
         if(err){
           //console.log(err);
@@ -211,6 +211,13 @@ Template.alignprocessalign.events({
       errDiv.style.display = 'block';
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Value ] Please verify that a workspace has been selected. If this error persists, return to the previous screen and try again.</li>";
     }
+  },
+  'click .viewAlignment' : function(e){
+    var errDiv = document.getElementById("addErrAlign");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
+    FlowRouter.go('/setup/align/results?id=' + Meteor.tools.getQueryParamByName("id"));
   },
   'click .acceptAlignModal': function(e){
     e.preventDefault();

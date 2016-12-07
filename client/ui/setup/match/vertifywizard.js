@@ -86,7 +86,7 @@ Template.vertifywizard.events({
     }
 
     if( index > steps.length){
-      //TODO ERROR
+      //TODO THROW ERROR
     }
     else if( index == steps.length){
       console.log("Finish Next clicked - Exiting Wizard" );
@@ -94,6 +94,8 @@ Template.vertifywizard.events({
         //vo_name:
         var vname = document.getElementById("vertifyObjectName").value;
         console.log(vname);
+        // TODO: CHECK IF VERTIFY OBJCET NAME EXISTS IN WORKSPACE
+        // CREATE FUNCTION IN METEOR.TOOLS
         var sot = document.querySelector('input[name="truthRadio"]:checked');
         if(vname && sot.id){
           Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, sot.id

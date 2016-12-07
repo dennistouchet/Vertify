@@ -80,7 +80,7 @@ Meteor.methods({
 
     return VertifyObjects.insert(newVertifyObject);
   },
-  'vertify_objects.updateApprovedStatus'(vo_id, ws_id, status){
+  'vertify_objects.updateApprovedStatus'(ws_id, vo_id, status){
     check(vo_id, String);
     check(ws_id, String);
     check(status, String);

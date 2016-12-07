@@ -26,10 +26,6 @@ Template.matchprocess.helpers({
   mprocess() {
     return Template.instance().currentPage.get();
   },
-  properties(){
-    //TODO: get vertify object properties
-    return false;
-  },
   getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
     var id = Template.instance().vo_id.get();
@@ -68,7 +64,7 @@ Template.matchprocess.events({
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
       Meteor.tools.updateVertifyObjectStatus( ws._id, vo._id, 'matchtest', false);
-      Meteor.call('match_results.remove', ws._id
+      Meteor.call('match_results.remove', ws._id, vo._id
       , (error, result) => {
         if(error){
           //console.log(err);
@@ -106,7 +102,6 @@ Template.matchprocess.events({
 
 Template.matchprocessmatch.helpers({
   taskComplete: function(){
-    //TODO: update this to use task, not existing results
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
