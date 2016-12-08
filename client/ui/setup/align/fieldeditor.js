@@ -1,11 +1,12 @@
 import { Template } from 'meteor/templating';
-import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
 
 import './fieldeditor.html';
 
 Template.fieldeditor.onCreated(function(){
-
+  Meteor.subscribe('vertify_properties', function (){
+    console.log( "Align/FieldEditor - VertifyProperties now subscribed.");
+  });
   // Get vertify object id from query parameters in url
   var vo_id = FlowRouter.getQueryParam("id");
   this.vo_id = new ReactiveVar(vo_id);
@@ -40,10 +41,24 @@ Template.fieldeditor.events({
       }
     });
   },
+  'click .edit' : function(e){
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.innerHTML = ""; //reset errors
+
+    console.log("edit called for: ", this._id);
+  },
   'click .back' : function(e){
     var errDiv = document.getElementById("addErrEditor");
     errDiv.innerHTML = ""; //reset errors
 
     FlowRouter.go('/setup/align');
   }
+});
+
+Template.fieldDetails.helpers({
+
+});
+
+Template.fieldDetails.events({
+
 });

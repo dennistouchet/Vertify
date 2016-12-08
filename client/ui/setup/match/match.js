@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating';
-import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
@@ -11,15 +10,12 @@ Template.match.onCreated(function(){
   Meteor.subscribe('systems', function (){
     console.log( "Match - Systems now subscribed.");
   });
-
   Meteor.subscribe('external_objects', function (){
     console.log( "Match - ExternalObjects now subscribed.");
   });
-
   Meteor.subscribe('vertify_objects', function (){
     console.log( "Match - VertifyObjects now subscribed." );
   });
-
   Meteor.subscribe('vertify_properties', function (){
     console.log( "Match - VertifyProperties now subscribed." );
   });

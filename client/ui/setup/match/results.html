@@ -3,38 +3,42 @@
     <h1 class="page_title">Vertify Object Match Results</h1>
     <div class="row">
       <div class="col-md-12">
-        <h4 style="padding-left:10px;"><strong>Matched Records: </strong></h4>
+        <h4 style="padding-left:10px;"><strong>Matched Records: {{matchedDataCount}}</strong></h4>
       </div>
     </div>
     <div class="row">
+      <button class="btn btn-primary back">Return</button>
       <div>
-        <div class="col-md-4">Id</div>
-        <div class="col-md-4"><p class="centerp">Data</p>
+        <div class="col-md-4"><p class="centerp"><strong>Id</strong></p></div>
+        <div class="col-md-4"><p class="centerp"><strong>Data</strong></p>
           <div class="col-md-6">Email</div>
           <div class="col-md-6">Entity Id</div>
         </div>
-        <div class="col-md-4"><p class="centerp">Links</p>
+        <div class="col-md-4"><p class="centerp"><strong>Links</strong></p>
           <div class="col-md-6">Ext Obj Id 1</div>
           <div class="col-md-6">Ext Obj Id 2</div>
         </div>
       </div>
       <div>
-          {{#each match_results}}
-            <div class="x_panel">
-              <div class="col-md-4">{{_id}}</div>
-              {{#if data}}
-                <div class="col-md-2">{{data.email}}</div>
-                <div class="col-md-2">{{data.entityId}}</div>
-              {{else}}
-                <div class="col-md-2"> </div>
-                <div class="col-md-2"> </div>
-              {{/if}}
-              {{#each links}}
-                <div class="col-md-2">{{external_object_id}}</div>
-              {{/each}}
-            </div>
-          {{/each}}
+        {{#each match_data}}
+          <div class="x_panel">
+            <div class="col-md-4">{{_id}}</div>
+            {{#if data}}
+              <div class="col-md-2">{{data.email}}</div>
+              <div class="col-md-2">{{data.entityId}}</div>
+            {{else}}
+              <div class="col-md-2"> </div>
+              <div class="col-md-2"> </div>
+            {{/if}}
+            {{#each links}}
+              <div class="col-md-2">{{external_object_id}}</div>
+            {{/each}}
+          </div>
+        {{/each}}
       </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-primary back">Return</button>
     </div>
     <div>
       {{#if isReady}}

@@ -109,6 +109,5 @@ Template.fixconfirmmodal.events({
     }
     errDiv.style.display = 'block';
     errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error missing vo or id</li>";
-
   },
 });

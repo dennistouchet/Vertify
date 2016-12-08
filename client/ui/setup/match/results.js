@@ -11,7 +11,6 @@ let MatchData = null;
 
 Template.matchresults.onCreated(function(){
   var vo_id = FlowRouter.getQueryParam("id");
-  console.log("oncreate void: " +vo_id);
   var ws = Session.get("currentWs");
   Template.instance().vertify_object_id = new ReactiveVar(vo_id);
   Template.instance().workspace_id = new ReactiveVar(ws._id);
@@ -37,9 +36,10 @@ Template.matchresults.onCreated(function(){
       if(err){
           //TODO: error
       }else{
-        mrhandle = Meteor.subscribe(matchresults_collection_name, function (){
-                     console.log( mrhandle );
-                   });
+        // NOTE: the publication of match results is limited to ACTUAL matches
+        // not ALL match results
+        mrhandle = Meteor.subscribe( matchresults_collection_name
+                   , function (){ console.log( "Match/Results - MatchData dynamically subscribed." ); });
       }
     });
   }
@@ -67,11 +67,17 @@ Template.matchresults.helpers({
       return vertify_obj = VertifyObjects.findOne({workspace_id: ws._id});
     }
   },
-  match_results(){
+  match_data(){
     //console.log("inside mr helper:");
     //console.log(VertifyObjects);
-    console.log(MatchData);
-    return MatchData.find();
+    //console.log(MatchData);
+    // Filter by ws and vo_id even though name relies on them?
+    return MatchData.find({});
+  },
+  matchedDataCount: function(){
+    var md = MatchData.find({});
+    if(md)
+      return md.count();
   }
 });
 
@@ -79,4 +85,7 @@ Template.matchresults.events({
   'click' : function(){
     console.log("match results page click event");
   },
+  'click .back' : function(e){
+    FlowRouter.go('/setup/match/process?id='+ Template.instance().vertify_object_id.get());
+  }
 });

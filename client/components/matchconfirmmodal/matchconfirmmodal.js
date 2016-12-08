@@ -5,6 +5,9 @@ import { MatchResults } from '../../../imports/collections/workspace/match_resul
 import { Tasks } from '../../../imports/collections/global/task.js';
 
 Template.matchconfirmmodal.onCreated(function(){
+  Meteor.subscribe("external_objects", function(){
+    console.log("Matchconfirmmodal - ExternalObjects now subscribed");
+  });
   Meteor.subscribe("match_results", function (){
     console.log( "Matchconfirmmodal - MatchResults now subscribed.");
   });

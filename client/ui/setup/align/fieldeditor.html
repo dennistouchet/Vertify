@@ -5,11 +5,13 @@
       <h1 class="page_title">Vertify Properties</h1>
     </div>
     <div class="row">
-      {{#each vertify_properties}}
-        {{> fieldEditorProperties}}
-      {{else}}
-        No Vertify Objects Found.
-      {{/each}}
+      {{#if Template.subscriptionsReady}}
+        {{#each vertify_properties}}
+          {{> fieldEditorProperties}}
+        {{else}}
+          No Vertify Objects Found.
+        {{/each}}
+      {{/if}}
     </div>
     <div class="row">
       <button class="btn btn-primary back">Return</button>
@@ -41,9 +43,62 @@
         Align: {{align}} <br/>
         Align Method: {{align_method}}
       </div>
+      <button class="btn btn-primary pull-right delete" type="button">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
+      <button class="btn btn-primary pull-right edit" type="button">
+        <i class="glyphicon glyphicon-edit"></i>
+      </button>
+    </div>
+    {{> fieldDetails}}
+  </div>
+</template>
+
+<template name="fieldDetails">
+  <div style="padding-bottom:10px;width:100%;">
+    <h4 >Field Name: </h4>
+    <input type="text" class="form-control inline" value="{{friendly_name}}"/>
+  </div>
+  <div class="x_panel">
+    <div class="col-md-4">Direction / Sync Action</div>
+    <div class="col-md-2">Align Fields</div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-1">Truth</div>
+  </div>
+  {{#each field in fields}}
+    <div class="x_panel">
+      <div class="col-md-4">
+        <input type="text" class="form-control" value="direction placeholder"/>
+      </div>
+      <div class="col-md-2">
+        <div class="input-group">
+          <input type="text" class="form-control" value="Set"/>
+          <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                <li>Translate</li>
+                <li>Convert</li>
+                <li>Lookup</li>
+                <li>Advanced..</li>
+              </ul>
+          </div><!-- /btn-group -->
+        </div><!-- /input-group -->
+      </div>
       <div class="col-md-1">
-        <button class="btn btn-primary delete">Delete</button>
+        <input type="radio"/><label>Field:</label><br/>
+        <input type="radio"/><label>Value:</label>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" value="{{field.name}}"/>
+      </div>
+      <div class="col-md-1">
+        <input type="radio"/>
       </div>
     </div>
-  </div>
+  {{else}}
+    No fields found
+  {{/each}}
+  <button class="btn btn-default pull-right cancel">Cancel</button>
+  <button class="btn btn-primary pull-right save">Save</button>
 </template>

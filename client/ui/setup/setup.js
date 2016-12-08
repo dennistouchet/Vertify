@@ -2,6 +2,12 @@ import { Template } from 'meteor/templating';
 import { Navitems } from '../../../imports/collections/navitems.js';
 import './setup.html';
 
+Template.setup.onCreated(function(){
+  Meteor.subscribe('navitems', function (){
+    console.log( "Setup - Navitems now subscribed");
+  });
+});
+
 Template.setup.helpers({
   navitems() {
     return Navitems.find({});
@@ -53,8 +59,4 @@ Template.navcard.helpers({
       return false;
     }
   },
-})
-
-Meteor.subscribe('navitems', function (){
-  console.log( "Setup - Navitems now subscribed");
 });

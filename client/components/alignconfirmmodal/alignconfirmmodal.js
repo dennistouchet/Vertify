@@ -1,18 +1,42 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../imports/collections/tenant/vertify_object.js';
-import { VertifyProperties } from '../../../imports/collections/tenant/vertify_property.js';
 import { AlignResults } from '../../../imports/collections/workspace/align_result.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
 import './alignconfirmmodal.html';
 
+Template.alignconfirmmodal.onCreated(function(){
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Aligncomfirmmodal - VertifyObjects now subscribed.");
+  });
+  Meteor.subscribe("align_result", function (){
+    console.log( "Aligncomfirmmodal - AlignResults now subscribed.");
+  });
+  Meteor.subscribe("tasks", function (){
+    console.log( "Aligncomfirmmodal - Tasks now subscribed.");
+  });
+})
+
 Template.alignconfirmmodal.helpers({
   align_results(){
     ws = Session.get("currentWs");
-    if(ws){
-      return AlignResults.findOne({"workspace_id": ws._id});
+    vo_id = Meteor.tools.getQueryParamByName("id");
+    vo = VertifyObjects.findOne(vo_id);
+    if(ws && vo){
+      return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
     }
   },
+  approvedPropertyCount(id){
+    var AR = AlignResults.findOne(id);
+    let count = 0;
+    if(AR){
+      AR.alignment_properties.forEach( field => {
+        if(field.approved)
+          count += 1;
+      });
+    }
+    return count;
+  }
 });
 
 Template.alignconfirmmodal.events({
@@ -84,24 +108,4 @@ Template.alignconfirmmodal.events({
       });
     }
   },
-});
-
-Meteor.subscribe('external_objects', function (){
-  console.log( "Aligncomfirmmodal - ExternalObjects now subscribed.");
-});
-
-Meteor.subscribe('vertify_objects', function (){
-  console.log( "Aligncomfirmmodal - VertifyObjects now subscribed.");
-});
-
-Meteor.subscribe('vertify_properties', function (){
-  console.log( "Aligncomfirmmodal - VertifyProperties now subscribed.");
-});
-
-Meteor.subscribe("align_result", function (){
-  console.log( "Aligncomfirmmodal - AlignResults now subscribed.");
-});
-
-Meteor.subscribe("tasks", function (){
-  console.log( "Aligncomfirmmodal - Tasks now subscribed.");
 });

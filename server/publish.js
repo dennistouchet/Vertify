@@ -44,7 +44,7 @@ Meteor.methods({
           {data: "links", title: "Links", class: "col-md-3"}
         ]
       });
-      return MatchData.find();
+      return MatchData.find({"workspace_id": ws_id, num_links: {$gt: 1}});
     });
   }
 });

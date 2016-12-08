@@ -1,8 +1,8 @@
 import { Template } from 'meteor/templating';
-import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
-import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
-import { MatchResults } from '../../../../imports/collections/workspace/match_result.js';
 import { Systems } from  '../../../../imports/collections/tenant/system.js';
+import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
+import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
+import { MatchResults } from '../../../../imports/collections/workspace/match_result.js';
 
 import './process.html';
 
@@ -10,7 +10,9 @@ Template.matchprocess.onCreated(function(){
   Meteor.subscribe('vertify_objects', function (){
     console.log( "Match/Process - VertifyObjects now subscribed." );
   });
-
+  Meteor.subscribe('external_objects', function(){
+    console.log( "Match/Process - ExternalObjects now subscribed" );
+  });
   Meteor.subscribe('match_results', function (){
     console.log( "Match/Process - MatchResults now subscribed." );
   });
@@ -29,8 +31,8 @@ Template.matchprocess.helpers({
   getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
     var id = Template.instance().vo_id.get();
-    if(ws && id){
-      var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+    var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
+    if(ws && vo){
       return vo.name;
     }
   },
@@ -125,11 +127,12 @@ Template.matchprocessmatch.helpers({
   },
   getExternalObjectNameById: function(eo_id){
     var ws = Session.get("currentWs");
-    if(ws && eo_id){
-      console.log("external object id: " +  eo_id);
-      var eo = ExternalObjects.findOne(eo_id,{ "workspace_id": ws._id });
-      var sys = Systems.findOne(eo.system_id,{ "workspace_id": ws._id });
-      return sys.name + "-" + eo.name;
+    var eo = ExternalObjects.findOne(eo_id);
+    console.log(eo);
+    if(ws && eo){
+      var sys = Systems.findOne(eo.system_id);
+      if(eo && sys)
+        return sys.name + "-" + eo.name;
     }
     //TODO: throw error
     return "External Object Name";

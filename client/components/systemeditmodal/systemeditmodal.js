@@ -1,6 +1,12 @@
 import { Template } from 'meteor/templating';
 import { Systems } from '../../../imports/collections/tenant/system.js';
 
+Template.systemeditmodal.onCreated(function(){
+  Meteor.subscribe('systems', function (){
+    console.log( "Systemeditmodal - Systems now subscribed.");
+  });
+});
+
 Template.systemeditmodal.helpers({
   system: function(){
     var sys_id = Session.get('selectedSystem');
@@ -124,8 +130,4 @@ Template.systemeditmodal.events({
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Value ] No System selected</li>";
     }
   }
-});
-
-Meteor.subscribe('systems', function (){
-  console.log( "Systemeditmodal - Systems now subscribed.");
 });

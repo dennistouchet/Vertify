@@ -2,7 +2,14 @@ import { Template } from 'meteor/templating';
 import { Systems } from '../../../imports/collections/tenant/system.js';
 import { Tasks } from '../../../imports/collections/global/task.js';
 
-Template.systemaddmodal.helpers({
+Template.systemaddmodal.onCreated(function(){
+  Meteor.subscribe("systems", function (){
+    console.log( "Systemaddmodal - Systems now subscribed.");
+  });
+  Meteor.subscribe("tasks", function (){
+    console.log( "Systemaddmodal - Tasks now subscribed.");
+  }); 
+
 });
 
 Template.systemaddmodal.events({
@@ -24,7 +31,7 @@ Template.systemaddmodal.events({
     //TODO:REFACTOR TO A SINGLE PLACE\
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
-    errDiv.style.display = 'none'; 
+    errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
 
     var nm = document.getElementById("name");
@@ -153,13 +160,4 @@ Template.systemaddmodal.events({
       }
     }
   }
-});
-
-Meteor.subscribe("systems", function (){
-  console.log( "Systemaddmodal - Systems now subscribed.");
-});
-
-
-Meteor.subscribe("tasks", function (){
-  console.log( "Systemaddmodal - Tasks now subscribed.");
 });

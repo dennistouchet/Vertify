@@ -128,12 +128,21 @@
                     {{/if}}
                   {{/each}}
                 </div>
-                <div class="col-md-1">
-                  <label><input type="radio" name="acceptradio{{ap.name}}" value="accept" checked></label>
-                </div>
-                <div class="col-md-1">
-                  <label><input type="radio" name="acceptradio{{ap.name}}" value="reject"></label>
-                </div>
+                {{#if ap.approved}}
+                  <div class="col-md-1">
+                    <label><input type="radio" name="acceptradio{{ap.name}}" value="accept" checked></label>
+                  </div>
+                  <div class="col-md-1">
+                    <label><input type="radio" name="acceptradio{{ap.name}}" value="reject"></label>
+                  </div>
+                {{else}}
+                  <div class="col-md-1">
+                    <label><input type="radio" name="acceptradio{{ap.name}}" value="accept"></label>
+                  </div>
+                  <div class="col-md-1">
+                    <label><input type="radio" name="acceptradio{{ap.name}}" value="reject" checked></label>
+                  </div>
+                {{/if}}
               </div>
             {{/each}}
           </div>
@@ -157,7 +166,7 @@
         <div class="col-md-3">
           <button class="btn btn-primary acceptAlignModal" type=button style="margin-top:10px;margin-bottom:10px;">
             <i class="glyphicon glyphicon-floppy-disk"></i>
-            Accept <strong>{{aligned}}</strong> Alignments
+            Accept <strong>{{approvedPropertyCount _id}}</strong> Alignments
           </button>
         </div>
       </div>

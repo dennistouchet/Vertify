@@ -142,6 +142,17 @@ Template.alignprocessalign.helpers({
     }
     return null;
   },
+  approvedPropertyCount(id){
+    var AR = AlignResults.findOne(id);
+    let count = 0;
+    if(AR){
+      AR.alignment_properties.forEach( field => {
+        if(field.approved)
+          count += 1;
+      });
+    }
+    return count;
+  },
   getVertifyPropertyName: function(vp_id){
     var ws = Session.get("currentWs");
     var id = Meteor.tools.getQueryParamByName("id");
