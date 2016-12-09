@@ -4,101 +4,139 @@
     <div class="row">
       <h1 class="page_title">Vertify Properties</h1>
     </div>
-    <div class="row">
+    <div>
       {{#if Template.subscriptionsReady}}
+      {{> fieldeditorheader}}
         {{#each vertify_properties}}
-          {{> fieldEditorProperties}}
+          {{> fieldeditorproperties}}
         {{else}}
           No Vertify Objects Found.
         {{/each}}
       {{/if}}
     </div>
-    <div class="row">
+    <div>
       <button class="btn btn-primary back">Return</button>
     </div>
   </section>
 </template>
 
-<template name="fieldEditorProperties">
-  <div class="x_panel">
-    <div class="row" style="padding-left:20px; padding-right:20px; padding-bottom:10px;">
-      <div class="col-md-2">
-        Friendly Name: {{friendly_name}}
-      </div>
-      <div class="col-md-1">
-        Name: {{name}}
-      </div>
-      <div class="col-md-1">
-        VObj Id: {{vertify_object_id}}
-      </div>
-      <div class="col-md-2">
-        Rules: {{rules}}
-      </div>
-      <div class="col-md-3" >
-        {{#each fields}}
-          Name: {{name}} | EO ID: {{external_object_id}}<br/>
-        {{/each}}
-      </div>
-      <div class="col-md-2">
-        Align: {{align}} <br/>
-        Align Method: {{align_method}}
-      </div>
-      <button class="btn btn-primary pull-right delete" type="button">
-        <i class="glyphicon glyphicon-remove"></i>
-      </button>
-      <button class="btn btn-primary pull-right edit" type="button">
-        <i class="glyphicon glyphicon-edit"></i>
-      </button>
+<template name="fieldeditorheader">
+  <div class="form-control" style="margin-bottom:5px;">
+    <div class="col-md-2">
+      Vertify Field
     </div>
-    {{> fieldDetails}}
+    <div class="col-md-2">
+      Vertify Object Id
+    </div>
+    <div class="col-md-4" >
+      Aligned Fields
+    </div>
+    <div class="col-md-2">
+      <p class="centerp">Align Method</p>
+    </div>
+    <div class="col-md-2">
+        <p class="centerp">Actions</p>
+    </div>
   </div>
 </template>
 
-<template name="fieldDetails">
-  <div style="padding-bottom:10px;width:100%;">
-    <h4 >Field Name: </h4>
-    <input type="text" class="form-control inline" value="{{friendly_name}}"/>
-  </div>
+<template name="fieldeditorproperties">
   <div class="x_panel">
-    <div class="col-md-4">Direction / Sync Action</div>
-    <div class="col-md-2">Align Fields</div>
-    <div class="col-md-1"></div>
-    <div class="col-md-4"></div>
-    <div class="col-md-1">Truth</div>
-  </div>
-  {{#each field in fields}}
-    <div class="x_panel">
-      <div class="col-md-4">
-        <input type="text" class="form-control" value="direction placeholder"/>
-      </div>
-      <div class="col-md-2">
-        <div class="input-group">
-          <input type="text" class="form-control" value="Set"/>
-          <div class="input-group-btn">
-              <button type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
-              <ul class="dropdown-menu dropdown-menu-right">
-                <li>Translate</li>
-                <li>Convert</li>
-                <li>Lookup</li>
-                <li>Advanced..</li>
-              </ul>
-          </div><!-- /btn-group -->
-        </div><!-- /input-group -->
-      </div>
-      <div class="col-md-1">
-        <input type="radio"/><label>Field:</label><br/>
-        <input type="radio"/><label>Value:</label>
-      </div>
-      <div class="col-md-4">
-        <input type="text" class="form-control" value="{{field.name}}"/>
-      </div>
-      <div class="col-md-1">
-        <input type="radio"/>
-      </div>
+    <div class="col-md-2">
+      <strong>{{friendly_name}}</strong>
     </div>
-  {{else}}
-    No fields found
-  {{/each}}
-  <button class="btn btn-default pull-right cancel">Cancel</button>
-  <button class="btn btn-primary pull-right save">Save</button>
+    <div class="col-md-2">
+      {{vertify_object_id}}
+    </div>
+    <div class="col-md-4" >
+      {{#each fields}}
+        {{getFullNameByEOId external_object_id}}: {{name}}{{#if is_truth}}*{{/if}}<br/>
+      {{/each}}
+    </div>
+    <div class="col-md-2">
+      <p class="centerp">{{align_method}}</p>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-primary pull-right delete" type="button">
+        <i class="glyphicon glyphicon-remove"></i>
+      </button>
+      <button class="btn btn-primary pull-right edit" type="button" data-toggle="collapse" data-target="#fieldDetails{{_id}}">
+        <i class="glyphicon glyphicon-edit"></i>
+      </button>
+    </div>
+  </div>
+  <div id="fieldDetails{{_id}}" class="collapse">
+    {{> fieldeditorfield}}
+  </div>
+</template>
+
+<template name="fieldeditorfield">
+  <div class="x_panel">
+    <div class="col-md-12">
+      <div style="padding-bottom:5px;width:100%;">
+        <h4 style="display:inline;">Field Name: </h4>
+        <input type="text" class="form-control inline" value="{{friendly_name}}"/>
+      </div>
+      <div class="x_panel">
+        <div class="col-md-4">Direction / Sync Action</div>
+        <div class="col-md-2">Align Fields</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-1">Truth</div>
+      </div>
+      {{#each field in fields}}
+        <div class="x_panel">
+          <div class="col-md-4">
+            <div class="input-group">
+                          <input type="text" class="form-control" value="Vertify <|au - au|>"/>
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                  </ul>
+              </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+          </div>
+          <div class="col-md-2">
+            <div class="input-group">
+              <input type="text" class="form-control" value="Set"/>
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                    <li>Translate</li>
+                    <li>Convert</li>
+                    <li>Lookup</li>
+                    <li>Advanced..</li>
+                  </ul>
+              </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+          </div>
+          <div class="col-md-1">
+            <input type="radio"/><label>Field:</label><br/>
+            <input type="radio"/><label>Value:</label>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <input type="text" class="form-control" value="{{getFullNameByEOId field.external_object_id}}: {{field.name}}"/>
+              <div class="input-group-btn">
+                  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
+                  <ul class="dropdown-menu dropdown-menu-right">
+                  </ul>
+              </div><!-- /btn-group -->
+            </div><!-- /input-group -->
+          </div>
+          <div class="col-md-1">
+            {{#if field.is_truth}}
+              <input type="radio" checked/>
+            {{else}}
+              <input type="radio" />
+            {{/if}}
+          </div>
+        </div>
+      {{else}}
+        No fields found
+      {{/each}}
+      <button class="btn btn-default pull-right cancel">Cancel</button>
+      <button class="btn btn-primary pull-right save">Save</button>
+    </div>
+  </div>
 </template>
