@@ -1,5 +1,4 @@
 import { Template } from 'meteor/templating';
-import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { Connectors } from '../../../../imports/collections/global/connector.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
@@ -7,34 +6,44 @@ import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_o
 
 import './collect.html';
 
-Template.collect.onCreated(function(){
-  Meteor.subscribe('workspaces', function (){
-    console.log( "Collect - Workspaces now subscribed.");
-  });
+// Setup search reactive vars
+var sys_search = new ReactiveVar('');
+var eo_search = new ReactiveVar('');
 
+Template.collect.onCreated(function(){
   Meteor.subscribe('systems', function (){
     console.log( "Collect - Systems now subscribed.");
   });
-
   Meteor.subscribe('connectors', function (){
     console.log( "Collect - Connectors now subscribed.");
   });
-
   Meteor.subscribe('external_objects', function (){
     console.log( "Collect - ExternalObjects now subscribed.");
   });
-
 });
 
 Template.collect.helpers({
   systems() {
-    var ws = Session.get("currentWs")
+    var ws = Session.get("currentWs");
     if(ws)
     {
-      var systems = Systems.find({"workspace_id": ws._id},{sort: {name:1}});
-      systems.forEach(function(sys){
-        sys.external_objects.sort(Meteor.tools.compare);
-      });
+      let system_search = sys_search.get();
+      let extobj_search = eo_search.get();
+      console.log("Sys: ",system_search, " | Eo : ", extobj_search);
+      let systems = null;
+      if(system_search){
+        if(extobj_search){
+          systems = Systems.find({"workspace_id": ws._id
+          , "name": {$regex : ".*"+system_search+"*."}
+          , "external_objects.name": {$regex : ".*"+extobj_search+"*."}}
+          , {sort: {name:1}});
+        }else {
+          systems = Systems.find({"workspace_id": ws._id, "name": {$regex : ".*"+system_search+"*."}},{sort: {name:1}});
+        }
+      }
+      else{
+        systems = Systems.find({"workspace_id": ws._id},{sort: {name:1}});
+      }
       return systems;
     }
   },
@@ -131,81 +140,25 @@ Template.collect.events({
     console.log('Collect - toMatch event clicked.');
     FlowRouter.go('/setup/match');
   },
-  'click .objlistddl li a' : function(e, t){
-    var errDiv = document.getElementById("addErrCollect");
-    errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
-
-    var text = e.target.text;
-    document.getElementById("objectlist").value = text.toString().trim();
-    var sys_id = e.target.getAttribute("data-system");
-    var name = e.target.getAttribute("data-name");
-    console.log("system id: " + sys_id + " | name: " + name);
-
-    var ws = Session.get("currentWs");
-    if(ws == null){
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>No Workspace selected.</li>";
-      return;
-    }
-
-    //verify that variable doesn't already exist for the system
-    var obj = ExternalObjects.findOne({"name": name.trim(), "system_id": sys_id });
-    if(obj == null){
-      //console.log("ws._id: " + ws._id + "sys._id: " + sys_id + " obj._id: " + thisId + " | name: " + name );
-      Meteor.call('external_objects.insert'
-        , ws._id, sys_id, name
-        , (err, res) => {
-          if(err){
-            //console.log(err);
-            //TODO: improve with error Template
-            errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li><li>" + err + "</li>";
-            console.log(err);
-          }
-          else {
-            // successful call
-            // return true;
-            Meteor.call('tasks.insert', "collectschema", ws._id, res
-            , (error, result) => {
-              if(error){
-                //console.log(err);
-                errDiv.style.display = 'block';
-                errDiv.innerHTML = errDiv.innerHTML + "<li><span>CollectSchema Error: </span>[ " + error.error + "] " + error.reason + "</li>";
-                //return false;
-                return;
-              }
-              else {
-                // successful call
-
-                Meteor.call('tasks.insert', "collect", ws._id, res
-                , (err, res) => {
-                  if(err){
-                    //console.log(err);
-                    errDiv.style.display = 'block';
-                    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Collect Error: </span>[" + err.error + "] " + err.reason + "</li>";
-                    //return false;
-                    return;
-                  }
-                  else {
-                    // successful call
-                    Modal.hide('systemaddmodal');
-                  }
-                });
-              }
-            });
-
-            Meteor.tools.artificalProgressBarLoading("collect", res);
-            console.log("called artifical loading");
-          }
-        });
-    }
-    else{
-      errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> ExternalObject already exists.</li>";
+  'keyup input' : function(e, t){
+    let fieldToSearch = e.currentTarget.name;
+    let searchValue = e.currentTarget.value;
+    if(typeof search){
+      if(fieldToSearch === 'externalobjectsearch'){
+        console.log("Search Value: ", searchValue);
+        eo_search.set(searchValue);
+      }
+      else if(fieldToSearch === 'systemsearch'){
+        console.log("Search Value: ", searchValue);
+        sys_search.set(searchValue);
+      }
+      else{
+        //TODO throw error
+      }
     }
   },
   'click .addextobj a' : function(e, t){
+    //OBJECT TILE MENU
     var errDiv = document.getElementById("addErrCollect");
     errDiv.style.display = 'none';
     errDiv.innerHTML = ""; //reset errors
@@ -306,33 +259,24 @@ Template.collectemptyheader.events({
   }
 });
 
-Template.systemobjectdropdown.helpers({
-  getSystemName : function(sys_id){
-    var ws = Session.get("currentWs");
-    if(ws){
-      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
-      return curSys.name;
-    }
-  },
-  getConnectorName : function(sys_id){
-    var ws = Session.get("currentWs");
-    if(ws){
-      var curSys = Systems.findOne(sys_id, {"workspace_id": ws.id});
-      var curCon = Connectors.findOne(curSys.connector_id);
-      if(curCon)
-        return curCon.name;
-    }
-  },
-  doesntAlreadyExist : function(name, sys_id){
-    var extObj = ExternalObjects.findOne({"system_id": sys_id, "name": name});
-    if(extObj){
-      return false;
-    }
-    return true;
-  },
-});
-
 Template.systemobjectmenu.helpers({
+  eo_sorted(_id){
+    var system = Systems.findOne(_id);
+    if(system){
+      var extobj_search = eo_search.get();
+      if(extobj_search){
+        console.log(extobj_search);
+        let ext_obj = system.external_objects.filter(function(eo){
+          return eo.name.includes(extobj_search);
+        });
+        console.log(ext_obj);
+        return ext_obj.sort(Meteor.tools.compare);
+      }
+      else{
+        return system.external_objects.sort(Meteor.tools.compare);
+      }
+    }
+  },
   getSystemName : function(sys_id){
     var ws = Session.get("currentWs");
     if(ws){

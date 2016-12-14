@@ -6,6 +6,24 @@ import { Tasks } from '../../../../imports/collections/global/task.js'
 
 import './analyze.html';
 
+Template.analyze.onCreated(function(){
+  let self = this;
+  self.autorun(function() {
+    self.subscribe("vertify_objects", function(){
+      console.log("Analyze - VertifyObjects now subscribed");
+    });
+    self.subscribe("external_objects", function(){
+      console.log("Analyze - ExternalObjects now subscribed");
+    });
+    self.subscribe("systems", function(){
+      console.log("Analyze - Systems now subscribed");
+    });
+    self.subscribe("tasks", function(){
+      console.log("Analyze - Tasks now subscribed");
+    });
+  });
+});
+
 Template.analyze.helpers({
   vertify_objects(){
     var ws = Session.get("currentWs");
@@ -111,7 +129,7 @@ Template.analyzevertifyobjectrow.helpers({
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     if(ws && eo){
       return eo.record_count;
-    } 
+    }
   },
   isAnalyzing(status){
     if(status == "analyzing") return true;

@@ -88,7 +88,7 @@
         <div class="x_panel">
           <div class="col-md-4">
             <div class="input-group">
-                          <input type="text" class="form-control" value="Vertify <|au - au|>"/>
+              <input type="text" class="form-control" value="Vertify | Bidirectional"/>
               <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
                   <ul class="dropdown-menu dropdown-menu-right">
@@ -111,12 +111,12 @@
             </div><!-- /input-group -->
           </div>
           <div class="col-md-1">
-            <input type="radio"/><label>Field:</label><br/>
-            <input type="radio"/><label>Value:</label>
+            <label><input type="radio" name="viewradio{{field.external_object_id}}" value="name" checked/>Field</label><br/>
+            <label><input type="radio" name="viewradio{{field.external_object_id}}" value="data" disabled/>Value</label>
           </div>
           <div class="col-md-4">
             <div class="input-group">
-              <input type="text" class="form-control" value="{{getFullNameByEOId field.external_object_id}}: {{field.name}}"/>
+              <input type="text" class="form-control" value="{{getFullNameByEOId field.external_object_id}}: {{field.name}}" />
               <div class="input-group-btn">
                   <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ><span class="caret"></span></button>
                   <ul class="dropdown-menu dropdown-menu-right">
@@ -126,16 +126,16 @@
           </div>
           <div class="col-md-1">
             {{#if field.is_truth}}
-              <input type="radio" checked/>
+              <input type="radio" name="truthradio{{field.name}}" checked/>
             {{else}}
-              <input type="radio" />
+              <input type="radio" name="truthradio{{field.name}}"/>
             {{/if}}
           </div>
         </div>
       {{else}}
         No fields found
       {{/each}}
-      <button class="btn btn-default pull-right cancel">Cancel</button>
+      <button class="btn btn-default pull-right cancel" data-toggle="collapse" data-target="#fieldDetails{{_id}}">Cancel</button>
       <button class="btn btn-primary pull-right save">Save</button>
     </div>
   </div>

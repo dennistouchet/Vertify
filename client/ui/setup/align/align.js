@@ -110,10 +110,10 @@ Template.alignvertifyobjectrow.events({
 
     console.log("dropdown event clicked:");
     console.log(e.target);
-    if(e.target.text.trim() == 'Align'){
+    if(e.target.text.trim() == 'Align' || e.target.text.trim() == 'Realign'){
       FlowRouter.go('/setup/align/process?id=' + this._id);
     }
-    else if(e.target.text.trim() == 'Properties'){
+    else if(e.target.text.trim() == 'View Fields'){
       FlowRouter.go('/setup/align/fieldeditor?id=' + this._id);
     }
     else if(e.target.text.trim() == 'Delete')

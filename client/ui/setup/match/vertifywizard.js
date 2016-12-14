@@ -477,7 +477,6 @@ Template.vwMatchObjects.helpers({
   eo_sorted_properties(_id){
     var external_object = ExternalObjects.findOne(_id,{fields: {properties: 1}});
     external_object.properties.sort(Meteor.tools.compare);
-    //TODO sorty here
     return external_object;
   },
   getSystemName : function(sys_id){

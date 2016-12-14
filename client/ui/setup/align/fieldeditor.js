@@ -91,5 +91,42 @@ Template.fieldeditorfield.helpers({
 });
 
 Template.fieldeditorfield.events({
+  'change input' : function(e, t){
+    console.log('Field Editor - input changed.');
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
 
+    let eo_id = e.target.name.substring(9);
+    console.log("VProperty Id: ", this._id);
+  },
+  'click .cancel' : function(e){
+    console.log('Field Editor - cancel clicked.');
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+  },
+  'click .save' : function(e){
+    console.log('Field Editor - save clicked.');
+    var errDiv = document.getElementById("addErrEditor");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+    //validate inputs
+    errDiv.style.display = 'block';
+    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Action Unavailable ] Vertify Property editing is not currently enabled. </li>";
+
+    console.log("ID:" + this._id);
+    /*
+    Meteor.call('vertify_properties.updateSingle', ws._id, vp._id
+    , (error, results) => {
+      if(error){
+        //console.log(err);
+        errDiv.style.display = 'block';
+        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Field Edit Error: </span>[ updateSingle " + error.error + "] " + error.reason + "</li>";
+      }
+      else{
+        //success;
+      }
+    });*/
+  }
 });

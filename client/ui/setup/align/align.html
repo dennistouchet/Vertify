@@ -141,14 +141,18 @@
     </div>
     <div class="col-md-2">
       <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle  voddlbtn" type="button" data-toggle="dropdown">
+        <button class="btn btn-primary dropdown-toggle voddlbtn" type="button" data-toggle="dropdown">
           Options
         <span class="caret"></span></button>
         <ul class="dropdown-menu voddl">
-          <li><a data-id="{{id}}" href="#"> Align</a></li>
-          <li><a data-id="{{id}}" href="#"> Edit</a></li>
-          <li><a data-id="{{id}}" href="#"> Delete</a></li>
-          <li><a data-id="{{id}}" href="#"> Properties</a></li>
+          {{#if align}}
+            <li><a data-id="{{id}}" href="#">Realign</a></li>
+            <li><a data-id="{{id}}" href="#">View Fields</a></li>
+            <li><a data-id="{{id}}" href="#">Delete</a></li>
+          {{else}}
+            <li><a data-id="{{id}}" href="#">Align</a></li>
+            <li><a data-id="{{id}}" href="#">Delete</a></li>
+          {{/if}}
         </ul>
       </div>
     </div>

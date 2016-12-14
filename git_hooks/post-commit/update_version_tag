@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ID="$(git rev-parse HEAD)"
-git tag -a v0.9.3.$ID -m "Version 0.9.3"
+ID="$(git rev-parse  --verify --quiet --short=8 HEAD)"
+git tag -a v0.9.4.$ID -m "Version 0.9.4"
 
 
