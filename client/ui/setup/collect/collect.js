@@ -35,10 +35,10 @@ Template.collect.helpers({
         if(extobj_search){
           systems = Systems.find({"workspace_id": ws._id
           , "name": {$regex : ".*"+system_search+"*."}
-          , "external_objects.name": {$regex : ".*"+extobj_search+"*."}}
+          , "external_objects.name": {$regex : ".*"+extobj_search+"*.", $options: "i"}}
           , {sort: {name:1}});
         }else {
-          systems = Systems.find({"workspace_id": ws._id, "name": {$regex : ".*"+system_search+"*."}},{sort: {name:1}});
+          systems = Systems.find({"workspace_id": ws._id, "name": {$regex : ".*"+system_search+"*.", $options: "i"}},{sort: {name:1}});
         }
       }
       else{
@@ -145,11 +145,11 @@ Template.collect.events({
     let searchValue = e.currentTarget.value;
     if(typeof search){
       if(fieldToSearch === 'externalobjectsearch'){
-        console.log("Search Value: ", searchValue);
+        //console.log("Search Value: ", searchValue);
         eo_search.set(searchValue);
       }
       else if(fieldToSearch === 'systemsearch'){
-        console.log("Search Value: ", searchValue);
+        //console.log("Search Value: ", searchValue);
         sys_search.set(searchValue);
       }
       else{
@@ -164,7 +164,6 @@ Template.collect.events({
     errDiv.innerHTML = ""; //reset errors
 
     var text = e.target.childNodes[4].textContent + " - " +  e.target.childNodes[1].textContent;
-    document.getElementById("objectlist").value = text;
     var sys_id = e.target.childNodes[7].textContent;
     var name = e.target.childNodes[1].textContent;
     console.log("system id: " + sys_id + " | name: " + name);
@@ -230,6 +229,26 @@ Template.collect.events({
       errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> External Objects already exist.</li>";
     }
   },
+  'click .systemsearch a' : function(e, t){
+    //OBJECT TILE MENU
+    var errDiv = document.getElementById("addErrCollect");
+    errDiv.style.display = 'none';
+    errDiv.innerHTML = ""; //reset errors
+
+    var text = e.target.text;
+    document.getElementById("systemsearch").value = text.toString().trim();
+    sys_search.set(text);
+  },
+  'click .sysclear': function(e, t){
+    let clear = '';
+    document.getElementById("systemsearch").value = clear;
+    sys_search.set(clear);
+  },
+  'click .eoclear': function(e, t){
+    let clear = '';
+    document.getElementById("objectlist").value = clear;
+    eo_search.set(clear);
+  },
 });
 
 Template.collectemptyheader.helpers({
@@ -265,11 +284,9 @@ Template.systemobjectmenu.helpers({
     if(system){
       var extobj_search = eo_search.get();
       if(extobj_search){
-        console.log(extobj_search);
         let ext_obj = system.external_objects.filter(function(eo){
-          return eo.name.includes(extobj_search);
+          return eo.name.toLowerCase().includes(extobj_search.toLowerCase());
         });
-        console.log(ext_obj);
         return ext_obj.sort(Meteor.tools.compare);
       }
       else{

@@ -15,11 +15,12 @@
          {{/if}}
          <div class="row">
            <div class="col-md-12">
-             <div class="input-group" style="width:20%;float:right;padding:20px 10px 20px 10px;">
-               <input type="text" class="form-control" name="systemsearch" autofocus/>
+             <div class="input-group" style="width:30%;float:right;padding:20px 10px 20px 10px;">
+               <input id="systemsearch" type="text" class="form-control" name="systemsearch" autofocus/>
                <div class="input-group-btn">
-                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="syslistddl"><span class="caret"></span></button>
-                 <ul id="syslistddl" class="dropdown-menu dropdown-menu-right">
+                 <button type="button" class="btn btn-default dropdown-toggle sysclear"><span>x</span></button>
+                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" data-target="syslistddl"><i class="glyphicon glyphicon-triangle-bottom"></i></button>
+                 <ul id="syslistddl" class="dropdown-menu dropdown-menu-right systemsearch">
                    {{#if Template.subscriptionsReady}}
                      {{#each systems}}
                        {{> systemdropdownlistitem}}
@@ -35,7 +36,8 @@
              <div class="input-group" style="padding:0px 10px 0px 10px;">
                <input id="objectlist" type="text" class="form-control" name="externalobjectsearch"/>
                <div class="input-group-btn">
-                 <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="collapse" data-target="#objlistddl" aria-haspopup="true" aria-expanded="true" ><span class="glyphicon glyphicon-th"></span></button>
+                 <button type="button" class="btn btn-default dropdown-toggle eoclear"><span>x</span></button>
+                 <button id="objddlbtn" type="button" class="btn btn-default dropdown-toggle sysddlbtn" data-toggle="collapse" data-target="#objlistddl" aria-haspopup="true" aria-expanded="true" ><i class="glyphicon glyphicon-th"></i></button>
                </div>
              </div>
            </div>

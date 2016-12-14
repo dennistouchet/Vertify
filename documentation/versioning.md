@@ -35,3 +35,11 @@
     right most corner. The version will appear something like:
 
     `v0.9.3.94c427bd23b2103fc9ba7d7e1a15c1f7773c8a15`
+
+# Viewing last 5 and output to log.txt
+
+  git log --graph --pretty=format:'%h -%d %s (%cr) <%an>' --abbrev-commit -n 5 > log.txt
+
+ # Alias color coded view all
+
+  alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"

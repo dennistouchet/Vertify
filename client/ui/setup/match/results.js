@@ -1,4 +1,4 @@
-import { Template } from 'meteor/templating';
+  import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import Tabular  from 'meteor/aldeed:tabular';
@@ -17,9 +17,12 @@ Template.matchresults.onCreated(function(){
 
   if(ws && vo_id){
     var matchresults_collection_name = ws._id + "_" + vo_id;
+    console.log("collection name:",matchresults_collection_name);
     var exists = Meteor.connection._stores[matchresults_collection_name];
+    console.log("store by name",Meteor.connection._stores[matchresults_collection_name]);
     if(exists ==  null){
       MatchData = new Mongo.Collection(matchresults_collection_name);
+      /*
       TabularTables.MatchData = new Tabular.Table({
         name: "MatchData",
         collection: MatchData,
@@ -29,6 +32,7 @@ Template.matchresults.onCreated(function(){
           {data: "links", title: "Links", class: "col-md-3"}
         ]
       });
+      */
     }
 
     Meteor.call('publishMatchResults', ws._id, matchresults_collection_name
@@ -49,17 +53,6 @@ Template.matchresults.onCreated(function(){
 });
 
 Template.matchresults.helpers({
-  isReady: function(){
-    return false;
-  },
-  vertify_object_id : function(){
-    var ws = Session.get("currentWs");
-    if(ws)
-    {
-      var collection_name = Template.instance().workspace_id.get() + "_" + Template.instance().vertify_object_id.get();
-      return collection_name;
-    }
-  },
   vertify_obj(){
     var ws = Session.get("currentWs");
     if(ws)
@@ -70,15 +63,31 @@ Template.matchresults.helpers({
   match_data(){
     //console.log("inside mr helper:");
     //console.log(VertifyObjects);
-    //console.log(MatchData);
+    console.log(MatchData);
     // Filter by ws and vo_id even though name relies on them?
-    return MatchData.find({});
+    if(MatchData)
+      return MatchData.find({});
   },
   matchedDataCount: function(){
-    var md = MatchData.find({});
+    if(MatchData)
+      var md = MatchData.find({});
     if(md)
       return md.count();
-  }
+  },
+  vertify_object_id : function(){
+    var ws = Session.get("currentWs");
+    if(ws)
+    {
+      var collection_name = Template.instance().workspace_id.get() + "_" + Template.instance().vertify_object_id.get();
+      return collection_name;
+    }
+  },
+  isReady: function(){
+    return false;
+  },
+  hasData : function(_id){
+    return false;
+  },
 });
 
 Template.matchresults.events({
