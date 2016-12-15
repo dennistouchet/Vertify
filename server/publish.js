@@ -25,26 +25,32 @@ import { FixUnmatchedRecords } from '../imports/collections/workspace/unmatched_
 
 import Tabular  from 'meteor/aldeed:tabular';
 import { TabularTables } from '../lib/datalist.js';
-let MatchData = null;
+let MDict = [];
 
 Meteor.methods({
   'publishMatchResults' : function(ws_id, name){
-    console.log("server dynamic publication called");
+    console.log("Server dynamic publication called for: ",name);
 
     Meteor.publish(name, function(){
-      if(MatchData == null)
-        MatchData = new Mongo.Collection(name);
-
+      //console.log("Server MD", MDict[name]);
+      options = {};//{ _suppressSameNameError: true };
+      if(MDict[name] == undefined)
+        MDict[name] = new Mongo.Collection(name, options);
+      else {
+        //console.log("MDict[] value wasn't null");
+      }
+      /*
       TabularTables.MatchData = new Tabular.Table({
         name: "MatchData",
-        collection: MatchData,
+        collection: MDict[name],
         columns: [
           {data: "_id", title: "ID", class: "col-md-3"},
           {data: "data", title: "Data", class: "col-md-3"},
           {data: "links", title: "Links", class: "col-md-3"}
         ]
-      });
-      return MatchData.find({"workspace_id": ws_id, num_links: {$gt: 1}});
+      });*/
+      if(MDict[name])
+        return MDict[name].find({"workspace_id": ws_id});
     });
   }
 });

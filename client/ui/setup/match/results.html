@@ -21,7 +21,7 @@
         {{#each match_data}}
           <div class="x_panel">
             <div class="col-md-4" >{{_id}}</div>
-            {{#if hasData _id}}
+            {{#if data}}
               <div class="col-md-2">{{data.email}}</div>
               <div class="col-md-2">{{data.entityId}}</div>
             {{else}}

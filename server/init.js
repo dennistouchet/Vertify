@@ -476,11 +476,6 @@ function initConnectors() {
       is_encrypted: true
     },
     {
-      name: "api key",
-      value: "api key",
-      is_encrypted: true
-    },
-    {
       name: "ApplicationId",
       value: "ApplicationId",
       is_encrypted: false

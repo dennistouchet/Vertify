@@ -6,26 +6,25 @@ import { TabularTables } from '../../../../lib/datalist.js';
 
 import './results.html';
 
-let mrhandle = null;
-let MatchData = null;
+var mrhandle = null;
+var MDict = [];
 
 Template.matchresults.onCreated(function(){
   var vo_id = FlowRouter.getQueryParam("id");
   var ws = Session.get("currentWs");
-  Template.instance().vertify_object_id = new ReactiveVar(vo_id);
-  Template.instance().workspace_id = new ReactiveVar(ws._id);
-
   if(ws && vo_id){
-    var matchresults_collection_name = ws._id + "_" + vo_id;
-    console.log("collection name:",matchresults_collection_name);
-    var exists = Meteor.connection._stores[matchresults_collection_name];
-    console.log("store by name",Meteor.connection._stores[matchresults_collection_name]);
-    if(exists ==  null){
-      MatchData = new Mongo.Collection(matchresults_collection_name);
+    Template.instance().vertify_object_id = new ReactiveVar(vo_id);
+    Template.instance().workspace_id = new ReactiveVar(ws._id);
+    var name = ws._id + "_" + vo_id;
+    //var exists = Meteor.connection._stores[name];
+    //console.log("store by name",Meteor.connection._stores[name]);
+    //console.log("Client MDict[name]: ", MDict[name]);
+    if(MDict[name] == undefined){
+      MDict[name] = new Mongo.Collection(name);
       /*
       TabularTables.MatchData = new Tabular.Table({
         name: "MatchData",
-        collection: MatchData,
+        collection: MDict[name],
         columns: [
           {data: "_id", title: "ID", class: "col-md-3"},
           {data: "data", title: "Data", class: "col-md-3"},
@@ -34,21 +33,21 @@ Template.matchresults.onCreated(function(){
       });
       */
     }
-
-    Meteor.call('publishMatchResults', ws._id, matchresults_collection_name
+    Meteor.call('publishMatchResults', ws._id, name
     , (err, res) => {
       if(err){
           //TODO: error
+          console.log("Publish error",err.error,err.reason);
       }else{
         // NOTE: the publication of match results is limited to ACTUAL matches
         // not ALL match results
-        mrhandle = Meteor.subscribe( matchresults_collection_name
-                   , function (){ console.log( "Match/Results - MatchData dynamically subscribed." ); });
+        mrhandle = Meteor.subscribe( name
+        , function (){ console.log( "Match/Results - MDict[name] dynamically subscribed with: ",name); });
       }
     });
   }
   else{
-    console.log("Missing ws or vo:" + ws._id + "|" +vo_id);
+    console.log("Missing ws or vo");
   }
 });
 
@@ -57,35 +56,32 @@ Template.matchresults.helpers({
     var ws = Session.get("currentWs");
     if(ws)
     {
-      return vertify_obj = VertifyObjects.findOne({workspace_id: ws._id});
+      return vertify_obj = VertifyObjects.findOne({"workspace_id": ws._id});
     }
   },
   match_data(){
-    //console.log("inside mr helper:");
-    //console.log(VertifyObjects);
-    console.log(MatchData);
-    // Filter by ws and vo_id even though name relies on them?
-    if(MatchData)
-      return MatchData.find({});
-  },
-  matchedDataCount: function(){
-    if(MatchData)
-      var md = MatchData.find({});
-    if(md)
-      return md.count();
-  },
-  vertify_object_id : function(){
     var ws = Session.get("currentWs");
     if(ws)
     {
-      var collection_name = Template.instance().workspace_id.get() + "_" + Template.instance().vertify_object_id.get();
-      return collection_name;
+      var vo_id = Template.instance().vertify_object_id.get();
+      var name = ws._id + "_" + vo_id;
+      //console.log("Client Helper:", MDict[name]);
+      if(MDict[name])
+        return MDict[name].find({"workspace_id": ws._id, "vertify_object_id": vo_id, num_links: {$gt: 1}});
+    }
+  },
+  matchedDataCount: function(){
+    var ws = Session.get("currentWs");
+    if(ws){
+      var vo_id = Template.instance().vertify_object_id.get();
+      var name = Template.instance().workspace_id.get() + "_" + vo_id;
+      if(MDict[name])
+        var md = MDict[name].find({"workspace_id": ws._id, "vertify_object_id": vo_id, num_links: {$gt: 1}});
+      if(md)
+        return md.count();
     }
   },
   isReady: function(){
-    return false;
-  },
-  hasData : function(_id){
     return false;
   },
 });

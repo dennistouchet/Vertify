@@ -213,8 +213,10 @@ Template.collect.events({
                   }
                   else {
                     // successful call
-
-                    Modal.hide('systemaddmodal');
+                    // Clear search field
+                    let clear = '';
+                    document.getElementById("objectlist").value = clear;
+                    eo_search.set(clear);
                   }
                 });
               }
