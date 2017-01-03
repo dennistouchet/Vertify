@@ -1,0 +1,13 @@
+<template name="loginmodal">
+  <div>
+    {{#if currentUser}}
+      <li class="logout">Logout</li>
+    {{else}}
+      <li class="login-toggle">Login/SignUp</li>
+    {{/if}}
+  </div>
+  <div class="login-modal">
+    <i class="glyphicon glyphicon-remove close-login"></i>
+    {{> atForm}}
+  </div>
+</template>
