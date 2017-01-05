@@ -23,6 +23,15 @@
       </ul>
     </div>
   </nav>
+  <div class="login-status">
+    <div class="login-link">
+      {{#if currentUser}}
+        <p class="logout">Sign Out</p>
+      {{else}}
+        <p class="login-toggle">Sign In</p>
+      {{/if}}
+    </div>
+  </div>
 </template>
 
 <template name="workspaceli">

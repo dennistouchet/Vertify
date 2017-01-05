@@ -6,6 +6,18 @@ Template.setup.onCreated(function(){
   Meteor.subscribe('navitems', function (){
     console.log( "Setup - Navitems now subscribed");
   });
+  Meteor.subscribe('systems', function (){
+    console.log( "Connect - Systems now subscribed.");
+  });
+  Meteor.subscribe('external_objects', function(){
+    console.log( "Match/Process - ExternalObjects now subscribed" );
+  });
+  Meteor.subscribe('vertify_objects', function (){
+    console.log( "Match/Process - VertifyObjects now subscribed." );
+  });
+  Meteor.subscribe('vertify_properties', function (){
+    console.log( "Match/Process - VertifyProperties now subscribed." );
+  });
 });
 
 Template.setup.helpers({

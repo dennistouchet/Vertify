@@ -1,0 +1,50 @@
+<template name="loginmain">
+  <div class="login-body">
+    <div class="login-header">
+      <a href="/" class="login-logo"><img src="/images/logo-header-white.png" alt="..."></a>
+      <button class="btn btn-primary login-btn pull-right">
+        {{# if currentUser}}
+        <div class="logout">Sign Out</div>
+      {{else}}
+        <div class="login-toggle">Sign In</div>
+        {{/if}}
+      </button>
+    </div>
+    <div class="login-modal clearfix">
+      {{> atForm}}
+    </div>
+    <div class="login-footer">
+      Footer<br/>
+      {{#with navtoggle}}
+        {{navtoggle}}
+      {{/with}}
+    </div>
+  </div>
+</template>
+
+<!--
+<button type="button" class="btn btn-primary close-login" data-dismiss="modal">
+  <i class="glyphicon glyphicon-remove"></i>
+</button>
+<div class="login-link">
+  {{#if currentUser}}
+    <p class="logout">Sign Out</p>
+  {{else}}
+    <p class="login-toggle">Sign In</p>
+  {{/if}}
+</div>-->
+
+<template name="loginmodal">
+  <div class="modal fade">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-body clearfix">
+          <button type="button" class="btn btn-primary pull-right" data-dismiss="modal">
+            <i class="glyphicon glyphicon-remove"></i>
+          </button>
+          {{> atForm}}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

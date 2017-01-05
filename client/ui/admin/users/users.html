@@ -1,0 +1,20 @@
+<template name="users">
+  <section class="right_col" role="main">
+    <h1 class="page_title">User Administration</h1>
+    <div>
+      {{#each users}}
+        {{> user}}
+      {{/each}}
+    </div>
+  </section>
+</template>
+
+<template name="user">
+  <div class="x_panel">
+    {{_id}}<br/>
+    {{#each emails}}
+      {{address}}<br/>
+      {{verified}}<br/>
+    {{/each}}
+  </div>
+</template>

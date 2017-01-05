@@ -54,7 +54,10 @@ Meteor.methods({
     });
   }
 });
-
+//TODO: RESTRICT THIS. RETURNS ALL USERS
+Meteor.publish('users', function(){
+  return Meteor.users.find({});
+});
 Meteor.publish('navitems', function(){
   return Navitems.find({}, {
     sort: {order : 1,

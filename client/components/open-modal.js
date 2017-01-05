@@ -1,6 +1,10 @@
 
 ModalHelper = {};
 
+ModalHelper.openLoginModalFor = function(){
+  Modal.show('loginmodal');
+}
+
 ModalHelper.openSysAddModalFor = function(){
   Modal.show('systemaddmodal');
 }

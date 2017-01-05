@@ -180,7 +180,7 @@ function initNavitems(){
     shortdesc: '',
     description: 'The Dashboard is quick visualization of the status and details of your Vertify Workspace.',
     order: 1,
-    route: '/dashboard',
+    route: '/',
     icon: 'glyphicon-dashboard',
     subnavs: []
   }

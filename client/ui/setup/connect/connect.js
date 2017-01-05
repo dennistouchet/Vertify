@@ -10,11 +10,9 @@ Template.connect.onCreated(function(){
     Meteor.subscribe('systems', function (){
       console.log( "Connect - Systems now subscribed.");
     });
-
     Meteor.subscribe('connectors', function(){
       console.log('Connect - Connectors now subscribed.');
     });
-
     Meteor.subscribe('tasks', function(){
       console.log('Connect - Tasks now subscribed');
     });

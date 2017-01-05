@@ -15,9 +15,9 @@ const dataRoutes = FlowRouter.group({
 });
 
 FlowRouter.route('/', {
-  name: 'loginmodal',
+  name: 'dashboard',
   action() {
-      BlazeLayout.render('main', {main: 'loginmodal'});
+      BlazeLayout.render('main', {main: 'dashboard'});
   }
 });
 
@@ -25,6 +25,13 @@ FlowRouter.route('/dashboard', {
   name: 'dashboard',
   action() {
       BlazeLayout.render('main', {main: 'dashboard'});
+  }
+});
+
+FlowRouter.route('/loginmain', {
+  name: 'loginmain',
+  action() {
+      BlazeLayout.render('main', {main: 'loginmain'});
   }
 });
 

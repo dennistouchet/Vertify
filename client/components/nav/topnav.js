@@ -55,4 +55,7 @@ Template.topnav.events({
       console.log(ws);
     }
   },
+  'click .logout': ()=>{
+    Meteor.logout();
+  }
 });
