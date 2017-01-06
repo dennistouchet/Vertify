@@ -13,9 +13,10 @@ Template.main.onCreated(function(){
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
- 
+
   if(Meteor.isDevelopment){
     if(Workspaces.findOne()){
+      //TODO: change this to load by user config
       var ws = Workspaces.findOne({"name": "Jim's Workspace"});
 
       if(ws){
@@ -31,6 +32,14 @@ Template.main.onCreated(function(){
       console.log(ws);
     }
   }
+  /*
+    TODO: persist session with localstorage
+    get state // var val = locqalStorage.getItem('workspace');
+    return{ val : val },
+    setState (val)
+    // localStorage.setItem( 'workspace', option);
+    // this.setState ( { val : option }) // or Session.set('currentWs', option);
+  */
 });
 
 Template.main.helpers({

@@ -2,19 +2,41 @@
   <section class="right_col" role="main">
     <h1 class="page_title">User Administration</h1>
     <div>
-      {{#each users}}
-        {{> user}}
-      {{/each}}
+      {{#if Template.subscriptionsReady}}
+        {{#each users}}
+          {{> user}}
+        {{/each}}
+      {{else}}
+        <div class="loader-sm"></div>
+      {{/if}}
     </div>
   </section>
 </template>
 
 <template name="user">
   <div class="x_panel">
-    {{_id}}<br/>
-    {{#each emails}}
-      {{address}}<br/>
-      {{verified}}<br/>
-    {{/each}}
+    {{#if Template.subscriptionsReady}}
+      <button class="btn btn-primary delete pull-right"><i class="glyphicon glyphicon-remove"></i></button>
+      <button class="btn btn-primary edit pull-right"><i class="glyphicon glyphicon-edit"></i></button>
+      User Id: {{_id}}<br/>
+      Creation Date: {{createdAt}}<br/>
+      {{#each emails}}
+        Email: {{address}}<br/>
+        Verified:
+        {{#if verified}}
+          True<br/>
+        {{else}}
+          False<br/>
+        {{/if}}
+      {{/each}}
+      {{getFirstEmail services.email}}<br/>
+      {{getFirstPassword services.password}}<br/>
+      {{#each services.resume.loginTokens}}
+        Logged in at: {{when}}<br/>
+        {{hashedToken}}
+      {{/each}}
+    {{else}}
+      <div class="loader-xs"></div>
+    {{/if}}
   </div>
 </template>

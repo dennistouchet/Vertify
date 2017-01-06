@@ -31,8 +31,8 @@ Template.matchprocess.helpers({
   getVertifyObjectName: function(){
     var ws = Session.get("currentWs");
     var id = Template.instance().vo_id.get();
-    var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
-    if(ws && vo){
+    if(ws && id){
+      var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
       return vo.name;
     }
   },

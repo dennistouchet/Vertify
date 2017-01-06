@@ -1,0 +1,28 @@
+<template name="usereditmodal">
+  <div class="modal fade">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Edit User
+            <button type="button" class="btn btn-primary pull-right" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i></button>
+          </h3>
+        </div>
+        <div class="modal-body">
+          <div id="editErrUserModal" class="alert alert-danger" style="display:none;"></div>
+          <label for="email">User Email</label>
+          <input id="email" type="text" class="form-control" name="email" value="" autofocus/>
+          <label for="pass">Password</label>
+          <input id="pass" type="password" class="form-control" name="pass" value="" autofocus/>
+          <label for="pass2">Password</label>
+          <input id="pass2" type="password" class="form-control" name="pass2" value="" autofocus/>
+          <label for="verified">Verified</label>
+          <input id="name" type="check" class="form-control" name="verified" value="" autofocus/>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default pull-right" data-dismiss="modal" >Cancel</button>
+          <button type="button" class="btn btn-primary pull-right" id="save">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

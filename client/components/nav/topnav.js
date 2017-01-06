@@ -3,9 +3,18 @@ import { Workspaces } from '../../../imports/collections/tenant/workspace.js';
 
 import './topnav.html';
 
+Template.topnav.onCreated(function(){
+  Meteor.subscribe('workspaces', function (){
+    console.log( "Topnav - Workspaces now subscribed.");
+  });
+  //TODO: change this to load by user config
+  var ws = Session.get("currentWs");
+  if(ws)
+    this.ws_id = new ReactiveVar(ws._id);
+});
+
 Template.topnav.helpers({
   workspaces() {
-
     return Workspaces.find({});
   },
   workspace(i){
@@ -56,6 +65,7 @@ Template.topnav.events({
     }
   },
   'click .logout': ()=>{
-    Meteor.logout();
+    //Meteor.logout();
+    AccountsTemplates.logout();
   }
 });

@@ -3,7 +3,11 @@
     <div class="">
       <h1 class="page_title">Match / Process / {{getVertifyObjectName}}</h1>
       <div id="addErrMatch" class="alert alert-danger" style="display:none;"></div>
-    {{> Template.dynamic template=mprocess }}
+      {{#if Template.subscriptionsReady}}
+        {{> Template.dynamic template=mprocess }}
+      {{else}}
+        <div class="loader-sm"></div>
+      {{/if}}
   </div>
   </section>
 </template>

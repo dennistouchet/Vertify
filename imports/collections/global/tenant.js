@@ -5,16 +5,19 @@ import { check } from 'meteor/check';
 export const Tenants = new Mongo.Collection('tenants');
 
 Tenants.schema = new SimpleSchema({
-  id:
-    {type: String},
   modified:
     {type: Date},
   created:
     {type: Date},
   name:
     {type: String},
-  sql_connect_string:
+  //Required for tenant validation
+  username:
+    { type: String },
+  password:
     {type: String},
+  connection_string:
+      {type: String},
   time_zone:
     { type: Number
     , max: 12
@@ -23,17 +26,14 @@ Tenants.schema = new SimpleSchema({
     , optional: true};
   daylight_savings:
     {type: Boolean},
-  sql_user:
-    {type: String},
-  sql_password:
-    {type: String},
   domain:
     {type: String},
   license_id:
     {type: String},
   expiration:
     {type: Date},
-  is_paused
+  is_paused:
+    { type: Boolean },
   debug_expiration:
     {type: Date}
 });

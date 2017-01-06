@@ -5,6 +5,11 @@ ModalHelper.openLoginModalFor = function(){
   Modal.show('loginmodal');
 }
 
+ModalHelper.openUserEditModalFor = function(user_id){
+  Session.set('selectedUser', user_id);
+  Modal.show('usereditmodal');
+}
+
 ModalHelper.openSysAddModalFor = function(){
   Modal.show('systemaddmodal');
 }
