@@ -18,10 +18,8 @@
     {{#if Template.subscriptionsReady}}
       <button class="btn btn-primary delete pull-right"><i class="glyphicon glyphicon-remove"></i></button>
       <button class="btn btn-primary edit pull-right"><i class="glyphicon glyphicon-edit"></i></button>
-      User Id: {{_id}}<br/>
-      Creation Date: {{createdAt}}<br/>
       {{#each emails}}
-        Email: {{address}}<br/>
+        <strong>Email: {{address}}</strong><br/>
         Verified:
         {{#if verified}}
           True<br/>
@@ -29,6 +27,8 @@
           False<br/>
         {{/if}}
       {{/each}}
+      User Id: {{_id}}<br/>
+      Creation Date: {{createdAt}}<br/>
       {{getFirstEmail services.email}}<br/>
       {{getFirstPassword services.password}}<br/>
       {{#each services.resume.loginTokens}}

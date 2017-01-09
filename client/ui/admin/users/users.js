@@ -1,4 +1,6 @@
+import { Template } from 'meteor/templating';
 
+import './users.html';
 
 Template.users.onCreated(function(){
     Meteor.subscribe('users', function(){
@@ -30,25 +32,19 @@ Template.user.onCreated(function(){
 Template.user.helpers({
   getFirstEmail(emailObj){
     if(emailObj){
-      console.log(emailObj.verificationTokens);
       emailObj.verificationTokens.forEach(eobj => {
-        console.log(eobj);
       });
       return emailObj.verificationTokens;
     }
   },
   getFirstPassword(passObj){
     if(passObj){
-      console.log(passObj.bcrypt);
       return passObj.bcrypt;
     }
   },
   getFirstResume(resumeObj){
-
     if(resumeObj){
-      console.log(resumeObj.loginTokens);
       resumeObj.loginTokens.forEach(robj => {
-        console.log(robj);
       });
       return resumeObj.loginTokens;
     }
@@ -58,20 +54,12 @@ Template.user.helpers({
 Template.user.events({
   'click .edit': function(e){
     e.preventDefault();
+    Meteor.tools.userEdit(this._id, {}, {});
     console.log("Clicked user:", this._id);
     ModalHelper.openUserEditModalFor(this._id);
   },
   'click .delete': function(e){
     e.preventDefault();
-    Meteor.call('users.remove', this._id,
-    (err, res) =>
-    {
-      if(err){
-        console.log("error");
-      }
-      else{
-        console.log("success");
-      }
-    });
+    Meteor.tools.userRemove(this._id);
   },
 })
