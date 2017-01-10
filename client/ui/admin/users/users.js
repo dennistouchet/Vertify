@@ -14,7 +14,7 @@ Template.users.helpers({
     us = Meteor.users.find({});
     console.log(us);
     return us;
-  },
+  }
 });
 
 Template.users.events({
@@ -23,30 +23,23 @@ Template.users.events({
   }
 });
 
-Template.user.onCreated(function(){
-    Meteor.subscribe('users', function(){
-      console.log("User - Users collection subscribed");
-    });
-});
-
 Template.user.helpers({
-  getFirstEmail(emailObj){
+  userConfig(id){
+    var user = Meteor.users.findOne({_id:id});
+    if(user){
+      return user.config;
+    }
+  },
+  getFirstEmail: function(emailObj){
     if(emailObj){
       emailObj.verificationTokens.forEach(eobj => {
       });
       return emailObj.verificationTokens;
     }
   },
-  getFirstPassword(passObj){
+  getFirstPassword: function(passObj){
     if(passObj){
       return passObj.bcrypt;
-    }
-  },
-  getFirstResume(resumeObj){
-    if(resumeObj){
-      resumeObj.loginTokens.forEach(robj => {
-      });
-      return resumeObj.loginTokens;
     }
   }
 });
@@ -57,6 +50,29 @@ Template.user.events({
     Meteor.tools.userEdit(this._id, {}, {});
     console.log("Clicked user:", this._id);
     ModalHelper.openUserEditModalFor(this._id);
+  },
+  'click .editconfig': function(e){
+    e.preventDefault();
+    var errDiv = document.getElementById("addErrUser");
+    //reset errors
+    errDiv.innerHTML = "";
+    errDiv.style.display = "none";
+
+    var ws = Session.get("currentWs");
+    if(ws){
+      var config = {
+        workspace: ws._id,
+        route: FlowRouter.current().path
+      }
+
+      Meteor.tools.userConfigEdit(this._id, config);
+      console.log("Clicked user:", this._id);
+      ModalHelper.openUserEditConfigModalFor(this._id);
+    }
+    else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> No Workspace Selected.</li>";
+    }
   },
   'click .delete': function(e){
     e.preventDefault();

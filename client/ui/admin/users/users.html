@@ -1,6 +1,7 @@
 <template name="users">
   <section class="right_col" role="main">
     <h1 class="page_title">User Administration</h1>
+    <div id="addErrUser" class="alert alert-danger" style="display:none;"></div>
     <div>
       {{#if Template.subscriptionsReady}}
         {{#each users}}
@@ -18,6 +19,7 @@
     {{#if Template.subscriptionsReady}}
       <button class="btn btn-primary delete pull-right"><i class="glyphicon glyphicon-remove"></i></button>
       <button class="btn btn-primary edit pull-right"><i class="glyphicon glyphicon-edit"></i></button>
+      <button class="btn btn-primary editconfig pull-right"><i class="glyphicon glyphicon-wrench"></i></button>
       {{#each emails}}
         <strong>Email: {{address}}</strong><br/>
         Verified:
@@ -33,8 +35,15 @@
       {{getFirstPassword services.password}}<br/>
       {{#each services.resume.loginTokens}}
         Logged in at: {{when}}<br/>
-        {{hashedToken}}
+        {{hashedToken}}<br/>
       {{/each}}
+      <div class="" style="border: 2px solid #cccccc;padding: 10px 5px;">
+        <strong>User Configuration Data:</strong><br/>
+        {{#with userConfig _id}}
+          Workspace: {{workspace}}<br/>
+          Route: {{route}}<br/>
+        {{/with}}
+      </div>
     {{else}}
       <div class="loader-xs"></div>
     {{/if}}

@@ -20,6 +20,10 @@
 .centerp{
   text-align:center;
 }
+.side-padding{
+  padding-left:10px;
+  padding-right:10px;
+}
 .margin-auto {
   display:block;
   margin:auto;
@@ -115,17 +119,6 @@
   font-weight: bold;
   text-transform: uppercase;
 }
- h1.page_title{
-  margin-left: 10px;
-  font-size: 40px;
-  letter-spacing: 3px;
-  color: #000000;
-  font-weight: 400;
-  text-transform: uppercase;
-}
-h4 {
-  color:@black;
-}
 body .container.body .right_col {
   background: @grey-lt;
 }
@@ -143,6 +136,31 @@ html,  {
   font-size: 13px;
   font-weight: 400;
   line-height: 1.471;
+}
+h1.page_title{
+ margin-left: 10px;
+ font-size: 40px;
+ letter-spacing: 3px;
+ color: #000000;
+ font-weight: 400;
+ text-transform: uppercase;
+}
+h4 {
+ color:@black;
+}
+h1, .h1, h2, .h2, h3, .h3 {
+ margin-top: 10px;
+ margin-bottom: 10px;
+}
+a {
+ color: #5A738E;
+ text-decoration: none;
+}
+a, a:visited, a:focus, a:active, :visited, :focus, :active, .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
+ outline: 0;
+}
+a:hover, a:focus {
+ text-decoration: none;
 }
 label{
   color: @black;
@@ -664,20 +682,6 @@ table.no-margin .progress {
 }
 .grid_slider .col-md-6 {
   padding: 0 40px;
-}
-h1, .h1, h2, .h2, h3, .h3 {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-a {
-  color: #5A738E;
-  text-decoration: none;
-}
-a, a:visited, a:focus, a:active, :visited, :focus, :active, .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
-  outline: 0;
-}
-a:hover, a:focus {
-  text-decoration: none
 }
 .toggle {
   position: absolute;

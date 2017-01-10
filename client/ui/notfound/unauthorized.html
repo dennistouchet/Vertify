@@ -1,0 +1,17 @@
+<!-- -->
+<template name="unauthorized">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="row">
+      <h1 class="page_title">Unauthorized Access</h1>
+      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+      <div class="side-padding">
+        Sorry! Looks like you do not have access to this page.<br/>
+        {{#if currentUser}}
+          <button class="btn btn-primary"><a href="/">Home</a></button>
+        {{else}}
+          <button class="btn btn-primary"><a href="/login">Login</a></button>
+        {{/if}}
+      </div>
+    </div>
+  </section>
+</template>

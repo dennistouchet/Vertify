@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import { Workspaces } from '../imports/collections/tenant/workspace.js';
 import { Versioning } from '../imports/collections/global/versioning.js';
+
 import './main.html';
 
 Highcharts = require( 'highcharts' );
@@ -9,6 +10,9 @@ Highcharts = require( 'highcharts' );
 Template.main.onCreated(function(){
   Meteor.subscribe('workspaces', function (){
     console.log( "Main - Workspaces now subscribed.");
+  });
+  Meteor.subscribe('userdata', this._id, function (){
+    console.log( "Main - User now subscribed.");
   });
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");

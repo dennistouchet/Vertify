@@ -58,13 +58,16 @@ Meteor.methods({
 Meteor.publish('users', function(){
   return Meteor.users.find({});
 });
+//TODO: RESTRICT THIS. RETURNS ONLY CERTAIN FIELDS
+Meteor.publish('userdata', function(id){
+  return Meteor.users.find({_id: id}, {fields: {config:1}});
+});
 Meteor.publish('navitems', function(){
   return Navitems.find({}, {
     sort: {order : 1,
           "subnavs.order" : 1 }
   });
 });
-
 Meteor.publish('datas', function(){
   return Datas.find();
 });

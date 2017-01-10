@@ -9,8 +9,15 @@ Template.topnav.onCreated(function(){
   });
   //TODO: change this to load by user config
   var ws = Session.get("currentWs");
-  if(ws)
+  var user = Meteor.user();
+  console.log(typeof user.config);
+  if(typeof user.config != 'undefined'){
+    console.log("workspace set by user config! yay!");
+    this.ws_id = user.config.workspace;
+  }
+  else if(ws){
     this.ws_id = new ReactiveVar(ws._id);
+  }
 });
 
 Template.topnav.helpers({
@@ -60,8 +67,9 @@ Template.topnav.events({
     if(text) {
       ws = Workspaces.findOne({"name": text});
       Session.set("currentWs", ws);
-      console.log("TopNav - Set session currentWs set to: ");
-      console.log(ws);
+      console.log("TopNav - Set session currentWs set to: ", ws);
+      //TODO update user config here
+      console.log("TODO: update User config ws!");
     }
   },
   'click .logout': ()=>{

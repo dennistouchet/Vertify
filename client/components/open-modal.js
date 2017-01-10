@@ -10,6 +10,11 @@ ModalHelper.openUserEditModalFor = function(user_id){
   Modal.show('usereditmodal');
 }
 
+ModalHelper.openUserEditConfigModalFor = function(user_id){
+  Session.set('selectedUser', user_id);
+  Modal.show('usereditconfigmodal');
+}
+
 ModalHelper.openSysAddModalFor = function(){
   Modal.show('systemaddmodal');
 }

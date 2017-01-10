@@ -244,6 +244,12 @@ FlowRouter.route('/test3', {
   }
 });
 
+FlowRouter.route('/unauthorized', {
+  action() {
+      BlazeLayout.render('main', {main: 'unauthorized'});
+  }
+});
+
 FlowRouter.notFound = {
   action() {
       BlazeLayout.render('main', {main: 'notfound'});
