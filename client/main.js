@@ -11,18 +11,15 @@ Template.main.onCreated(function(){
   Meteor.subscribe('workspaces', function (){
     console.log( "Main - Workspaces now subscribed.");
   });
-  Meteor.subscribe('userdata', this._id, function (){
-    console.log( "Main - User now subscribed.");
-  });
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
-
-  if(Meteor.isDevelopment){
-    if(Workspaces.findOne()){
-      //TODO: change this to load by user config
-      var ws = Workspaces.findOne({"name": "Jim's Workspace"});
-
+  Meteor.subscribe('userdata', Meteor.userId(), function(){
+    console.log( "Main - Userdata now subscribed");
+    var user = Meteor.user();
+    if(typeof user.config.workspace != 'undefined'){
+      console.log("main", user);
+      var ws = Workspaces.findOne(user.config.workspace);
       if(ws){
         Session.set("currentWs", ws);
       }
@@ -32,12 +29,22 @@ Template.main.onCreated(function(){
         });
         Session.set("currentWs", ws);
       }
-      console.log("Session set to:");
-      console.log(ws);
     }
+  });
+
+  // Set first workspace to session.
+  // This will be overwritten when subscription finishes
+  if(Workspaces.findOne()){
+    ws = Workspaces.findOne({}, {
+      sort: {order : -1,}
+    });
+    Session.set("currentWs", ws);
+    console.log("Session set to:");
+    console.log(ws);
   }
   /*
     TODO: persist session with localstorage
+    // NOTE: 1/11/17 PROBABLY DONT NEED THIS Is INTRO OF USER
     get state // var val = locqalStorage.getItem('workspace');
     return{ val : val },
     setState (val)
@@ -62,4 +69,9 @@ Template.main.rendered = function () {
     return new Date(year, month - 1, day).getTime();
   }
   //<!-- /Flot -->
+  this.autorun(function(){
+    FlowRouter.watchPathChange();
+    var currentContext = FlowRouter.current();
+    //TODO update user config route here
+  });
 }

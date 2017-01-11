@@ -1,5 +1,34 @@
 <template name="notifications">
-<div id="notification" class="alert alert-danger" style="display:none;">
-
+  <div class="notifications">
+    {{#each notifications}}
+      {{> notification}}
+    {{/each}}
 </div>
+</template>
+
+<template name="notification">
+  {{#if isError _id}}
+    <div class="notification alert alert-danger">
+      <a class="glyphicon glyphicon-remove pull-right alert-danger"></a>
+      <span>Error Test:</span><p> Error message</p>
+    </div>
+  {{/if}}
+  {{#if isSuccess _id}}
+    <div class="notification alert alert-success">
+      <a class="glyphicon glyphicon-remove pull-right alert-success"></a>
+      <span>Success Test</span><p> Successful action message</p>
+    </div>
+  {{/if}}
+  {{#if isWarn _id}}
+    <div class="notification alert alert-warn">
+      <a class="glyphicon glyphicon-remove pull-right alert-warn"></a>
+      <span>Warning Test:</span><p> Warning Message</p>
+    </div>
+  {{/if}}
+  {{#if isNote _id}}
+    <div class="notification alert alert-note">
+      <a class="glyphicon glyphicon-remove pull-right alert-note"></a>
+      <span>Note Test:</span><p> Notification message</p>
+    </div>
+  {{/if}}
 </template>

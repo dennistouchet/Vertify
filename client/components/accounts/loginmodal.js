@@ -22,7 +22,7 @@ Template.loginmain.events({
     t.logintoggle.set('');
   },
   'click .logout': ()=>{
-    Meteor.logout();
+    AccountsTemplates.logout();
   }
 });
 

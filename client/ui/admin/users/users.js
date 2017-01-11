@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
 
 import './users.html';
 
@@ -41,6 +42,11 @@ Template.user.helpers({
     if(passObj){
       return passObj.bcrypt;
     }
+  },
+  getWorkspaceName: function(ws_id){
+    var ws = Workspaces.findOne(ws_id);
+    if(ws)
+      return ws.name;
   }
 });
 

@@ -9,16 +9,15 @@ Template.topnav.onCreated(function(){
   });
   //TODO: change this to load by user config
   var ws = Session.get("currentWs");
-  var user = Meteor.user();
-  console.log(typeof user.config);
-  if(typeof user.config != 'undefined'){
-    console.log("workspace set by user config! yay!");
-    this.ws_id = user.config.workspace;
-  }
-  else if(ws){
+  if(ws)
     this.ws_id = new ReactiveVar(ws._id);
-  }
 });
+/*
+Template.topnav.rendered = function(){
+  this.autorun(function(){
+
+  });
+}*/
 
 Template.topnav.helpers({
   workspaces() {
@@ -38,7 +37,6 @@ Template.topnav.helpers({
   getWorkspace : function(){
     if(Session.get("currentWs")){
       //TODO replace session with ReactiveVar
-      //This makes sure the text is update if the Workspace is edited
       var ws = Session.get("currentWs");
       var newws = Workspaces.findOne(ws._id);
       if(newws){
@@ -56,24 +54,38 @@ Template.topnav.helpers({
 });
 
 Template.topnav.events({
-  'click': function(e) {
+  'click': function(e, t) {
     console.log('topnav click event');
   },
-  'click .wkspcddl li a':function(e, template){
+  'click .wkspcddl li a':function(e, t){
     var btnprnt = $(e.target).parent().parent().parent();
     var text = e.target.text;
 
     console.log("Wkspcddl click event.");
     if(text) {
-      ws = Workspaces.findOne({"name": text});
-      Session.set("currentWs", ws);
-      console.log("TopNav - Set session currentWs set to: ", ws);
-      //TODO update user config here
-      console.log("TODO: update User config ws!");
+        ws = Workspaces.findOne({"name": text});
+        if(ws){
+        Session.set("currentWs", ws);
+        console.log("TopNav - Set session currentWs set to: ");
+        console.log(ws);
+
+        t.ws_id.set(ws._id);
+        console.log("meteor userid", Meteor.user());
+        if(Meteor.user().config.workspace == ws._id){
+          console.log("same value");
+          //DO nothing
+        }
+        else{
+          console.log("diff value");
+          Meteor.tools.userConfigEdit(Meteor.userId(),{"workspace": ws._id});
+        }
+      }
+      else{
+        //TODO: throw error
+      }
     }
   },
   'click .logout': ()=>{
-    //Meteor.logout();
     AccountsTemplates.logout();
   }
 });

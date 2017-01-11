@@ -5,22 +5,22 @@
       <a id="menu_toggle" data-toggle="collapse" data-target="#sidenavbar" style="z-index:999;"><i  class="glyphicon glyphicon-menu-hamburger" ></i></a>
     </div>
     <div class="dropdown inline-center">
-      <button class="btn btn-primary dropdown-toggle wkspcddlbtn" type="button" data-toggle="dropdown">
-        {{#if hasWorkspace}}
-          {{getWorkspace}}
-        {{else}}
-          Workspaces
-        {{/if}}
-      <span class="caret"></span></button>
-      <ul class="dropdown-menu wkspcddl">
-        {{#if Template.subscriptionsReady}}
+      {{#if Template.subscriptionsReady}}
+        <button class="btn btn-primary dropdown-toggle wkspcddlbtn" type="button" data-toggle="dropdown">
+          {{#if hasWorkspace}}
+            {{getWorkspace}}
+          {{else}}
+            Workspaces
+          {{/if}}
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu wkspcddl">
           {{#each workspaces}}
             {{> workspaceli}}
           {{else}}
             <li><a href="/admin/workspaces"> Click here to add a workspace!</a></li>
           {{/each}}
-        {{/if}}
-      </ul>
+        </ul>
+      {{/if}}
     </div>
   </nav>
   <div class="login-status">

@@ -40,7 +40,7 @@
       <div class="" style="border: 2px solid #cccccc;padding: 10px 5px;">
         <strong>User Configuration Data:</strong><br/>
         {{#with userConfig _id}}
-          Workspace: {{workspace}}<br/>
+          Workspace: {{getWorkspaceName workspace}}<br/>
           Route: {{route}}<br/>
         {{/with}}
       </div>
