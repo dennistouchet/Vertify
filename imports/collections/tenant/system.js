@@ -208,7 +208,7 @@ export const SystemExternalObjectsSchema = new SimpleSchema({
 
 Systems.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   modified:
     { type: Date
       , label: "Modified Date" },

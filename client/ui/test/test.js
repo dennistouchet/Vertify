@@ -1,7 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Datas } from '../../../imports/collections/datas.js';
 import { Navitems } from '../../../imports/collections/navitems.js';
-import { MarketoLeadRecord } from '../../../imports/collections/workspace/marketo_lead_record.js';
 
 import './test.html';
 
@@ -12,9 +11,6 @@ Template.test.onCreated(function(){
   Meteor.subscribe('navitems', function (){
     console.log( "Test - Navitems now subscribed");
   });
-  Meteor.subscribe('marketo_lead_record', function(){
-    console.log( "Test - MarketoLeadRecord now subscribed");
-  })
 });
 
 Template.test.helpers({
@@ -26,12 +22,6 @@ Template.test.helpers({
   },
   navitems() {
     return Navitems.find({});
-  },
-  mkto_lead_record(){
-    return MarketoLeadRecord;
-  },
-  marketo_lead_record(){
-    return MarketoLeadRecord.find({});
   },
 });
 

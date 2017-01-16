@@ -2,7 +2,6 @@ ssh in vertify.muvdata.com
 
 git status/pull
 
-
 cd vertifyui
 
 docker-compose down

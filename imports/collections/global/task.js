@@ -11,7 +11,7 @@ Meteor.methods({
     check(itemid , String);
 
     //TODO: replace with real tenant_id
-    var tid = 100000;
+    var tid = "100000";
 
     var newTasks = null;
     if(t == "authentication" || t == "discover" || t == "scan"){
@@ -143,7 +143,7 @@ Meteor.methods({
 
 Tasks.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   modified:
     { type: Date
     , optional: true},

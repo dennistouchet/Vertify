@@ -18,7 +18,7 @@ MatchProperty.schema = new SimpleSchema({
 
 MatchRules.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   id:
     { type: Number },
   name:

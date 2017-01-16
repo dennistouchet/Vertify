@@ -140,7 +140,7 @@ ExternalObjectProperties.schema = new SimpleSchema({
 
 ExternalObjects.schema = new SimpleSchema({
   tenant_id:
-    { type: Number},
+    { type: String},
   modified:
     { type: Date },
   created:

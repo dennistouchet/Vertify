@@ -22,7 +22,7 @@ Meteor.methods({
       var intid = 111111;
     }
     else {
-      var intid = (wrkid.tenant_id + 111111); 
+      var intid = (wrkid.tenant_id + 111111);
     }
 
     //Verify Workspace name doesn't exist, else throw error
@@ -74,7 +74,7 @@ Meteor.methods({
 
 Workspaces.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   modified:
     { type: Date },
   created:

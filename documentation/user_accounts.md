@@ -24,3 +24,13 @@
         `meteor add accounts-ui`, log out of the user, and then `meteor remove accounts-ui`
 
 #
+
+# User, Permission, and Roles documentation
+
+    Get a dictionary of all function names
+
+    `Meteor.connection._methodHandlers`
+
+    Only accessable on the Server
+
+    `Meteor.default_server.method_handlers`

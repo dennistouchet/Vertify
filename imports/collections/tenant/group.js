@@ -6,7 +6,7 @@ export const Groups = new Mongo.Collection('groups');
 
 Groups.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   id:
     { type: String },
   modified:

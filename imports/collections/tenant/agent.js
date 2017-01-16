@@ -6,7 +6,7 @@ export const Agents = new Mongo.Collection('agents');
 
 Agents.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   id:
     { type: String },
   modified:

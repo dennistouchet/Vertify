@@ -101,7 +101,7 @@ export const AlignmentVertifyField = new SimpleSchema({
 
 AlignResults.schema = new SimpleSchema({
   tenant_id:
-    { type: Number },
+    { type: String },
   modified:
     { type: Date},
   created:
