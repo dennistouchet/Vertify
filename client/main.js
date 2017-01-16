@@ -14,26 +14,36 @@ Template.main.onCreated(function(){
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
-  Meteor.subscribe('userdata', Meteor.userId(), function(){
+
+  Meteor.subscribe('userdata', function(){
     console.log( "Main - Userdata now subscribed");
-    var user = Meteor.user();
-    if(typeof user.config.workspace != 'undefined'){
-      console.log("main", user);
-      var ws = Workspaces.findOne(user.config.workspace);
-      if(ws){
-        Session.set("currentWs", ws);
+    
+    if(Meteor.user()){
+      var user = Meteor.user();
+      if(typeof user.config != 'undefined'){
+        var ws = Workspaces.findOne(user.config.workspace);
+        if(ws){
+          Session.set("currentWs", ws);
+        }
+        else{
+          ws = Workspaces.findOne({}, {
+            sort: {order : -1,}
+          });
+          Session.set("currentWs", ws);
+        }
       }
-      else{
-        ws = Workspaces.findOne({}, {
-          sort: {order : -1,}
-        });
-        Session.set("currentWs", ws);
-      }
+    }
+    else{
+      ws = Workspaces.findOne({}, {
+        sort: {order : -1,}
+      });
+      Session.set("currentWs", ws);
     }
   });
 
   // Set first workspace to session.
   // This will be overwritten when subscription finishes
+  /*
   if(Workspaces.findOne()){
     ws = Workspaces.findOne({}, {
       sort: {order : -1,}
@@ -41,16 +51,7 @@ Template.main.onCreated(function(){
     Session.set("currentWs", ws);
     console.log("Session set to:");
     console.log(ws);
-  }
-  /*
-    TODO: persist session with localstorage
-    // NOTE: 1/11/17 PROBABLY DONT NEED THIS Is INTRO OF USER
-    get state // var val = locqalStorage.getItem('workspace');
-    return{ val : val },
-    setState (val)
-    // localStorage.setItem( 'workspace', option);
-    // this.setState ( { val : option }) // or Session.set('currentWs', option);
-  */
+  }*/
 });
 
 Template.main.helpers({
@@ -70,8 +71,21 @@ Template.main.rendered = function () {
   }
   //<!-- /Flot -->
   this.autorun(function(){
-    FlowRouter.watchPathChange();
-    var currentContext = FlowRouter.current();
-    //TODO update user config route here
+    //TODO this is running multiple times, clean it up
+    if(Meteor.user()){
+      FlowRouter.watchPathChange();
+      if(typeof Meteor.user().config != 'undefined')
+      {
+        var currentContext = FlowRouter.current();
+        if(Meteor.user().config.route === currentContext.path){
+          //console.log("same value");
+          //DO nothing
+        }
+        else{
+          //console.log("diff value");
+          Meteor.tools.userConfigEdit(Meteor.userId(),{"route": currentContext.path});
+        }
+      }
+    }
   });
 }

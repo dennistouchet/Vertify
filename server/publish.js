@@ -59,8 +59,11 @@ Meteor.publish('users', function(){
   return Meteor.users.find({});
 });
 //TODO: RESTRICT THIS. RETURNS ONLY CERTAIN FIELDS
-Meteor.publish('userdata', function(id){
-  return Meteor.users.find({_id: id}, {fields: {config:1}});
+Meteor.publish('userdata', function(){
+  if(!this.userId){
+    return;
+  }
+  return Meteor.users.find({_id: this.userId}, {fields: {config:1}});
 });
 Meteor.publish('navitems', function(){
   return Navitems.find({}, {

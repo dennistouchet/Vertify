@@ -7,10 +7,36 @@ Template.topnav.onCreated(function(){
   Meteor.subscribe('workspaces', function (){
     console.log( "Topnav - Workspaces now subscribed.");
   });
-  //TODO: change this to load by user config
+
+  if(Meteor.user()){
+    var user = Meteor.user();
+    if(typeof user.config != 'undefined'){
+      console.log("main", user);
+      var ws = Workspaces.findOne(user.config.workspace);
+      if(ws){
+        Session.set("currentWs", ws);
+      }
+      else{
+        ws = Workspaces.findOne({}, {
+          sort: {order : -1,}
+        });
+        Session.set("currentWs", ws);
+      }
+    }
+  }
+  else{
+    ws = Workspaces.findOne({}, {
+      sort: {order : -1,}
+    });
+    Session.set("currentWs", ws);
+  }
+
   var ws = Session.get("currentWs");
   if(ws)
     this.ws_id = new ReactiveVar(ws._id);
+  else {
+    this.ws_id = new ReactiveVar("");
+  }
 });
 /*
 Template.topnav.rendered = function(){
@@ -37,6 +63,7 @@ Template.topnav.helpers({
   getWorkspace : function(){
     if(Session.get("currentWs")){
       //TODO replace session with ReactiveVar
+      console.log("topnav reactive var:", Template.instance().ws_id.get());
       var ws = Session.get("currentWs");
       var newws = Workspaces.findOne(ws._id);
       if(newws){
@@ -66,11 +93,11 @@ Template.topnav.events({
         ws = Workspaces.findOne({"name": text});
         if(ws){
         Session.set("currentWs", ws);
-        console.log("TopNav - Set session currentWs set to: ");
-        console.log(ws);
+        console.log("TopNav - Set currentWs to: ", ws);
 
         t.ws_id.set(ws._id);
-        console.log("meteor userid", Meteor.user());
+        console.log("Current user:",Meteor.user());
+
         if(Meteor.user().config.workspace == ws._id){
           console.log("same value");
           //DO nothing

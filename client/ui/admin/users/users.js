@@ -11,7 +11,6 @@ Template.users.onCreated(function(){
 
 Template.users.helpers({
   users(){
-    console.log("inside users template helpers");
     us = Meteor.users.find({});
     console.log(us);
     return us;

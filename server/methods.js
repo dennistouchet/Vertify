@@ -15,7 +15,7 @@ Meteor.users.allow({
     if(currentUser){
         var user = Meteor.users.findOne(currentUser);
         if(user){
-          return Roles.userIsInRole(user._id,'admin');
+          return true;//Roles.userIsInRole(user._id,'admin');
         }
     }
     return false;

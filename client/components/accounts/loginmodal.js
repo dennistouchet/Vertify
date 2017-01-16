@@ -23,6 +23,11 @@ Template.loginmain.events({
   },
   'click .logout': ()=>{
     AccountsTemplates.logout();
+  },
+  'submit form': (e,t)=>{
+    //console.log("e",e);
+    //console.log("t", t);
+    //TODO: LOGIN/REGISTER EVENT
   }
 });
 

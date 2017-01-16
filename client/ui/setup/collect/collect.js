@@ -27,10 +27,9 @@ Template.collect.helpers({
     var ws = Session.get("currentWs");
     if(ws)
     {
-      let system_search = sys_search.get();
-      let extobj_search = eo_search.get();
-      console.log("Sys: ",system_search, " | Eo : ", extobj_search);
-      let systems = null;
+      var system_search = sys_search.get();
+      var extobj_search = eo_search.get();
+      var systems = null;
       if(system_search){
         if(extobj_search){
           systems = Systems.find({"workspace_id": ws._id
