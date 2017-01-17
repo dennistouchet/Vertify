@@ -64,6 +64,15 @@ Meteor.publish('userdata', function(){
   }
   return Meteor.users.find({_id: this.userId}, {fields: {config:1}});
 });
+Meteor.publish('roles', function(){
+  //console.log("user is in role admin:",Roles.userIsInRole(this.userId, 'admin'));
+  //TODO: only send roles if user is admin
+  var isAdmin = Roles.userIsInRole(this.userId, 'admin');
+  if(isAdmin){
+    return Meteor.roles.find();
+  }
+  return;
+});
 Meteor.publish('navitems', function(){
   return Navitems.find({}, {
     sort: {order : 1,

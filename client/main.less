@@ -1113,6 +1113,31 @@ legend {
     -webkit-box-shadow: none;
     box-shadow::none;
 }
+input[type=checkbox]{
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 0px;
+  -webkit-appearance:button;
+  border: double 2px @teal;
+  background-color: @white;
+  color: @teal;
+  white-space: nowrap;
+  overflow: hidden;
+  width:15px;
+  height:15px;
+}
+input[type=checkbox]:checked{
+  background-color: @teal;
+  -webkit-box-shadow: inset 0 0 7px @white;
+  -moz-box-shadow: inset 0 0 7px @white;
+  box-shadow: inset 0 0 7px @white;
+}
+input[type=checkbox]:hover, input[type=checkbox]:focus{
+  outline: none;
+  -webkit-box-shadow: inset 0 0 5px @white, 0px 0px 5px @grey-dk;
+  -moz-box-shadow: inset 0 0 5px @white, 0px 0px 5px @grey-dk;
+  box-shadow: inset 0 0 5px @white, 0px 0px 5px @grey-dk;
+}
 .form-control {
     display: block;
     width: 100%;

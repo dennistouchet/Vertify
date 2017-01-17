@@ -7,6 +7,9 @@ Template.users.onCreated(function(){
     Meteor.subscribe('users', function(){
       console.log("Users - Users collection subscribed");
     });
+    Meteor.subscribe('roles', function(){
+      console.log("Users - roles collection subscribed");
+    });
 });
 
 Template.users.helpers({
@@ -14,7 +17,7 @@ Template.users.helpers({
     us = Meteor.users.find({});
     console.log(us);
     return us;
-  }
+  },
 });
 
 Template.users.events({
@@ -23,11 +26,52 @@ Template.users.events({
   }
 });
 
+Template.roleadministration.helpers({
+  users(){
+    us = Meteor.users.find({});
+    return us;
+  },
+  roles(){
+    return Roles.getAllRoles();
+  },
+  userRoles: function(id){
+    if(id){
+      return Roles.getRolesForUser(id);
+    }
+  },
+  userIsInRole: function(id, role){
+    return Roles.userIsInRole(id, role);
+  },
+  getFirstEmail: function(user){
+    if(user){
+      return user.emails[0].address;
+    }
+  }
+});
+
+Template.roleadministration.events({
+  'click .rolecheckbox': function(e,t){
+    if(e.target.checked){
+      e.target.value = false;
+    }else {
+      e.target.value = true;
+    }
+  },
+  'click .save' : function(e,t){
+    //TODO: save all user roles data and update
+  }
+})
+
 Template.user.helpers({
-  userConfig(id){
+  userConfig: function(id){
     var user = Meteor.users.findOne({_id:id});
     if(user){
       return user.config;
+    }
+  },
+  userRoles: function(id){
+    if(id){
+      return Roles.getRolesForUser(id);
     }
   },
   getFirstEmail: function(emailObj){

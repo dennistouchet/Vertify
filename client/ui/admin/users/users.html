@@ -2,7 +2,16 @@
   <section class="right_col" role="main">
     <h1 class="page_title">User Administration</h1>
     <div id="addErrUser" class="alert alert-danger" style="display:none;"></div>
-    <div>
+    {{#if isInRole 'admin'}}
+      <div class="clearfix">
+        {{> roleadministration}}
+      </div>
+    {{/if}}
+    <div  style="height:20px"></div>
+    <button class="btn btn-default" data-toggle="collapse" data-target="#userlist">
+      <i class="glyphicon glyphicon-menu-hamburger"></i>
+    </button>
+    <div id="userlist" class="collapse in">
       {{#if Template.subscriptionsReady}}
         {{#each users}}
           {{> user}}
@@ -12,6 +21,27 @@
       {{/if}}
     </div>
   </section>
+</template>
+
+<template name="roleadministration">
+  {{#if Template.subscriptionsReady}}
+    {{#each user in users}}
+      <div class="x_panel">
+        <strong>{{getFirstEmail user}}</strong>
+        {{#each role in roles}}
+          {{#if userIsInRole user._id role.name}}
+            <input class="rolecheckbox" name="{{role.name}}" value="true" type="checkbox" checked/>
+          {{else}}
+            <input class="rolecheckbox" name="{{role.name}}" value="false" type="checkbox"/>
+          {{/if}}
+            <label> {{role.name}}</label>
+        {{else}}
+          Unauthorized
+        {{/each}}
+      </div>
+    {{/each}}
+    <button class="btn btn-primary save pull-right">Save Changes</button>
+  {{/if}}
 </template>
 
 <template name="user">
@@ -31,18 +61,25 @@
       {{/each}}
       User Id: {{_id}}<br/>
       Creation Date: {{createdAt}}<br/>
+      <!--
       {{getFirstEmail services.email}}<br/>
       {{getFirstPassword services.password}}<br/>
+      -->
       {{#each services.resume.loginTokens}}
         Logged in at: {{when}}<br/>
-        {{hashedToken}}<br/>
       {{/each}}
-      <div class="" style="border: 2px solid #cccccc;padding: 10px 5px;">
+      <div class="col-sm-6">
         <strong>User Configuration Data:</strong><br/>
         {{#with userConfig _id}}
           Workspace: {{getWorkspaceName workspace}}<br/>
-          Route: {{route}}<br/>
+          Last Page: {{route}}<br/>
         {{/with}}
+      </div>
+      <div class="col-sm-6">
+        <strong>User Roles:</strong><br/>
+        {{#each role in userRoles _id}}
+          {{role}}<br/>
+        {{/each}}
       </div>
     {{else}}
       <div class="loader-xs"></div>
