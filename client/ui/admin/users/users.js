@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Workspaces } from '../../../../imports/collections/tenant/workspace.js';
+import { Tenants } from '../../../../imports/collections/global/tenant.js';
 
 import './users.html';
 
@@ -7,9 +8,25 @@ Template.users.onCreated(function(){
     Meteor.subscribe('users', function(){
       console.log("Users - Users collection subscribed");
     });
+
     Meteor.subscribe('roles', function(){
       console.log("Users - roles collection subscribed");
     });
+
+    Meteor.subscribe('tenants', function(){
+      console.log("Users - tenants collection subscribed");
+      var tnt = Tenants.findOne({'name': 'TestTenant1'});
+      if(tnt){
+        Session.set("currentTnt",tnt);
+      }
+    });
+
+    var tnt = Session.get("currentTnt");
+    if(tnt)
+      this.tenant_id = new ReactiveVar(tnt._id);
+    else {
+      this.tenant_id = new ReactiveVar("");
+    }
 });
 
 Template.users.helpers({
@@ -18,6 +35,12 @@ Template.users.helpers({
     console.log(us);
     return us;
   },
+  tenant_id(){
+    var tnt =  Session.get("currentTnt");
+      if(tnt){
+      return tnt._id;
+    }
+  }
 });
 
 Template.users.events({
@@ -32,6 +55,7 @@ Template.roleadministration.helpers({
     return us;
   },
   roles(){
+    //NOTE: this returns group and global roles
     return Roles.getAllRoles();
   },
   userRoles: function(id){
@@ -40,9 +64,13 @@ Template.roleadministration.helpers({
     }
   },
   userIsInRole: function(id, role){
-    return Roles.userIsInRole(id, role);
+    var tnt = Session.get("currentTnt");
+    if(tnt){
+      return Roles.userIsInRole(id, role, tnt._id);
+    }
   },
-  getFirstEmail: function(user){
+  getFirstEmail: function(_id){
+    var user = Meteor.users.findOne(_id);
     if(user){
       return user.emails[0].address;
     }
@@ -59,6 +87,28 @@ Template.roleadministration.events({
   },
   'click .save' : function(e,t){
     //TODO: save all user roles data and update
+  },
+  'click .superadd' : function(e, t){
+    console.log("this id:", this._id);
+    Meteor.tools.userAddToGlobal(this._id,
+      (err, res) => {
+        if(err){
+          console.log("error in adding user");
+          return;
+        }
+        console.log("success in adding user");
+    });
+  },
+  'click .superremove' : function(e, t){
+    console.log("this id:", this._id);
+  Meteor.tools.userRemoveFromGlobal(this._id,
+      (err, res) => {
+        if(err){
+          console.log("error in removing user");
+          return;
+        }
+        console.log("success in removing user");
+    });
   }
 })
 
@@ -70,8 +120,9 @@ Template.user.helpers({
     }
   },
   userRoles: function(id){
-    if(id){
-      return Roles.getRolesForUser(id);
+    var tnt = Session.get("currentTnt");
+    if(tnt && id){
+      return Roles.getRolesForUser(id, tnt._id);
     }
   },
   getFirstEmail: function(emailObj){

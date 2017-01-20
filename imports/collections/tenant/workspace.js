@@ -36,8 +36,7 @@ Meteor.methods({
       name: text,
       tenant_id: intid,
       created: new Date(),
-      modified: new Date(),
-      group_id: intid
+      modified: new Date()
     };
 
     Workspaces.schema.validate(newWorkspace)
@@ -80,13 +79,11 @@ Workspaces.schema = new SimpleSchema({
   created:
     { type: Date },
   is_deleted:
-    { type: Boolean
-      , optional: true },
+    { type: Boolean,
+      optional: true },
   is_archived:
-    { type: Boolean
-      , optional: true },
+    { type: Boolean,
+      optional: true },
   name:
-    { type: String },
-  group_id:
-    { type: Number }
+    { type: String }
 });

@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Workspaces } from './workspace.js';
 import { Systems } from './system.js';
 import { VertifyObjects } from './vertify_object.js';
 
@@ -18,6 +19,8 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
+    var thisws = Workspaces.findOne(ws_id);
+    var t_id = thisws.tenant_id;
     var objectExists = ExternalObjects.findOne({"system_id": sys_id, "name": n})
     if(objectExists){
       throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
@@ -51,7 +54,7 @@ Meteor.methods({
 
 
     var newExternalObject = {
-      tenant_id: 100000,
+      tenant_id: t_id,
       modified: new Date(),
       created: new Date(),
       name: n,

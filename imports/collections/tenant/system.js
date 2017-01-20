@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Workspaces } from './workspace.js';
 import { ExternalObjects } from './external_object.js';
 
 export const Systems = new Mongo.Collection('systems');
@@ -23,7 +24,8 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
     */
-
+    var thisws = Workspaces.findOne(ws_id);
+    var t_id = thisws.tenant_id;
     var snexists = Systems.findOne({"name" : nm });
     var pfexists = Systems.findOne({"prefix" : pf });
     if(snexists) {
@@ -46,7 +48,7 @@ Meteor.methods({
 
     var newSystem = {
       name: nm,
-      tenant_id: 100000,
+      tenant_id: t_id,
       created: new Date(),
       modified: new Date(),
       is_deleted: false,

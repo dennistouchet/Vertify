@@ -63,6 +63,13 @@ FlowRouter.route('/admin/users', {
   }
 });
 
+FlowRouter.route('/admin/tenants', {
+  name: 'tenants',
+  action() {
+      BlazeLayout.render('main', {main: 'tenants'});
+  }
+});
+
 FlowRouter.route('/admin/workspaces', {
   name: 'workspaces',
   action() {

@@ -1,0 +1,25 @@
+<template name="tenants">
+  <section class="right_col" role="main" style="height:900px;">
+    <div class="row">
+      <h1 class="page_title">Tenant Management</h1>
+      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+      {{#if isInRole 'admin'}}
+        <div class="clearfix">
+          {{> tenantadministration}}
+        </div>
+      {{/if}}
+    </div>
+  </section>
+</template>
+
+<template name="tenantadministration">
+  {{#if Template.subscriptionsReady}}
+    {{#each tenant in tenants}}
+      <div class="x_panel">
+        <strong>{{name}} - {{_id}}</strong>
+        Created Date: {{created}}
+      </div>
+    {{/each}}
+    <button class="btn btn-primary save pull-right">Save Changes</button>
+  {{/if}}
+</template>

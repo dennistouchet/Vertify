@@ -1,4 +1,4 @@
-//Meteor Imports
+ //Meteor Imports
 import { Meteor } from 'meteor/meteor';
 //General Collection Imports
 import { Navitems } from '../imports/collections/navitems.js';
@@ -15,6 +15,7 @@ import { VertifyObjects, VertifyObjectExternalObjectsSchema
          from '../imports/collections/tenant/vertify_object.js';
 import { VertifyProperties } from '../imports/collections/tenant/vertify_property.js';
 // Global Collection Imports
+import { Tenants } from '../imports/collections/global/tenant.js';
 import { Versioning } from '../imports/collections/global/versioning.js';
 import { Tasks } from '../imports/collections/global/task.js';
 import { Connectors, ConnectorsSettingsSchema } from '../imports/collections/global/connector.js';
@@ -35,6 +36,9 @@ Meteor.startup(function(){
   }else{
     console.log("Application Monitoring turned off");
   }
+  // GLOBAL MOCK TENANTS
+  var TenOne = "";
+  var TenTwo = "";
   //GLOBAL MOCK WORKSPACES
   var ArtsWs = "";
   var JimsWs = "";
@@ -46,6 +50,7 @@ Meteor.startup(function(){
     deleteAllCollections();
   }
 
+  initTenants();
   initDatas();
   initNavitems();
   initVersioning();
@@ -98,6 +103,11 @@ function deleteAllCollections(){
   console.log("VertifyProperties collection deleted (" + (beforeCount - afterCount) + " rows)");
 
   // Global collections
+  beforeCount = Tenants.find().count();
+  Tenants.remove({});
+  afterCount = Tenants.find().count();
+  console.log("Tenants collection deleted (" + (beforeCount - afterCount) + " rows)");
+
   beforeCount = Versioning.find().count();
   Versioning.remove({});
   afterCount = Versioning.find().count();
@@ -128,12 +138,6 @@ function deleteAllCollections(){
   AlignResults.remove({});
   afterCount = AlignResults.find().count();
   console.log("AlignResults collection deleted (" + (beforeCount - afterCount) + " rows)");
-
-
-  beforeCount = MarketoLeadRecord.find().count();
-  MarketoLeadRecord.remove({});
-  afterCount = MarketoLeadRecord.find().count();
-  console.log("MarketoLeadRecord collection deleted (" + (beforeCount - afterCount) + " rows)");
 
   //Other Collections
   beforeCount = Navitems.find().count();
@@ -350,6 +354,31 @@ function initNavitems(){
   }
 }
 
+function initTenants(){
+  var TenantOne = {
+    modified:new Date(),
+    created: new Date(),
+    name: "TestTenant1"
+  };
+
+  var TenantTwo = {
+      modified:new Date(),
+      created: new Date(),
+      name: "TestTenant2"
+  };
+
+  Tenants.schema.validate(TenantOne);
+  Tenants.schema.validate(TenantTwo);
+  if(!Tenants.findOne()){
+    TenOne = Tenants.insert(TenantOne);
+    TenTwo = Tenants.insert(TenantTwo);
+  }
+  else{
+    TenOne = Tenants.findOne({"name": "TestTenant1"})._id;
+    TenTwo = Tenants.findOne({"name": "TestTenant2"})._id;
+  }
+}
+
 function initVersioning(){
 
     // TODO: this can probably be done more efficiently
@@ -385,33 +414,30 @@ function initVersioning(){
 
 function initWorkspaces(){
   var ArtsWorkspace = {
-    tenant_id: "100000",
+    tenant_id: TenOne,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     is_archived: false,
-    name: "Art's Workspace",
-    group_id: 100000
+    name: "Art's Workspace"
   };
 
   var JimsWorkspace = {
-    tenant_id: "100000",
+    tenant_id: TenOne,
     modified: new Date(),
     created: new Date(),
     is_deleted: false,
     is_archived: false,
-    name: "Jim's Workspace",
-    group_id: 100000
+    name: "Jim's Workspace"
   };
 
   var ShaunsWorkspace = {
-    tenant_id: "100000",
+    tenant_id: TenOne,
     modified: new Date("2015-07-04T20:06:08.310Z"),
     created: new Date("2015-07-04T20:06:08.310Z"),
     is_deleted: true,
     is_archived: true,
-    name: "Shaun's Workspace",
-    group_id: 100000
+    name: "Shaun's Workspace"
   };
 
   Workspaces.schema.validate(ArtsWorkspace);
@@ -426,7 +452,7 @@ function initWorkspaces(){
     JimsWs = Workspaces.insert(JimsWorkspace);
     ShaunsWs = Workspaces.insert(ShaunsWorkspace);
   }
-};
+}
 
 function initConnectors() {
   //Marketo

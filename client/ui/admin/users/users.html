@@ -2,7 +2,9 @@
   <section class="right_col" role="main">
     <h1 class="page_title">User Administration</h1>
     <div id="addErrUser" class="alert alert-danger" style="display:none;"></div>
-    {{#if isInRole 'admin'}}
+    {{numberByRef}}
+    {{tenant_id}}
+    {{#if isInRole 'admin' tenant_id}}
       <div class="clearfix">
         {{> roleadministration}}
       </div>
@@ -25,19 +27,26 @@
 
 <template name="roleadministration">
   {{#if Template.subscriptionsReady}}
-    {{#each user in users}}
+    {{#each users}}
       <div class="x_panel">
-        <strong>{{getFirstEmail user}}</strong>
+        <strong>{{getFirstEmail _id}}</strong>
         {{#each role in roles}}
-          {{#if userIsInRole user._id role.name}}
-            <input class="rolecheckbox" name="{{role.name}}" value="true" type="checkbox" checked/>
+          {{#if userIsInRole _id role.name}}
+            <input class="rolecheckbox" name="{{_id}}{{role.name}}" value="true" type="checkbox" checked/>
           {{else}}
-            <input class="rolecheckbox" name="{{role.name}}" value="false" type="checkbox"/>
+            <input class="rolecheckbox" name="{{_id}}{{role.name}}" value="false" type="checkbox"/>
           {{/if}}
             <label> {{role.name}}</label>
         {{else}}
           Unauthorized
         {{/each}}
+        {{#if isInRole 'super-admin'}}
+        <div class="pull-right">
+          <label>Super Admin:</label>
+          <button class="btn btn-primary superadd">Add</button>
+          <button class="btn btn-primary superremove">Remove</button>
+        </div>
+        {{/if}}
       </div>
     {{/each}}
     <button class="btn btn-primary save pull-right">Save Changes</button>

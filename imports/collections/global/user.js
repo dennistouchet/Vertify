@@ -36,6 +36,9 @@ export const UserConfigurationSchema = new SimpleSchema({
     { type: String },
     route:
     { type: String },
+    subdomain:
+    { type: String,
+    optional: true },
     connect:
     { type: PageState
     , optional: true },
