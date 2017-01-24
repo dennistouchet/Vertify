@@ -41,7 +41,7 @@ Template.topnav.onCreated(function(){
 /*
 Template.topnav.rendered = function(){
   this.autorun(function(){
-
+  //NOTE: aybe try Tracker.autorun
   });
 }*/
 

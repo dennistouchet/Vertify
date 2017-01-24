@@ -43,12 +43,6 @@ Template.users.helpers({
   }
 });
 
-Template.users.events({
-  'click':function(){
-    console.log("users page click event");
-  }
-});
-
 Template.roleadministration.helpers({
   users(){
     us = Meteor.users.find({});

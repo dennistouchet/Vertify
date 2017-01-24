@@ -12,14 +12,18 @@ var MDict = [];
 Template.matchresults.onCreated(function(){
   var vo_id = FlowRouter.getQueryParam("id");
   var ws = Session.get("currentWs");
+
   if(ws && vo_id){
+    console.log("Match/Results onCreated entered.");
+    console.log("WS: ", ws);
+    console.log("VO: ", vo_id);
     Template.instance().vertify_object_id = new ReactiveVar(vo_id);
     Template.instance().workspace_id = new ReactiveVar(ws._id);
     var name = ws._id + "_" + vo_id;
     //var exists = Meteor.connection._stores[name];
     //console.log("store by name",Meteor.connection._stores[name]);
-    //console.log("Client MDict[name]: ", MDict[name]);
-    if(MDict[name] == undefined){
+    console.log("Client MDict[name]: ", MDict[name]);
+    if(MDict[name] === 'undefined'){
       MDict[name] = new Mongo.Collection(name);
       /*
       TabularTables.MatchData = new Tabular.Table({
@@ -32,17 +36,20 @@ Template.matchresults.onCreated(function(){
         ]
       });
       */
+
     }
-    Meteor.call('publishMatchResults', ws._id, name
-    , (err, res) => {
+    console.log("calling publish with: ", name);
+    Meteor.call('publishMatchResults', ws._id, name,
+      (err, res) => {
       if(err){
           //TODO: error
           console.log("Publish error",err.error,err.reason);
       }else{
         // NOTE: the publication of match results is limited to ACTUAL matches
         // not ALL match results
-        mrhandle = Meteor.subscribe( name
-        , function (){ console.log( "Match/Results - MDict[name] dynamically subscribed with: ",name); });
+        console.log("successful call");
+        mrhandle = Meteor.subscribe( name,
+          function (){ console.log( "Match/Results - MDict[name] dynamically subscribed with: ",name); });
       }
     });
   }
@@ -65,7 +72,7 @@ Template.matchresults.helpers({
     {
       var vo_id = Template.instance().vertify_object_id.get();
       var name = ws._id + "_" + vo_id;
-      //console.log("Client Helper:", MDict[name]);
+      console.log("Client Helper:", MDict[name]);
       if(MDict[name])
         return MDict[name].find({"workspace_id": ws._id, "vertify_object_id": vo_id, num_links: {$gt: 1}});
     }

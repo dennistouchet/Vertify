@@ -6,7 +6,10 @@ export const Tenants = new Mongo.Collection('tenants');
 
 Meteor.methods({
   'tenant.insert'(){
-
+    if(! this.userId) {
+      throw new Meteor.Error('not-authorized');
+    }
+    console.log("TODO: tenant insert");
   },
   'tenant.update'(t_id,u_id){
     check(t_id, String);
@@ -14,8 +17,7 @@ Meteor.methods({
     if(! this.userId) {
       throw new Meteor.Error('not-authorized');
     }
-
-    //Check that user is global group and admin
+    //Check that user is super-admin or admin
     Console.log("TODO: check user role and group. ");
   }
 

@@ -118,9 +118,9 @@ Template.vertifywizard.events({
                 }
                 else{
                   console.log("Vertify Object Creation successful");
+                  FlowRouter.go('/setup/match');
                 }
               });
-              FlowRouter.go('/setup/match');
             }
           });
         }else{

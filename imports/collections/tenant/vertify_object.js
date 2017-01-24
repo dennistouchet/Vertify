@@ -66,7 +66,7 @@ Meteor.methods({
     VertifyObjectExternalObjectsSchema.validate(newExternalObjects[1]);
 
     var newVertifyObject = {
-      tenant_id: 100000,
+      tenant_id: "100000",
       modified: new Date(),
       created: new Date(),
       is_deleted: false,

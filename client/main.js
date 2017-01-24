@@ -1,23 +1,26 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
-import { Workspaces } from '../imports/collections/tenant/workspace.js';
 import { Versioning } from '../imports/collections/global/versioning.js';
+import { Tenants } from '../imports/collections/global/tenant.js';
+import { Workspaces } from '../imports/collections/tenant/workspace.js';
 
 import './main.html';
 
 Highcharts = require( 'highcharts' );
 
 Template.main.onCreated(function(){
-  Meteor.subscribe('workspaces', function (){
-    console.log( "Main - Workspaces now subscribed.");
-  });
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
-
+  Meteor.subscribe('tenants', function (){
+    console.log( "Main - Workspaces now subscribed.");
+  });
+  Meteor.subscribe('workspaces', function (){
+    console.log( "Main - Workspaces now subscribed.");
+  });
   Meteor.subscribe('userdata', function(){
     console.log( "Main - Userdata now subscribed");
-    
+
     if(Meteor.user()){
       var user = Meteor.user();
       if(typeof user.config != 'undefined'){
@@ -26,15 +29,23 @@ Template.main.onCreated(function(){
           Session.set("currentWs", ws);
         }
         else{
-          ws = Workspaces.findOne({}, {
-            sort: {order : -1,}
+          var tnt = Tenants.findOne({}, {
+            sort: {order : -1}
+          });
+          Session.set("currentTnt", tnt);
+          var ws = Workspaces.findOne({}, {
+            sort: {order : -1}
           });
           Session.set("currentWs", ws);
         }
       }
     }
     else{
-      ws = Workspaces.findOne({}, {
+      var tnt = Tenants.findOne({}, {
+        sort: {order : -1}
+      });
+      Session.set("currentTnt", tnt);
+      var ws = Workspaces.findOne({}, {
         sort: {order : -1,}
       });
       Session.set("currentWs", ws);
@@ -70,13 +81,12 @@ Template.main.rendered = function () {
     return new Date(year, month - 1, day).getTime();
   }
   //<!-- /Flot -->
-  this.autorun(function(){
-    //TODO this is running multiple times, clean it up
+  Tracker.autorun(function() {
+    FlowRouter.watchPathChange();
+    var currentContext = FlowRouter.current();
     if(Meteor.user()){
-      FlowRouter.watchPathChange();
       if(typeof Meteor.user().config != 'undefined')
       {
-        var currentContext = FlowRouter.current();
         if(Meteor.user().config.route === currentContext.path){
           //console.log("same value");
           //DO nothing

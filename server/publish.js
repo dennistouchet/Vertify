@@ -25,17 +25,16 @@ import { TabularTables } from '../lib/datalist.js';
 let MDict = [];
 
 Meteor.methods({
-
 'publishMatchResults' : function(ws_id, name){
   console.log("Server dynamic publication called for: ",name);
 
   Meteor.publish(name, function(){
-    //console.log("Server MD", MDict[name]);
+    console.log("Server MD", MDict[name]);
     options = {};//{ _suppressSameNameError: true };
     if(MDict[name] === 'undefined')
       MDict[name] = new Mongo.Collection(name, options);
     else {
-      //console.log("MDict[] value wasn't null");
+      console.log("MDict[] value wasn't null");
     }
     /*
     TabularTables.MatchData = new Tabular.Table({
@@ -55,7 +54,17 @@ Meteor.methods({
 
 //TODO: RESTRICT THIS. RETURNS ALL USERS
 Meteor.publish('users', function(){
-  return Meteor.users.find({});
+  if(!this.userId){
+    return;
+  }
+  var groups = Roles.getGroupsForUser(this.userId);
+  var isAdmin = Roles.userIsInRole(this.userId, ['admin','super-admin'], groups[0]);
+
+  if(isAdmin){
+    //TODO: filter by groups(tenants) and remove Roles.GLOBAL_GROUP
+    return Meteor.users.find({});
+  }
+  return Meteor.users.find({_id: this.userId});
 });
 
 //TODO: RESTRICT THIS. RETURNS ONLY CERTAIN FIELDS
@@ -68,11 +77,10 @@ Meteor.publish('userdata', function(){
 
 Meteor.publish('roles', function(){
   var groups = Roles.getGroupsForUser(this.userId);
-  var isSuperAdmin = Roles.userIsInRole(this.userId, 'super-admin');
-  var isTenantAdmin = Roles.userIsInRole(this.userId, 'admin', groups[0]);
+  var isAdmin = Roles.userIsInRole(this.userId, ['admin','super-admin'], groups[0]);
 
-  //TODO: filter by groups(tenants) and remove Roles.GLOBAL_GROUP
-  if(isSuperAdmin || isTenantAdmin){
+  if(isAdmin){
+    //TODO: filter by groups(tenants) and remove Roles.GLOBAL_GROUP
     return Meteor.roles.find({});
   }
   //TODO: throw authorization error
