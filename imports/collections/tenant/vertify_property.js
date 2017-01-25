@@ -65,9 +65,7 @@ Meteor.methods({
           Fields.push(newField);
         });
 
-        console.log("Fields created:");
-        console.log(Fields);
-        console.log("Starting Property creation...");
+        console.log("Fields created. vp.js ln.68");
 
         var newProperty = {
           tenant_id: tnt_id,
@@ -88,9 +86,7 @@ Meteor.methods({
         Properties.push(newProperty);
       }
     });
-    console.log("Properties created:");
-    console.log(Properties);
-    console.log("Starting properties insert...");
+    console.log("Properties created. vp.js ln.91");
     vplist = [];
     Properties.forEach(function(vp){
       VertifyProperties.schema.validate(vp);

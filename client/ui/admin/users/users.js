@@ -107,6 +107,19 @@ Template.roleadministration.events({
   }
 })
 
+Template.useradministration.helpers({
+  users(){
+    us = Meteor.users.find({});
+    return us;
+  },
+  tenant_id(){
+    var tnt =  Session.get("currentTnt");
+      if(tnt){
+      return tnt._id;
+    }
+  }
+});
+
 Template.user.helpers({
   userConfig: function(id){
     var user = Meteor.users.findOne({_id:id});

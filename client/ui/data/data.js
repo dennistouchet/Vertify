@@ -22,3 +22,9 @@ Template.data.helpers({
     }
   }
 });
+
+Template.data.events({
+  'click' : function() {
+      console.log("admin click event");
+  }
+});

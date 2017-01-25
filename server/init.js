@@ -288,10 +288,18 @@ function initNavitems(){
     order: 3,
     route: '/data',
     icon: 'glyphicon-cloud',
-    //children: DataChildren
+    children: DataChildren
   }
 
   var AdminChildren = [{
+          name: 'Tenants',
+          shortdesc: '',
+          description: 'This is the Tenants description',
+          order: 3,
+          route: '/admin/tenants',
+          icon: 'glyphicon-align-center'
+        },
+        {
         name: 'Workspaces',
         shortdesc: '',
         description: 'Allows your to create and manage your individual Vertify Workspaces',
@@ -306,14 +314,6 @@ function initNavitems(){
         order: 2,
         route: '/admin/users',
         icon: 'glyphicon-user'
-      },
-      {
-        name: 'Groups',
-        shortdesc: '',
-        description: 'This is the Groups description',
-        order: 3,
-        route: '/admin/groups',
-        icon: 'glyphicon-align-center'
       },
       {
         name: 'Agents',
