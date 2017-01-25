@@ -6,7 +6,7 @@
         {{#if Template.subscriptionsReady}}
           {{#each navitems}}
             {{#if (isData name) }}
-              {{#each subnavs}}
+              {{#each children}}
                 <!-- Template declared on /admin.html-->
                 {{> navtile}}
               {{/each}}

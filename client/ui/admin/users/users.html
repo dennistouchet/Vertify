@@ -5,27 +5,18 @@
     {{#if isInRole 'super-admin'}}
       <div class="clearfix">
         {{> roleadministration}}
+        {{> useradministratiom}}
       </div>
     {{else}}
       {{#if isInRole 'admin' tenant_id}}
         <div class="clearfix">
           {{> roleadministration}}
+          {{> useradministration}}
         </div>
+      {{else}}
+        <h2>Access not Authorized.</h2>
       {{/if}}
     {{/if}}
-    <div  style="height:20px"></div>
-    <button class="btn btn-default" data-toggle="collapse" data-target="#userlist">
-      <i class="glyphicon glyphicon-menu-hamburger"></i>
-    </button>
-    <div id="userlist" class="collapse in">
-      {{#if Template.subscriptionsReady}}
-        {{#each users}}
-          {{> user}}
-        {{/each}}
-      {{else}}
-        <div class="loader-sm"></div>
-      {{/if}}
-    </div>
   </section>
 </template>
 
@@ -55,6 +46,22 @@
     {{/each}}
     <button class="btn btn-primary save pull-right">Save Changes</button>
   {{/if}}
+</template>
+
+<template name="useradministration">
+  <div  style="height:20px"></div>
+  <button class="btn btn-default" data-toggle="collapse" data-target="#userlist">
+    <i class="glyphicon glyphicon-menu-hamburger"></i>
+  </button>
+  <div id="userlist" class="collapse in">
+    {{#if Template.subscriptionsReady}}
+      {{#each users}}
+        {{> user}}
+      {{/each}}
+    {{else}}
+      <div class="loader-sm"></div>
+    {{/if}}
+  </div>
 </template>
 
 <template name="user">

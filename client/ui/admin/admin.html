@@ -6,7 +6,7 @@
           {{#if Template.subscriptionsReady}}
             {{#each navitems}}
               {{#if (isAdmin name) }}
-                {{#each subnavs}}
+                {{#each children}}
                   {{> navtile}}
                 {{/each}}
               {{/if}}

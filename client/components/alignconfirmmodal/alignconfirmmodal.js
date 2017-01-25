@@ -51,7 +51,8 @@ Template.alignconfirmmodal.events({
     vo = VertifyObjects.findOne(id);
 
     ws = Session.get("currentWs");
-    if(ws && vo){
+    tnt = Session.get("currentTnt");
+    if(tnt && ws && vo){
       Meteor.call('vertify_objects.updateStatus', ws._id, vo._id, 'analyze', false
       , (err, res) => {
         if(err){
@@ -73,7 +74,7 @@ Template.alignconfirmmodal.events({
             }else {
               //console.log("Align Remove Vertify Properties success");
               //console.log("Calling Meteor.VP.insert multuple. WS: " + ws._id + " | vo: " + vo._id);
-              Meteor.call('vertify_properties.insertMultiple', ws._id, vo._id
+              Meteor.call('vertify_properties.insertMultiple', tnt._id, ws._id, vo._id
               , (err, res) => {
                 if(err){
                   console.log(err);
@@ -106,6 +107,11 @@ Template.alignconfirmmodal.events({
           });
         }
       });
+    }
+    else{
+      errDiv.style.display = 'block';
+      errDiv.innerHTML = errDiv.innerHTML + "<li><span>ERROR: </span>[ Missing Value ] Could not find TNT: " + tnt + " | WS: " + ws + " | or VO: " + vo +"</li>";
+      return;
     }
   },
 });

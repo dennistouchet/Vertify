@@ -70,6 +70,7 @@ Template.vertifywizard.events({
     t.currentTab.set( currentTab.data("template") );
   },
   'click .next' : function(e,t){
+    var tnt = Session.get("currentTnt");
     var ws = Session.get("currentWs");
     var steps = [ 'vwStart', 'vwSelect', 'vwFilter', 'vwMatch', 'vwFinish' ];
     var tab = Template.instance().currentTab.get();
@@ -150,7 +151,7 @@ Template.vertifywizard.events({
                     }
                   });
                 }else{
-                  var newid = Meteor.call('match_setup.insert', ws._id, steps[index -1], isnew
+                  var newid = Meteor.call('match_setup.insert', tnt._id, ws._id, steps[index -1], isnew
                   , (err, res) => {
                     if(err){
                       //console.log(err);

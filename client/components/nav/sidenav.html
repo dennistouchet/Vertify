@@ -66,3 +66,13 @@
     </div>
   </div>
 </template>
+
+<template name="navitems">
+  <li><a href="{{route}}" data-toggle="collapse" data-target="#childtest"><i class="{{icon}}"></i> {{name}} <span class="glyphicon glyphicon-chevron-down pull-right"></span></a>
+    <ul id="childtest" class="nav child_menu collapse">
+      {{#each child in navitems.children}}
+      <li><a href="{{route}}"><i class="{{icon}}"></i> {{name}}</a></li>
+      {{/each}}
+    </ul>
+  </li>
+</template>

@@ -12,15 +12,18 @@ Template.main.onCreated(function(){
   Meteor.subscribe('versioning', function (){
     console.log( "Main - Versioning now subscribed.");
   });
-  Meteor.subscribe('tenants', function (){
-    console.log( "Main - Workspaces now subscribed.");
+  Meteor.subscribe('tenants', function(){
+    console.log("Main - Tenants collection subscribed");
+    var tnt = Tenants.findOne({'name': 'TestTenant1'});
+    if(tnt){
+      Session.set("currentTnt",tnt);
+    }
   });
   Meteor.subscribe('workspaces', function (){
     console.log( "Main - Workspaces now subscribed.");
   });
   Meteor.subscribe('userdata', function(){
     console.log( "Main - Userdata now subscribed");
-
     if(Meteor.user()){
       var user = Meteor.user();
       if(typeof user.config != 'undefined'){
@@ -29,28 +32,23 @@ Template.main.onCreated(function(){
           Session.set("currentWs", ws);
         }
         else{
-          var tnt = Tenants.findOne({}, {
-            sort: {order : -1}
-          });
-          Session.set("currentTnt", tnt);
           var ws = Workspaces.findOne({}, {
             sort: {order : -1}
           });
           Session.set("currentWs", ws);
         }
       }
+      else{
+        //TODO: default behavior if user has no workspace
+        throw error;
+      }
     }
     else{
-      var tnt = Tenants.findOne({}, {
-        sort: {order : -1}
-      });
-      Session.set("currentTnt", tnt);
-      var ws = Workspaces.findOne({}, {
-        sort: {order : -1,}
-      });
-      Session.set("currentWs", ws);
+      //TODO: user not subscribed
+      throw error;
     }
   });
+
 
   // Set first workspace to session.
   // This will be overwritten when subscription finishes

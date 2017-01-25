@@ -5,34 +5,35 @@ import { Tenants } from '../../../../imports/collections/global/tenant.js';
 import './users.html';
 
 Template.users.onCreated(function(){
-    Meteor.subscribe('users', function(){
+  this.autorun(()=>{
+    this.subscribe('users', function(){
       console.log("Users - Users collection subscribed");
     });
 
-    Meteor.subscribe('roles', function(){
+    this.subscribe('roles', function(){
       console.log("Users - roles collection subscribed");
     });
 
-    Meteor.subscribe('tenants', function(){
+    this.subscribe('tenants', function(){
       console.log("Users - tenants collection subscribed");
       var tnt = Tenants.findOne({'name': 'TestTenant1'});
       if(tnt){
         Session.set("currentTnt",tnt);
       }
     });
+  });
 
-    var tnt = Session.get("currentTnt");
-    if(tnt)
-      this.tenant_id = new ReactiveVar(tnt._id);
-    else {
-      this.tenant_id = new ReactiveVar("");
-    }
+  var tnt = Session.get("currentTnt");
+  if(tnt)
+    this.tenant_id = new ReactiveVar(tnt._id);
+  else {
+    this.tenant_id = new ReactiveVar("");
+  }
 });
 
 Template.users.helpers({
   users(){
     us = Meteor.users.find({});
-    console.log(us);
     return us;
   },
   tenant_id(){

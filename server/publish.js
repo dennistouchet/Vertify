@@ -36,16 +36,6 @@ Meteor.methods({
     else {
       console.log("MDict[] value wasn't null");
     }
-    /*
-    TabularTables.MatchData = new Tabular.Table({
-      name: "MatchData",
-      collection: MDict[name],
-      columns: [
-        {data: "_id", title: "ID", class: "col-md-3"},
-        {data: "data", title: "Data", class: "col-md-3"},
-        {data: "links", title: "Links", class: "col-md-3"}
-      ]
-    });*/
     if(MDict[name])
       return MDict[name].find({"workspace_id": ws_id});
   });
@@ -54,9 +44,6 @@ Meteor.methods({
 
 //TODO: RESTRICT THIS. RETURNS ALL USERS
 Meteor.publish('users', function(){
-  if(!this.userId){
-    return;
-  }
   var groups = Roles.getGroupsForUser(this.userId);
   var isAdmin = Roles.userIsInRole(this.userId, ['admin','super-admin'], groups[0]);
 
@@ -69,9 +56,6 @@ Meteor.publish('users', function(){
 
 //TODO: RESTRICT THIS. RETURNS ONLY CERTAIN FIELDS
 Meteor.publish('userdata', function(){
-  if(!this.userId){
-    return;
-  }
   return Meteor.users.find({_id: this.userId}, {fields: {config:1}});
 });
 
@@ -88,59 +72,105 @@ Meteor.publish('roles', function(){
 });
 
 Meteor.publish('tenants', function(){
-    return Tenants.find({});
+  if(!this.userId){
+    return;
+  }
+  return Tenants.find({});
+});
+
+Meteor.publish('workspaces', function(tnt_id){
+  if(!this.userId){
+    return;
+  }
+  if(typeof tnt_id === 'undefined'){
+    console.log("no ten id");
+    return Workspaces.find();
+  }
+  else{
+    console.log("ten id found");
+    return Workspaces.find({"tenant_id": tnt_id});
+  }
 });
 
 Meteor.publish('systems', function(){
+  if(!this.userId){
+    return;
+  }
   return Systems.find();
 });
 
 Meteor.publish('external_objects', function(){
+  if(!this.userId){
+    return;
+  }
   return ExternalObjects.find();
 });
 
 Meteor.publish('match_setup', function(){
+  if(!this.userId){
+    return;
+  }
   return MatchSetup.find();
 });
 
 Meteor.publish('vertify_objects', function(){
+  if(!this.userId){
+    return;
+  }
   return VertifyObjects.find();
 });
 
 Meteor.publish('vertify_properties', function(){
+  if(!this.userId){
+    return;
+  }
   return VertifyProperties.find();
 });
 
-Meteor.publish('workspaces', function(){
-  return Workspaces.find();
-});
-
 Meteor.publish('objects_list', function(){
+  if(!this.userId){
+    return;
+  }
   return ObjectsList.find();
 });
 
 Meteor.publish('connectors', function(){
+  if(!this.userId){
+    return;
+  }
   return Connectors.find();
 });
 
 Meteor.publish('tasks', function(){
+  if(!this.userId){
+    return;
+  }
   return Tasks.find();
 });
 
-Meteor.publish('versioning', function(){
-  return Versioning.find();
-});
-
 Meteor.publish('match_results', function(){
+  if(!this.userId){
+    return;
+  }
   return MatchResults.find();
 });
 
 Meteor.publish('align_results', function(){
+  if(!this.userId){
+    return;
+  }
   return AlignResults.find();
 });
 
 Meteor.publish('fix_unmatched_records', function(){
+  if(!this.userId){
+    return;
+  }
   return FixUnmatchedRecords.find({});
+});
+
+Meteor.publish('versioning', function(){
+  return Versioning.find();
 });
 
 Meteor.publish('navitems', function(){
@@ -151,5 +181,8 @@ Meteor.publish('navitems', function(){
 });
 
 Meteor.publish('datas', function(){
+  if(!this.userId){
+    return;
+  }
   return Datas.find();
 });

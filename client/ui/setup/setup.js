@@ -7,16 +7,16 @@ Template.setup.onCreated(function(){
     console.log( "Setup - Navitems now subscribed");
   });
   Meteor.subscribe('systems', function (){
-    console.log( "Connect - Systems now subscribed.");
+    console.log( "Setup - Systems now subscribed.");
   });
   Meteor.subscribe('external_objects', function(){
-    console.log( "Match/Process - ExternalObjects now subscribed" );
+    console.log( "Setup - ExternalObjects now subscribed" );
   });
   Meteor.subscribe('vertify_objects', function (){
-    console.log( "Match/Process - VertifyObjects now subscribed." );
+    console.log( "Setup - VertifyObjects now subscribed." );
   });
   Meteor.subscribe('vertify_properties', function (){
-    console.log( "Match/Process - VertifyProperties now subscribed." );
+    console.log( "Setup - VertifyProperties now subscribed." );
   });
 });
 
@@ -63,7 +63,6 @@ Template.setup.events({
 
 Template.navcard.helpers({
   step_status : function(name){
-
     if(Session.get("currentWs")){
       return Meteor.tools.setupStatus(Session.get("currentWs")._id, name);
     }

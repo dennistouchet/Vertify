@@ -7,7 +7,7 @@ export const MatchSetup = new Mongo.Collection('match_setup');
 //TODO: FOR EACH STEP, ON UPDATE/EDIT, RESET FOLLOW STEP VALUES TO NULL
 
 Meteor.methods({
-  'match_setup.insert'(ws_id, step, newobj){
+  'match_setup.insert'(tnt_id, ws_id, step, newobj){
     if(step != "vwStart"){
       throw new Meteor.Error("Error","vwStart insert error");
     }
@@ -24,6 +24,7 @@ Meteor.methods({
     }
     msitem = {
       id: newid,
+      tenant_id: tnt_id,
       workspace_id: ws_id,
       new_object: newobj
     }
@@ -182,6 +183,8 @@ MatchFieldSchema = new SimpleSchema({
 MatchSetup.schema = new SimpleSchema({
   id:
     { type: Number },
+  tenant_id:
+    { type: String },
   workspace_id:
     { type: String },
 

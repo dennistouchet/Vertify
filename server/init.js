@@ -1,7 +1,7 @@
  //Meteor Imports
 import { Meteor } from 'meteor/meteor';
 //General Collection Imports
-import { Navitems } from '../imports/collections/navitems.js';
+import { Navitems, ChildItemsSchema } from '../imports/collections/navitems.js';
 import { Datas } from '../imports/collections/datas';
 // Tenant Collection Imports
 import { Workspaces } from '../imports/collections/tenant/workspace.js';
@@ -185,8 +185,50 @@ function initNavitems(){
     order: 1,
     route: '/',
     icon: 'glyphicon-dashboard',
-    subnavs: []
+    children: []
   }
+
+  var SetupChildren = [{
+        name: 'Connect',
+        shortdesc: 'Connect to your Systems',
+        description: 'Connect two or more systems to Vertify that contain data you wish to manage.',
+        order: 1,
+        route: '/setup/connect',
+        icon: 'glyphicon-link'
+      },
+      {
+        name: 'Collect',
+        shortdesc: 'Collect your Data',
+        description: 'Choose the objects you wish to manage from each system and collect the data into Vertify.',
+        order: 2,
+        route: '/setup/collect',
+        icon: 'glyphicon-cloud-download'
+      },
+      /*{
+        name: 'Create',
+        shortdesc: 'Create Vertify Objects',
+        description: 'Create Vertify objects and determine the which System Objects dictate truth',
+        order: 2,
+        route: '/setup/create',
+        icon: 'glyphicon-sort-by-attributes'
+      },*/
+      {
+        name: 'Match',
+        shortdesc: 'Match Records',
+        description: 'Create Vertify objects to match collected records between objects from different systems.',
+        order: 3,
+        route: '/setup/match',
+        icon: 'glyphicon-resize-small'
+      },
+      {
+        name: 'Align',
+        shortdesc: 'Align Data Fields',
+        description: 'Align the fields between matched records and establish system of truth for each field.',
+        order: 4,
+        route: '/setup/align',
+        icon: 'glyphicon-random'
+      }];
+
 
   var Setup = {
     name: 'Setup',
@@ -195,52 +237,49 @@ function initNavitems(){
     order:2,
     route: '/setup',
     icon: 'glyphicon-wrench',
-    subnavs: [{
-          name: 'Connect',
-          shortdesc: 'Connect to your Systems',
-          subnavs: [],
-          description: 'Connect two or more systems to Vertify that contain data you wish to manage.',
-          order: 1,
-          route: '/setup/connect',
-          icon: 'glyphicon-link'
-        },
-        {
-          name: 'Collect',
-          shortdesc: 'Collect your Data',
-          subnavs: [],
-          description: 'Choose the objects you wish to manage from each system and collect the data into Vertify.',
-          order: 2,
-          route: '/setup/collect',
-          icon: 'glyphicon-cloud-download'
-        },
-        /*{
-          name: 'Create',
-          shortdesc: 'Create Vertify Objects',
-          subnavs: [],
-          description: 'Create Vertify objects and determine the which System Objects dictate truth',
-          order: 2,
-          route: '/setup/create',
-          icon: 'glyphicon-sort-by-attributes'
-        },*/
-        {
-          name: 'Match',
-          shortdesc: 'Match Records',
-          subnavs: [],
-          description: 'Create Vertify objects to match collected records between objects from different systems.',
-          order: 3,
-          route: '/setup/match',
-          icon: 'glyphicon-resize-small'
-        },
-        {
-          name: 'Align',
-          shortdesc: 'Align Data Fields',
-          subnavs: [],
-          description: 'Align the fields between matched records and establish system of truth for each field.',
-          order: 4,
-          route: '/setup/align',
-          icon: 'glyphicon-random'
-        }]
+    children: SetupChildren
   }
+
+  var DataChildren = [{
+        name: 'Analyze',
+        shortdesc: '',
+        description: 'Enable real-type analysis of your data to keep track of any issues.',
+        order: 1,
+        route: '/data/analyze',
+        icon: 'glyphicon-warning-sign'
+      },
+      {
+        name: 'Fix',
+        shortdesc: '',
+        description: 'Allows you to resolve any issues in your Vertify objects.',
+        order: 2,
+        route: '/data/fix',
+        icon: 'glyphicon-stats'
+      },
+      {
+        name: 'Sync',
+        shortdesc: '',
+        description: 'Allows you to configure when and how your data is processed.',
+        order: 3,
+        route: '/data/sync',
+        icon: 'glyphicon-transfer'
+      },
+      {
+        name: 'Schedule',
+        shortdesc: '',
+        description: 'This is the Schedule description',
+        order: 4,
+        route: '/data/schedule',
+        icon: 'glyphicon-calendar'
+      },
+      {
+        name: 'Search',
+        shortdesc: '',
+        description: 'This is the Search description',
+        order: 5,
+        route: '/data/search',
+        icon: 'glyphicon-search'
+      }]
 
   var Data = {
     name: 'Data',
@@ -249,52 +288,41 @@ function initNavitems(){
     order: 3,
     route: '/data',
     icon: 'glyphicon-cloud',
-    subnavs: [{
-          name: 'Analyze',
-          shortdesc: '',
-          subnavs: [],
-          description: 'Enable real-type analysis of your data to keep track of any issues.',
-          order: 1,
-          route: '/data/analyze',
-          icon: 'glyphicon-warning-sign'
-        },
-        {
-          name: 'Fix',
-          shortdesc: '',
-          subnavs: [],
-          description: 'Allows you to resolve any issues in your Vertify objects.',
-          order: 2,
-          route: '/data/fix',
-          icon: 'glyphicon-stats'
-        },
-        {
-          name: 'Sync',
-          shortdesc: '',
-          subnavs: [],
-          description: 'Allows you to configure when and how your data is processed.',
-          order: 3,
-          route: '/data/sync',
-          icon: 'glyphicon-transfer'
-        },
-        {
-          name: 'Schedule',
-          shortdesc: '',
-          subnavs: [],
-          description: 'This is the Schedule description',
-          order: 4,
-          route: '/data/schedule',
-          icon: 'glyphicon-calendar'
-        },
-        {
-          name: 'Search',
-          shortdesc: '',
-          subnavs: [],
-          description: 'This is the Search description',
-          order: 5,
-          route: '/data/search',
-          icon: 'glyphicon-search'
-        }]
+    //children: DataChildren
   }
+
+  var AdminChildren = [{
+        name: 'Workspaces',
+        shortdesc: '',
+        description: 'Allows your to create and manage your individual Vertify Workspaces',
+        order: 1,
+        route: '/admin/workspaces',
+        icon: 'glyphicon-tasks'
+      },
+      {
+        name: 'Users',
+        shortdesc: '',
+        description: 'This is the Users description',
+        order: 2,
+        route: '/admin/users',
+        icon: 'glyphicon-user'
+      },
+      {
+        name: 'Groups',
+        shortdesc: '',
+        description: 'This is the Groups description',
+        order: 3,
+        route: '/admin/groups',
+        icon: 'glyphicon-align-center'
+      },
+      {
+        name: 'Agents',
+        shortdesc: '',
+        description: 'This is the Agents description',
+        order: 4,
+        route: '/admin/agents',
+        icon: 'glyphicon-pawn'
+      }]
 
   var Admin = {
     name: 'Admin',
@@ -303,42 +331,7 @@ function initNavitems(){
     order: 4,
     route: '/admin',
     icon: 'glyphicon-cog',
-    subnavs: [{
-          name: 'Workspaces',
-          shortdesc: '',
-          subnavs: [],
-          description: 'Allows your to create and manage your individual Vertify Workspaces',
-          order: 1,
-          route: '/admin/workspaces',
-          icon: 'glyphicon-tasks'
-        },
-        {
-          name: 'Users',
-          shortdesc: '',
-          subnavs: [],
-          description: 'This is the Users description',
-          order: 2,
-          route: '/admin/users',
-          icon: 'glyphicon-user'
-        },
-        {
-          name: 'Groups',
-          shortdesc: '',
-          subnavs: [],
-          description: 'This is the Groups description',
-          order: 3,
-          route: '/admin/groups',
-          icon: 'glyphicon-align-center'
-        },
-        {
-          name: 'Agents',
-          shortdesc: '',
-          subnavs: [],
-          description: 'This is the Agents description',
-          order: 4,
-          route: '/admin/agents',
-          icon: 'glyphicon-pawn'
-        }]
+    children: AdminChildren
   }
 
   Navitems.schema.validate(Dashboard);

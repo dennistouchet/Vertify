@@ -22,7 +22,8 @@ Meteor.methods({
     //TODO: may be needed for match
     console.log("vertify_properties.insertSingle function stub called.");
   },
-  'vertify_properties.insertMultiple'(ws_id, vo_id){
+  'vertify_properties.insertMultiple'(tnt_id, ws_id, vo_id){
+    check(tnt_id, String);
     check(ws_id, String);
     check(vo_id, String)
     /*
@@ -69,7 +70,7 @@ Meteor.methods({
         console.log("Starting Property creation...");
 
         var newProperty = {
-          tenant_id: 100000,
+          tenant_id: tnt_id,
           modified: new Date(),
           created: new Date(),
           is_deleted: false,
