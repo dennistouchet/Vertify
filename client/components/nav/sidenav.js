@@ -4,13 +4,7 @@ import { Navitems } from '../../../imports/collections/navitems.js';
 import './sidenav.html';
 
 Template.sidenav.onCreated(function(){
-  //TODO: update side nav to be properly open according to current route
 
-  // Reactively keeps track of the current route.
-  Tracker.autorun(function(){
-    var routeName = FlowRouter.getRouteName();
-    //console.log("Current route is: " + routeName);
-  });
 });
 
 Template.sidenav.helpers({
@@ -18,7 +12,7 @@ Template.sidenav.helpers({
     return Navitems.find({});
   },
   user_name(){
-    return "Shia LeBeouf";
+    return "Dennis Touchet";
   }
 });
 
@@ -32,6 +26,7 @@ Template.sidenav.events({
       $(event.target).find('.dropdown-menu').toggle();
   },
   'click .nav li a': function(e){
+    //if
     $('.nav a.active').not(e.target).removeClass('active');
     $(e.target).toggleClass('active');
     var childMenuHeight = 0;

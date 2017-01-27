@@ -15,7 +15,7 @@ Template.dbgraph.helpers({
         }, {
           y: allTasks - (incompleteTasks + errorTasks),
           name: "Syncing",
-          color: '#40B8C8' //teal
+          color: '#3EACE2' //blue-lt //'#40B8C8' //teal
         },{
           y: errorTasks,
           name: "Errors",

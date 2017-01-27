@@ -20,7 +20,7 @@ function drawDoughnutChart(){
   var data = [
     {
         value: 50,
-        color:"#40B8C8",
+        color:"#3EACE2",
         highlight: "#9FDBE3",
         label: "Converting"
     },

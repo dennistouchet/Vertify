@@ -16,17 +16,25 @@ Template.connect.onCreated(function(){
     Meteor.subscribe('tasks', function(){
       console.log('Connect - Tasks now subscribed');
     });
+
+    //TODO: replace all session use with reactive var!
+    Tracker.autorun(function(){
+      var ws = Session.get("currentWs");
+      if(ws)
+        this.ws = new ReactiveVar(ws);
+    });
 });
 
 Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
-    ws = Session.get("currentWs");
+    var ws = Session.get("currentWs");
+    //console.log("systems ws: ", ws);
     if(ws) {
       systems = Systems.find({"workspace_id": ws._id});
       Session.set("systemCount", systems.count());
       console.log("Session SystemCount: " + Session.get("systemCount"));
-      return systems
+      return systems;
     }
     else{
       Session.set("systemCount", "0");
@@ -215,66 +223,56 @@ Template.connectempty.events({
         errDiv.style.display = 'block';
         errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
       }
-      if(nmexists == null && pfexists == null && setErr == 0){
-
-        Meteor.call('systems.insert', ws._id, sysInfoId, nm.value.trim(), pf.value.trim()
-          , maxtasks.value.trim(), sets
-          , (err, res) => {
-            if(err){
-              //console.log(err);
-              errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
-              //return false;
-            }
-            else {
-              Meteor.call('tasks.insert', "authentication", ws._id, res
-              , (error, result) => {
-                if(error){
+      if(nmexists === 'undefined' && pfexists === 'undefined' && setErr == 0){
+          Meteor.call('systems.insert', ws_id, sysInfoId, nm.value.trim(), pf.value.trim()
+              , maxtasks.value.trim(), sets
+              , (err, res) => {
+                if(err){
                   //console.log(err);
                   errDiv.style.display = 'block';
-                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
                   //return false;
-                  return;
                 }
                 else {
-                  // successful call
-                  // update status of system
-                  //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
-                  Meteor.call('tasks.insert', "discover", ws._id, res
-                  , (err, result) => {
-                    if(err){
+                  Meteor.call('tasks.insert', "authentication", ws_id, res
+                  , (error, result) => {
+                    if(error){
                       //console.log(err);
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
-                      //return false;
+                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
                       return;
                     }
                     else {
-                      // successful call
-                      // update status of system
-                      //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
-                      Meteor.call('tasks.insert', "scan", ws._id, res
+                      //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
+                      Meteor.call('tasks.insert', "discover", ws_id, res
                       , (err, result) => {
                         if(err){
                           //console.log(err);
                           errDiv.style.display = 'block';
-                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
-                          //return false;
+                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
                           return;
                         }
                         else {
-                          // successful call
-                          // update status of system
-                          Meteor.tools.updateSystemStatus(ws._id, res, "scan", true);
-                          Modal.hide('systemaddmodal');
+                          //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
+                          Meteor.call('tasks.insert', "scan", ws_id, res
+                          , (err, result) => {
+                            if(err){
+                              //console.log(err);
+                              errDiv.style.display = 'block';
+                              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                              return;
+                            }
+                            else {
+                              //Meteor.tools.updateSystemStatus(ws_id, res, "scan", true);
+                              Modal.hide('systemaddmodal');
+                            }
+                          });
                         }
                       });
                     }
                   });
                 }
               });
-            }
-          });
       }
       else {
         //TODO: show error

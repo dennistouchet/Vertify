@@ -49,8 +49,8 @@ Template.topnav.helpers({
   workspaces() {
     return Workspaces.find({});
   },
-  workspace(i){
-    return Workspace.findOne({"name": i});
+  workspace(name){
+    return Workspace.findOne({"name": name});
   },
   hasWorkspace : function(){
     if(Session.get("currentWs")){
