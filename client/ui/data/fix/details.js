@@ -12,7 +12,7 @@ Template.fixdetails.onCreated(function(){
 
 Template.fixdetails.helpers({
   vertify_object(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Template.instance().vo_id.get();
     console.log(id);
     if(ws){
@@ -35,7 +35,7 @@ Template.fixdetails.events({
 
 Template.fixdetailsresults.helpers({
   getExternalObjectName: function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var eo = ExternalObjects.findOne(eo_id,{"workspace_id":ws._id});
       if(eo)

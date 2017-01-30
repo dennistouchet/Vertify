@@ -7,7 +7,7 @@ import './sync.html';
 
 Template.sync.helpers({
   vertify_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return VertifyObjects.find({"workspace_id": ws._id});
     }

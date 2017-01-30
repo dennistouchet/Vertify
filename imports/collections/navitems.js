@@ -14,11 +14,11 @@ export const ChildItemsSchema = new SimpleSchema({
     order:
       { type: Number },
     route:
-      { type: String
-      , defaultValue: '/'},
+      { type: String,
+       defaultValue: '/'},
     icon:
-      { type: String
-      , defaultValue: 'option-horizontal' },
+      { type: String,
+        defaultValue: 'option-horizontal' },
 });
 
 Navitems.schema = new SimpleSchema({
@@ -31,12 +31,12 @@ Navitems.schema = new SimpleSchema({
   order:
     { type: Number },
   route:
-    { type: String
-      , defaultValue: '/'},
+    { type: String,
+      defaultValue: '/'},
   icon:
-    { type: String
-      , defaultValue: 'option-horizontal' },
+    { type: String,
+      defaultValue: 'option-horizontal' },
   children:
-    { type: [ ChildItemsSchema ]
-    , optional: true }
+    { type: [ ChildItemsSchema ],
+      optional: true }
 });

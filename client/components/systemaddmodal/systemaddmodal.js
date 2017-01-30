@@ -8,7 +8,7 @@ Template.systemaddmodal.onCreated(function(){
   });
   Meteor.subscribe("tasks", function (){
     console.log( "Systemaddmodal - Tasks now subscribed.");
-  }); 
+  });
 
 });
 
@@ -32,7 +32,7 @@ Template.systemaddmodal.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
@@ -44,28 +44,28 @@ Template.systemaddmodal.events({
     var text = document.getElementById("text");
     var selectedItem = document.getElementById(text.value.trim());
 
-    if(! Session.get("currentWs")){
+    if(! Session.get('currentWs')){
       alert("No Workspace Selected");
     }
     else if( (nm.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Name.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Name.</li>';
     }
     else if ( (pf.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Prefix.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Prefix.</li>';
     }
     else if ( (maxtasks.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>';
     }
-    else if (selectedItem == null){
+    else if (selectedItem === 'undefined'){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Please selected a System from the list.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span> Please selected a System from the list.</li>';
     }
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       var nmexists = Systems.findOne({"name" : nm.value.trim()});
       var pfexists = Systems.findOne({"prefix" : pf.value.trim()});
       var setErr = 0;
@@ -73,7 +73,7 @@ Template.systemaddmodal.events({
             for(i = 0; i < settings.length; i++){
               if(settings[i].value === ''){
                 errDiv.style.display = 'block';
-                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Missing Credential parameter: " + settings[i].name + ".</li>";
+                errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span> Missing Credential parameter: ' + settings[i].name + '.</li>';
                 setErr++;
               }
             }
@@ -83,35 +83,35 @@ Template.systemaddmodal.events({
         var set = {
           setting: settings[i].name,
           value: settings[i].value
-        }
+        };
         sets.push(set);
       }
 
       if (nmexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system name already exists. Please use a different name</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span>The system name already exists. Please use a different name</li>';
       }
       if (pfexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>';
       }
-      if(nmexists == null && pfexists == null && setErr == 0){
-        Meteor.call('systems.insert', ws._id, sysInfoId, nm.value.trim(), pf.value.trim()
-          , maxtasks.value.trim(), sets
-          , (err, res) => {
+      if(nmexists === 'undefined' && pfexists === 'undefined' && setErr === 0){
+        Meteor.call('systems.insert', ws._id, sysInfoId, nm.value.trim(), pf.value.trim(),
+           maxtasks.value.trim(), sets,
+           (err, res) => {
             if(err){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + '] ' + err.reason + '</li>';
               //return false;
             }
             else {
-              Meteor.call('tasks.insert', "authentication", ws._id, res
-              , (error, result) => {
+              Meteor.call('tasks.insert', "authentication", ws._id, res,
+               (error, result) => {
                 if(error){
                   //console.log(err);
                   errDiv.style.display = 'block';
-                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                  errDiv.innerHTML = errDiv.innerHTML + '<li><span>Authentication Error: </span>[' + error.error + '] ' + error.reason + '</li>';
                   //return false;
                   return;
                 }
@@ -119,12 +119,12 @@ Template.systemaddmodal.events({
                   // successful call
                   // update status of system
                   //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
-                  Meteor.call('tasks.insert', "discover", ws._id, res
-                  , (err, result) => {
+                  Meteor.call('tasks.insert', "discover", ws._id, res,
+                   (err, result) => {
                     if(err){
                       //console.log(err);
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Discover Error: </span>[' + err.error + '] ' + err.reason + '</li>';
                       //return false;
                       return;
                     }
@@ -132,12 +132,12 @@ Template.systemaddmodal.events({
                       // successful call
                       // update status of system
                       //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
-                      Meteor.call('tasks.insert', "scan", ws._id, res
-                      , (err, result) => {
+                      Meteor.call('tasks.insert', "scan", ws._id, res,
+                       (err, result) => {
                         if(err){
                           //console.log(err);
                           errDiv.style.display = 'block';
-                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Scan Error: </span>[' + err.error + '] ' + err.reason + '</li>';
                           //return false;
                           return;
                         }

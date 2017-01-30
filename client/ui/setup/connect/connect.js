@@ -19,7 +19,7 @@ Template.connect.onCreated(function(){
 
     //TODO: replace all session use with reactive var!
     Tracker.autorun(function(){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       if(ws)
         this.ws = new ReactiveVar(ws);
     });
@@ -28,7 +28,7 @@ Template.connect.onCreated(function(){
 Template.connect.helpers({
   systems() {
     //determines if a workspace has been selected and added to session
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     //console.log("systems ws: ", ws);
     if(ws) {
       systems = Systems.find({"workspace_id": ws._id});
@@ -42,7 +42,7 @@ Template.connect.helpers({
     }
   },
   hasWorkspace : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return true;
     }
@@ -51,7 +51,7 @@ Template.connect.helpers({
     }
   },
   hasSystems : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var syscount = Session.get("systemCount");
     if(ws && syscount){
       var syscnt = parseInt(syscount);
@@ -67,7 +67,7 @@ Template.connect.helpers({
     }
   },
   hasEnoughSystems : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var sysCnt = parseInt(Session.get("systemCount"));
       if(sysCnt > 1){
@@ -82,31 +82,30 @@ Template.connect.helpers({
     }
   },
   getWorkspaceId : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return ws._id;
     }
     else{
-      return null;
+      return;
     }
   },
 });
 
 Template.connect.events({
   'click .delete' : function(){
-    var errDiv = document.getElementById("addErrConnect");
+    var errDiv = document.getElementById('addErrConnect');
     //reset errors
-    errDiv.innerHTML = "";
-    errDiv.style.display = "none";
+    errDiv.innerHTML = '';
+    errDiv.style.display = 'none';
 
-    Meteor.call('systems.remove'
-      , this._id, ws._id
-      , (err, res) => {
+    Meteor.call('systems.remove', this._id, ws._id,
+       (err, res) => {
         if(err){
           //console.log(err);
           //TODO: improve with error Template
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ ' + err.error + err.reason + ' ] ' + err.details + '</li>';
         }
         else {
           // successful call
@@ -122,18 +121,18 @@ Template.connect.events({
 
       ModalHelper.openSysEditModalFor(sys_id);
 
-      console.log("Connect - systems edit clicked for id: " + sys_id );
+      console.log('Connect - systems edit clicked for id: ' + sys_id );
   },
   'click .details' : function(e){
      $(e.target).find('i').toggleClass('glyphicon-chevron-up').toggleClass('glyphicon-chevron-down');
-     console.log("Connect - systems details clicked");
+     console.log('Connect - systems details clicked');
   },
   'click .addModal' : function(e){
       e.preventDefault();
 
       ModalHelper.openSysAddModalFor();
 
-      console.log("Connect - system addModal clicked")
+      console.log('Connect - system addModal clicked');
   },
   'click .toCollect' : function(e){
     console.log('Connect - toCollect event clicked.');
@@ -149,8 +148,8 @@ Template.connectempty.events({
   'click .sysinfoddl li a' : function(e, template){
     var btnprnt = $(e.target).parent().parent().parent();
     var text = e.target.text;
-    document.getElementById("text").value = text;
-    document.getElementById("name").value = text;
+    document.getElementById('text').value = text;
+    document.getElementById('name').value = text;
 
   },
   'click .add' : function(e) {
@@ -158,9 +157,9 @@ Template.connectempty.events({
     //MAKE ANY NEW CHANGES THERE AS WELL
     //TODO:REFACTOR TO A SINGLE PLACE
     e.preventDefault();
-    var errDiv = document.getElementById("addErrConnect");
+    var errDiv = document.getElementById('addErrConnect');
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     var nm = document.getElementById("name");
     var pf = document.getElementById("pf");
@@ -171,28 +170,28 @@ Template.connectempty.events({
     var text = document.getElementById("text");
     var selectedItem = document.getElementById(text.value.trim());
 
-    if(! Session.get("currentWs")){
+    if(! Session.get('currentWs')){
       alert("No Workspace Selected");
     }
-    else if( (nm.value === "")){
+    else if((nm.value === '')){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Name.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Name.</li>';
     }
-    else if ( (pf.value === "")){
+    else if ((pf.value === '')){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Prefix.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Prefix.</li>';
     }
     else if ( (maxtasks.value === "")){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Missing Value:</span> Please enter a value for Max Concurrent Tasks.</li>';
     }
-    else if (selectedItem == null){
+    else if (selectedItem === 'undefined'){
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Please selected a System from the list.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span> Please selected a System from the list.</li>';
     }
     else {
       var sysInfoId = selectedItem.getAttribute('data-value');
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       var nmexists = Systems.findOne({"workspace_id": ws._id, "name" : nm.value.trim()});
       var pfexists = Systems.findOne({"workspace_id": ws._id, "prefix" : pf.value.trim()});
       var setErr = 0;
@@ -200,7 +199,7 @@ Template.connectempty.events({
             for(i = 0; i < settings.length; i++){
               if(settings[i].value === ''){
                 errDiv.style.display = 'block';
-                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> Missing Credential parameter: " + settings[i].name + ".</li>";
+                errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span> Missing Credential parameter: ' + settings[i].name + '.</li>';
                 setErr++;
               }
             }
@@ -210,56 +209,56 @@ Template.connectempty.events({
         var set = {
           setting: settings[i].name,
           value: settings[i].value
-        }
+        };
         console.log(set);
         sets.push(set);
       }
 
       if (nmexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system name already exists. Please use a different name</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span>The system name already exists. Please use a different name</li>';
       }
       if (pfexists) {
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span>The system prefix already exists. Please use a different prefix</li>';
       }
-      if(nmexists === 'undefined' && pfexists === 'undefined' && setErr == 0){
-          Meteor.call('systems.insert', ws_id, sysInfoId, nm.value.trim(), pf.value.trim()
-              , maxtasks.value.trim(), sets
-              , (err, res) => {
+      if(nmexists === 'undefined' && pfexists === 'undefined' && setErr === 0){
+          Meteor.call('systems.insert', ws_id, sysInfoId, nm.value.trim(), pf.value.trim(),
+                maxtasks.value.trim(), sets,
+                (err, res) => {
                 if(err){
                   //console.log(err);
                   errDiv.style.display = 'block';
-                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                  errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                   //return false;
                 }
                 else {
-                  Meteor.call('tasks.insert', "authentication", ws_id, res
-                  , (error, result) => {
+                  Meteor.call('tasks.insert', "authentication", ws_id, res,
+                   (error, result) => {
                     if(error){
                       //console.log(err);
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Authentication Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Authentication Error: </span>[' + error.error + error.reason + ' ] ' + error.details + '</li>';
                       return;
                     }
                     else {
                       //Meteor.tools.updateSystemStatus(ws._id, res, "authentication", true);
-                      Meteor.call('tasks.insert', "discover", ws_id, res
-                      , (err, result) => {
+                      Meteor.call('tasks.insert', "discover", ws_id, res,
+                       (err, res) => {
                         if(err){
                           //console.log(err);
                           errDiv.style.display = 'block';
-                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Discover Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Discover Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                           return;
                         }
                         else {
                           //Meteor.tools.updateSystemStatus(ws._id, res, "discover", true);
-                          Meteor.call('tasks.insert', "scan", ws_id, res
-                          , (err, result) => {
-                            if(err){
+                          Meteor.call('tasks.insert', "scan", ws_id, res,
+                           (error, result) => {
+                            if(error){
                               //console.log(err);
                               errDiv.style.display = 'block';
-                              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Scan Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Scan Error: </span>[' + error.error + error.reason + ' ] ' + error.details + '</li>';
                               return;
                             }
                             else {
@@ -286,7 +285,7 @@ Template.connectempty.events({
       document.getElementById("maxtasks").value = '';
       errDiv = document.getElementById("addErrConnect");
       errDiv.style.display = 'none';
-      errDiv.innerHTML = ""; //reset errors
+      errDiv.innerHtml = ''; //reset errors
   },
 });
 

@@ -9,14 +9,14 @@ export const MatchSetup = new Mongo.Collection('match_setup');
 Meteor.methods({
   'match_setup.insert'(tnt_id, ws_id, step, newobj){
     if(step != "vwStart"){
-      throw new Meteor.Error("Error","vwStart insert error");
+      throw new Meteor.Error(500, "Error","vwStart insert error");
     }
     check(ws_id, String);
     check(newobj, Boolean);
 
     var ms = MatchSetup.findOne({}, {sort: {id: -1}});
-    var newid = null;
-    if(ms == null){
+    var newid;
+    if(ms === 'undefined'){
       newid = 1;
     }
     else {
@@ -27,7 +27,7 @@ Meteor.methods({
       tenant_id: tnt_id,
       workspace_id: ws_id,
       new_object: newobj
-    }
+    };
 
     MatchSetup.schema.validate(msitem);
     MatchSetup.insert(msitem);
@@ -36,7 +36,7 @@ Meteor.methods({
   },
   'match_setup.startedit'(msid, ws_id, step, newobj ){
     if(step != "vwStart"){
-      throw new Meteor.Error("Error","vwStart edit error");
+      throw new Meteor.Error(500, "Error","vwStart edit error");
     }
     check(ws_id, String);
     check(msid, Number);
@@ -50,7 +50,7 @@ Meteor.methods({
   },
   'match_setup.selectedit'(id, ws_id, step, extobjids ){
     if(step != "vwSelect"){
-      throw new Meteor.Error("Error","vwSelect edit error");
+      throw new Meteor.Error(500, "Error","vwSelect edit error");
     }
     check(ws_id, String);
     check(id, Number);
@@ -71,16 +71,16 @@ Meteor.methods({
         });
       }
       else {
-        throw new Meteor.Error("Error", "Encountered a problem with the selected objects. Please try again.");
+        throw new Meteor.Error(500, "Error", "Encountered a problem with the selected objects. Please try again.");
       }
     }else {
-      throw new Meteor.Error("Error", "Encountered an issue with the match process objects. Please try again.");
+      throw new Meteor.Error(500, "Error", "Encountered an issue with the match process objects. Please try again.");
     }
     console.log("match_setup.selectedit: " + step );
   },
   'match_setup.filteredit'(id, ws_id, step, r1, r2, fc1, fc2){
     if(step != "vwFilter"){
-      throw new Meteor.Error("Error","vwFilter edit error");
+      throw new Meteor.Error(500, "Error","vwFilter edit error");
     }
     check(ws_id, String);
     check(id, Number);
@@ -88,17 +88,17 @@ Meteor.methods({
     check(r2, Boolean);
 
     if(!r1){
-        throw new Meteor.Error("Error", "Filter options are currently unsupported.");
+        throw new Meteor.Error(500, "Error", "Filter options are currently unsupported.");
     }
     else if(!r2){
-      throw new Meteor.Error("Error", "Filter options are currently unsupported.");
+      throw new Meteor.Error(500, "Error", "Filter options are currently unsupported.");
     }
 
     var thisMatch = MatchSetup.findOne({"id": id, "workspace_id": ws_id});
     if(thisMatch){
       MatchSetup.update(thisMatch._id, {
-        $set: {eo1_vertify_all: r1, eo2_vertify_all: r2
-          , eo1_criteria : fc1, eo1_criteria: fc2 },
+        $set: {eo1_vertify_all: r1, eo2_vertify_all: r2,
+            eo1_criteria : fc1, eo2_criteria: fc2 },
       });
     }
     console.log("match_setup.filteredit: " + step );
@@ -107,7 +107,7 @@ Meteor.methods({
     check(ws_id, String);
     check(id, Number);
     if(step != "vwMatch"){
-      throw new Meteor.Error("Error","vwMatch edit error");
+      throw new Meteor.Error(500, "Error","vwMatch edit error");
     }
 
     for(var i = 0; i < match_criteria.length; i++)
@@ -125,7 +125,7 @@ Meteor.methods({
   },
   'match_setup.finishedit'(id, ws_id, step, vn, sotid ){
     if(step != "vwFinish"){
-      throw new Meteor.Error("Error","vwFinish edit error");
+      throw new Meteor.Error(500, "Error","vwFinish edit error");
     }
     check(ws_id, String);
     check(id, Number);

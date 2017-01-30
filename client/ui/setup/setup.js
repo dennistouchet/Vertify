@@ -25,15 +25,15 @@ Template.setup.helpers({
     return Navitems.find({});
   },
   getWorkspace : function(){
-    if(Session.get("currentWs")){
-      return Session.get("currentWs").name;
+    if(Session.get('currentWs')){
+      return Session.get('currentWs').name;
     }
     else {
       return "No Workspace Selected.";
     }
   },
   hasWorkspace : function(){
-    if(Session.get("currentWs")){
+    if(Session.get('currentWs')){
       return true;
     }
     else {
@@ -63,8 +63,8 @@ Template.setup.events({
 
 Template.navcard.helpers({
   step_status : function(name){
-    if(Session.get("currentWs")){
-      return Meteor.tools.setupStatus(Session.get("currentWs")._id, name);
+    if(Session.get('currentWs')){
+      return Meteor.tools.setupStatus(Session.get('currentWs')._id, name);
     }
     else {
       return false;

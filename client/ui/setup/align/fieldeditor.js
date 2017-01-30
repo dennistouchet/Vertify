@@ -21,7 +21,7 @@ Template.fieldeditor.onCreated(function(){
 
 Template.fieldeditor.helpers({
   vertify_properties(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var vo_id = Template.instance().vo_id.get();
     if(ws && vo_id){
         return VertifyProperties.find({"workspace_id":ws._id, "vertify_object_id": vo_id});
@@ -32,7 +32,7 @@ Template.fieldeditor.helpers({
 Template.fieldeditor.events({
   'click .delete' : function(e){
     var errDiv = document.getElementById("addErrEditor");
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     Meteor.call('vertify_properties.remove'
     , this._id
@@ -41,7 +41,7 @@ Template.fieldeditor.events({
         //console.log(err);
         //TODO: improve with error Template
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + '] ' + err.reason + '</li>';
       }
       else {
         // successful call
@@ -50,13 +50,13 @@ Template.fieldeditor.events({
   },
   'click .edit' : function(e){
     var errDiv = document.getElementById("addErrEditor");
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     console.log("edit called for: ", this._id);
   },
   'click .back' : function(e){
     var errDiv = document.getElementById("addErrEditor");
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     FlowRouter.go('/setup/align');
   }
@@ -64,7 +64,7 @@ Template.fieldeditor.events({
 
 Template.fieldeditorproperties.helpers({
   getFullNameByEOId : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id);
     let fullname = "";
     if(eo){
@@ -78,7 +78,7 @@ Template.fieldeditorproperties.helpers({
 
 Template.fieldeditorfield.helpers({
   getFullNameByEOId : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id);
     let fullname = "";
     if(eo){
@@ -95,7 +95,7 @@ Template.fieldeditorfield.events({
     console.log('Field Editor - input changed.');
     var errDiv = document.getElementById("addErrEditor");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     let eo_id = e.target.name.substring(9);
     console.log("VProperty Id: ", this._id);
@@ -104,16 +104,16 @@ Template.fieldeditorfield.events({
     console.log('Field Editor - cancel clicked.');
     var errDiv = document.getElementById("addErrEditor");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
   },
   'click .save' : function(e){
     console.log('Field Editor - save clicked.');
     var errDiv = document.getElementById("addErrEditor");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
     //validate inputs
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Action Unavailable ] Vertify Property editing is not currently enabled. </li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Action Unavailable ] Vertify Property editing is not currently enabled. </li>';
 
     console.log("ID:" + this._id);
     /*
@@ -122,7 +122,7 @@ Template.fieldeditorfield.events({
       if(error){
         //console.log(err);
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Field Edit Error: </span>[ updateSingle " + error.error + "] " + error.reason + "</li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Field Edit Error: </span>[ updateSingle ' + error.error + '] ' + error.reason + '</li>';
       }
       else{
         //success;

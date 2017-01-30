@@ -105,7 +105,7 @@ Template.roleadministration.events({
         console.log("success in removing user");
     });
   }
-})
+});
 
 Template.useradministration.helpers({
   users(){
@@ -163,15 +163,15 @@ Template.user.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrUser");
     //reset errors
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var config = {
         workspace: ws._id,
         route: FlowRouter.current().path
-      }
+      };
 
       Meteor.tools.userConfigEdit(this._id, config);
       console.log("Clicked user:", this._id);
@@ -179,11 +179,11 @@ Template.user.events({
     }
     else{
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error:</span> No Workspace Selected.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error:</span> No Workspace Selected.</li>';
     }
   },
   'click .delete': function(e){
     e.preventDefault();
     Meteor.tools.userRemove(this._id);
   },
-})
+});

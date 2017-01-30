@@ -10,7 +10,7 @@ Template.usereditmodal.events({
     e.preventDefault();
     var errDiv = document.getElementById("editErrUserModal");
     errDiv.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     //TODO: ADD more value validation
     var name = document.getElementById("name");
@@ -29,7 +29,7 @@ Template.usereditmodal.events({
             //console.log(err);
             //return false;
             errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+            errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + '] ' + err.reason + '</li>';
           }
           else {
             // successful call
@@ -39,7 +39,7 @@ Template.usereditmodal.events({
 
     } else {
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a value for the workspace name.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[Missing Value] Please enter a value for the workspace name.</li>';
     }
   }
 });

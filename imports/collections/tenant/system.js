@@ -21,7 +21,7 @@ Meteor.methods({
     //check user is logged
     /*
     if(! this.userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error(500, 'not-authorized');
     }
     */
     var thisws = Workspaces.findOne(ws_id);
@@ -29,10 +29,10 @@ Meteor.methods({
     var snexists = Systems.findOne({"name" : nm });
     var pfexists = Systems.findOne({"prefix" : pf });
     if(snexists) {
-      throw new Meteor.Error("Value Exists", "There was an error processing your request. System name already exists.");
+      throw new Meteor.Error(500, "Value Exists", "There was an error processing your request. System name already exists.");
     }
     else if(pfexists){
-      throw new Meteor.Error("Value Exists", "There was an error processing your request. System prefix already exists.");
+      throw new Meteor.Error(500, "Value Exists", "There was an error processing your request. System prefix already exists.");
     }
 
     // Call Task to get external objects
@@ -90,7 +90,7 @@ Meteor.methods({
     // Check if System has objects, cancel delete if true
     var objectCount = ExternalObjects.find({"system_id": current._id}).count();
     if(objectCount > 0){
-      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
+      throw new Meteor.Error(500, "Existing Dependencies", "There was an error deleting the System. All system objects must be deleted from a system before it can be removed.");
     }
 
     //TODO: Add userid security

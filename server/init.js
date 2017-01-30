@@ -153,14 +153,14 @@ function initDatas(){
     number: 1111,
     email: 'test1email1@email1.com',
     description: 'deets description'
-  }
+  };
 
   var Deeters = {
     name: 'deeters',
     number: 2222,
     email: 'est2email2@email2.com',
     description: 'deeters description'
-  }
+  };
 
   //TODO: FIX SCHEMA
   //Datas.schema.validate(Deets);
@@ -171,9 +171,9 @@ function initDatas(){
     ];
     datas.forEach(function (deet) {
       Datas.insert(deet);
-    })
+    });
   }
-};
+}
 
 function initNavitems(){
 
@@ -186,7 +186,7 @@ function initNavitems(){
     route: '/',
     icon: 'glyphicon-dashboard',
     children: []
-  }
+  };
 
   var SetupChildren = [{
         name: 'Connect',
@@ -238,7 +238,7 @@ function initNavitems(){
     route: '/setup',
     icon: 'glyphicon-wrench',
     children: SetupChildren
-  }
+  };
 
   var DataChildren = [{
         name: 'Analyze',
@@ -279,7 +279,7 @@ function initNavitems(){
         order: 5,
         route: '/data/search',
         icon: 'glyphicon-search'
-      }]
+      }];
 
   var Data = {
     name: 'Data',
@@ -289,7 +289,7 @@ function initNavitems(){
     route: '/data',
     icon: 'glyphicon-cloud',
     children: DataChildren
-  }
+  };
 
   var AdminChildren = [{
           name: 'Tenants',
@@ -322,7 +322,7 @@ function initNavitems(){
         order: 4,
         route: '/admin/agents',
         icon: 'glyphicon-pawn'
-      }]
+      }];
 
   var Admin = {
     name: 'Admin',
@@ -332,7 +332,7 @@ function initNavitems(){
     route: '/admin',
     icon: 'glyphicon-cog',
     children: AdminChildren
-  }
+  };
 
   Navitems.schema.validate(Dashboard);
   Navitems.schema.validate(Setup);
@@ -343,7 +343,7 @@ function initNavitems(){
     var navitems = [ Dashboard, Setup, Data, Admin ];
     navitems.forEach(function (navitem) {
       Navitems.insert(navitem);
-    })
+    });
   }
 }
 
@@ -480,7 +480,7 @@ function initConnectors() {
       value: "StaticList",
       is_encrypted: true
     }
-  ]
+  ];
   //Netsuite
   var ConnectorsSettings2 = [
     {
@@ -523,7 +523,7 @@ function initConnectors() {
       value: "SetExternalId",
       is_encrypted: true
     }
-  ]
+  ];
   //JIRA
   var ConnectorsSettings3 = [
     {
@@ -546,7 +546,7 @@ function initConnectors() {
       value: "BaseURL",
       is_encrypted: true
     },
-  ]
+  ];
 
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[0]);
   ConnectorsSettingsSchema.validate(ConnectorsSettings1[1]);
@@ -633,10 +633,10 @@ function initConnectors() {
     var connectors = [ Netsuite, Marketo, Jira ];//, Salesforce, Vertify ];
     connectors.forEach(function (connector){
       Connectors.insert(connector);
-    })
+    });
   }
 
-};
+}
 
 /* TODO: FIX MOCK DATA FOR DEMO PURPOSES */
 
@@ -906,9 +906,9 @@ function initSystems(){
       var systems = [ Netsuite, Marketo, Jira];//, Salesforce, Vertify ];
       systems.forEach(function (system) {
         Systems.insert(system);
-      })
+      });
     }
-};
+}
 
 function initExternalObjects() {
 
@@ -932,7 +932,7 @@ function initExternalObjects() {
       is_array: false,
       type: "string",
       is_key: false
-    }]
+    }];
 
     var ExternalObjectProperties2 = [{
       name: "Id",
@@ -995,7 +995,7 @@ function initExternalObjects() {
       type: "string",
       is_key: false
     }
-  ]
+  ];
 
   ExternalObjectProperties1.forEach(function(eop1){
     ExternalObjectProperties.schema.validate(eop1);
@@ -1246,7 +1246,7 @@ function initExternalObjects() {
       ];
       external_objects.forEach(function (obj){
         ExternalObjects.insert(obj);
-      })
+      });
     }
 
 }
@@ -1268,11 +1268,11 @@ function initVertifyObjects() {
         value: [{ value: [ "TX", "CA"]}]
       }]
     },
-  }
+  };
   var VertifyObjectExternalObjectOutbound1 = {
     sync_action: ["add","update","delete"],
     filter: null
-  }
+  };
   VertifyObjectExternalObjectInboundSchema.validate(VertifyObjectExternalObjectInbound1);
   VertifyObjectExternalObjectOutboundSchema.validate(VertifyObjectExternalObjectOutbound1);
 
@@ -1280,14 +1280,14 @@ function initVertifyObjects() {
     external_property: "email",
     operator: "eq",
     vertify_property: "Email"
-  }
+  };
   VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup1);
 
   var VertifyObjectMatch1 = {
     operator: "and",
     group: [VertifyObjectMatchGroup1],
     confidence: 100
-  }
+  };
   VertifyObjectMatchSchema.validate(VertifyObjectMatch1);
   //NS Customer
   var VertifyObjectExternalObject1 = {
@@ -1298,7 +1298,7 @@ function initVertifyObjects() {
     match: VertifyObjectMatch1,
     approved: true,
     is_truth: true
-  }
+  };
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject1);
 
   VertifyObjectExternalObjectInbound2 = {
@@ -1330,30 +1330,30 @@ function initVertifyObjects() {
           }]
       }]
     },
-  }
+  };
   VertifyObjectExternalObjectOutbound2 = {
     sync_action: ["add","update","delete"],
     filter: null
-  }
+  };
   VertifyObjectExternalObjectInboundSchema.validate(VertifyObjectExternalObjectInbound2);
   VertifyObjectExternalObjectOutboundSchema.validate(VertifyObjectExternalObjectOutbound2);
 
   var VertifyObjectMatchGroup21 =
-    { external_property: "leadAttributeList.City"
-    , operator: "eq"
-    , vertify_property: "City" }
+    { external_property: "leadAttributeList.City",
+     operator: "eq",
+     vertify_property: "City" };
 
   var VertifyObjectMatchGroup22 =
-    { external_property: "leadAttributeList.FirstName"
-    , operator: "fuzzy"
-    , vertify_property: "FirstName"
-    , confidence: 99 }
+    { external_property: "leadAttributeList.FirstName",
+     operator: "fuzzy",
+     vertify_property: "FirstName",
+     confidence: 99 };
 
   var VertifyObjectMatchGroup23 =
-    { external_property: "leadAttributeList.LastName"
-    , operator: "fuzzy"
-    , confidence: 99
-    , vertify_property: "LastName" }
+    { external_property: "leadAttributeList.LastName",
+     operator: "fuzzy",
+     confidence: 99,
+     vertify_property: "LastName" };
 
   VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup21);
   VertifyObjectMatchGroupSchema.validate(VertifyObjectMatchGroup22);
@@ -1361,18 +1361,18 @@ function initVertifyObjects() {
 
 
   var VertifyObjectMatchGroup11 =
-    { operator: "and"
-    , group: [VertifyObjectMatchGroup21] }
+    { operator: "and",
+      group: [VertifyObjectMatchGroup21] };
   var VertifyObjectMatchGroup12 =
-    { operator: "and"
-    , group: [VertifyObjectMatchGroup22] }
+    { operator: "and",
+      group: [VertifyObjectMatchGroup22] };
   VertifyObjectMatchSchema.validate(VertifyObjectMatchGroup11);
   VertifyObjectMatchSchema.validate(VertifyObjectMatchGroup12);
 
   var VertifyObjectMatch2 =
-    { operator: "and"
-    ,  group: [ VertifyObjectMatchGroup11, VertifyObjectMatchGroup12 ]
-    ,  confidence: 100 }
+    { operator: "and",
+       group: [ VertifyObjectMatchGroup11, VertifyObjectMatchGroup12 ],
+       confidence: 100 };
   VertifyObjectMatchSchema.validate(VertifyObjectMatch2);
 
   //MK Lead
@@ -1384,7 +1384,7 @@ function initVertifyObjects() {
     match: VertifyObjectMatch2,
     approved: true,
     is_truth: false
-  }
+  };
   VertifyObjectExternalObjectsSchema.validate(VertifyObjectExternalObject2);
 
   var VertifyObject = {
@@ -1400,7 +1400,7 @@ function initVertifyObjects() {
     align: false,
     analyze_status: "disabled",
     external_objects: [ VertifyObjectExternalObject1, VertifyObjectExternalObject2 ]
-  }
+  };
 
   //Add to Mongo DB
   VertifyObjects.schema.validate(VertifyObject);
@@ -1454,7 +1454,7 @@ function initVertifyProperties() {
 	        match: null,
 	        is_truth: true,
           approved: true
-	    }
+	    };
     var VertifyPropertyFields2 = {
   	        external_object_id: 1,
   	        external_property_path: "$.properties[?(@.name=='leadAttributeList.FirstName')]",
@@ -1470,7 +1470,7 @@ function initVertifyProperties() {
   	        match: null,
   	        is_truth: true,
             approved: true
-  	    }
+  	    };
 
   var VertifyPropertyFields3 = {
 	        external_object_id: 3,
@@ -1503,7 +1503,7 @@ function initVertifyProperties() {
 	        },
 	        is_truth: false,
           approved: false
-	    }
+	    };
   var VertifyPropertyFields4 = {
 	        external_object_id: 3,
           external_property_path: "lev1.lev2.$.shippingaddress",
@@ -1534,7 +1534,7 @@ function initVertifyProperties() {
 	        },
 	        is_truth: false,
           approved: false
-	    }
+	    };
 
   VertifyPropertyFieldsSchema.validate(VertifyPropertyFields1);
   VertifyPropertyFieldsSchema.validate(VertifyPropertyFields2);
@@ -1579,7 +1579,7 @@ function initVertifyProperties() {
   if(! VertifyProperties.findOne()){
     VertifyProperties.insert(VertifyProperties1);
     VertifyProperties.insert(VertifyProperties2);
-  };
+  }
 
 }
 
@@ -1599,7 +1599,7 @@ function initMatchResults() {
     matched: 25,
     duplicates: 3,
     not_matched: 5000
-  }]
+  }];
 
   matchResultsExternalObjects.forEach(function (eo){
     MatchResultsExternalObjectsSchema.validate(eo);
@@ -1618,7 +1618,7 @@ function initMatchResults() {
     duplicates: 5,
     not_matched: 5000,
     external_objects: matchResultsExternalObjects
-  }
+  };
 
   //Add to DB
   MatchResults.schema.validate(matchResults);
@@ -1646,8 +1646,8 @@ function initAlignResults(){
       {external_object_id: 3,
       external_property_path: "Company",
       is_truth: true
-    }]
-  , alignmentObjectFieldNS = [{
+    }],
+   alignmentObjectFieldNS = [{
     external_object_id: 1,
     external_property_path: "firstname",
     is_truth: false

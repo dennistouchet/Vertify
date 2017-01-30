@@ -49,21 +49,27 @@
             </li>
           </ul>
         </div>
-        <div class="menu_section">
-          <ul class="nav side-menu">
-            <li><span class="clearfix"><a style="display:inline-block;width:100%;" href="/test" ><i class="glyphicon glyphicon-cog"></i> Testing </a><span class="glyphicon glyphicon-chevron-down" data-toggle="collapse" data-target="#childtest"></span></span>
-              <ul id="childtest" class="nav child_menu collapse">
-                <li><a href="/test"><i class="glyphicon glyphicon-tasks"></i> Test 1</a></li>
-                <li><a href="/test2"><i class="glyphicon glyphicon-user"></i> Test 2</a></li>
-                <li><a href="/test3"><i class="glyphicon glyphicon-align-center"></i> Test 3</a></li>
-                <li><a href="/test4"><i class="glyphicon glyphicon-pawn"></i> Test 4</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        {{#if isInRole 'super-admin'}}
+          {{> navtesting}}
+        {{/if}}
       </div>
       <!-- /sidebar menu -->
     </div>
+  </div>
+</template>
+
+<template name="navtesting">
+  <div class="menu_section">
+    <ul class="nav side-menu">
+      <li><span class="clearfix"><a style="display:inline-block;width:100%;" href="/test" ><i class="glyphicon glyphicon-cog"></i> Testing </a><span class="glyphicon glyphicon-chevron-down" data-toggle="collapse" data-target="#childtest"></span></span>
+        <ul id="childtest" class="nav child_menu collapse">
+          <li><a href="/test"><i class="glyphicon glyphicon-tasks"></i> Test 1</a></li>
+          <li><a href="/test2"><i class="glyphicon glyphicon-user"></i> Test 2</a></li>
+          <li><a href="/test3"><i class="glyphicon glyphicon-align-center"></i> Test 3</a></li>
+          <li><a href="/test4"><i class="glyphicon glyphicon-pawn"></i> Test 4</a></li>
+        </ul>
+      </li>
+    </ul>
   </div>
 </template>
 

@@ -21,7 +21,7 @@ Template.addsystem.helpers({
     var connid = Session.get("connId");
     if(connid)
     {
-      return true
+      return true;
     }
     return false;
   },
@@ -36,7 +36,7 @@ Template.addsystem.helpers({
 
 Template.addsystem.events({
   'click .sysinfoddl li a' : function(e, t){
-    var conn = $(e.target)
+    var conn = $(e.target);
     var id = conn.attr("data-value");
     console.log("data-value: " + id);
     if(id)

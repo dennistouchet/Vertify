@@ -1,7 +1,7 @@
 Meteor.users.allow({
   //TODO: SET THESE UP TO SEND USER TO UNAUTHORIZED PAGE
   insert: function(userId){
-    var currentUser = Meteor.userId()
+    var currentUser = Meteor.userId();
     if(currentUser){
         var user = Meteor.users.findOne(currentUser);
         if(user){
@@ -11,7 +11,7 @@ Meteor.users.allow({
     return false;
   },
   update: function(userId){
-    var currentUser = Meteor.userId()
+    var currentUser = Meteor.userId();
     if(currentUser){
         var user = Meteor.users.findOne(currentUser);
         if(user){
@@ -23,7 +23,7 @@ Meteor.users.allow({
   remove: function(userId){
     //console.log("param userId", userId);
     //console.log("current user id:", Meteor.userId());
-    var currentUser = Meteor.userId()
+    var currentUser = Meteor.userId();
     if(currentUser){
         var user = Meteor.users.findOne(currentUser);
         if(user){

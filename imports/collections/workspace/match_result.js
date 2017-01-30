@@ -15,7 +15,7 @@ Meteor.methods({
       return MatchResults.remove({"workspace_id": ws_id, "vertify_object_id": vo_id});
 
     console.log("match results remove finished");
-    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
+    //throw new Meteor.Error(500, "Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
   },
 });
 

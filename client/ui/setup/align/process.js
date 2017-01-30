@@ -37,10 +37,10 @@ Template.alignprocess.helpers({
   },
   properties(){
     //TODO:
-    return null;
+    return;
   },
   getVertifyObjectName: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Template.instance().vo_id.get();
     if(ws && id){
       var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
@@ -70,9 +70,9 @@ Template.alignprocess.events({
     console.log('Align Process - align event clicked.');
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     var id = Template.instance().vo_id.get();
     var vo = VertifyObjects.findOne(id);
 
@@ -83,7 +83,7 @@ Template.alignprocess.events({
         if(err){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Align Results Error: </span>[ remove " + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Align Results Error: </span>[ remove ' + err.error + '] ' + err.reason + '</li>';
           //return false;
           return;
         }
@@ -94,7 +94,7 @@ Template.alignprocess.events({
             if(error){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ aligntest " + error.error + "] " + error.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ aligntest ' + error.error + '] ' + error.reason + '</li>';
               //return false;
               return;
             }
@@ -106,7 +106,7 @@ Template.alignprocess.events({
       });
     }else{
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Values ] Please click cancel and retry the alignment.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Missing Values ] Please click cancel and retry the alignment.</li>';
     }
   },
   'click .back': function(e){
@@ -121,7 +121,7 @@ Template.alignprocess.events({
 
 Template.alignprocessalign.helpers({
   taskComplete: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     complete = false;
@@ -134,13 +134,13 @@ Template.alignprocessalign.helpers({
     return complete;
   },
   align_results(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id =Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
         return AlignResults.findOne({"workspace_id": ws._id, "vertify_object_id": vo._id});
     }
-    return null;
+    return;
   },
   approvedPropertyCount(id){
     var AR = AlignResults.findOne(id);
@@ -154,7 +154,7 @@ Template.alignprocessalign.helpers({
     return count;
   },
   getVertifyPropertyName: function(vp_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo && vp_id){
@@ -166,13 +166,13 @@ Template.alignprocessalign.helpers({
     return "no name";
   },
   getExternalObjectName: function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws && eo_id){
       var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
       if(eo)
         return eo.name;
     }
-    return null;
+    return;
   }
 });
 
@@ -181,9 +181,9 @@ Template.alignprocessalign.events({
     console.log('Align Process - input changed.');
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
@@ -206,7 +206,7 @@ Template.alignprocessalign.events({
               if(err){
                 //console.log(err);
                 errDiv.style.display = 'block';
-                errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+                errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ AlignResult ' + err.error + '] ' + err.reason + '</li>';
                 //return false;
               }else {
                 //success
@@ -220,13 +220,13 @@ Template.alignprocessalign.events({
     }
     else{
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Missing Value ] Please verify that a workspace has been selected. If this error persists, return to the previous screen and try again.</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Missing Value ] Please verify that a workspace has been selected. If this error persists, return to the previous screen and try again.</li>';
     }
   },
   'click .viewAlignment' : function(e){
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     FlowRouter.go('/setup/align/results?id=' + Meteor.tools.getQueryParamByName("id"));
   },
@@ -234,10 +234,10 @@ Template.alignprocessalign.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     var vertifyobjectid = Meteor.tools.getQueryParamByName("id");
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var vo = VertifyObjects.findOne(vertifyobjectid,{"workspace_id":ws._id});
     if(ws && vo)
     {
@@ -262,7 +262,7 @@ Template.alignprocessalign.events({
             if(err){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ AlignResult " + err.error + "] " + err.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ AlignResult ' + err.error + '] ' + err.reason + '</li>';
               //return false;
               err = true;
             }else {

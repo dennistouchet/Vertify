@@ -99,7 +99,7 @@ Meteor.methods({
 
     }
     else{
-      throw new Meteor.Error("Vertify Object not Found", "The object with vo_id: " +  vo_id + " could not be found.");
+      throw new Meteor.Error(500, "Vertify Object not Found", "The object with vo_id: " +  vo_id + " could not be found.");
     }
 
     vo.external_objects.forEach(function(eo){
@@ -175,7 +175,7 @@ Meteor.methods({
       }
     }
     else{
-      throw new Meteor.Error("Vertify Object not Found", "The object with id: " +  id + " could not be found.");
+      throw new Meteor.Error(500, "Vertify Object not Found", "The object with id: " +  id + " could not be found.");
     }
   },
   'vertify_objects.update'(ws_id, id){
@@ -186,7 +186,7 @@ Meteor.methods({
     if(current)
       return VertifyObjects.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo_id);
+    throw new Meteor.Error(500, "Missing Value", "No Vertify Object found in Workspace: " + ws_id + " with ID: " + vo_id);
   },
   'vertify_objects.removeAll'(ws_id){
     check(ws_id, String);

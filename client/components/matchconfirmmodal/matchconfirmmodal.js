@@ -27,7 +27,7 @@ Template.matchconfirmmodal.helpers({
     return VertifyObjects.findOne(vo_id);
   },
   match_results(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var vo_id = Session.get("selectedVertifyObject");
     var id = Meteor.tools.getQueryParamByName("id");
     console.log("If id exists - TODO: replace session variable with: ", id);
@@ -36,7 +36,7 @@ Template.matchconfirmmodal.helpers({
     }
   },
   systemOfTruth: function(id){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     var sot = "No SOT";
     if(ws ){
       var MR = MatchResults.findOne({"workspace_id": ws._id});
@@ -52,7 +52,7 @@ Template.matchconfirmmodal.helpers({
     return sot;
   },
   systemOfTruthRecords: function(id){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     var sot = "No Records found";
     if(ws ){
       var MR = MatchResults.findOne({"workspace_id": ws._id});
@@ -66,7 +66,7 @@ Template.matchconfirmmodal.helpers({
     return sot;
   },
   getExternalObjectInfo: function(id){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     var sot = "External object error";
     if(ws){
       var MR = MatchResults.findOne({"workspace_id": ws._id});
@@ -86,7 +86,7 @@ Template.matchconfirmmodal.helpers({
     return sot;
   },
   getExternalObjectName: function(id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var eo = ExternalObjects.findOne(id, {"workspace_id": ws._id});
       if(eo)
@@ -100,11 +100,11 @@ Template.matchconfirmmodal.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     id = Session.get("selectedVertifyObject");
     vo = VertifyObjects.findOne(id);
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     if(ws && vo){
 
       Meteor.tools.updateVertifyObjectStatus(ws._id, vo._id, 'match', false);
@@ -114,7 +114,7 @@ Template.matchconfirmmodal.events({
         if(error){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ Match ' + error.error + '] ' + error.reason + '</li>';
           return;
         }
         else {
@@ -126,7 +126,7 @@ Template.matchconfirmmodal.events({
              if(error){
                //console.log(err);
                errDiv.style.display = 'block';
-               errDiv.innerHTML = errDiv.innerHTML + "<li><span>Update Error: </span>[ Match " + error.error + "] " + error.reason + "</li>";
+               errDiv.innerHTML = errDiv.innerHTML + '<li><span>Update Error: </span>[ Match ' + error.error + '] ' + error.reason + '</li>';
                return;
              }
              else {

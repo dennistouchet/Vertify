@@ -11,7 +11,7 @@ var MDict = [];
 
 Template.matchresults.onCreated(function(){
   var vo_id = FlowRouter.getQueryParam("id");
-  var ws = Session.get("currentWs");
+  var ws = Session.get('currentWs');
 
   if(ws && vo_id){
     console.log("Match/Results onCreated entered.");
@@ -43,7 +43,7 @@ Template.matchresults.onCreated(function(){
       (err, res) => {
       if(err){
           //TODO: error
-          console.log("Publish error",err.error,err.reason);
+          console.log("Publish error",err.error,err.reason,err.details);
       }else{
         // NOTE: the publication of match results is limited to ACTUAL matches
         // not ALL match results
@@ -60,14 +60,14 @@ Template.matchresults.onCreated(function(){
 
 Template.matchresults.helpers({
   vertify_obj(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws)
     {
-      return vertify_obj = VertifyObjects.findOne({"workspace_id": ws._id});
+      return VertifyObjects.findOne({"workspace_id": ws._id});
     }
   },
   match_data(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws)
     {
       var vo_id = Template.instance().vertify_object_id.get();
@@ -78,12 +78,13 @@ Template.matchresults.helpers({
     }
   },
   matchedDataCount: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var vo_id = Template.instance().vertify_object_id.get();
       var name = Template.instance().workspace_id.get() + "_" + vo_id;
+      var md;
       if(MDict[name])
-        var md = MDict[name].find({"workspace_id": ws._id, "vertify_object_id": vo_id, num_links: {$gt: 1}});
+        md = MDict[name].find({"workspace_id": ws._id, "vertify_object_id": vo_id, num_links: {$gt: 1}});
       if(md)
         return md.count();
     }

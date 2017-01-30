@@ -29,13 +29,13 @@ Template.main.onCreated(function(){
       if(typeof user.config != 'undefined'){
         var ws = Workspaces.findOne(user.config.workspace);
         if(ws){
-          Session.set("currentWs", ws);
+          Session.set('currentWs', ws);
         }
         else{
           var ws = Workspaces.findOne({}, {
             sort: {order : -1}
           });
-          Session.set("currentWs", ws);
+          Session.set('currentWs', ws);
         }
       }
       else{
@@ -57,7 +57,7 @@ Template.main.onCreated(function(){
     ws = Workspaces.findOne({}, {
       sort: {order : -1,}
     });
-    Session.set("currentWs", ws);
+    Session.set('currentWs', ws);
     console.log("Session set to:");
     console.log(ws);
   }*/

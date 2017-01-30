@@ -6,7 +6,7 @@ import './loading.html';
 Template.matchloading.helpers({
   //TODO: this needs to be updated to be by VERTIFY OBJECT ID as well
     task(){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       var vo_id = FlowRouter.getQueryParam("id");
       if(ws && vo_id){
         var task = Tasks.findOne({"workspace_id": ws._id, "vertify_object_id": vo_id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
@@ -14,7 +14,7 @@ Template.matchloading.helpers({
       }
     },
     isComplete: function(){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       var vo_id = FlowRouter.getQueryParam("id");
       if(ws && vo_id){
         var tasks = Tasks.find({"workspace_id": ws._id, "vertify_object_id": vo_id, "task": "match"}, {sort: { "created": -1 }, limit: 1});
@@ -37,4 +37,4 @@ Template.matchloading.events({
     console.log('Loading - toMatch clicked');
     FlowRouter.go('/setup/match/');
   }
-})
+});

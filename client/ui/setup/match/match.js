@@ -23,7 +23,7 @@ Template.match.onCreated(function(){
 
 Template.match.helpers({
   isValid: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return Meteor.tools.collectStatus(ws._id);
     }else{
@@ -31,7 +31,7 @@ Template.match.helpers({
     }
   },
   hasWorkspace: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       console.log("Match - current workspace: " + ws.name);
       return ws.name;
@@ -40,7 +40,7 @@ Template.match.helpers({
     return "No Workspace selected.";
   },
   hasSystems : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var has = false;
     if(ws) {
       var sys = Systems.find({"workspace_id": ws._id});
@@ -50,7 +50,7 @@ Template.match.helpers({
     return has;
   },
   hasEnoughObject : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var has = false;
     if(ws) {
       var count = ExternalObjects.find({"workspace_id": ws._id}).count;
@@ -60,7 +60,7 @@ Template.match.helpers({
     return has;
   },
   hasVertifyObjects : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
     var count = VertifyObjects.find({"workspace_id": ws._id}).count();
     if(count > 0)
@@ -69,7 +69,7 @@ Template.match.helpers({
     return false;
   },
   vertifyObjectCount : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var count = VertifyObjects.find({"workspace_id": ws._id}).count();
       return count.toString() + " objects";
@@ -77,7 +77,7 @@ Template.match.helpers({
     return false;
   },
   matchCompleted : function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var count = VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
       if(count > 0)
@@ -96,8 +96,8 @@ Template.match.events({
   'click .voddl li a' : function(e, t){
     var errDiv = document.getElementById("addErrMatch");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
-    var ws = Session.get("currentWs");
+    errDiv.innerHtml = ''; //reset errors
+    var ws = Session.get('currentWs');
 
     if(e.target.text.trim() == 'Match')
     {
@@ -119,20 +119,20 @@ Template.match.events({
 
       if(count > 0){
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>';
       }
       else{
-      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo._id
-      , (err, res) => {
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo._id,
+       (err, res) => {
         if(err){
           //console.log(err);
           //TODO: improve with error Template
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Task ' + err.error + err.reason + ' ] ' + err.details + '</li>';
         }else{
           console.log("Task deletevertifyobject called");
           //success
-          //TODO This should be done and elixir monitors and dleetes data
+          //TODO This should be done by engine. Elixir monitors and deletes data
           /*
           Meteor.call('vertify_objects.remove', ws._id, this._id
           , (error, result) => {
@@ -140,7 +140,7 @@ Template.match.events({
               //console.log(err);
               //TODO: T
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + error.error + "] " + error.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + error.error + '] ' + error.reason + '</li>';
             }else{
               //success
               //TODO Need a call to remove
@@ -170,30 +170,30 @@ Template.matchcomplete.events({
 
 Template.matchvertifyobjecttable.helpers({
   vertify_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return VertifyObjects.find({"workspace_id": ws._id});
     }
-    return null;
+    return;
   },
   external_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return ExternalObjects.find({"workspace_id": ws._id});
     }
-    return null;
+    return;
   },
 });
 
 Template.matchvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id, {"workspace_id": ws._id});
     var sys = Systems.findOne(eo.system_id, {"workspace_id": ws._id});
     return sys.name + "-" + eo.name;
   },
   getExternalObjectRecords : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     return eo.record_count;
   },

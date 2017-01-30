@@ -13,17 +13,17 @@ Template.confirmmodal.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     if(ws && vo){
       //TODO
 
     }else{
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Fix " + type + " unknown ] unrecognized task type</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ Fix " + type + " unknown ] unrecognized task type</li>';
     }
   },
 });

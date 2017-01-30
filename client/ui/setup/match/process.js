@@ -29,7 +29,7 @@ Template.matchprocess.helpers({
     return Template.instance().currentPage.get();
   },
   getVertifyObjectName: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Template.instance().vo_id.get();
     if(ws && id){
       var vo = VertifyObjects.findOne(id, {"workspace_id": ws._id});
@@ -59,29 +59,29 @@ Template.matchprocess.events({
     console.log('Process - match event clicked.');
     var errDiv = document.getElementById("addErrMatch");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
-    ws = Session.get("currentWs");
-    var id = Template.instance().vo_id.get()
+    ws = Session.get('currentWs');
+    var id = Template.instance().vo_id.get();
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
       Meteor.tools.updateVertifyObjectStatus( ws._id, vo._id, 'matchtest', false);
-      Meteor.call('match_results.remove', ws._id, vo._id
-      , (error, result) => {
+      Meteor.call('match_results.remove', ws._id, vo._id,
+       (error, result) => {
         if(error){
           //console.log(err);
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Match Results Error: </span>[ remove " + error.error + "] " + error.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Match Results Error: </span>[ remove ' + error.error + error.reason + ' ] ' + error.details + '</li>';
           //return false;
           return;
         }
         else {
-          Meteor.call('tasks.insert', "matchtest", ws._id, vo._id
-          , (err, res) => {
+          Meteor.call('tasks.insert', "matchtest", ws._id, vo._id,
+           (err, res) => {
             if(err){
               //console.log(err);
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ matchtest " + err.error + "] " + err.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ matchtest ' + err.error + err.reason + ' ] ' + err.details + '</li>';
               //return false;
               return;
             }
@@ -104,7 +104,7 @@ Template.matchprocess.events({
 
 Template.matchprocessmatch.helpers({
   taskComplete: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     complete = false;
@@ -118,7 +118,7 @@ Template.matchprocessmatch.helpers({
     return complete;
   },
   match_results(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
@@ -126,7 +126,7 @@ Template.matchprocessmatch.helpers({
     }
   },
   getExternalObjectNameById: function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id);
     console.log(eo);
     if(ws && eo){
@@ -138,7 +138,7 @@ Template.matchprocessmatch.helpers({
     return "External Object Name";
   },
   getVertifyObjectNameById: function(vo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws && vo_id){
       console.log("id: " + vo_id + " | " + "ws: " + ws._id);
       var vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws._id});
@@ -148,7 +148,7 @@ Template.matchprocessmatch.helpers({
     //TODO: throw error
     return "Vertify Object Name";
   },
-})
+});
 
 Template.matchprocessmatch.events({
   'click .returnToList' : function(e){
@@ -167,7 +167,7 @@ Template.matchprocessmatch.events({
       e.preventDefault();
       var id = Meteor.tools.getQueryParamByName("id");
       var vo = VertifyObjects.findOne(id);
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
 
       //NOTE: MATCH RESULTS are created by Elixir/Mongo and use ObjectId for _id instead of String
       var matchresults = MatchResults.findOne({"workspace_id":ws._id, "vertify_object_id": vo._id});

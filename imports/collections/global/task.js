@@ -137,7 +137,7 @@ Meteor.methods({
         return task.update(tsk._id, {$set: {'status': s}});
     }
 
-    throw new Meteor.Error("Missing Value", "Task not found for workspace: " + ws_id + " and task id: " + "t_id")
+    throw new Meteor.Error(500, "Missing Value", "Task not found for workspace: " + ws_id + " and task id: " + "t_id")
   }
 });
 

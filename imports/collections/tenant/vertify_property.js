@@ -138,7 +138,7 @@ Meteor.methods({
     if(current)
       return VertifyProperties.remove(current._id);
 
-    throw new Meteor.Error("Missing Value", "No Vertify Property with _id: " + vp_id);
+    throw new Meteor.Error(500, "Missing Value", "No Vertify Property with _id: " + vp_id);
   },
 })
 

@@ -14,7 +14,7 @@ Meteor.methods({
     //check user is logged
     /*
     if(! this.userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error(500, 500, 'not-authorized');
     }
     */
     var newDatas = {
@@ -22,7 +22,7 @@ Meteor.methods({
       number: no,
       email: e,
       description: d,
-    }
+    };
 
     Data.schema.validate(newDatas);
     Datas.insert(newDatas);
@@ -37,7 +37,7 @@ Meteor.methods({
     check(e, String);
     check(d, String);
 
-    Datas.update(id, {$set: {name: n, number: no, email: e, description: d}})
+    Datas.update(id, {$set: {name: n, number: no, email: e, description: d}});
   },
 });
 
@@ -56,4 +56,4 @@ Datas.allow({
   insert: function(){
     return true;
   }
-})
+});

@@ -2,7 +2,7 @@
   <section class="right_col" role="main" style="height:900px;">
     <div class="row">
       <h1 class="page_title">Tenant Management</h1>
-      <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
+      <div id="addErrTenant" class="alert alert-danger" style="display:none;"></div>
       {{#if isInRole 'super-admin'}}
         <div class="clearfix">
           {{> tenantadministration}}
@@ -37,12 +37,12 @@
         <input id="name" type="text" class="form-control" name="name" value="" autofocus/>
         <label for="license">License</label>
         <div class="input-group">
-          <input id="text" type="text" class="form-control" name="system"/>
+          <input id="license" type="text" class="form-control" name="system"/>
           <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" ><span class="caret"></span></button>
-              <ul class="dropdown-menu dropdown-menu-right">
+              <ul class="dropdown-menu dropdown-menu-right licenseddl">
                 {{#each license in licenses}}
-                  <li>{{license}}</li>
+                  <li><a>{{license}}</a></li>
                 {{/each}}
               </ul>
           </div><!-- /btn-group -->

@@ -1,21 +1,21 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
-import { Tasks } from '../../../../imports/collections/global/task.js'
+import { Tasks } from '../../../../imports/collections/global/task.js';
 
 import './fix.html';
 
 Template.fix.helpers({
   vertify_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var vo = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"});
       return vo;
     }
-    return null;
+    return;
   },
   hasObjects: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var valid = false;
     if(ws){
       var count = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"}).count();
@@ -26,7 +26,7 @@ Template.fix.helpers({
     return valid;
   },
   complete: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var complete = false;
     if(ws){
       return complete;
@@ -51,18 +51,18 @@ Template.fix.events({
 
 Template.fixvertifyobjecttable.helpers({
   vertify_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var vo = VertifyObjects.find({"workspace_id": ws._id, "analyze_status": "enabled"});
       return vo;
     }
-    return null;
+    return;
   },
 });
 
 Template.fixvertifyobjectrow.helpers({
   getRecordCountVo : function(vo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var vo = VertifyObjects.findOne(vo_id,{"workspace_id": ws._id});
     var eos = [];
     vo.external_objects.forEach(function(eo){
@@ -76,7 +76,7 @@ Template.fixvertifyobjectrow.helpers({
     return count;
   },
   getRecordCountEo : function(vo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var vo = VertifyObjects.findOne(vo_id,{"workspace_id": ws._id});
     var count = 0;
     vo.external_objects.forEach(function(eo){

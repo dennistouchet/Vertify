@@ -1,6 +1,6 @@
 import { Template } from 'meteor/templating';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
-import { Tasks } from '../../../../imports/collections/global/task.js'
+import { Tasks } from '../../../../imports/collections/global/task.js';
 import { FixUnmatchedRecords } from '../../../../imports/collections/workspace/unmatched_record.js';
 
 import './records.html';
@@ -29,7 +29,7 @@ Template.fixrecords.helpers({
     return running;
   },
   getVertifyObjectName: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var id = FlowRouter.getQueryParam("id");
     var vo = VertifyObjects.findOne(id);
     if(ws && vo){
@@ -42,50 +42,50 @@ Template.fixrecords.helpers({
 Template.fixrecords.events({
   'click .returnToSummary': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     FlowRouter.go('/data/fix');
   },
   'click .selectAll': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Select/Unselect functionality is unsupported</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Happy Path ] Currently Select/Unselect functionality is unsupported</li>';
   },
   'click .action': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Action functionality is unsupported</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Happy Path ] Currently Action functionality is unsupported</li>';
   },
   'click .fix': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Fix functionality is unsupported</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Happy Path ] Currently Fix functionality is unsupported</li>';
   },
   'click .export': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Export functionality is unsupported</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Happy Path ] Currently Export functionality is unsupported</li>';
   },
   'click .addCol': function(e){
     var errDiv = document.getElementById("addErrRecords");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none";
 
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Happy Path ] Currently Add Column functionality is unsupported</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Happy Path ] Currently Add Column functionality is unsupported</li>';
   }
 });
 

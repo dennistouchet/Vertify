@@ -13,7 +13,7 @@ Template.fixconfirmmodal.onCreated(function(){
 
 Template.fixconfirmmodal.helpers({
   vertify_object(){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     var vo_id = Template.instance().vo_id.get();
     console.log(vo_id);
     if(ws && vo_id){
@@ -23,7 +23,7 @@ Template.fixconfirmmodal.helpers({
     }
   },
   getRecords: function(vo_id){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     if(ws && vo_id){
       vo = VertifyObjects.findOne(vo_id, {"workspace_id": ws._id});
       if(vo){
@@ -36,7 +36,7 @@ Template.fixconfirmmodal.helpers({
     }
   },
   getSystemNames: function(eo_id){
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     if(ws && eo_id){
       eo = ExternalObjects.findOne(eo_id, {"workspace_id": ws._id});
       if(eo)
@@ -58,11 +58,11 @@ Template.fixconfirmmodal.events({
     e.preventDefault();
     var errDiv = document.getElementById("addErrModal");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     var id = Meteor.tools.getQueryParamByName("id");
     var vo = VertifyObjects.findOne(id);
-    ws = Session.get("currentWs");
+    ws = Session.get('currentWs');
     if(ws && vo){
       vo = VertifyObjects.findOne(vo._id,{"workspace_id": ws._id});
       var type = Session.get("fixType");
@@ -75,7 +75,7 @@ Template.fixconfirmmodal.events({
           if(error){
             //console.log(err);
             errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + error.error + "] " + error.reason + "</li>";
+            errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ Analyze ' + error.error + '] ' + error.reason + '</li>';
             //return false;
             return;
           }
@@ -91,7 +91,7 @@ Template.fixconfirmmodal.events({
           if(error){
             //console.log(err);
             errDiv.style.display = 'block';
-            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Analyze " + error.error + "] " + error.reason + "</li>";
+            errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ Analyze ' + error.error + '] ' + error.reason + '</li>';
             //return false;
             return;
           }
@@ -103,11 +103,11 @@ Template.fixconfirmmodal.events({
         });
       }else{
       errDiv.style.display = 'block';
-      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Task Error: </span>[ Fix " + type + " unknown ] unrecognized task type</li>";
+      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Task Error: </span>[ Fix ' + type + ' unknown ] unrecognized task type</li>';
       }
 
     }
     errDiv.style.display = 'block';
-    errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error missing vo or id</li>";
+    errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error missing vo or id</li>';
   },
 });

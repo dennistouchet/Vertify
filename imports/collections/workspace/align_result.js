@@ -28,7 +28,7 @@ Meteor.methods({
     }
     else{
       //throw error
-      throw new Meteor.Error("Missing Value", "There was an error processing your request. The Align Results value does not exist.");
+      throw new Meteor.Error(500, "Missing Value", "There was an error processing your request. The Align Results value does not exist.");
     }
     AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
 
@@ -51,7 +51,7 @@ Meteor.methods({
     }
     else{
       //throw error
-      throw new Meteor.Error("Missing Value", "There was an error processing your request. The Align Results Friendly Name value does not exist.");
+      throw new Meteor.Error(500, "Missing Value", "There was an error processing your request. The Align Results Friendly Name value does not exist.");
     }
 
     var _id = AlignResults.update(thisAr._id, {$set: {alignment_properties: thisAr.alignment_properties}});
@@ -67,7 +67,7 @@ Meteor.methods({
       return AlignResults.remove({"workspace_id": ws_id, "vertify_object_id": vo_id});
 
     console.log("align results remove finished");
-    //throw new Meteor.Error("Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
+    //throw new Meteor.Error(500, "Missing Value", "No Match Results found in Workspace: " + ws_id + " with ID: " + vo);
   },
 })
 

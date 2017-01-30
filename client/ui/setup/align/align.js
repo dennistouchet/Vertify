@@ -2,7 +2,7 @@ import { Template } from 'meteor/templating';
 import { Systems } from '../../../../imports/collections/tenant/system.js';
 import { ExternalObjects } from '../../../../imports/collections/tenant/external_object.js';
 import { VertifyObjects } from '../../../../imports/collections/tenant/vertify_object.js';
-import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js'
+import { VertifyProperties } from '../../../../imports/collections/tenant/vertify_property.js';
 
 import './align.html';
 
@@ -22,7 +22,7 @@ Template.align.onCreated(function(){
 
 Template.align.helpers({
   hasObjects: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var valid = false;
     if(ws){
       var count = VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
@@ -33,7 +33,7 @@ Template.align.helpers({
     return valid;
   },
   isAligned: function(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     return Meteor.tools.alignStatus(ws._id);
   },
 });
@@ -42,11 +42,11 @@ Template.align.events({
   'click .toMatch': function(){
     FlowRouter.go('/setup/match');
   }
-})
+});
 
 Template.aligncomplete.helpers({
  vertifyObjectCount: function(){
-   var ws = Session.get("currentWs");
+   var ws = Session.get('currentWs');
    if(ws){
      return VertifyObjects.find({"workspace_id": ws._id, "match": true}).count();
    }
@@ -61,7 +61,7 @@ Template.aligncomplete.events({
 
 Template.alignvertifyobjecttable.helpers({
   vertify_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       //TODO: figure out how to check if approved
       return VertifyObjects.find({"workspace_id": ws._id, "match": true});
@@ -69,26 +69,26 @@ Template.alignvertifyobjecttable.helpers({
     return VertifyObjects.find();
   },
   vertify_properties(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       //TODO: figure out how to check if approved
       return VertifyProperties.find({"workspace_id": ws._id});
     }
     //TODO: remove this once align is complete
-    return VertifyProperties.find();;
+    return VertifyProperties.find();
   },
   external_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return ExternalObjects.find({"workspace_id": ws._id});
     }
-    return null;
+    return;
   },
 });
 
 Template.alignvertifyobjectrow.helpers({
   getExternalObjectName : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     var sys = Systems.findOne(eo.system_id,{"workspace_id": ws._id});
     if(ws && eo && sys){
@@ -96,7 +96,7 @@ Template.alignvertifyobjectrow.helpers({
     }
   },
   getExternalObjectRecords : function(eo_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var eo = ExternalObjects.findOne(eo_id,{"workspace_id": ws._id});
     return eo.record_count;
   },
@@ -106,7 +106,7 @@ Template.alignvertifyobjectrow.events({
   'click .voddl li a' : function(e, t){
     var errDiv = document.getElementById("addErrAlign");
     errDiv.style.display = 'none';
-    errDiv.innerHTML = ""; //reset errors
+    errDiv.innerHtml = ''; //reset errors
 
     console.log("dropdown event clicked:");
     console.log(e.target);
@@ -123,16 +123,16 @@ Template.alignvertifyobjectrow.events({
 
       if(count > 0){
         errDiv.style.display = 'block';
-        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>";
+        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Existing Dependencies ] Must delete all Vertify Properties before deleting a Vertify Object. </li>';
       }
       else{
-      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo._id
-      , (err, res) => {
+      Meteor.call('tasks.insert', 'deletevertifyobject', ws._id, vo._id,
+       (err, res) => {
         if(err){
           //console.log(err);
           //TODO: improve with error Template
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Task " + err.error + "] " + err.reason + "</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Task ' + err.error + '] ' + err.reason + '</li>';
         }else{
           console.log("Task deletevertifyobject called");
           //success
@@ -144,7 +144,7 @@ Template.alignvertifyobjectrow.events({
               //console.log(err);
               //TODO: T
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + error.error + "] " + error.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + error.error + '] ' + error.reason + '</li>';
             }else{
               //success
               //TODO Need a call to remove
@@ -161,4 +161,4 @@ Template.alignvertifyobjectrow.events({
       console.log(e.target.text);
     }
   },
-})
+});

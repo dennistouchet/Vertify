@@ -16,14 +16,14 @@ Meteor.methods({
     //check user is logged
     /*
     if(! this.userId) {
-      throw new Meteor.Error('not-authorized');
+      throw new Meteor.Error(500, 'not-authorized');
     }
     */
     var thisws = Workspaces.findOne(ws_id);
     var t_id = thisws.tenant_id;
     var objectExists = ExternalObjects.findOne({"system_id": sys_id, "name": n})
     if(objectExists){
-      throw new Meteor.Error("Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
+      throw new Meteor.Error(500, "Duplicate Object", "There was an error inserting the External Object. The object already exists in the system.");
     }
 
     //TODO: remove once mock data isn't needed
@@ -49,7 +49,7 @@ Meteor.methods({
 
     if(sysExtObj == null){
       console.log("No external object: " + n + "found in system: " + sys_id);
-      throw new Meteor.Error("Missing Value", "No external object: " + n + "found in system: " + sys_id);
+      throw new Meteor.Error(500, "Missing Value", "No external object: " + n + "found in system: " + sys_id);
     }
 
 
@@ -94,7 +94,7 @@ Meteor.methods({
     //TODO: verify object doesn't exist in map/align
     var objectCount = VertifyObjects.find({"workspace_id": ws_id}).count();
     if(objectCount > 0){
-      throw new Meteor.Error("Existing Dependencies", "There was an error deleting the External Object. All Vertify Objects must be deleted from a system before it can be removed.");
+      throw new Meteor.Error(500, "Existing Dependencies", "There was an error deleting the External Object. All Vertify Objects must be deleted from a system before it can be removed.");
     }
 
     var current = ExternalObjects.findOne(currentid);
@@ -114,7 +114,7 @@ Meteor.methods({
         );
     }
     else{
-      throw new Meteor.Error("External Object not Found", "The object with id: " +  eo_id + " could not be found.");
+      throw new Meteor.Error(500, "External Object not Found", "The object with id: " +  eo_id + " could not be found.");
     }
   },
   'external_objects.removeAll'(ws_id){

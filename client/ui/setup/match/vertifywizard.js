@@ -16,8 +16,8 @@ Template.vertifywizard.onCreated( function() {
 
   //KEEP TRACK OF THE CURRENT VERTIFY OBJECT SETUP PROCESS -incomplete
   delete Session.keys['setupId'];
-  var ws = Session.get("currentWs");
-  if(ws == null){
+  var ws = Session.get('currentWs');
+  if(ws === 'undefined'){
     return false;
   }
   // Set to Select step for workspaces with no Vertify Objects
@@ -46,7 +46,7 @@ Template.vertifywizard.helpers({
       "vwRecords":[],
       "vwMatch":[],
       "vwFinish":[]
-    }
+    };
 
     return data[tab];
   },
@@ -71,12 +71,12 @@ Template.vertifywizard.events({
   },
   'click .next' : function(e,t){
     var tnt = Session.get("currentTnt");
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var steps = [ 'vwStart', 'vwSelect', 'vwFilter', 'vwMatch', 'vwFinish' ];
     var tab = Template.instance().currentTab.get();
     var index = null;
     var errDiv = document.getElementById("addErrMatch");
-    errDiv.innerHTML = "";
+    errDiv.innerHtml = '';
     errDiv.style.display = "none"; //reset errors
     var errors = 0;
 
@@ -99,23 +99,23 @@ Template.vertifywizard.events({
         // CREATE FUNCTION IN METEOR.TOOLS
         var sot = document.querySelector('input[name="truthRadio"]:checked');
         if(vname && sot.id){
-          Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, sot.id
-          , (err, res) => {
+          Meteor.call('match_setup.finishedit', msId, ws._id, steps[index -1], vname, sot.id,
+           (err, res) => {
             if(err){
               //console.log(err);
               //TODO: improve with error Template
               errDiv.style.display = 'block';
-              errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+              errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
               return;
             }
             else{
               //SUCCESS
-              Meteor.tools.convertMatchSetuptoVertifyObj(ws._id, msId
-              , (error, result) => {
+              Meteor.tools.convertMatchSetuptoVertifyObj(ws._id, msId,
+               (error, result) => {
                 if(error){
                   //TODO: improve with error Template
                   errDiv.style.display = 'block';
-                  errDiv.innerHTML = errDiv.innerHTML + "<li><span>Insert Error: </span>[" + error.error + "] " + error.reason + "</li>";
+                  errDiv.innerHTML = errDiv.innerHTML + '<li><span>Insert Error: </span>[' + error.error + error.reason + ' ] ' + error.details + '</li>';
                 }
                 else{
                   console.log("Vertify Object Creation successful");
@@ -127,7 +127,7 @@ Template.vertifywizard.events({
         }else{
           //TODO: improve with error Template
           errDiv.style.display = 'block';
-          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[Missing Value] Please enter a name for your Vertify Object and select the system of truth.</li>";
+          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[Missing Value] Please enter a name for your Vertify Object and select the system of truth.</li>';
         }
       }
     }
@@ -137,13 +137,13 @@ Template.vertifywizard.events({
         case 1: console.log("start next clicked - moving to select");
                 var isnew = document.getElementById("radionew").checked;
                 if(msId){
-                  Meteor.call('match_setup.startedit', msId, ws._id, steps[index -1], isnew
-                  , (err, res) => {
+                  Meteor.call('match_setup.startedit', msId, ws._id, steps[index -1], isnew,
+                   (err, res) => {
                     if(err){
                       //console.log(err);
                       //TODO: improve with error Template
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                       return;
                     }
                     else{
@@ -151,13 +151,13 @@ Template.vertifywizard.events({
                     }
                   });
                 }else{
-                  var newid = Meteor.call('match_setup.insert', tnt._id, ws._id, steps[index -1], isnew
-                  , (err, res) => {
+                  var newid = Meteor.call('match_setup.insert', tnt._id, ws._id, steps[index -1], isnew,
+                   (err, res) => {
                     if(err){
                       //console.log(err);
                       //TODO: improve with error Template
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                       return;
                     }
                     else{
@@ -180,17 +180,17 @@ Template.vertifywizard.events({
                       if(extobj1 && extobj2){
                         if(extobj1 == extobj2){
                           errDiv.style.display = 'block';
-                          errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Selected values are the same.</li>";
+                          errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span> Selected values are the same.</li>';
                           return;
                         }
                         var extobjids = [extobj1, extobj2];
-                        Meteor.call('match_setup.selectedit', msId, ws._id, steps[index -1], extobjids
-                        , (err, res) => {
+                        Meteor.call('match_setup.selectedit', msId, ws._id, steps[index -1], extobjids,
+                         (err, res) => {
                           if(err){
                             //console.log(err);
                             //TODO: improve with error Template
                             errDiv.style.display = 'block';
-                            errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                            errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                             return;
                           }
                           else{
@@ -200,7 +200,7 @@ Template.vertifywizard.events({
                       }
                       else{
                         errDiv.style.display = 'block';
-                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Missing Values. </li>";
+                        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span> Missing Values. </li>';
                         return;
                       }
                     }else{
@@ -209,7 +209,7 @@ Template.vertifywizard.events({
                       //check that value 1 isn't already on the lists
                       console.log("Existing Object Logic called");
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span> Existing Objects are not currently supported. Please go back and select new object creation.</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span> Existing Objects are not currently supported. Please go back and select new object creation.</li>';
                       return;
                     }
                   }
@@ -221,14 +221,14 @@ Template.vertifywizard.events({
                   allRecords1 = radioalls[0].checked;
                   allRecords2 = radioalls[1].checked;
 
-                  var output = Meteor.call('match_setup.filteredit'
-                    , Session.get("setupId"), ws._id, steps[index -1], allRecords1, allRecords2, null, null
-                    , (err, res) => {
+                  var output = Meteor.call('match_setup.filteredit',
+                     Session.get("setupId"), ws._id, steps[index -1], allRecords1, allRecords2, null, null,
+                     (err, res) => {
                       if(err){
                         //console.log(err);
                         //TODO: improve with error Template
                         errDiv.style.display = 'block';
-                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                         return;
                       }
                       else{
@@ -252,12 +252,12 @@ Template.vertifywizard.events({
                     console.log(field2);
                     if(!field1 && !(field1 instanceof String)){
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Validation Error ] Please select a value for Field 1</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Validation Error ] Please select a value for Field 1</li>';
                       errors += 1;
                     }
                     if(!field2 && !(field2 instanceof String)){
                       errDiv.style.display = 'block';
-                      errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[ Validation Error ] Please select a value for Field 2</li>";
+                      errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[ Validation Error ] Please select a value for Field 2</li>';
                       errors += 1;
                     }
 
@@ -270,13 +270,13 @@ Template.vertifywizard.events({
                     }];
 
                     if(errors > 0) return;
-                    Meteor.call('match_setup.matchedit', msId, ws._id, steps[index -1], match_criteria
-                    , (err, res) => {
+                    Meteor.call('match_setup.matchedit', msId, ws._id, steps[index -1], match_criteria,
+                     (err, res) => {
                       if(err){
                         //console.log(err);
                         //TODO: improve with error Template
                         errDiv.style.display = 'block';
-                        errDiv.innerHTML = errDiv.innerHTML + "<li><span>Error: </span>[" + err.error + "] " + err.reason + "</li>";
+                        errDiv.innerHTML = errDiv.innerHTML + '<li><span>Error: </span>[' + err.error + err.reason + ' ] ' + err.details + '</li>';
                         return;
                       }
                       else{
@@ -329,11 +329,11 @@ Template.vertifywizard.events({
 
 Template.vwStart.helpers({
     vertify_objects(){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       if(ws){
         return VertifyObjects.find({"workspace_id": ws._id});
       }
-      return null
+      return;
     }
 });
 
@@ -356,14 +356,14 @@ Template.vwStart.events({
 
 Template.vwSelect.helpers({
     external_objects(){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       if(ws){
         return ExternalObjects.find({"workspace_id": ws._id},{sort : {name: 1, "properties.name": 1} });
       }
-      return null
+      return;
     },
     getSystemName : function(sys_id){
-      var ws = Session.get("currentWs");
+      var ws = Session.get('currentWs');
       if(ws){
         return Systems.findOne(sys_id,{"workspace_id": ws._id}).name;
       }
@@ -395,8 +395,8 @@ Template.vwSelect.events({
 
 Template.vwFilter.helpers({
   external_objects(){
-    var ws = Session.get("currentWs");
-    var msId = Session.get("setupId")
+    var ws = Session.get('currentWs');
+    var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       console.log(msObj);
@@ -404,19 +404,19 @@ Template.vwFilter.helpers({
       console.log(msObj.eo_ids);
       return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1, "properties.$.name": 1} });
     }else{
-      return null;
+      return;
     }
   },
 });
 
 Template.filterRecords.helpers({
   getSystemName : function(sys_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return Systems.findOne(sys_id, {"workspace_id": ws._id}).name;
     }
   }
-})
+});
 
 Template.filterRecords.events({
   'change input': function(e, t){
@@ -445,14 +445,14 @@ Template.filterRecords.events({
 
 Template.vwMatch.helpers({
   external_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
       return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1} });
     }else{
-      return null;
+      return;
     }
   }
 });
@@ -481,52 +481,52 @@ Template.vwMatchObjects.helpers({
     return external_object;
   },
   getSystemName : function(sys_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return Systems.findOne(sys_id,{"workspace_id": ws._id}).name;
     }
   }
-})
+});
 
 Template.vwFinish.helpers({
   match_setup(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
     }else{
-      return null;
+      return;
     }
   },
   external_objects(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       var ids = msObj.eo_ids;
       return ExternalObjects.find({"_id": { $in: ids }},{sort : {name: 1, "properties.name": 1} });
     }else{
-      return null;
+      return;
     }
   },
   filter_options(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       return msObj;
     }else{
-      return null;
+      return;
     }
   },
   match_fields(){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     var msId = Session.get("setupId");
     if(ws && msId){
       var msObj = MatchSetup.findOne({"id": msId, "workspace_id": ws._id});
       return msObj.match_fields;
     }else{
-      return null;
+      return;
     }
   },
   getObject1: function(eo_ids){
@@ -558,13 +558,13 @@ Template.vwFinish.helpers({
     }
   },
   getSystemName : function(sys_id){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       return Systems.findOne(sys_id, {"workspace_id": ws._id}).name;
     }
   },
   getSystemNameByEoId : function(i, eoids){
-    var ws = Session.get("currentWs");
+    var ws = Session.get('currentWs');
     if(ws){
       var eo = ExternalObjects.findOne(eoids[i], {"workspace_id": ws._id});
       return Systems.findOne(eo.system_id,{"workspace_id": ws._id}).name;
