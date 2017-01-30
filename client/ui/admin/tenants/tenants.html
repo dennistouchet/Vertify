@@ -3,10 +3,13 @@
     <div class="row">
       <h1 class="page_title">Tenant Management</h1>
       <div id="addErrAlign" class="alert alert-danger" style="display:none;"></div>
-      {{#if isInRole 'admin'}}
+      {{#if isInRole 'super-admin'}}
         <div class="clearfix">
           {{> tenantadministration}}
         </div>
+        {{> addtenant}}
+      {{else}}
+        Access Not Authorized.
       {{/if}}
     </div>
   </section>
@@ -16,10 +19,39 @@
   {{#if Template.subscriptionsReady}}
     {{#each tenant in tenants}}
       <div class="x_panel">
-        <strong>{{name}} - {{_id}}</strong>
-        Created Date: {{created}}
+        <strong>{{tenant.name}}</strong> - {{tenant._id}}<br/>
+        Created Date: {{tenant.created}}
       </div>
     {{/each}}
-    <button class="btn btn-primary save pull-right">Save Changes</button>
   {{/if}}
+</template>
+
+<template name="addtenant">
+  <div class="clearfix">
+    <button class="btn btn-primary new pull-right" data-toggle="collapse" data-target="#newtenant" >New</button>
+  </div>
+  <div style="margin-top:5px;">
+    <div id="newtenant" class="collapse">
+      <div class="x_panel">
+        <label for="name">Name</label>
+        <input id="name" type="text" class="form-control" name="name" value="" autofocus/>
+        <label for="license">License</label>
+        <div class="input-group">
+          <input id="text" type="text" class="form-control" name="system"/>
+          <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" ><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right">
+                {{#each license in licenses}}
+                  <li>{{license}}</li>
+                {{/each}}
+              </ul>
+          </div><!-- /btn-group -->
+        </div><!-- /input-group -->
+        <div style="margin-top:5px;">
+          <button class="btn btn-primary save pull-right">Save</button>
+          <button class="btn btn-primary cancel pull-right">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

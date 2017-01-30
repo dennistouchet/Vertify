@@ -217,11 +217,11 @@
 <template name="collectexternalobject">
    <div class="col-md-12 system" data-id="{{_id}}">
      <div class="x_panel">
-       <div class="col-md-2"  >
-           <img src="/images/{{getConnectorName system_id}}.png" alt=".." style="width:90px;height:90px;" >
-       </div>
-       <div class="col-md-2" style="padding-top:35px;">
-         {{getSystemName system_id}} - {{name}}
+       <div class="col-md-4" >
+         <h3>
+           <img src="/images/{{getConnectorName system_id}}.png" alt="{{getConnectorName system_id}} logo" >
+           {{getSystemName system_id}}-{{name}}
+         </h3>
          <div id="objdetails{{_id}}" class="collapse" >
            ID: {{_id}}<br/>
            Tenant: {{tenant_id}}<br/>
