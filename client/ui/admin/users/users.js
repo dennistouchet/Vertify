@@ -187,3 +187,12 @@ Template.user.events({
     Meteor.tools.userRemove(this._id);
   },
 });
+
+Template.adduser.events({
+  'click .rolemulti': function(e,t){
+
+  },
+  'click .save':function(e,t){
+    console.log("save user stub");
+  }
+})

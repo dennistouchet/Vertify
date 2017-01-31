@@ -114,5 +114,33 @@ Template.topnav.events({
   },
   'click .logout': ()=>{
     AccountsTemplates.logout();
+  },
+  'click .hamburger': ()=>{
+    // Manually toggle side nav to avoid bootstrap animation
+    // and adjust bootstrap cols for mobile
+    if( $('#sidenavbar').hasClass('in')){
+      $('#body-col').removeClass('col-md-12').addClass('col-md-10');
+      $('#body-col').removeClass('col-sm-12').addClass('col-xs-9');
+      $('#body-col').removeClass('col-xs-12').addClass('col-xs-9');
+
+      $('#nav-col').removeClass('col-md-0').addClass('col-md-2');
+      $('#nav-col').removeClass('col-sm-0').addClass('col-sm-3');
+      $('#nav-col').removeClass('col-xs-0').addClass('col-xs-3');
+
+      $('#sidenavbar').removeClass('in');
+    }
+    else{
+      $('#nav-col').removeClass('col-md-2').addClass('col-md-0');
+      $('#nav-col').removeClass('col-sm-3').addClass('col-sm-0');
+      $('#nav-col').removeClass('col-xs-3').addClass('col-xs-0');
+
+      $('#body-col').removeClass('col-md-10').addClass('col-md-12');
+      $('#body-col').removeClass('col-sm-9').addClass('col-xs-12');
+      $('#body-col').removeClass('col-xs-9').addClass('col-xs-12');
+
+
+      $('#sidenavbar').addClass('in');
+    }
+      $('#sidenavbar').toggle();
   }
 });

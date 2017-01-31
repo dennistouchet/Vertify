@@ -3,6 +3,18 @@
     <h1>TEST PAGE</h1>
     <div class="row">
       <div class = "col-md-12 x_panel">
+        <h3>Workspace Autoform Test</h3>
+        <br />
+          {{#autoForm collection=workspace id="insertWorkspaceForm" type="insert"}}
+            <fieldset>
+              <legend>Add a Workspace</legend>
+              {{> afQuickField name='name' autofocus=''}}
+            </fieldset>
+          {{/autoForm}}
+      </div>
+    </div>
+    <div class="row">
+      <div class = "col-md-12 x_panel">
         <h3>Test Panel for Autoform</h3>
         <br />
           {{> quickForm collection=data id="insertDataForm" type="insert" }}

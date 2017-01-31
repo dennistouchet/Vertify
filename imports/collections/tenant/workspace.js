@@ -75,3 +75,11 @@ Workspaces.schema = new SimpleSchema({
   name:
     { type: String }
 });
+
+Workspaces.attachSchema(Workspaces.schema);
+
+Workspaces.allow({
+  insert: function(){
+    return true;
+  }
+});

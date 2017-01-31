@@ -8,6 +8,7 @@
       </div>
       <div class="clearfix">
         {{> useradministration}}
+        {{> adduser}}
       </div>
     {{else}}
       {{#if isInRole 'admin' tenant_id}}
@@ -16,6 +17,7 @@
       </div>
       <div class="clearfix">
         {{> useradministration}}
+        {{> adduser}}
       </div>
       {{else}}
         <h2>Access not Authorized.</h2>
@@ -111,5 +113,35 @@
     {{else}}
       <div class="loader-xs"></div>
     {{/if}}
+  </div>
+</template>
+
+<template name="adduser">
+  <div class="clearfix">
+    <button class="btn btn-primary new pull-right" data-toggle="collapse" data-target="#newuser" >New</button>
+  </div>
+  <div style="margin-top:5px;">
+    <div id="newuser" class="collapse">
+      <div class="x_panel">
+        <label for="name">Name</label>
+        <input id="name" type="text" class="form-control" name="name" value="" autofocus/>
+        <label for="roles">Roles</label>
+        <div class="input-group">
+          <input id="roles" type="text" class="form-control" name="roles"/>
+          <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" ><span class="caret"></span></button>
+              <ul class="dropdown-menu dropdown-menu-right rolemulti">
+                {{#each role in roles}}
+                  <li><a>{{role}}</a></li>
+                {{/each}}
+              </ul>
+          </div><!-- /btn-group -->
+        </div><!-- /input-group -->
+        <div style="margin-top:5px;">
+          <button class="btn btn-primary save pull-right">Save</button>
+          <button class="btn btn-primary cancel pull-right">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>

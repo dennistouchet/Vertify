@@ -12,7 +12,10 @@ Template.sidenav.helpers({
     return Navitems.find({});
   },
   user_name(){
-    return "Dennis Touchet";
+    // TODO: currently just splits emails
+    // should be updated once users name added to user collection
+    let usr = Meteor.user().emails[0].address.split('@');
+    return usr[0] + ' ' + usr[1].split('.')[0];
   }
 });
 

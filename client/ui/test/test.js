@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Datas } from '../../../imports/collections/datas.js';
 import { Navitems } from '../../../imports/collections/navitems.js';
+import { Workspaces } from '../../../imports/collections/tenant/workspace.js';
 
 import './test.html';
 
@@ -23,6 +24,12 @@ Template.test.helpers({
   navitems() {
     return Navitems.find({});
   },
+  workspace(){
+    return Workspaces;
+  },
+  workspaces(){
+    return Workspaces.find({});
+  }
 });
 
 Template.test.rendered = function () {
