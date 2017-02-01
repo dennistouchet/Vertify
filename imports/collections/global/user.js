@@ -19,6 +19,37 @@ Meteor.methods({
     return Meteor.users.remove(userId);
   }
 });*/
+Meteor.methods({
+  'users.updateRoles'(tntId, wsId, userId, rolesToAdd, rolesToRemove){
+    check(tntId, String);
+    check(wsId, String);
+    check(userId, String);
+    check(rolesToAdd, Array);
+    check(rolesToRemove, Array);
+
+    if(! this.userId) {
+      throw new Meteor.Error(403, 'Unauthorized', 'The current user is not authorized to perform this action. ['+ arguments.callee.name +']');
+    }
+
+    var i = rolesToAdd.indexOf('super-admin');
+    if(i > -1)
+      rolesToAdd.splice(i, 1);
+
+    var j = rolesToRemove.indexOf('super-admin');
+    if(j > -1)
+      rolesToRemove.splice(j, 1);
+
+    if(Roles.userIsInRole(this.userId, 'super-admin') ||
+        Roles.userIsInRole(this.userId, 'admin', tnt_id)){
+
+      Roles.addUsersToRoles(userId, rolesToAdd, tntId);
+      Roles.removeUsersFromRoles(userId, rolesToRemove, tntId);
+    }
+    else{
+      throw new Meteor.Error(403, 'Unauthorized', 'The current user is not authorized to perform this action. ['+ arguments.callee.name +']');
+    }
+  }
+});
 
 export const PageState = new SimpleSchema({
   tab:

@@ -45,12 +45,19 @@ Template.users.helpers({
 });
 
 Template.roleadministration.helpers({
+  //TODO: limit to tenant UNLESS user is super-
   users(){
     us = Meteor.users.find({});
     return us;
   },
   roles(){
     //NOTE: this returns group and global roles
+    //Limit to current tenant unless super- then split
+    //get roles of each users by current tenant
+
+    //get distinct roles
+    var tnt =  Session.get("currentTnt");
+
     return Roles.getAllRoles();
   },
   userRoles: function(id){
@@ -74,14 +81,59 @@ Template.roleadministration.helpers({
 
 Template.roleadministration.events({
   'click .rolecheckbox': function(e,t){
+    console.log('clicked checkbox');
     if(e.target.checked){
-      e.target.value = false;
-    }else {
       e.target.value = true;
+    }else {
+      e.target.value = false;
     }
+  },
+  'change input.rolecheckbox': function(e,t){
+    var tnt = Session.get('currentTnt');
+    console.log("this users roles groups: ", this.roles[tnt._id]);
+    console.log("e.targ :", e.target);
   },
   'click .save' : function(e,t){
     //TODO: save all user roles data and update
+    var tnt = Session.get('currentTnt');
+    var ws = Session.get('currentWs');
+    if(tnt && ws){
+      //Verify user is admin before
+      console.log("this id:", this._id);
+
+      var users = Meteor.users.find();
+      users.forEach( user =>{
+          var rolesToAdd = [];
+          var rolesToRemove = [];
+
+          console.log('This us for user:',user._id);
+          var rolecbs = $('input.rolecheckbox:checkbox:checked[data-value='+user._id+']');
+          roles = [];
+          if(rolecbs.length > 0){
+            for(let i = 0; i < rolecbs.length; i++){
+              rolesToAdd.push(rolecbs[i].name);
+            }
+          }
+          //TODO call addusertoroles meteor here
+          roles = [];
+          var roleucbs = $('input.rolecheckbox:checkbox:not(:checked)[data-value='+user._id+']');
+          if(roleucbs.length > 0){
+            for(let i = 0; i < roleucbs.length; i++){
+              rolesToRemove.push(roleucbs[i].name);
+            }
+          }
+          Meteor.call('users.updateRoles', tnt._id, ws._id, user._id, rolesToAdd, rolesToRemove,
+          (error, results)=>{
+            if(error){
+              console.log(error);
+            }else{
+              //success
+            }
+          });
+      });
+
+
+    }
   },
   'click .superadd' : function(e, t){
     console.log("this id:", this._id);
@@ -188,6 +240,19 @@ Template.user.events({
   },
 });
 
+Template.adduser.helpers({
+  roles(){
+    //NOTE: this returns group and global roles
+    //Limit to current tenant unless super- then split
+    //get roles of each users by current tenant
+
+    //get distinct roles
+    var tnt =  Session.get("currentTnt");
+
+    return Roles.getAllRoles();
+  },
+});
+
 Template.adduser.events({
   'click .rolemulti': function(e,t){
 
@@ -195,4 +260,4 @@ Template.adduser.events({
   'click .save':function(e,t){
     console.log("save user stub");
   }
-})
+});

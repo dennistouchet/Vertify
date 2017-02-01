@@ -33,9 +33,9 @@
         <strong>{{getFirstEmail _id}}</strong>
         {{#each role in roles}}
           {{#if userIsInRole _id role.name}}
-            <input class="rolecheckbox" name="{{_id}}{{role.name}}" value="true" type="checkbox" checked/>
+            <input data-value="{{_id}}" class="rolecheckbox" name="{{role.name}}" value="true" type="checkbox" checked/>
           {{else}}
-            <input class="rolecheckbox" name="{{_id}}{{role.name}}" value="false" type="checkbox"/>
+            <input data-value="{{_id}}" class="rolecheckbox" name="{{role.name}}" value="false" type="checkbox"/>
           {{/if}}
             <label> {{role.name}}</label>
         {{else}}
@@ -132,12 +132,17 @@
               <button type="button" class="btn btn-default dropdown-toggle " data-toggle="dropdown" ><span class="caret"></span></button>
               <ul class="dropdown-menu dropdown-menu-right rolemulti">
                 {{#each role in roles}}
-                  <li><a>{{role}}</a></li>
+                  <li><a>{{role.name}}</a></li>
                 {{/each}}
               </ul>
           </div><!-- /btn-group -->
         </div><!-- /input-group -->
         <div style="margin-top:5px;">
+          <select id="rolesMulti" size="5" multiple>
+            {{#each role in roles}}
+              <option>{{role.name}}</option>
+            {{/each}}
+          </select>
           <button class="btn btn-primary save pull-right">Save</button>
           <button class="btn btn-primary cancel pull-right">Cancel</button>
         </div>

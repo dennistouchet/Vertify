@@ -47,8 +47,10 @@ Meteor.publish('users', function(){
   var groups = Roles.getGroupsForUser(this.userId);
   var isAdmin = Roles.userIsInRole(this.userId, ['admin','super-admin'], groups[0]);
 
+  console.log('groups:', groups);
   if(isAdmin){
     //TODO: filter by groups(tenants) and remove Roles.GLOBAL_GROUP
+    //({"_id": { $in: ids }},{sort : {name: 1, "properties.$.name": 1} });
     return Meteor.users.find({});
   }
   return Meteor.users.find({_id: this.userId});
