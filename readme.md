@@ -1,4 +1,4 @@
-# Meteor
+# Vertify MVP
 
 #Session
 
